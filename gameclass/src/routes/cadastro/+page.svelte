@@ -22,6 +22,8 @@
         <InputText type="text" placeholder="Repetir senha" bind:value={repetirSenha}/>
         <!-- <InputText type="text" placeholder="Instituição" bind:value={instituicao}/> -->
         <Select optionList={selectOptionList} />
+        <!-- <InputText type="text" placeholder="Data de Nascimento" bind:value={dtNasc}/> -->
+        <InputDate />
         <br>
         <Button onClick={aoCriarConta}>Criar Conta</Button>
     </div>
