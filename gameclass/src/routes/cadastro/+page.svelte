@@ -2,22 +2,24 @@
 	import Button from "$lib/components/Button.svelte";
 	import InputText from "$lib/components/InputText.svelte";
 
-    function aoLogar() {
-        alert("Login")
+    function aoCriarConta() {
+        alert(nomeCompleto);       
     }
 
-    function aoCriarConta() {
-        alert("Criar Conta");
-    }
+    let nomeCompleto, usuario, senha, repetirSenha, instituicao, dtNasc = "";
 </script>
+
 <div class="login-container">
-    <h1>Bem vindo(a) ao <b>Gameclass</b></h1>
-    <span>Sua plataforma online de aprendizado gamificado</span>
+    <h1>Cadastre-se no <b>Gameclass</b></h1>
+    <span>e descubra uma nova experiência de aprendizado</span>
     <div class="card-container">
-        <InputText placeholder="Nome de usuário / E-mail"/>
-        <Input type="password" placeholder="Senha"/>
+        <InputText type="text" placeholder="Nome Completo" bind:value={nomeCompleto}/>
+        <InputText type="text" placeholder="Usuário" bind:value={usuario}/>
+        <InputText type="text" placeholder="Senha" bind:value={senha}/>
+        <InputText type="text" placeholder="Repetir senha" bind:value={repetirSenha}/>
+        <InputText type="text" placeholder="Instituição" bind:value={instituicao}/>
+        <InputText type="text" placeholder="Data de Nascimento" bind:value={dtNasc}/>
         <br>
-        <Button onClick={aoLogar}>Login</Button>
         <Button onClick={aoCriarConta}>Criar Conta</Button>
     </div>
 </div>
@@ -51,7 +53,7 @@
         padding-right: 42px;
         padding-left: 42px;
         padding-top: 84px;
-        padding-bottom: 84px;
+        padding-bottom: 42px;
         margin-top: 75px;
         border-radius: 15px;
         gap: 36px;

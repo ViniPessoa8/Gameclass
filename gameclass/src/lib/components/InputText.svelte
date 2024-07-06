@@ -1,12 +1,13 @@
 <script>
-    export let type = "";
     export let placeholder = ""; 
+    export let value;
 </script>
 
 <input 
     class="input"
-    type={type}
+    type="text"
     placeholder={placeholder}
+    bind:value={value}
 />
 
 <style>
