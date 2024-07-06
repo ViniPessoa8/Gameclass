@@ -1,6 +1,7 @@
 <script>
 	import Button from "$lib/components/Button.svelte";
 	import InputText from "$lib/components/InputText.svelte";
+	import InputPassword from "../../lib/components/InputPassword.svelte";
 
     function aoLogar() {
         alert("Login")
@@ -15,7 +16,7 @@
     <span>Sua plataforma online de aprendizado gamificado</span>
     <div class="card-container">
         <InputText placeholder="Nome de usuário / E-mail"/>
-        <Input type="password" placeholder="Senha"/>
+        <InputPassword type="password" placeholder="Senha"/>
         <br>
         <Button onClick={aoLogar}>Login</Button>
         <Button onClick={aoCriarConta}>Criar Conta</Button>
