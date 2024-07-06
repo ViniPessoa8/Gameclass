@@ -6,7 +6,10 @@
 :root {
     --font: "Quicksand";
     --cor-primaria: #123181;
+    --cor-secundaria: #51ACDF;
     --cor-fundo: #FFFFFF;
+
+    --text-1: #FFFFFF;
     /* --cor-texto-principal: #444444; */
     /* --branco: #FAFAFA; */
     /* --cinza: #EAEAEA; */

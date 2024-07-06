@@ -1,13 +1,15 @@
 <script>
 	import Button from "$lib/components/Button.svelte";
+	import Input from "$lib/components/Input.svelte";
 
 </script>
 <div class="login-container">
     <h1>Bem vindo(a) ao <b>Gameclass</b></h1>
     <span>Sua plataforma online de aprendizado gamificado</span>
     <div class="card-container">
-        <input type="text"/>
-        <input type="password"/>
+        <Input type="text" placeholder="Nome de usuário / E-mail"/>
+        <Input type="password" placeholder="Senha"/>
+        <br>
         <Button>Login</Button>
         <Button>Criar Conta</Button>
     </div>
@@ -25,13 +27,13 @@
 
     h1 {
         margin-top: 6rem;
-        font-size: 64px;
+        font-size: 48px;
         /* font-weight: lighter; */
     }
     
     span {
         margin-top: 18px;
-        font-size: 36px;
+        font-size: 30px;
     }
 
     .card-container {
@@ -39,10 +41,13 @@
         flex-direction: column;
         background-color: var(--cor-primaria);
         width: 439px;
-        padding: 42px;
+        padding-right: 42px;
+        padding-left: 42px;
+        padding-top: 84px;
+        padding-bottom: 84px;
         margin-top: 75px;
         border-radius: 15px;
-        gap: 24px;
+        gap: 36px;
     }
 
 </style>

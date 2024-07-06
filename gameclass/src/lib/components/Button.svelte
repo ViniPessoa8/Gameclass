@@ -10,9 +10,8 @@
     .button {
         background-color: var(--cor-fundo);
         border: none;
-        text-align: center;
-        height: 52px;
-        font-size: 28px;
+        height: 48px;
+        font-size: 24px;
         font-family: var(--font);
         font-weight: bold;
         color: var(--cor-primaria);
