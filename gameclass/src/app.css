@@ -1,0 +1,24 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+:root {
+    --cor-primaria: #123181;
+    --cor-fundo: #FEF7EC;
+    /* --cor-texto-principal: #444444; */
+    /* --branco: #FAFAFA; */
+    /* --cinza: #EAEAEA; */
+    /* --laranja: #FF734C; */
+    /* --verde: #41A86A; */
+}
+
+html, body {
+    min-width: 100%;
+}
+
+body {
+    font-family: "Quicksand";
+    color:var(--cor-primaria);
+    height: 100%;
+}
