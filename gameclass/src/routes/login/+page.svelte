@@ -1,17 +1,22 @@
+<script>
+	import Button from "$lib/components/Button.svelte";
+
+</script>
 <div class="login-container">
     <h1>Bem vindo(a) ao <b>Gameclass</b></h1>
     <span>Sua plataforma online de aprendizado gamificado</span>
     <div class="card-container">
         <input type="text"/>
         <input type="password"/>
-        <button>Login</button>
-        <button>Criar Conta</button>
+        <Button>Login</Button>
+        <Button>Criar Conta</Button>
     </div>
 </div>
 
 <style>
     .login-container{
         height: 100%;
+        font: var(--font);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -34,7 +39,6 @@
         flex-direction: column;
         background-color: var(--cor-primaria);
         width: 439px;
-        height: 507px;
         padding: 42px;
         margin-top: 75px;
         border-radius: 15px;

@@ -4,8 +4,9 @@
 }
 
 :root {
+    --font: "Quicksand";
     --cor-primaria: #123181;
-    --cor-fundo: #FEF7EC;
+    --cor-fundo: #FFFFFF;
     /* --cor-texto-principal: #444444; */
     /* --branco: #FAFAFA; */
     /* --cinza: #EAEAEA; */
@@ -17,8 +18,8 @@ html, body {
     min-width: 100%;
 }
 
-body {
-    font-family: "Quicksand";
+body{
+    font-family: var(--font);
     color:var(--cor-primaria);
     height: 100%;
 }
