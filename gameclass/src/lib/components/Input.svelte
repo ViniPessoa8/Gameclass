@@ -19,6 +19,10 @@
         font-size: 24px;
     }
 
+    .input:focus {
+        outline: none;
+    }
+
     ::placeholder {
         color: var(--cor-secundaria);
     }
