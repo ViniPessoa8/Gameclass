@@ -4,14 +4,13 @@
 </script>
 
 <input 
-    class="input"
     type="text"
     placeholder={placeholder}
     bind:value={value}
 />
 
 <style>
-    .input {
+    input {
         border:none;
         font-family: var(--font);
         border-bottom: 1px solid var(--cor-secundaria);
@@ -20,7 +19,7 @@
         font-size: 24px;
     }
 
-    .input:focus {
+    input:focus {
         outline: none;
     }
 
