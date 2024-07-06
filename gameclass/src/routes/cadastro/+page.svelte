@@ -1,12 +1,15 @@
 <script>
 	import Button from "$lib/components/Button.svelte";
 	import InputText from "$lib/components/InputText.svelte";
+	import InputDate from "../../lib/components/InputDate.svelte";
+	import Select from "../../lib/components/Select.svelte";
 
     function aoCriarConta() {
         alert(nomeCompleto);       
     }
 
     let nomeCompleto, usuario, senha, repetirSenha, instituicao, dtNasc = "";
+    let selectOptionList = ["24", "420", "69", "EST - UEA"];
 </script>
 
 <div class="login-container">
@@ -17,8 +20,8 @@
         <InputText type="text" placeholder="Usuário" bind:value={usuario}/>
         <InputText type="text" placeholder="Senha" bind:value={senha}/>
         <InputText type="text" placeholder="Repetir senha" bind:value={repetirSenha}/>
-        <InputText type="text" placeholder="Instituição" bind:value={instituicao}/>
-        <InputText type="text" placeholder="Data de Nascimento" bind:value={dtNasc}/>
+        <!-- <InputText type="text" placeholder="Instituição" bind:value={instituicao}/> -->
+        <Select optionList={selectOptionList} />
         <br>
         <Button onClick={aoCriarConta}>Criar Conta</Button>
     </div>
