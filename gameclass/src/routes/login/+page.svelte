@@ -2,6 +2,13 @@
 	import Button from "$lib/components/Button.svelte";
 	import Input from "$lib/components/Input.svelte";
 
+    function aoLogar() {
+        alert("Login")
+    }
+
+    function aoCriarConta() {
+        alert("Criar Conta");
+    }
 </script>
 <div class="login-container">
     <h1>Bem vindo(a) ao <b>Gameclass</b></h1>
@@ -10,8 +17,8 @@
         <Input type="text" placeholder="Nome de usuário / E-mail"/>
         <Input type="password" placeholder="Senha"/>
         <br>
-        <Button>Login</Button>
-        <Button>Criar Conta</Button>
+        <Button onClick={aoLogar}>Login</Button>
+        <Button onClick={aoCriarConta}>Criar Conta</Button>
     </div>
 </div>
 
