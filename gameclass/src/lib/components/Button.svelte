@@ -1,4 +1,11 @@
-<button class="button">
+<script>
+    export let onClick;
+</script>
+
+<button 
+class="button"
+on:click={onClick}
+>
     <slot></slot>
 </button>
 
@@ -12,5 +19,11 @@
         font-weight: bold;
         color: var(--cor-primaria);
         border-radius: 15px;
+    }
+
+    .button:hover {
+        background-color: #A1A1A1;
+        transition: .3s;
+        cursor: pointer;
     }
 </style>
