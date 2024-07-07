@@ -21,6 +21,7 @@
         background-color: transparent;
         color: var(--text-1);
         font-size: 24px;
+        color-scheme: dark;
     }
 
     input:focus {
