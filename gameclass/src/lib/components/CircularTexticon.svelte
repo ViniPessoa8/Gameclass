@@ -1,10 +1,10 @@
 <script>
-    export let color, text = "";
+    export let backgroundColor, color = "";
 </script>
 
-<div class="icon" style="background-color: {color}">
+<div class="icon" style="background-color: {backgroundColor}; color: {color}">
     <h1 class="info">
-        <slot>{text}</slot>
+        <slot></slot>
     </h1>
 </div>
 

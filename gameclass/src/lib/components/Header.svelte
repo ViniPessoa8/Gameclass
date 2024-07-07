@@ -1,6 +1,6 @@
 <script>
 
-	import HeaderUserIcon from "./HeaderUserIcon.svelte";
+	import CircularTextIcon from "./CircularTexticon.svelte";
 
 </script>
 <div class="header">
@@ -11,7 +11,7 @@
             <p class="logged-user-role">Professor</p>
         </div>
         <!-- icone do usuario -->
-        <HeaderUserIcon text={"E"} color={"#FF00FF"}/>
+        <CircularTextIcon backgroundColor={"#FF00FF"}>E</CircularTextIcon>
     </div>
 </div>
 
