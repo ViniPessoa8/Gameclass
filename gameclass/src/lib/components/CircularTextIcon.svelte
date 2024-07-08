@@ -1,5 +1,6 @@
 <script>
-    export let backgroundColor, color = "";
+    export let color = "white";
+    export let backgroundColor = getComputedStyle(document.body).getPropertyValue("--cor-primaria");
 </script>
 
 <div class="icon" style="background-color: {backgroundColor}; color: {color}">

@@ -1,6 +1,6 @@
 <script>
 
-	import CircularTextIcon from "./CircularTexticon.svelte";
+	import CircularTextIcon from "./CircularTextIcon.svelte";
 
 </script>
 <div class="header">
@@ -10,7 +10,6 @@
             <h4 class="logged-user-name">Eduardo Fonseca</h4>
             <p class="logged-user-role">Professor</p>
         </div>
-        <!-- icone do usuario -->
         <CircularTextIcon backgroundColor={"#FF00FF"}>E</CircularTextIcon>
     </div>
 </div>
