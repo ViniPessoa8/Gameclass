@@ -1,7 +1,5 @@
 <script>
-
 	import CircularTextIcon from "./CircularTextIcon.svelte";
-
 </script>
 <div class="header">
     <h3>Gamiclass > Turmas</h3>
