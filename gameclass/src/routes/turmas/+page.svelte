@@ -2,6 +2,7 @@
 	import Header from "../../lib/components/Header.svelte";
 	import SideBar from "../../lib/components/SideBar.svelte";
 	import ContentTurmas from "../../lib/components/ContentTurmas.svelte";
+	import { COLORS } from "../../lib/constants";
 
 </script>
 <div class="turmas-container">
@@ -23,6 +24,7 @@
 	.content-container {
 		display: flex;
 		flex-direction: row;
+		position: absolute;
 		width: 100%;
 		height: 100%;
 		overflow: hidden;

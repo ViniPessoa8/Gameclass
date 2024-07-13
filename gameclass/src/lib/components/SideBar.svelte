@@ -28,6 +28,15 @@
 </div>
 
 <style>
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100%;
+        min-width: 324px;
+        padding-top: 80px;
+    }
+    
     .buttons {
         display: flex;
         margin-bottom: 84px;
@@ -38,12 +47,4 @@
         margin-bottom: 32px;
     }
 
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100%;
-        min-width: 324px;
-
-    }
 </style>

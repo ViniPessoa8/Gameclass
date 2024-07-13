@@ -35,7 +35,7 @@
 
 <style>
     .content-turmas {
-        margin-top: 30px;
+        margin-top: 110px;
         width: 100%;
         height: 100%;
     }
