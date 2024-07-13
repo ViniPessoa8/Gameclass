@@ -6,6 +6,9 @@
     <h1>Suas Turmas</h1>
     <div class="turmas-container">
         <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
+        <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
+        <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
+        <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
     </div>
 </div>
 
@@ -24,6 +27,9 @@
     .turmas-container {
         margin-left: 94px;
         margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 60px;
     }
 
 </style>
