@@ -1,8 +1,32 @@
 <script>
 	import Header from "../../lib/components/Header.svelte";
 	import SideBar from "../../lib/components/SideBar.svelte";
+	import ContentTurmas from "../../lib/components/ContentTurmas.svelte";
 
 </script>
+<div class="turmas-container">
+	<Header />
+	<div class="content-container">
+		<SideBar />
+		<ContentTurmas />
+	</div>
+</div>
 
-<Header />
-<SideBar />
+
+<style>
+	.turmas-container {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+
+	.content-container {
+		display: flex;
+		flex-direction: row;
+		/* flex-wrap: nowrap; */
+		width: 100%;
+		height: 100%;
+
+	}
+</style>
+

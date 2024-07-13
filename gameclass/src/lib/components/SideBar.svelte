@@ -1,11 +1,11 @@
 <script>
-	import CircularTextIcon from "./CircularTextIcon.svelte";
+    import {COLORS} from "../constants"
     import Button from "./Button.svelte"
     import SideBarButton from "./SideBarButton.svelte"
 	import SideBarTurma from "./SideBarTurma.svelte";
 </script>
 
-<div class="sidebar">
+<div class="sidebar" style="background-color: {COLORS.cor_primaria};">
     <div class="buttons">
         <SideBarButton img={"home"}>Home</SideBarButton>
         <SideBarButton img={"logout"}>Logout</SideBarButton>
@@ -20,8 +20,8 @@
     </div>
 
     <Button 
-        backgroundColor={document.body.style.getPropertyValue("--cor-secundaria")}
-        onClick={() => {console.log(document.body.style.getPropertyValue("--cor-secundaria"))}}
+        backgroundColor={COLORS.cor_primaria}
+        onClick={() => {console.log("teste")}}
     >
         + Adicionar Turma
     </Button>
@@ -42,9 +42,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        position: absolute;
-        height: 100%;
-        width: 324px;
-        background-color: var(--cor-primaria);
+        min-height: 100%;
+        min-width: 324px;
+
     }
 </style>
