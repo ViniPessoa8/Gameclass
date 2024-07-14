@@ -2,11 +2,12 @@
     import { COLORS } from "../constants";
     import CircularTextIcon from "./CircularTextIcon.svelte";
     import Button from "./Button.svelte";
+	import BarraDeProgresso from "./BarraDeProgresso.svelte";
 
     export let titulo, disciplina, ano, nEstudantes;
 </script>
 
-<div class="turma" style="background-color: {COLORS.cor_primaria}">
+<div class="turma" style="background-color: {COLORS.cor_primaria_1}">
     <div class="turma-info">
         <div class="turma-icon">
             <CircularTextIcon backgroundColor="red">T</CircularTextIcon>
@@ -22,6 +23,7 @@
     </div>
     <div class="turma-progresso">
         <span>Progresso de Atividades</span>
+        <BarraDeProgresso/>
         <!-- TODO: Barra de progresso -->            
     </div>
     <div class="turma-buttons">

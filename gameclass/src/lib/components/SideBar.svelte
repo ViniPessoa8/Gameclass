@@ -5,7 +5,7 @@
 	import SideBarTurma from "./SideBarTurma.svelte";
 </script>
 
-<div class="sidebar" style="background-color: {COLORS.cor_primaria};">
+<div class="sidebar" style="background-color: {COLORS.cor_primaria_1};">
     <div class="buttons">
         <SideBarButton img={"home"}>Home</SideBarButton>
         <SideBarButton img={"logout"}>Logout</SideBarButton>
@@ -20,7 +20,7 @@
     </div>
 
     <Button 
-        backgroundColor={COLORS.cor_primaria}
+        backgroundColor={COLORS.cor_primaria_1}
         onClick={() => {console.log("teste")}}
     >
         + Adicionar Turma
