@@ -7,7 +7,10 @@
     export let titulo, disciplina, ano, nEstudantes;
 </script>
 
-<div class="turma" style="background-color: {COLORS.cor_primaria_1}">
+<div 
+    class="turma" 
+    style="background-color: {COLORS.cor_primaria_1}"
+>
     <div class="turma-info">
         <div class="turma-icon">
             <CircularTextIcon backgroundColor="red">T</CircularTextIcon>
@@ -51,6 +54,9 @@
         color:white;
         text-align: start;
         margin-left: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .turma-data > div {
