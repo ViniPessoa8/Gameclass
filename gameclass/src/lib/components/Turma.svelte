@@ -24,7 +24,6 @@
     <div class="turma-progresso">
         <span>Progresso de Atividades</span>
         <BarraDeProgresso/>
-        <!-- TODO: Barra de progresso -->            
     </div>
     <div class="turma-buttons">
         <Button>Abrir</Button> 

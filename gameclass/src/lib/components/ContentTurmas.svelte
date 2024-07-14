@@ -31,10 +31,6 @@
                 nEstudantes={turma.estudantes}
             />
         {/each}
-        <!-- <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
-        <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
-        <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/>
-        <Turma titulo="Calculados" disciplina="Cálculo" ano=2023 nEstudantes=45/> -->
     </div>
 </div>
 
