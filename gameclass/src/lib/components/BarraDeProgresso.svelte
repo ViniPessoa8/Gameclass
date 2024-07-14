@@ -13,12 +13,12 @@
     const colors = [
         COLORS.cor_secundaria_1, 
         COLORS.cor_secundaria_2, 
-        COLORS.cor_secundaria_3
+        COLORS.cor_secundaria_3,
     ]
 
     function checkInput(input) {
         if (!Array.isArray(input)) {
-            throw new Error("Input must be an array.")
+            throw new Error("Input must be an array.");
         }
 
         for (let i = 0; i < input.length; i++) {
@@ -44,6 +44,7 @@
 
 <style>
     .barra-container {
+        margin-top: 4px;
         width: 390px;
         height: 24px;
         border-radius: 40px;
