@@ -82,7 +82,7 @@
     .turma-buttons {
         margin-top: 14px;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
     }
 </style>

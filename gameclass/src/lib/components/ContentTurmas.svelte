@@ -8,7 +8,7 @@
         estudantes: 35
     },{
         nome:"AED 1", 
-        disciplina:"Algoritmo e Estrutura de Dados Iaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        disciplina:"Algoritmo e Estrutura de Dados",
         ano: 2024,
         estudantes: 31
     },{
