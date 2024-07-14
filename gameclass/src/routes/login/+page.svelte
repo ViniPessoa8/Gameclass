@@ -3,8 +3,14 @@
 	import InputText from "$lib/components/InputText.svelte";
 	import InputPassword from "../../lib/components/InputPassword.svelte";
 
+    import {login} from "$lib/controller/auth"
+
+    let userLogin = "";
+    let userPassword = "";
+
     function aoLogar() {
-        alert("Login")
+        login(userLogin, userPassword);
+        // login("teste", 2);
     }
 
     function aoCriarConta() {
@@ -15,8 +21,8 @@
     <h1>Bem vindo(a) ao <b>Gameclass</b></h1>
     <span>Sua plataforma online de aprendizado gamificado</span>
     <div class="card-container">
-        <InputText placeholder="Nome de usuário / E-mail"/>
-        <InputPassword type="password" placeholder="Senha"/>
+        <InputText bind:value={userLogin} placeholder="Nome de usuário / E-mail"/>
+        <InputPassword bind:value={userPassword} type="password" placeholder="Senha"/>
         <br>
         <Button onClick={aoLogar}>Login</Button>
         <Button onClick={aoCriarConta}>Criar Conta</Button>
