@@ -13,7 +13,7 @@
 >
     <div class="turma-info">
         <div class="turma-icon">
-            <CircularTextIcon backgroundColor="red">T</CircularTextIcon>
+            <CircularTextIcon backgroundColor="red">{titulo[0]}</CircularTextIcon>
         </div>
         <div class="turma-data">
             <h1>{titulo}</h1>
