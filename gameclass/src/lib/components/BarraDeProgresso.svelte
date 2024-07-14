@@ -3,6 +3,9 @@
 
     // input[0] > input[1] > input[2] > ....
     let input = [1, 3, 5]
+    
+    checkInput(input);
+
     let barra_width = 390
     let input_step = barra_width / input.length;
 
@@ -13,8 +16,17 @@
         COLORS.cor_secundaria_3
     ]
 
-    console.log(`input.length: ${input.length}`);
-    console.log("input_step: " + input_step);
+    function checkInput(input) {
+        if (!Array.isArray(input)) {
+            throw new Error("Input must be an array.")
+        }
+
+        for (let i = 0; i < input.length; i++) {
+            if (input[i] > input[i+1]) {
+                throw new Error("The array must be in ascending order. (input[0] > input[1] > ...)")
+            }
+        }
+    }
 </script>
 
 <div class="barra-container">
@@ -40,12 +52,10 @@
     .barra-progresso {
         border-radius: 40px;
         position: absolute;
-        text-align: end;
         display: flex;
         flex-direction: row;
         justify-content: end;
         box-sizing: border-box;
         padding-right: 8.65px;
-
     }
 </style>
