@@ -2,6 +2,7 @@
 	import Button from "$lib/components/Button.svelte";
 	import InputText from "$lib/components/InputText.svelte";
 	import InputPassword from "../../lib/components/InputPassword.svelte";
+    import registerNewUser from "$controllers/auth.js"
 
     import {login} from "$lib/controller/auth"
 
@@ -14,7 +15,7 @@
     }
 
     function aoCriarConta() {
-        alert("Criar Conta");
+        registerNewUser()
     }
 </script>
 <div class="login-container">
