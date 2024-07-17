@@ -8,3 +8,7 @@ export const COLORS = {
 
     text_1: "#FFFFFF",
 };
+
+export const DB_INFO = {
+    auth_table: "usuario"
+}
