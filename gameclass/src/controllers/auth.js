@@ -1,11 +1,23 @@
-import { register } from "../repositories/auth";
+import bcrypt from "bcryptjs"
+import { loginDB, registerDB } from "../repositories/auth";
 
-const bcrypt = require("bcrypt")
+export async function registerNewUser(dbConn, login, password) {
+	bcrypt.genSalt(10, (err, salt) => {
+		bcrypt.hash(password, salt, async (err, hash) => {
+			await registerDB(dbConn, login, hash, salt)
+			return true
+		})
+	})
+	return false
+}
 
-export async function registerNewUser(login, password) {
+export async function loginUser(dbConn, login, password) {
+	const res = await loginDB(dbConn, login, password)
 
-    const salt = await bcrypt.genSalt()
-    const hash = await bcrypt.hash(password, salt)
+	console.log(Boolean(res.rowCount))
+	if (res.rowCount) {
+		console.log("Deu bom no login")
+		return true
+	}
 
-    register(login, hash, salt)
 }
