@@ -1,16 +1,13 @@
 import pg from 'pg'
-import dotenv from 'dotenv'
-
-dotenv.config();
 
 async function getConnection() {
   const { Client } = pg
   const client = new Client({
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    host: process.env.DATABASE_HOST,
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_NAME,
+    user: import.meta.env.VITE_DATABASE_USER,
+    password: import.meta.env.VITE_DATABASE_PASSWORD,
+    host: import.meta.env.VITE_DATABASE_HOST,
+    port: import.meta.env.VITE_DATABASE_PORT,
+    database: import.meta.env.VITE_DATABASE_NAME,
   }) 
  
   try {
@@ -21,4 +18,4 @@ async function getConnection() {
   }
 }
 
-export default getConnection;
+export const db_conn = await getConnection();
