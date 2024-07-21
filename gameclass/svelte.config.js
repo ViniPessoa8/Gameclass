@@ -9,9 +9,10 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$controllers: "src/controllers",
-			$repositories: "src/repositories"
+			$repositories: "src/repositories",
+			$config: "src/config"
 		}
 	}
 };
 
-export default config;
+export default config
