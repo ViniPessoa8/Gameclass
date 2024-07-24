@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
 import { DB_INFO } from "../lib/constants";
 
-export async function registerDB(dbConn, login, hash, salt) {
+export async function registerDB(dbConn, name, login, hash, salt) {
 	const query = {
-		text: `INSERT INTO ${DB_INFO.auth_table}(login, hash, salt) VALUES ($1, $2, $3)`,
-		values: [login, hash, salt]
+		text: `INSERT INTO ${DB_INFO.auth_table}(name, login, hash, salt) VALUES ($1, $2, $3, $4)`,
+		values: [name, login, hash, salt]
 	}
 
 	try {

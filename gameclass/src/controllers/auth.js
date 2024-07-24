@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs"
 import { loginDB, registerDB } from "../repositories/auth";
 
-export async function registerNewUser(dbConn, login, password) {
+export async function registerNewUser(dbConn, name, login, password) {
 	bcrypt.genSalt(10, (err, salt) => {
 		bcrypt.hash(password, salt, async (err, hash) => {
-			await registerDB(dbConn, login, hash, salt)
+			await registerDB(dbConn, name, login, hash, salt)
 			return true
 		})
 	})
