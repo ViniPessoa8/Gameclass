@@ -2,6 +2,10 @@ import bcrypt from "bcryptjs"
 import { loginDB, registerDB } from "../repositories/auth";
 
 export async function registerNewUser(dbConn, name, login, password) {
+	if (!dbConn && !name && !login && !password) {
+		return false
+	}
+
 	bcrypt.genSalt(10, (err, salt) => {
 		bcrypt.hash(password, salt, async (err, hash) => {
 			await registerDB(dbConn, name, login, hash, salt)
@@ -12,6 +16,10 @@ export async function registerNewUser(dbConn, name, login, password) {
 }
 
 export async function loginUser(dbConn, login, password) {
+	if (!dbConn && !login && !password) {
+		return false
+	}
+
 	const res = await loginDB(dbConn, login, password)
 
 	console.log(Boolean(res.rowCount))
@@ -19,5 +27,7 @@ export async function loginUser(dbConn, login, password) {
 		console.log("Deu bom no login")
 		return true
 	}
+
+	return false
 
 }

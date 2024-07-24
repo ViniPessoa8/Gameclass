@@ -11,7 +11,7 @@ export async function registerDB(dbConn, name, login, hash, salt) {
 		const res = await dbConn.query(query)
 		return res
 	} catch (e) {
-		throw ("Erro ao registrar novo usuário.\n", e)
+		throw (`Erro ao registrar novo usuário: ${e}`)
 	}
 }
 
@@ -28,6 +28,9 @@ export async function loginDB(dbConn, login, password) {
 	try {
 		const salt = await dbConn.query(saltQuery)
 		// TODO: check if salt is on db
+		console.log(salt, typeof salt)
+		if (salt.rowCount == 0)
+			return "User not found"
 
 		const saltText = salt.rows[0].salt
 
