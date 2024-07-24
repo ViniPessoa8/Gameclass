@@ -1,38 +1,25 @@
-# create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Ambientes
+Dependendo do ambiente em que você for rodar o projeto, é necessário criar o respectivo arquivo de ambiente na pasta raiz do projeto:
+- dev: `.env`
+- prod: `.env.prod` 
 
-## Creating a project
+Há um arquivo de exemplo no repositório com o nome `.env.example` que você pode se basear para criar os demais.
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Desenvolvimento
+Para rodar o sistema em ambiente de desenvolvimento (local), você deve:
+1. instalar as dependências do projeto com `npm install` ou `yarn`
+2. Ter o PostgreSQL instalado
+3. Ter o banco de dados configurado e executando. (veja os scripts na pasta /sql)
+2. Executar o comando `npm run dev` para iniciar o servidor.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+url: http://localhost:5173/
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### Produção
+Para rodar o sistema em ambiente de produção, você deve:
+1. Ter o Docker e Docker Compose instalados.
+2. Buildar e iniciar o container, a partir da raiz do projeto.
+    - `docker compose up --build`
 
-## Developing
+url: http://localhost:3000/
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
