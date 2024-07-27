@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { loginUser } from "../../../../controllers/auth";
+import { loginUser } from "$controllers/auth";
 export async function POST(event) {
 
 	process.stdout.write("POST database/login/ ")

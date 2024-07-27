@@ -9,6 +9,8 @@
 	function aoLogar() {
 		//        login(userLogin, userPassword);
 		// TODO: Requisição POST /api/login (login, senha)
+		console.log('aoLogar()');
+		fetch('http://localhost/api/v1/ping');
 	}
 
 	function aoCriarConta() {
