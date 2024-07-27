@@ -1,5 +1,5 @@
 <script>
-	import '../app.css';
+	import '../static/app.css';
 	import '../lib/index.js';
 </script>
 

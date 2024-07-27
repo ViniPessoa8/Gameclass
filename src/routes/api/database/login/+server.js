@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 import { loginUser } from "$controllers/auth";
 export async function POST(event) {
 
-	process.stdout.write("POST database/login/ ")
+	console.log("POST database/login/ ")
 	const data = await event.request.json()
 
 	if (!data.login || !data.password) {

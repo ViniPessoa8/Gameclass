@@ -2,8 +2,8 @@ import { json } from "@sveltejs/kit";
 import { registerNewUser } from "$controllers/auth";
 export async function POST(event) {
 
-	process.stdout.write("POST database/register/ ")
-	process.stdout.write(event.request, typeof event.request)
+	console.log("POST database/register/ ")
+	console.log(event.request, typeof event.request)
 	const data = await event.request.json()
 
 	if (!data.login || !data.password || !data.name) {
