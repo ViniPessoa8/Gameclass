@@ -1,10 +1,9 @@
 <script>
 	export let onClick;
+	export let text;
 </script>
 
-<button class="button" on:click={onClick}>
-	<slot></slot>
-</button>
+<input type="submit" class="button" on:click={onClick} bind:value={text} />
 
 <style>
 	.button {

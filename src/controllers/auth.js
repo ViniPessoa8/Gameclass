@@ -24,10 +24,11 @@ export async function loginUser(dbConn, login, password) {
 
 	console.log(Boolean(res.rowCount))
 	if (res.rowCount) {
-		console.log("Deu bom no login")
+		console.log("Logado com sucesso")
 		return true
 	}
 
+	console.log("Login incorreto")
 	return false
 
 }

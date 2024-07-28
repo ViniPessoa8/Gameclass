@@ -1,33 +1,51 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import InputPassword from '../../lib/components/InputPassword.svelte';
+	import ButtonForm from '$lib/components/ButtonForm.svelte';
+	import InputPassword from '$lib/components/InputPassword.svelte';
 
 	let userLogin = '';
 	let userPassword = '';
 
-	function aoLogar() {
-		//        login(userLogin, userPassword);
-		// TODO: Requisição POST /api/login (login, senha)
-		console.log('aoLogar()');
-		fetch('http://localhost/api/v1/ping');
+	async function aoLogar() {
+		// TODO: Usar HTTPS para encriptar dados na requisição
+		// TODO: Testar se o login ta validando os dados
+		console.log(`aoLogar(${userLogin}, ${userPassword})`);
+		let res = await fetch(`http://localhost:5173/api/database/login`, {
+			method: 'POST',
+			body: JSON.stringify({
+				login: userLogin,
+				password: userPassword
+			})
+		});
+
+		console.log(res, typeof res);
 	}
 
-	function aoCriarConta() {
-		// registerNewUser(userLogin, userPassword);
+	async function aoCriarConta() {
+		console.log('aoCriarConta()');
+		let res = await fetch(`http://localhost:5173/api/database/register`, {
+			method: 'POST',
+			body: JSON.stringify({
+				name: '',
+				login: userLogin,
+				password: userPassword
+			})
+		});
+		console.log(res, typeof res);
 	}
 </script>
 
 <div class="login-container">
 	<h1>Bem vindo(a) ao <b>Gameclass</b></h1>
 	<span>Sua plataforma online de aprendizado gamificado</span>
-	<div class="card-container">
+	<form class="card-container">
 		<InputText bind:value={userLogin} placeholder="Nome de usuário / E-mail" />
 		<InputPassword bind:value={userPassword} type="password" placeholder="Senha" />
 		<br />
-		<Button onClick={aoLogar}>Login</Button>
+		<ButtonForm onClick={aoLogar} text="Login" />
 		<Button onClick={aoCriarConta}>Criar Conta</Button>
-	</div>
+	</form>
 </div>
 
 <style>
