@@ -7,23 +7,39 @@
 	let userLogin = '';
 	let userPassword = '';
 	let loginErrorVisibility = false;
-	let passwordErrorVisibility = 'collapse';
+	let passwordErrorVisibility = false;
 
-	async function aoLogar() {
-		// TODO: Usar HTTPS para encriptar dados na requisição
-		// TODO: Testar se o login ta validando os dados
+	function loginInputHandler(e) {
+		if (e.target.value.length > 0) loginErrorVisibility = false;
+	}
 
+	function passwordInputHandler(e) {
+		if (e.target.value.length > 0) passwordErrorVisibility = false;
+	}
+
+	function checkInputs() {
+		let ok = true;
 		if (!userLogin) {
 			console.log('!userLogin');
 			loginErrorVisibility = true;
+			ok = false;
 		}
 
 		if (!userPassword) {
 			console.log('!userPassword');
 			passwordErrorVisibility = true;
+			ok = false;
 		}
 
-		// TODO: Ao digitar algo, sumir com o feedback de dados faltando
+		return ok;
+	}
+
+	async function aoLogar() {
+		// TODO: Usar HTTPS para encriptar dados na requisição
+		// TODO: Testar se o login ta validando os dados
+		if (!checkInputs()) {
+			return false;
+		}
 
 		console.log(`aoLogar(${userLogin}, ${userPassword})`);
 		let res = await fetch(`http://localhost:5173/api/database/login`, {
@@ -41,16 +57,26 @@
 	<span>Sua plataforma online de aprendizado gamificado</span>
 	<form class="card-container">
 		<div style="display:flex; flex-direction: column;">
-			<InputText bind:value={userLogin} placeholder="Nome de usuário / E-mail" />
+			<InputText
+				id="loginInput"
+				bind:value={userLogin}
+				inputHandler={loginInputHandler}
+				placeholder="Nome de usuário / E-mail"
+			/>
 			{#if loginErrorVisibility}
 				<span class="error-login">*Campo obrigatório*</span>
 			{/if}
 		</div>
 
 		<div style="display:flex; flex-direction: column;">
-			<InputPassword bind:value={userPassword} type="password" placeholder="Senha" />
+			<InputPassword
+				bind:value={userPassword}
+				type="password"
+				inputHandler={passwordInputHandler}
+				placeholder="Senha"
+			/>
 			<div></div>
-			{#if loginErrorVisibility}
+			{#if passwordErrorVisibility}
 				<span class="error-password">*Campo obrigatório*</span>
 			{/if}
 		</div>
