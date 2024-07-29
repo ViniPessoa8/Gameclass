@@ -8,6 +8,7 @@
 	let userPassword = '';
 	let loginErrorVisibility = false;
 	let passwordErrorVisibility = false;
+	let loginRes = '';
 
 	function loginInputHandler(e) {
 		if (e.target.value.length > 0) loginErrorVisibility = false;
@@ -36,8 +37,8 @@
 
 	async function aoLogar() {
 		// TODO: Usar HTTPS para encriptar dados na requisição
-		// TODO: Testar se o login ta validando os dados
 		if (!checkInputs()) {
+			loginRes = '';
 			return false;
 		}
 
@@ -49,6 +50,10 @@
 				password: userPassword
 			})
 		});
+		let resText = await res.json();
+		loginRes = resText;
+		return resText;
+		// TODO: Testar se o login ta validando os dados
 	}
 </script>
 
@@ -82,6 +87,11 @@
 		</div>
 		<br />
 
+		{#if loginRes === 'Login incorreto'}
+			<span class="incorrect-login">{loginRes}</span>
+		{:else}
+			<span class="successful-login">{loginRes}</span>
+		{/if}
 		<ButtonForm onClick={aoLogar} text="Login" />
 		<Button>Criar Conta</Button>
 	</form>
@@ -114,6 +124,16 @@
 
 	.error-password {
 		color: red;
+	}
+
+	.incorrect-login {
+		color: red;
+		font-weight: 600;
+	}
+
+	.successful-login {
+		color: green;
+		font-weight: 600;
 	}
 
 	.card-container {
