@@ -6,10 +6,25 @@
 
 	let userLogin = '';
 	let userPassword = '';
+	let loginErrorVisibility = false;
+	let passwordErrorVisibility = 'collapse';
 
 	async function aoLogar() {
 		// TODO: Usar HTTPS para encriptar dados na requisição
 		// TODO: Testar se o login ta validando os dados
+
+		if (!userLogin) {
+			console.log('!userLogin');
+			loginErrorVisibility = true;
+		}
+
+		if (!userPassword) {
+			console.log('!userPassword');
+			passwordErrorVisibility = true;
+		}
+
+		// TODO: Ao digitar algo, sumir com o feedback de dados faltando
+
 		console.log(`aoLogar(${userLogin}, ${userPassword})`);
 		let res = await fetch(`http://localhost:5173/api/database/login`, {
 			method: 'POST',
@@ -18,21 +33,6 @@
 				password: userPassword
 			})
 		});
-
-		console.log(res, typeof res);
-	}
-
-	async function aoCriarConta() {
-		console.log('aoCriarConta()');
-		let res = await fetch(`http://localhost:5173/api/database/register`, {
-			method: 'POST',
-			body: JSON.stringify({
-				name: '',
-				login: userLogin,
-				password: userPassword
-			})
-		});
-		console.log(res, typeof res);
 	}
 </script>
 
@@ -40,11 +40,24 @@
 	<h1>Bem vindo(a) ao <b>Gameclass</b></h1>
 	<span>Sua plataforma online de aprendizado gamificado</span>
 	<form class="card-container">
-		<InputText bind:value={userLogin} placeholder="Nome de usuário / E-mail" />
-		<InputPassword bind:value={userPassword} type="password" placeholder="Senha" />
+		<div style="display:flex; flex-direction: column;">
+			<InputText bind:value={userLogin} placeholder="Nome de usuário / E-mail" />
+			{#if loginErrorVisibility}
+				<span class="error-login">*Campo obrigatório*</span>
+			{/if}
+		</div>
+
+		<div style="display:flex; flex-direction: column;">
+			<InputPassword bind:value={userPassword} type="password" placeholder="Senha" />
+			<div></div>
+			{#if loginErrorVisibility}
+				<span class="error-password">*Campo obrigatório*</span>
+			{/if}
+		</div>
 		<br />
+
 		<ButtonForm onClick={aoLogar} text="Login" />
-		<Button onClick={aoCriarConta}>Criar Conta</Button>
+		<Button>Criar Conta</Button>
 	</form>
 </div>
 
@@ -64,9 +77,17 @@
 		/* font-weight: lighter; */
 	}
 
-	span {
+	.login-container > span {
 		margin-top: 18px;
 		font-size: 30px;
+	}
+
+	.error-login {
+		color: red;
+	}
+
+	.error-password {
+		color: red;
 	}
 
 	.card-container {
