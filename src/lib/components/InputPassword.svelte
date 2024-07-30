@@ -2,9 +2,17 @@
 	export let placeholder = '';
 	export let value;
 	export let inputHandler;
+	export let onFocusOut;
 </script>
 
-<input class="input" type="password" {placeholder} bind:value on:input={inputHandler} />
+<input
+	class="input"
+	type="password"
+	{placeholder}
+	bind:value
+	on:input={inputHandler}
+	on:focusout={onFocusOut}
+/>
 
 <style>
 	.input {
@@ -24,4 +32,3 @@
 		color: var(--cor-secundaria);
 	}
 </style>
-

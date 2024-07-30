@@ -7,7 +7,8 @@
 
 	// TODO: função de cadastro
 	function aoCriarConta() {
-		checkInputs();
+		if (!checkInputs()) return;
+		if (!checkPasswords()) return;
 		// TODO: Redirecionar para a tela de login
 	}
 
@@ -24,6 +25,8 @@
 		repetirSenhaEmpty,
 		instituicaoEmpty,
 		dtNascEmpty = false;
+
+	let senhasIncompativeis = false;
 
 	// TODO: Lista de instituições no BD
 	let selectOptionList = ['24', '420', '69', 'EST - UEA'];
@@ -59,6 +62,16 @@
 		return ok;
 	}
 
+	// TODO: Verificar requisitos da senha (tamanho e composição)
+
+	function checkPasswords() {
+		if (senha === repetirSenha) {
+			return true;
+		}
+		senhasIncompativeis = true;
+		return false;
+	}
+
 	function usuarioInputHandler(e) {
 		if (e.target.value.length > 0) usuarioEmpty = false;
 	}
@@ -68,11 +81,17 @@
 	}
 
 	function senhaInputHandler(e) {
-		if (e.target.value.length > 0) senhaEmpty = false;
+		if (e.target.value.length > 0) {
+			senhaEmpty = false;
+			senhasIncompativeis = false;
+		}
 	}
 
 	function repetirSenhaInputHandler(e) {
-		if (e.target.value.length > 0) repetirSenhaEmpty = false;
+		if (e.target.value.length > 0) {
+			repetirSenhaEmpty = false;
+			senhasIncompativeis = false;
+		}
 	}
 
 	function instituicaoInputHandler(e) {
@@ -87,7 +106,7 @@
 <div class="login-container">
 	<h1>Cadastre-se no <b>Gameclass</b></h1>
 	<span>e descubra uma nova experiência de aprendizado</span>
-	<div class="card-container">
+	<form class="card-container">
 		<!-- Nome Completo -->
 		<div style="display:flex; flex-direction: column;">
 			<InputText
@@ -125,9 +144,12 @@
 				placeholder="Repetir senha"
 				bind:value={repetirSenha}
 				inputHandler={repetirSenhaInputHandler}
+				onFocusOut={checkPasswords}
 			/>
 			{#if repetirSenhaEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+			{:else if senhasIncompativeis}
+				<span class="error" style="visibility: visible;">Senhas Incompatíveis</span>
 			{:else}
 				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
 			{/if}
@@ -159,7 +181,7 @@
 		<br />
 
 		<Button onClick={aoCriarConta}>Criar Conta</Button>
-	</div>
+	</form>
 </div>
 
 <style>
