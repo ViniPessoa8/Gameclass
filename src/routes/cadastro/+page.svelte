@@ -5,8 +5,10 @@
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import Select from '$lib/components/Select.svelte';
 
+	// TODO: função de cadastro
 	function aoCriarConta() {
 		checkInputs();
+		// TODO: Redirecionar para a tela de login
 	}
 
 	let nomeCompleto,
@@ -22,10 +24,10 @@
 		repetirSenhaEmpty,
 		instituicaoEmpty,
 		dtNascEmpty = false;
+
+	// TODO: Lista de instituições no BD
 	let selectOptionList = ['24', '420', '69', 'EST - UEA'];
 
-	// TODO: função de cadastro
-	// TODO: Feddback de campo vazio
 	function checkInputs() {
 		let ok = true;
 
@@ -68,19 +70,18 @@
 	function senhaInputHandler(e) {
 		if (e.target.value.length > 0) senhaEmpty = false;
 	}
+
 	function repetirSenhaInputHandler(e) {
 		if (e.target.value.length > 0) repetirSenhaEmpty = false;
 	}
+
 	function instituicaoInputHandler(e) {
 		if (e.target.value.length > 0) instituicaoEmpty = false;
 	}
+
 	function dtNascInputHandler(e) {
 		if (e.target.value.length > 0) dtNascEmpty = false;
 	}
-
-	// TODO: Validação dos campos
-	// TODO: Lista de instituições no BD
-	// TODO: Redirecionar para a tela de login
 </script>
 
 <div class="login-container">
@@ -169,10 +170,11 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		padding-bottom: 48px;
 	}
 
 	h1 {
-		margin-top: 6rem;
+		margin-top: 4rem;
 		font-size: 48px;
 		/* font-weight: lighter; */
 	}

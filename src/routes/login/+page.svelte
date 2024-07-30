@@ -42,6 +42,7 @@
 		if (!checkInputs()) {
 			loginRes = '';
 			return false;
+			// TODO: Redirecionar para a tela de escolha do perfil
 		}
 
 		console.log(`aoLogar(${userLogin}, ${userPassword})`);
