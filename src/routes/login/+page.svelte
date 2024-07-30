@@ -12,10 +12,12 @@
 
 	function loginInputHandler(e) {
 		if (e.target.value.length > 0) loginErrorVisibility = false;
+		loginRes = '';
 	}
 
 	function passwordInputHandler(e) {
 		if (e.target.value.length > 0) passwordErrorVisibility = false;
+		loginRes = '';
 	}
 
 	function checkInputs() {
@@ -70,6 +72,8 @@
 			/>
 			{#if loginErrorVisibility}
 				<span class="error-login">*Campo obrigatório*</span>
+			{:else}
+				<span class="error-login" style="visibility: hidden">*Campo obrigatório*</span>
 			{/if}
 		</div>
 
@@ -83,14 +87,18 @@
 			<div></div>
 			{#if passwordErrorVisibility}
 				<span class="error-password">*Campo obrigatório*</span>
+			{:else}
+				<span class="error-password" style="visibility: hidden">*Campo obrigatório*</span>
 			{/if}
 		</div>
 		<br />
 
 		{#if loginRes === 'Login incorreto'}
 			<span class="incorrect-login">{loginRes}</span>
-		{:else}
+		{:else if loginRes === 'Logado com sucesso'}
 			<span class="successful-login">{loginRes}</span>
+		{:else}
+			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
 		<ButtonForm onClick={aoLogar} text="Login" />
 		<Button>Criar Conta</Button>
@@ -129,6 +137,7 @@
 	.incorrect-login {
 		color: red;
 		font-weight: 600;
+		font-size: 24px;
 	}
 
 	.successful-login {
@@ -147,6 +156,6 @@
 		padding-bottom: 84px;
 		margin-top: 75px;
 		border-radius: 15px;
-		gap: 36px;
+		gap: 24px;
 	}
 </style>
