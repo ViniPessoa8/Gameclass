@@ -5,10 +5,32 @@
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import Select from '$lib/components/Select.svelte';
 
-	// TODO: função de cadastro
-	function aoCriarConta() {
+	async function aoCriarConta() {
+		if (!verificarRequisitosSenha()) return;
 		if (!checkInputs()) return;
 		if (!checkPasswords()) return;
+
+		// TODO: função de cadastro
+		try {
+			let res = await fetch(`http://localhost:5173/api/database/register`, {
+				method: 'POST',
+				body: JSON.stringify({
+					login: usuario,
+					password: senha,
+					nome: nomeCompleto
+				})
+			});
+
+			console.log(res.url);
+			console.log(res.status);
+			console.log(res.ok);
+
+			let resText = await res.text();
+			console.log(resText);
+		} catch (e) {
+			console.log('Erro ao registrar: ', e);
+		}
+
 		// TODO: Redirecionar para a tela de login
 	}
 
@@ -63,6 +85,28 @@
 	}
 
 	// TODO: Verificar requisitos da senha (tamanho e composição)
+	function verificarRequisitosSenha() {
+		// - tamanho mínimo: 8 caracteres
+		if (!senha || senha.length < 8) {
+			alert('O tamanho mínimo da senha é 8 caracteres');
+			return false;
+		}
+
+		// - tamanho máximo: 16 caracteres
+		if (senha.length > 16) {
+			alert('O tamanho máximo da senha é 16 caracteres');
+			return false;
+		}
+
+		// - ao menos um caractere especial
+		// - ao menos um maíusculo e um minúsculo
+		// - Ter ao menos um número
+		const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+		if (!regex.exec(senha)) {
+			// TODO: Melhorar mensagem de erro
+			alert('erro no regex');
+		}
+	}
 
 	function checkPasswords() {
 		if (senha === repetirSenha) {

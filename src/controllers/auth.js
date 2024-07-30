@@ -1,18 +1,22 @@
 import bcrypt from "bcryptjs"
 import { loginDB, registerDB } from "../repositories/auth";
 
-export async function registerNewUser(dbConn, name, login, password) {
-	if (!dbConn && !name && !login && !password) {
+export async function registerNewUser(dbConn, nome, login, password) {
+	if (!dbConn && !nome && !login && !password) {
 		return false
 	}
 
-	bcrypt.genSalt(10, (err, salt) => {
-		bcrypt.hash(password, salt, async (err, hash) => {
-			await registerDB(dbConn, name, login, hash, salt)
+	let salt = bcrypt.genSaltSync(10)
+	let hash = bcrypt.hashSync(password, salt)
+	try {
+		let res = await registerDB(dbConn, nome, login, hash, salt)
+
+		if (res.rowCount > 0) {
 			return true
-		})
-	})
-	return false
+		}
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 export async function loginUser(dbConn, login, password) {
