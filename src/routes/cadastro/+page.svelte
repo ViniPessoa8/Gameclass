@@ -9,9 +9,9 @@
 	export let data;
 
 	async function aoCriarConta() {
-		// if (!verificarRequisitosSenha()) return;
-		// if (!checkInputs()) return;
-		// if (!checkPasswords()) return;
+		if (!verificarRequisitosSenha()) return;
+		if (!checkInputs()) return;
+		if (!checkPasswords()) return;
 
 		let resStatus = 0;
 
@@ -250,8 +250,6 @@
 				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
 			{/if}
 		</div>
-		<!-- <InputText type="text" placeholder="Instituição" bind:value={instituicao}/> -->
-		<!-- <InputText type="text" placeholder="Data de Nascimento" bind:value={dtNasc}/> -->
 		<br />
 
 		<Button onClick={aoCriarConta}>Criar Conta</Button>
