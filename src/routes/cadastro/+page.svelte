@@ -4,13 +4,17 @@
 	import InputDate from '$lib/components/InputDate.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import Select from '$lib/components/Select.svelte';
+	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '../../constants.js';
+	import { goto } from '$app/navigation';
+	export let data;
 
 	async function aoCriarConta() {
-		if (!verificarRequisitosSenha()) return;
-		if (!checkInputs()) return;
-		if (!checkPasswords()) return;
+		// if (!verificarRequisitosSenha()) return;
+		// if (!checkInputs()) return;
+		// if (!checkPasswords()) return;
 
-		// TODO: função de cadastro
+		let resStatus = 0;
+
 		try {
 			let res = await fetch(`http://localhost:5173/api/database/register`, {
 				method: 'POST',
@@ -24,14 +28,14 @@
 			console.log(res.url);
 			console.log(res.status);
 			console.log(res.ok);
-
-			let resText = await res.text();
-			console.log(resText);
+			resStatus = res.status;
 		} catch (e) {
 			console.log('Erro ao registrar: ', e);
 		}
 
-		// TODO: Redirecionar para a tela de login
+		if (resStatus === 200) {
+			goto('/login');
+		}
 	}
 
 	let nomeCompleto,
@@ -49,9 +53,10 @@
 		dtNascEmpty = false;
 
 	let senhasIncompativeis = false;
+	let erroSenhaTamanhoMinimo, erroSenhaTamanhoMaximo, erroSenhaCaracteres;
 
-	// TODO: Lista de instituições no BD
-	let selectOptionList = ['24', '420', '69', 'EST - UEA'];
+	let selectOptionDict = data['instituicoes'];
+	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
 
 	function checkInputs() {
 		let ok = true;
@@ -84,27 +89,27 @@
 		return ok;
 	}
 
-	// TODO: Verificar requisitos da senha (tamanho e composição)
 	function verificarRequisitosSenha() {
 		// - tamanho mínimo: 8 caracteres
-		if (!senha || senha.length < 8) {
-			alert('O tamanho mínimo da senha é 8 caracteres');
+		if (!senha || senha.length < PASSWORD_MIN_CHARACTERS) {
+			erroSenhaTamanhoMinimo = true;
 			return false;
 		}
 
 		// - tamanho máximo: 16 caracteres
-		if (senha.length > 16) {
-			alert('O tamanho máximo da senha é 16 caracteres');
+		if (senha.length > PASSWORD_MAX_CHARACTERS) {
+			erroSenhaTamanhoMaximo = true;
 			return false;
 		}
 
 		// - ao menos um caractere especial
 		// - ao menos um maíusculo e um minúsculo
 		// - Ter ao menos um número
-		const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+		const regex = RegExp(
+			String.raw`\s^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{${PASSWORD_MIN_CHARACTERS},${PASSWORD_MAX_CHARACTERS}}$\s`
+		);
 		if (!regex.exec(senha)) {
-			// TODO: Melhorar mensagem de erro
-			alert('erro no regex');
+			erroSenhaCaracteres = true;
 		}
 	}
 
@@ -128,6 +133,19 @@
 		if (e.target.value.length > 0) {
 			senhaEmpty = false;
 			senhasIncompativeis = false;
+			erroSenhaCaracteres = false;
+		}
+
+		if (e.target.value.length >= PASSWORD_MIN_CHARACTERS) {
+			erroSenhaTamanhoMinimo = false;
+		}
+
+		if (e.target.value.length <= PASSWORD_MAX_CHARACTERS) {
+			erroSenhaTamanhoMaximo = false;
+		}
+
+		if (e.target.value.length > PASSWORD_MAX_CHARACTERS) {
+			erroSenhaTamanhoMaximo = true;
 		}
 	}
 
@@ -178,6 +196,18 @@
 			<InputPassword placeholder="Senha" bind:value={senha} inputHandler={senhaInputHandler} />
 			{#if senhaEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+			{:else if erroSenhaTamanhoMinimo}
+				<span class="error" style="visibility: visible;"
+					>Mínimo: {PASSWORD_MIN_CHARACTERS} caracteres</span
+				>
+			{:else if erroSenhaTamanhoMaximo}
+				<span class="error" style="visibility: visible;"
+					>Máximo: {PASSWORD_MAX_CHARACTERS} caracteres</span
+				>
+			{:else if erroSenhaCaracteres}
+				<span class="error" style="visibility: visible;">
+					Deve conter número, maíusculas, minúsculas e caracteres especiais
+				</span>
 			{:else}
 				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
 			{/if}
