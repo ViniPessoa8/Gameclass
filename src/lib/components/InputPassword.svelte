@@ -1,8 +1,8 @@
 <script>
 	export let placeholder = '';
 	export let value;
-	export let inputHandler;
-	export let onFocusOut;
+	export let inputHandler = null;
+	export let onFocusOut = null;
 </script>
 
 <input

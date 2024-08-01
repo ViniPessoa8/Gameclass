@@ -1,0 +1,2 @@
+export const PASSWORD_MAX_CHARACTERS = 16
+export const PASSWORD_MIN_CHARACTERS = 8

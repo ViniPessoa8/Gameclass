@@ -5,7 +5,7 @@
  *	@param {string} password
  * */
 
-import { error, json } from "@sveltejs/kit";
+import { error } from "@sveltejs/kit";
 import { registerNewUser } from "$controllers/auth";
 
 export async function POST(event) {
@@ -27,5 +27,6 @@ export async function POST(event) {
 	}
 
 	console.log("\t", 200, "Usuário registrado com sucesso")
-	return json("Usuário registrado com sucesso.");
+
+	return new Response("Usuário registrado com sucesso")
 }
