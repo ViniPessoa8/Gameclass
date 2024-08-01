@@ -8,36 +8,6 @@
 	import { goto } from '$app/navigation';
 	export let data;
 
-	async function aoCriarConta() {
-		if (!verificarRequisitosSenha()) return;
-		if (!checkInputs()) return;
-		if (!checkPasswords()) return;
-
-		let resStatus = 0;
-
-		try {
-			let res = await fetch(`http://localhost:5173/api/database/register`, {
-				method: 'POST',
-				body: JSON.stringify({
-					login: usuario,
-					password: senha,
-					nome: nomeCompleto
-				})
-			});
-
-			console.log(res.url);
-			console.log(res.status);
-			console.log(res.ok);
-			resStatus = res.status;
-		} catch (e) {
-			console.log('Erro ao registrar: ', e);
-		}
-
-		if (resStatus === 200) {
-			goto('/login');
-		}
-	}
-
 	let nomeCompleto,
 		usuario,
 		senha,
@@ -57,6 +27,33 @@
 
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
+
+	async function aoCriarConta() {
+		if (!verificarRequisitosSenha()) return;
+		if (!checkInputs()) return;
+		if (!checkPasswords()) return;
+
+		let resStatus = 0;
+
+		try {
+			let res = await fetch(`http://localhost:5173/api/database/register`, {
+				method: 'POST',
+				body: JSON.stringify({
+					login: usuario,
+					password: senha,
+					nome: nomeCompleto
+				})
+			});
+
+			resStatus = res.status;
+		} catch (e) {
+			console.log('Erro ao registrar: ', e);
+		}
+
+		if (resStatus === 200) {
+			goto('/login');
+		}
+	}
 
 	function checkInputs() {
 		let ok = true;

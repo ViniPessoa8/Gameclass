@@ -3,6 +3,8 @@
 	import InputText from '$lib/components/InputText.svelte';
 	import ButtonForm from '$lib/components/ButtonForm.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
+	import { goto } from '$app/navigation';
+	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
 
 	let userLogin = '';
 	let userPassword = '';
@@ -58,6 +60,11 @@
 		return resText;
 		// TODO: Testar se o login ta validando os dados
 	}
+
+	function aoClicarBotaoCadastro() {
+		console.log('botaoCadastro');
+		goto('/cadastro');
+	}
 </script>
 
 <div class="login-container">
@@ -102,7 +109,7 @@
 			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
 		<ButtonForm onClick={aoLogar} text="Login" />
-		<Button>Criar Conta</Button>
+		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>
 
