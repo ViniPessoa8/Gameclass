@@ -102,8 +102,8 @@
 		// - ao menos um caractere especial
 		// - ao menos um maíusculo e um minúsculo
 		// - Ter ao menos um número
-		const regex = RegExp(
-			String.raw`\s^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{${PASSWORD_MIN_CHARACTERS},${PASSWORD_MAX_CHARACTERS}}$\s`
+		const regex = new RegExp(
+			String.raw`^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,16}$`
 		);
 		if (!regex.exec(senha)) {
 			erroSenhaCaracteres = true;
