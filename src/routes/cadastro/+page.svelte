@@ -107,7 +107,10 @@
 		);
 		if (!regex.exec(senha)) {
 			erroSenhaCaracteres = true;
+			return false;
 		}
+
+		return true;
 	}
 
 	function checkPasswords() {
