@@ -44,10 +44,8 @@
 		if (!checkInputs()) {
 			loginRes = '';
 			return false;
-			// TODO: Redirecionar para a tela de escolha do perfil
 		}
 
-		console.log(`aoLogar(${userLogin}, ${userPassword})`);
 		let res = await fetch(`http://localhost:5173/api/database/login`, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -55,15 +53,11 @@
 				password: userPassword
 			})
 		});
+
+		// TODO: Redirecionar para a tela de escolha do perfil
 		let resText = await res.json();
 		loginRes = resText;
 		return resText;
-		// TODO: Testar se o login ta validando os dados
-	}
-
-	function aoClicarBotaoCadastro() {
-		console.log('botaoCadastro');
-		goto('/cadastro');
 	}
 </script>
 
