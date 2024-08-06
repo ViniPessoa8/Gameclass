@@ -10,7 +10,7 @@ CREATE TABLE usuario (
 
 CREATE TABLE instituicao (
 	"id" SERIAL,
-	"nome" VARCHAR(255) NOT NULL,
+	"nome" VARCHAR(255) NOT NULL
 );
 
 INSERT INTO instituicao("nome") VALUES('UEA');
