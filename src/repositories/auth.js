@@ -23,13 +23,10 @@ export async function loginDB(dbConn, login, password) {
 		text: `SELECT salt FROM ${DB_INFO.auth_table} WHERE login = $1`,
 		values: [login]
 	}
-	console.debug(saltQuery, login)
 
 	try {
 		const salt = await dbConn.query(saltQuery)
 		// TODO: check if salt is on db
-		console.log("SALT:")
-		console.log(salt, typeof salt)
 		if (salt.rowCount == 0)
 			return "User not found"
 
@@ -43,7 +40,6 @@ export async function loginDB(dbConn, login, password) {
 		}
 
 		const res = await dbConn.query(query)
-		console.log(res)
 		return res;
 	} catch (e) {
 		console.error(e)
