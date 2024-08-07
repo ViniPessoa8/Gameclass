@@ -36,8 +36,11 @@
 		let resStatus = 0;
 
 		try {
-			let res = await fetch(`http://localhost:5173/api/database/register`, {
+			let res = await fetch(`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/register`, {
 				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
 				body: JSON.stringify({
 					login: usuario,
 					password: senha,

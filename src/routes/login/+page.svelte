@@ -46,8 +46,11 @@
 			return false;
 		}
 
-		let res = await fetch(`http://localhost:5173/api/database/login`, {
+		let res = await fetch(`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/login`, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				login: userLogin,
 				password: userPassword
