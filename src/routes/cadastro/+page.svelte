@@ -4,7 +4,7 @@
 	import InputDate from '$lib/components/InputDate.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '../../constants.js';
+	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
 	import { goto } from '$app/navigation';
 	export let data;
 
@@ -36,17 +36,20 @@
 		let resStatus = 0;
 
 		try {
-			let res = await fetch(`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/register`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					login: usuario,
-					password: senha,
-					nome: nomeCompleto
-				})
-			});
+			let res = await fetch(
+				`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/register`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						login: usuario,
+						password: senha,
+						nome: nomeCompleto
+					})
+				}
+			);
 
 			resStatus = res.status;
 		} catch (e) {
