@@ -1,5 +1,11 @@
 import { json } from "@sveltejs/kit";
 import { loginUser } from "$controllers/auth";
+
+/* Realiza login do usuário
+ *
+ * @param {string} login - Nome do usuário a ser logado.
+ * @param {string} password - Senha do usuário
+ */
 export async function POST(event) {
 
 	console.log("POST database/login/ ")

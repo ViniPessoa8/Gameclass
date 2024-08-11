@@ -8,6 +8,12 @@
 import { error } from "@sveltejs/kit";
 import { registerNewUser } from "$controllers/auth";
 
+/* Cadastra um novo usuário no banco de dados.
+ *
+ * @param {string} login - Nome do perfil do usuário.
+ * @param {string} password - Senha do usuário.
+ * @param {string} nome - Nome real do usuário.
+ */
 export async function POST(event) {
 
 	console.log(event.request.method + " /" + event.request.url + " ")
