@@ -6,6 +6,8 @@ export async function handle({ event, resolve }) {
 		return new Response('custom response');
 	}
 
+	console.log(typeof db_conn);
+
 	event.locals = {
 		db_conn: db_conn
 	};
