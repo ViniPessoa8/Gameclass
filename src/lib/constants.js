@@ -2,12 +2,12 @@ export const PASSWORD_MAX_CHARACTERS = 16
 export const PASSWORD_MIN_CHARACTERS = 8
 
 export const COLORS = {
-	cor_primaria_1: "#123181",
-	cor_primaria_2: "#51ACDF",
-	cor_fundo: "#FFFFFF",
-	cor_secundaria_1: "#5F45FF",
-	cor_secundaria_2: "#DAC039",
-	cor_secundaria_3: "#76D280",
+	primaria_1: "#123181",
+	primaria_2: "#51ACDF",
+	fundo: "#FFFFFF",
+	secundaria_1: "#5F45FF",
+	secundaria_2: "#DAC039",
+	secundaria_3: "#76D280",
 
 	text_1: "#FFFFFF",
 };
