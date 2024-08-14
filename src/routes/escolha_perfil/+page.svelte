@@ -7,18 +7,18 @@
 	<h1>Olá, ${nome_usuario}!</h1>
 	<span>escolha seu perfil</span>
 	<div class="button-container">
-		<button class="button-estudante">
+		<a class="button-estudante" href="/">
 			<div>
 				<img class="icon" alt="Ícone do perfil de aluno" src="icone-aluno.svg" />
 				<h1>Aluno</h1>
 			</div>
-		</button>
-		<button class="button-professor">
+		</a>
+		<a class="button-professor" href="/turmas">
 			<div>
 				<img class="icon" alt="Ícone do perfil de professor" src="icone-professor.svg" />
 				<h1>Professor</h1>
 			</div>
-		</button>
+		</a>
 	</div>
 </div>
 
@@ -46,21 +46,26 @@
 		gap: 8em;
 	}
 
-	button {
+	a {
 		padding: 35px;
-		/* padding-left: 80px; */
-		/* padding-right: 80px; */
 		width: 260px;
 		border-radius: 35px;
 		color: var(--cor-secundaria);
 		background-color: var(--cor-primaria);
 		border: 1px solid var(--cor-secundaria);
+		text-decoration: none;
 	}
 
-	button h1 {
+	a h1 {
 		margin-top: 36px;
 		font-weight: 500;
 		font-size: 36px;
+	}
+
+	a div {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.button-professor {
