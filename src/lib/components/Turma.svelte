@@ -1,5 +1,4 @@
 <script>
-	import { COLORS } from '../constants';
 	import CircularTextIcon from './CircularTextIcon.svelte';
 	import Button from './Button.svelte';
 	import BarraDeProgresso from './BarraDeProgresso.svelte';
@@ -7,10 +6,10 @@
 	export let titulo, disciplina, ano, nEstudantes;
 </script>
 
-<div class="turma" style="background-color: {COLORS.primaria_1}">
+<div class="turma">
 	<div class="turma-info">
 		<div class="turma-icon">
-			<CircularTextIcon size="90" fontSize="50" backgroundColor="red">{titulo[0]}</CircularTextIcon>
+			<CircularTextIcon backgroundColor="red">{titulo[0]}</CircularTextIcon>
 		</div>
 		<div class="turma-data">
 			<h1>{titulo}</h1>
@@ -33,6 +32,7 @@
 
 <style>
 	.turma {
+		background-color: var(--cor-primaria);
 		box-sizing: border-box;
 		width: 420px;
 		height: 278px;

@@ -1,11 +1,10 @@
 <script>
-	import { COLORS } from '../constants';
 	import Button from './Button.svelte';
 	import SideBarButton from './SideBarButton.svelte';
 	import SideBarTurma from './SideBarTurma.svelte';
 </script>
 
-<div class="sidebar" style="background-color: {COLORS.primaria_1};">
+<div class="sidebar">
 	<div class="buttons">
 		<SideBarButton img={'home'}>Home</SideBarButton>
 		<SideBarButton img={'logout'}>Logout</SideBarButton>
@@ -20,7 +19,6 @@
 	</div>
 
 	<Button
-		backgroundColor={COLORS.primaria_1}
 		onClick={() => {
 			console.log('teste');
 		}}
@@ -31,6 +29,7 @@
 
 <style>
 	.sidebar {
+		background-color: var(--cor-primaria);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -49,4 +48,3 @@
 		margin-bottom: 32px;
 	}
 </style>
-
