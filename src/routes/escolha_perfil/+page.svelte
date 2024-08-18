@@ -1,5 +1,4 @@
 <script>
-	import { COLORS } from '$lib/constants';
 	export let nome_usuario;
 </script>
 
