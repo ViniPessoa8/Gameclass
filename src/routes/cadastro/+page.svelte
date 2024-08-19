@@ -29,11 +29,32 @@
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
 
 	async function aoCriarConta() {
-		if (!verificarRequisitosSenha()) return;
-		if (!checkInputs()) return;
-		if (!checkPasswords()) return;
+		console.log('instituicao:', instituicao);
+		// if (!verificarRequisitosSenha()) return;
+		// if (!checkInputs()) return;
+		// if (!checkPasswords()) return;
 
 		let resStatus = 0;
+
+		let instituicao_id = -1;
+		console.log(selectOptionDict);
+		for (let key in selectOptionDict) {
+			let inst = selectOptionDict[key];
+			if (inst['nome'] === instituicao) {
+				instituicao_id = inst['id'];
+				console.log('instituicao_id: ', instituicao_id);
+			}
+		}
+
+		let user = {
+			login: usuario,
+			password: senha, // TODO: encrypt password before sending
+			nome: nomeCompleto,
+			instituicao: instituicao_id,
+			dt_nasc: dtNasc
+		};
+
+		console.log(user);
 
 		try {
 			let res = await fetch(
@@ -43,11 +64,7 @@
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({
-						login: usuario,
-						password: senha,
-						nome: nomeCompleto
-					})
+					body: JSON.stringify(user)
 				}
 			);
 

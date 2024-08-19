@@ -25,7 +25,7 @@ export async function POST(event) {
 	}
 
 	let dbConn = event.locals.db_conn;
-	let registered = await registerNewUser(dbConn, data.nome, data.login, data.password);
+	let registered = await registerNewUser(dbConn, data.nome, data.login, data.password, data.instituicao, data.dt_nasc);
 
 	if (!registered) {
 		console.log("\t", 500, "Erro no registro do usuário")

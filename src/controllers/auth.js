@@ -1,15 +1,17 @@
 import bcrypt from "bcryptjs"
 import { loginDB, registerDB } from "../repositories/auth";
 
-export async function registerNewUser(dbConn, nome, login, password) {
+export async function registerNewUser(dbConn, nome, login, password, id_instituicao, dt_nasc) {
 	if (!dbConn && !nome && !login && !password) {
 		return false
 	}
 
+	// TODO: verificar se já existe usuário com o mesmo login
+
 	let salt = bcrypt.genSaltSync(10)
 	let hash = bcrypt.hashSync(password, salt)
 	try {
-		let res = await registerDB(dbConn, nome, login, hash, salt)
+		let res = await registerDB(dbConn, nome, login, hash, salt, id_instituicao, dt_nasc)
 
 		if (res.rowCount > 0) {
 			return true
@@ -29,6 +31,8 @@ export async function loginUser(dbConn, login, password) {
 	console.log(Boolean(res.rowCount))
 	if (res.rowCount) {
 		console.log("Logado com sucesso")
+
+		console.log(res.rows)
 		return true
 	}
 
