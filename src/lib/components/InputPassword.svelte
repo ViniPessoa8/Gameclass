@@ -3,11 +3,13 @@
 	export let value;
 	export let inputHandler = null;
 	export let onFocusOut = null;
+	export let name;
 </script>
 
 <input
 	class="input"
 	type="password"
+	{name}
 	{placeholder}
 	bind:value
 	on:input={inputHandler}

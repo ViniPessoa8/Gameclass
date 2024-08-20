@@ -21,7 +21,7 @@
 	</div>
 </div>
 
-<style lang="scss">
+<style>
 	.content-container {
 		display: flex;
 		flex-direction: column;

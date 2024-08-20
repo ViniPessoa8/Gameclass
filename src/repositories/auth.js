@@ -16,9 +16,6 @@ export async function registerDB(dbConn, nome, login, hash, salt, id_instituicao
 }
 
 export async function loginDB(dbConn, login, password) {
-	// TODO: verificar se hash é equivalente à vinda do banco de dados
-
-	// Get salt from login
 	const saltQuery = {
 		text: `SELECT salt FROM ${DB_INFO.auth_table} WHERE login = $1`,
 		values: [login]
@@ -26,7 +23,6 @@ export async function loginDB(dbConn, login, password) {
 
 	try {
 		const salt = await dbConn.query(saltQuery)
-		// TODO: check if salt is on db
 		if (salt.rowCount == 0)
 			return "User not found"
 

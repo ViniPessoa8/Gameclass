@@ -18,6 +18,7 @@ export async function registerNewUser(dbConn, nome, login, password, id_institui
 		}
 	} catch (e) {
 		console.log(e);
+		throw e;
 	}
 }
 
@@ -26,17 +27,14 @@ export async function loginUser(dbConn, login, password) {
 		return false
 	}
 
-	const res = await loginDB(dbConn, login, password)
-
-	console.log(Boolean(res.rowCount))
-	if (res.rowCount) {
-		console.log("Logado com sucesso")
-
-		console.log(res.rows)
-		return true
+	try {
+		const res = await loginDB(dbConn, login, password)
+		if (res.rowCount) return res.rows[0]
+		return false
+	} catch (e) {
+		console.log(e)
+		throw e;
 	}
 
-	console.log("Login incorreto")
-	return false
 
 }

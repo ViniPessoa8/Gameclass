@@ -16,3 +16,9 @@ export const DB_INFO = {
 	auth_table: "usuario"
 }
 
+export const ROLES = {
+	estudante: "ESTUDANTE",
+	professor: "PROFESSOR",
+	admin: "ADMIN"
+}
+

@@ -18,5 +18,7 @@ export const authenticateUser = (event) => {
 		"role": ROLES.estudante
 	}
 
-	return user;
+	cookies.set("user", user, { path: '/' });
+
+	console.log(cookies.get("user"))
 } 

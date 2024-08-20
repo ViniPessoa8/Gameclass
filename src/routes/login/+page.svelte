@@ -5,77 +5,36 @@
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import { goto } from '$app/navigation';
 	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
+	import { enhance } from '$app/forms';
 
-	let userLogin = '';
-	let userPassword = '';
-	let loginErrorVisibility = false;
-	let passwordErrorVisibility = false;
+	/** @type {import('./$types').ActionData} */
+	export let form;
+
 	let loginRes = '';
 
 	function loginInputHandler(e) {
-		if (e.target.value.length > 0) loginErrorVisibility = false;
+		if (e.target.value.length > 0) form.missingLogin = false;
 		loginRes = '';
 	}
 
 	function passwordInputHandler(e) {
-		if (e.target.value.length > 0) passwordErrorVisibility = false;
+		if (e.target.value.length > 0) form.missingPassword = false;
 		loginRes = '';
-	}
-
-	function checkInputs() {
-		let ok = true;
-		if (!userLogin) {
-			console.log('!userLogin');
-			loginErrorVisibility = true;
-			ok = false;
-		}
-
-		if (!userPassword) {
-			console.log('!userPassword');
-			passwordErrorVisibility = true;
-			ok = false;
-		}
-
-		return ok;
-	}
-
-	async function aoLogar() {
-		// TODO: Usar HTTPS para encriptar dados na requisição
-		if (!checkInputs()) {
-			loginRes = '';
-			return false;
-		}
-
-		let res = await fetch(`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				login: userLogin,
-				password: userPassword
-			})
-		});
-
-		// TODO: Redirecionar para a tela de escolha do perfil
-		let resText = await res.json();
-		loginRes = resText;
-		return resText;
 	}
 </script>
 
 <div class="login-container">
 	<h1>Bem vindo(a) ao <b>Gameclass</b></h1>
 	<span>Sua plataforma online de aprendizado gamificado</span>
-	<form class="card-container">
+	<form class="card-container" method="post" use:enhance>
 		<div style="display:flex; flex-direction: column;">
 			<InputText
 				id="loginInput"
-				bind:value={userLogin}
+				name="login"
 				inputHandler={loginInputHandler}
 				placeholder="Nome de usuário / E-mail"
 			/>
-			{#if loginErrorVisibility}
+			{#if form?.missingLogin}
 				<span class="error-login">*Campo obrigatório*</span>
 			{:else}
 				<span class="error-login" style="visibility: hidden">*Campo obrigatório*</span>
@@ -84,13 +43,13 @@
 
 		<div style="display:flex; flex-direction: column;">
 			<InputPassword
-				bind:value={userPassword}
 				type="password"
+				name="password"
 				inputHandler={passwordInputHandler}
 				placeholder="Senha"
 			/>
 			<div></div>
-			{#if passwordErrorVisibility}
+			{#if form?.missingPassword}
 				<span class="error-password">*Campo obrigatório*</span>
 			{:else}
 				<span class="error-password" style="visibility: hidden">*Campo obrigatório*</span>
@@ -98,14 +57,14 @@
 		</div>
 		<br />
 
-		{#if loginRes === 'Login incorreto'}
-			<span class="incorrect-login">{loginRes}</span>
-		{:else if loginRes === 'Logado com sucesso'}
-			<span class="successful-login">{loginRes}</span>
+		{#if form?.incorrect}
+			<span class="incorrect-login">Login incorreto</span>
+		{:else if form?.success}
+			<span class="successful-login">Login realizado com sucesso!</span>
 		{:else}
 			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
-		<ButtonForm onClick={aoLogar} text="Login" />
+		<ButtonForm text="Login" />
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>
