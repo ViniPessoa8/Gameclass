@@ -15,8 +15,7 @@ export async function POST(event) {
 		return json("Missing login or password.")
 	}
 
-	let dbConn = event.locals.db_conn
-	const loginRes = await loginUser(dbConn, data.login, data.password)
+	const loginRes = await loginUser(data.login, data.password)
 
 	let res = "";
 	if (loginRes) {

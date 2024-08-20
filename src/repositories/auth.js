@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import { DB_INFO } from "../lib/constants";
+import { dbConn } from "../config/database.js"
 
-export async function registerDB(dbConn, nome, login, hash, salt) {
+export async function registerDB(nome, login, hash, salt) {
 	const query = {
 		text: `INSERT INTO ${DB_INFO.auth_table}(nome, login, hash, salt) VALUES ($1, $2, $3, $4)`,
 		values: [nome, login, hash, salt]
@@ -15,7 +16,7 @@ export async function registerDB(dbConn, nome, login, hash, salt) {
 	}
 }
 
-export async function loginDB(dbConn, login, password) {
+export async function loginDB(login, password) {
 	// TODO: verificar se hash é equivalente à vinda do banco de dados
 
 	// Get salt from login
