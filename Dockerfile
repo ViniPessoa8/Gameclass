@@ -10,4 +10,5 @@ COPY . .
 
 RUN npm run build
 
-CMD ["node", "build"]
+CMD ["node", "--env-file=.env", "build"]
+
