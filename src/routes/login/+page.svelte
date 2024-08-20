@@ -1,7 +1,6 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import ButtonForm from '$lib/components/ButtonForm.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import { goto } from '$app/navigation';
 	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
@@ -46,16 +45,19 @@
 			return false;
 		}
 
-		let res = await fetch(`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				login: userLogin,
-				password: userPassword
-			})
-		});
+		let res = await fetch(
+			`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/login`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					login: userLogin,
+					password: userPassword
+				})
+			}
+		);
 
 		// TODO: Redirecionar para a tela de escolha do perfil
 		let resText = await res.json();
@@ -105,7 +107,7 @@
 		{:else}
 			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
-		<ButtonForm onClick={aoLogar} text="Login" />
+		<Button type="submit" onClick={aoLogar} text="Login" />
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>
