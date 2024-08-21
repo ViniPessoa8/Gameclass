@@ -7,7 +7,11 @@ export async function registerNewUser(nome, login, password, instituicao, dtNasc
 		return false
 	}
 
-	const id_instituicao = await getInstituicaoByNome(instituicao);
+	const instituicaoRes = await getInstituicaoByNome(instituicao);
+	console.log(instituicaoRes)
+	const id_instituicao = instituicaoRes.id
+	console.log(id_instituicao)
+
 	// TODO: verificar se já existe usuário com o mesmo login
 
 	let salt = bcrypt.genSaltSync(10)
@@ -33,6 +37,6 @@ export async function loginUser(login, password) {
 
 	if (res.rowCount) {
 		console.log("Logado com sucesso")
-		return true
+		return res.rows[0]
 	}
 }

@@ -5,7 +5,6 @@
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
-	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
 
 	export let data;

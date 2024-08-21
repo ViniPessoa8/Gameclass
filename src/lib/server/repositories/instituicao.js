@@ -15,3 +15,12 @@ export async function getInstituicaoByNomeDB(nome) {
 	const res = await dbConn.query(query);
 	return res;
 }
+
+export async function getInstituicaoByIdDB(id) {
+	const query = {
+		text: `SELECT * FROM ${DB_INFO.instituicao_table} WHERE id=$1`,
+		values: [id]
+	}
+	const res = await dbConn.query(query);
+	return res;
+}
