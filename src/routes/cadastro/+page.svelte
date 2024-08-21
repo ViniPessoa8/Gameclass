@@ -6,6 +6,8 @@
 	import Select from '$lib/components/Select.svelte';
 	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
 	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
+
 	export let data;
 
 	let nomeCompleto,
@@ -28,54 +30,21 @@
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
 
-	async function aoCriarConta() {
-		console.log('instituicao:', instituicao);
-		// if (!verificarRequisitosSenha()) return;
-		// if (!checkInputs()) return;
-		// if (!checkPasswords()) return;
-
-		let resStatus = 0;
+	function aoCriarConta() {
+		if (!checkInputs()) return false;
+		if (!verificarRequisitosSenha()) return false;
+		if (!checkPasswords()) return false;
 
 		let instituicao_id = -1;
-		console.log(selectOptionDict);
+
 		for (let key in selectOptionDict) {
 			let inst = selectOptionDict[key];
 			if (inst['nome'] === instituicao) {
 				instituicao_id = inst['id'];
-				console.log('instituicao_id: ', instituicao_id);
 			}
 		}
 
-		let user = {
-			login: usuario,
-			password: senha, // TODO: encrypt password before sending
-			nome: nomeCompleto,
-			instituicao: instituicao_id,
-			dt_nasc: dtNasc
-		};
-
-		console.log(user);
-
-		try {
-			let res = await fetch(
-				`http://localhost:${import.meta.env.VITE_SERVER_PORT}/api/database/register`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(user)
-				}
-			);
-
-			resStatus = res.status;
-		} catch (e) {
-			console.log('Erro ao registrar: ', e);
-		}
-
-		if (resStatus === 200) {
-			goto('/login');
-		}
+		return true;
 	}
 
 	function checkInputs() {
@@ -191,10 +160,26 @@
 <div class="login-container">
 	<h1>Cadastre-se no <b>Gameclass</b></h1>
 	<span>e descubra uma nova experiência de aprendizado</span>
-	<form class="card-container">
+	<form
+		class="card-container"
+		method="post"
+		use:enhance={({ cancel }) => {
+			console.log('ENTROU');
+			if (!aoCriarConta()) {
+				console.log('ENTROU MUITO');
+				cancel();
+			}
+
+			return async ({ result, update }) => {
+				console.log('RESULT: ', result);
+				await update();
+			};
+		}}
+	>
 		<!-- Nome Completo -->
 		<div style="display:flex; flex-direction: column;">
 			<InputText
+				name="nome"
 				placeholder="Nome Completo"
 				bind:value={nomeCompleto}
 				inputHandler={nomeCompletoInputHandler}
@@ -207,7 +192,12 @@
 		</div>
 
 		<div style="display:flex; flex-direction: column;">
-			<InputText placeholder="Usuário" bind:value={usuario} inputHandler={usuarioInputHandler} />
+			<InputText
+				name="usuario"
+				placeholder="Usuário"
+				bind:value={usuario}
+				inputHandler={usuarioInputHandler}
+			/>
 			{#if usuarioEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 			{:else}
@@ -216,7 +206,12 @@
 		</div>
 
 		<div style="display:flex; flex-direction: column;">
-			<InputPassword placeholder="Senha" bind:value={senha} inputHandler={senhaInputHandler} />
+			<InputPassword
+				name="password"
+				placeholder="Senha"
+				bind:value={senha}
+				inputHandler={senhaInputHandler}
+			/>
 			{#if senhaEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 			{:else if erroSenhaTamanhoMinimo}
@@ -254,6 +249,7 @@
 
 		<div style="display:flex; flex-direction: column;">
 			<Select
+				name="instituicao"
 				optionList={selectOptionList}
 				inputHandler={instituicaoInputHandler}
 				bind:value={instituicao}
@@ -266,7 +262,7 @@
 		</div>
 
 		<div style="display:flex; flex-direction: column;">
-			<InputDate inputHandler={dtNascInputHandler} bind:value={dtNasc} />
+			<InputDate name="dtNasc" inputHandler={dtNascInputHandler} bind:value={dtNasc} />
 			{#if dtNascEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 			{:else}
@@ -275,7 +271,7 @@
 		</div>
 		<br />
 
-		<Button onClick={aoCriarConta}>Criar Conta</Button>
+		<Button type="submit">Criar Conta</Button>
 	</form>
 </div>
 

@@ -2,9 +2,10 @@
 	export let optionList;
 	export let inputHandler;
 	export let value;
+	export let name = '';
 </script>
 
-<select on:change={inputHandler} bind:value>
+<select on:change={inputHandler} bind:value {name}>
 	<option value="" disabled selected>Selecione sua Instituição</option>
 	{#each optionList as opt}
 		<option class="option">{opt}</option>
@@ -33,4 +34,3 @@
 		background-color: var(--cor-secundaria);
 	}
 </style>
-

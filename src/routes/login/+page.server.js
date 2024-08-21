@@ -26,8 +26,7 @@ export const actions = {
 			return fail(400, errorObject)
 		}
 
-		let dbConn = locals.db_conn
-		const res = await loginUser(dbConn, userLogin, userPassword)
+		const res = await loginUser(userLogin, userPassword)
 		console.log(res)
 
 		if (res) {

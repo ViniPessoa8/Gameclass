@@ -80,7 +80,7 @@
 		{:else}
 			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
-		<Button type="submit" onClick={checkInputs} text="Login" />
+		<Button type="submit" onClick={checkInputs}>Login</Button>
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>

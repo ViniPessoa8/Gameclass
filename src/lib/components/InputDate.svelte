@@ -2,9 +2,10 @@
 	export let placeholder = '';
 	export let value;
 	export let inputHandler;
+	export let name = '';
 </script>
 
-<input type="date" {placeholder} bind:value on:change={inputHandler} />
+<input type="date" {placeholder} bind:value on:change={inputHandler} {name} />
 
 <style>
 	input {
@@ -29,4 +30,3 @@
 		color: var(--cor-secundaria);
 	}
 </style>
-

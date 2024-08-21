@@ -19,4 +19,4 @@ async function getConnection() {
 	}
 }
 
-export const db_conn = await getConnection();
+export const dbConn = await getConnection();
