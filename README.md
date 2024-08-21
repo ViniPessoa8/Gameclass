@@ -9,9 +9,8 @@ Há um arquivo de exemplo no repositório com o nome `.env.example` que você po
 ### Desenvolvimento
 Para rodar o sistema em ambiente de desenvolvimento (local), você deve:
 1. instalar as dependências do projeto com `npm install` ou `yarn`
-2. Ter o PostgreSQL instalado
-3. Ter o banco de dados configurado e executando. (veja os scripts na pasta /sql)
-2. Executar o comando `npm run dev` para iniciar o servidor.
+2. Rodar o container Docker com `docker compose up --build` (adicione `-d` caso queira que rode em segundo plano)
+3. Executar o comando `npm run dev` para iniciar o servidor de desenvolvimento.
 
 url: http://localhost:5173/
 
