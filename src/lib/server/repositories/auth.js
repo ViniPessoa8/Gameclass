@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { DB_INFO } from "../lib/constants";
-import { dbConn } from "../config/database.js"
+import { DB_INFO } from "../../constants";
+import { dbConn } from "$config/database.js"
 
 export async function registerDB(nome, login, hash, salt, id_instituicao, dt_nasc) {
 	const query = {

@@ -1,5 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { loginUser } from "../../controllers/auth";
+import { loginUser } from "$controllers/auth";
 
 export function load({ cookies }) {
 	console.log("/login cookies.get('session'): ", cookies.get("session"));

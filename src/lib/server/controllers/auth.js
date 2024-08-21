@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import { loginDB, registerDB } from "../repositories/auth";
+import { loginDB, registerDB } from "$repositories/auth";
 import { getInstituicaoByNome } from "./instituicao";
 
 export async function registerNewUser(nome, login, password, instituicao, dtNasc) {
