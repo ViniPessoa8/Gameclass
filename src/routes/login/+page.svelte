@@ -1,7 +1,6 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import ButtonForm from '$lib/components/ButtonForm.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import { goto } from '$app/navigation';
 	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
@@ -20,6 +19,23 @@
 	function passwordInputHandler(e) {
 		if (e.target.value.length > 0) form.missingPassword = false;
 		loginRes = '';
+	}
+
+	function checkInputs() {
+		let ok = true;
+		if (!userLogin) {
+			console.log('!userLogin');
+			loginErrorVisibility = true;
+			ok = false;
+		}
+
+		if (!userPassword) {
+			console.log('!userPassword');
+			passwordErrorVisibility = true;
+			ok = false;
+		}
+
+		return ok;
 	}
 </script>
 
@@ -64,7 +80,7 @@
 		{:else}
 			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
-		<ButtonForm text="Login" />
+		<Button type="submit" onClick={checkInputs} text="Login" />
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>

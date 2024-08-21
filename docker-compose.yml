@@ -19,14 +19,15 @@ services:
       retries: 10
     ports:
       - "$VITE_DATABASE_PORT"
+      - 5432:5432
 
-  server:
-    build: . 
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-    restart: on-failure
-    ports:
-      - "3000:3000"
+  # server:
+  #   build: . 
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #       restart: true
+  #   restart: on-failure
+  #   ports:
+  #     - "3000:3000"
 
