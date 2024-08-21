@@ -10,6 +10,8 @@
 	export let form;
 
 	let loginRes = '';
+	let loginErrorVisibility = false;
+	let passwordErrorVisibility = false;
 
 	function loginInputHandler(e) {
 		if (e.target.value.length > 0) form.missingLogin = false;
@@ -50,7 +52,7 @@
 				inputHandler={loginInputHandler}
 				placeholder="Nome de usuário / E-mail"
 			/>
-			{#if form?.missingLogin}
+			{#if loginErrorVisibility}
 				<span class="error-login">*Campo obrigatório*</span>
 			{:else}
 				<span class="error-login" style="visibility: hidden">*Campo obrigatório*</span>
@@ -65,7 +67,7 @@
 				placeholder="Senha"
 			/>
 			<div></div>
-			{#if form?.missingPassword}
+			{#if passwordErrorVisibility}
 				<span class="error-password">*Campo obrigatório*</span>
 			{:else}
 				<span class="error-password" style="visibility: hidden">*Campo obrigatório*</span>

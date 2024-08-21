@@ -7,25 +7,12 @@ export function load({ cookies }) {
 }
 
 export const actions = {
-	default: async ({ cookies, request, locals }) => {
+	default: async ({ cookies, request }) => {
 		const data = await request.formData();
 		let userLogin = data.get("login")
 		let userPassword = data.get("password")
 
-		let errorObject = {}
-		if (!userLogin) {
-			errorObject.missingLogin = true;
-		}
-
-		if (!userPassword) {
-			errorObject.missingPassword = true;
-		}
-
-		if (Object.keys(errorObject).length != 0) {
-			console.log("errorObject:", errorObject)
-			return fail(400, errorObject)
-		}
-
+		// TODO: Change response data from boolean to dict with info
 		const res = await loginUser(userLogin, userPassword)
 		console.log(res)
 
@@ -38,16 +25,11 @@ export const actions = {
 				secure: false
 			});
 
-			console.log('LOGIN session: ', cookies.get('session'));
 			redirect(307, "/escolha_perfil")
 		} else {
 			console.log("RES FALHOU")
 			return fail(400, { incorrect: true })
 		}
-
-
-
-
 	},
 }
 
