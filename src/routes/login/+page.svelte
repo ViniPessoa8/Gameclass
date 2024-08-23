@@ -14,12 +14,12 @@
 	let passwordErrorVisibility = false;
 
 	function loginInputHandler(e) {
-		if (e.target.value.length > 0) form.missingLogin = false;
+		if (e.target.value.length > 0) loginErrorVisibility = false;
 		loginRes = '';
 	}
 
 	function passwordInputHandler(e) {
-		if (e.target.value.length > 0) form.missingPassword = false;
+		if (e.target.value.length > 0) passwordErrorVisibility = false;
 		loginRes = '';
 	}
 
