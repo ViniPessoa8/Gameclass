@@ -1,15 +1,14 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { enhance } from '$app/forms';
 
-export async function load({ cookies }) {
+export function load({ cookies }) {
 	const session_raw = cookies.get("session");
-	const session = JSON.parse(session_raw);
-	const username = session["login"]
-
-	if (!cookies.get("session")) {
+	if (!session_raw) {
 		console.log("Usuário não autenticado")
 		redirect(300, "/")
 	}
+	const session = JSON.parse(session_raw);
+	const username = session["login"]
+
 
 	return {
 		username: username
