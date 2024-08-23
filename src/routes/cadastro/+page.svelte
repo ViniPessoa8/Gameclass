@@ -163,14 +163,11 @@
 		class="card-container"
 		method="post"
 		use:enhance={({ cancel }) => {
-			console.log('ENTROU');
 			if (!aoCriarConta()) {
-				console.log('ENTROU MUITO');
 				cancel();
 			}
 
 			return async ({ result, update }) => {
-				console.log('RESULT: ', result);
 				await update();
 			};
 		}}

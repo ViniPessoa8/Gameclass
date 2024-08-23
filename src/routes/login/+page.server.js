@@ -2,11 +2,6 @@ import { fail, redirect } from "@sveltejs/kit";
 import { loginUser } from "$controllers/auth";
 import { getInstituicaoById } from "../../lib/server/controllers/instituicao";
 
-export function load({ cookies }) {
-	console.log("/login cookies.get('session'): ", cookies.get("session"));
-	console.log("/login cookies.get('user'): ", cookies.get("user"));
-}
-
 export const actions = {
 	default: async ({ cookies, request }) => {
 		const data = await request.formData();
