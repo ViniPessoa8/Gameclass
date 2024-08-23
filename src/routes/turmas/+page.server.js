@@ -1,8 +1,12 @@
 
 export function load({ cookies }) {
-	const user = cookies.get("user");
-	const session = cookies.get("session");
+	const session_raw = cookies.get("session");
+	const perfil_raw = cookies.get("perfil");
+	const session = JSON.parse(session_raw);
+	session.perfil = perfil_raw
 
-	console.log("/turmas user: ", user);
-	console.log("/turmas session: ", session);
+	return session
+
+
+
 }

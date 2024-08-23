@@ -1,17 +1,18 @@
 <script>
-	import Header from "../../lib/components/Header.svelte";
-	import SideBar from "../../lib/components/SideBar.svelte";
-	import ContentTurmas from "../../lib/components/ContentTurmas.svelte";
+	import Header from '../../lib/components/Header.svelte';
+	import SideBar from '../../lib/components/SideBar.svelte';
+	import ContentTurmas from '../../lib/components/ContentTurmas.svelte';
 
+	export let data;
 </script>
+
 <div class="turmas-container">
-	<Header />
+	<Header session={data} />
 	<div class="content-container">
 		<SideBar />
-		<ContentTurmas />
+		<ContentTurmas session={data} />
 	</div>
 </div>
-
 
 <style>
 	.turmas-container {
@@ -29,4 +30,3 @@
 		overflow: hidden;
 	}
 </style>
-
