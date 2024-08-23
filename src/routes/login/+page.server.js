@@ -7,12 +7,16 @@ export const actions = {
 		const data = await request.formData();
 		let userLogin = data.get("login")
 		let userPassword = data.get("password")
+		let res;
 
-		// TODO: Change response data from boolean to dict with info
-		const res = await loginUser(userLogin, userPassword)
+		// NOTE: Queremos mesmo tratar isso com uma catch??
+		try {
+			res = await loginUser(userLogin, userPassword)
+		} catch (e) {
+			return fail(400, { not_registered: true })
+		}
 
 		if (res) {
-			//format cookies
 			let session = {
 				"nome": res.nome,
 				"login": res.login,

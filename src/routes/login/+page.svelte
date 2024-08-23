@@ -49,14 +49,11 @@
 		class="card-container"
 		method="post"
 		use:enhance={({ cancel }) => {
-			console.log('ENTROU');
 			if (!checkInputs()) {
-				console.log('ENTROUUU');
 				cancel();
 			}
 
 			return async ({ update }) => {
-				console.log('ENTROUUUuuuuuuuuuu');
 				await update();
 			};
 		}}
@@ -95,6 +92,8 @@
 
 		{#if form?.incorrect}
 			<span class="incorrect-login">Login incorreto</span>
+		{:else if form?.not_registered}
+			<span class="incorrect-login">Usuário não cadastrado</span>
 		{:else if form?.success}
 			<span class="successful-login">Login realizado com sucesso!</span>
 		{:else}

@@ -8,6 +8,7 @@
 	import { enhance } from '$app/forms';
 
 	export let data;
+	export let form;
 
 	let nomeCompleto,
 		usuario,
@@ -114,6 +115,7 @@
 
 	function usuarioInputHandler(e) {
 		if (e.target.value.length > 0) usuarioEmpty = false;
+		form.already_registered = false;
 	}
 
 	function nomeCompletoInputHandler(e) {
@@ -163,7 +165,7 @@
 		class="card-container"
 		method="post"
 		use:enhance={({ cancel }) => {
-			if (!aoCriarConta()) {
+			if (!aoCriarConta() || form?.already_registered) {
 				cancel();
 			}
 
@@ -194,8 +196,11 @@
 				bind:value={usuario}
 				inputHandler={usuarioInputHandler}
 			/>
+
 			{#if usuarioEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+			{:else if form?.already_registered}
+				<span class="error" style="visibility: visible;">Login já cadastrado</span>
 			{:else}
 				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
 			{/if}
