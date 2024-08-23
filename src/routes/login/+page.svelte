@@ -2,7 +2,6 @@
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
-	import { goto } from '$app/navigation';
 	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
 	import { enhance } from '$app/forms';
 
@@ -10,6 +9,7 @@
 	export let form;
 
 	let loginRes = '';
+	let userLogin, userPassword;
 	let loginErrorVisibility = false;
 	let passwordErrorVisibility = false;
 
@@ -24,6 +24,7 @@
 	}
 
 	function checkInputs() {
+		console.log('checkinputs');
 		let ok = true;
 		if (!userLogin) {
 			console.log('!userLogin');
@@ -44,11 +45,27 @@
 <div class="login-container">
 	<h1>Bem vindo(a) ao <b>Gameclass</b></h1>
 	<span>Sua plataforma online de aprendizado gamificado</span>
-	<form class="card-container" method="post" use:enhance>
+	<form
+		class="card-container"
+		method="post"
+		use:enhance={({ cancel }) => {
+			console.log('ENTROU');
+			if (!checkInputs()) {
+				console.log('ENTROUUU');
+				cancel();
+			}
+
+			return async ({ update }) => {
+				console.log('ENTROUUUuuuuuuuuuu');
+				await update();
+			};
+		}}
+	>
 		<div style="display:flex; flex-direction: column;">
 			<InputText
 				id="loginInput"
 				name="login"
+				bind:value={userLogin}
 				inputHandler={loginInputHandler}
 				placeholder="Nome de usuário / E-mail"
 			/>
@@ -63,6 +80,7 @@
 			<InputPassword
 				type="password"
 				name="password"
+				bind:value={userPassword}
 				inputHandler={passwordInputHandler}
 				placeholder="Senha"
 			/>
@@ -82,7 +100,7 @@
 		{:else}
 			<span class="successful-login" style="visibility: hidden;">fill</span>
 		{/if}
-		<Button type="submit" onClick={checkInputs}>Login</Button>
+		<Button type="submit" onclick={checkInputs}>Login</Button>
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>
