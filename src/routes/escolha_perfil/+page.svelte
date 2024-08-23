@@ -1,4 +1,6 @@
 <script>
+	import { enhance } from '$app/forms';
+
 	export let data;
 </script>
 
@@ -6,7 +8,7 @@
 	<h1>Olá, {data.username}!</h1>
 	<span>escolha seu perfil</span>
 	<div class="button-container">
-		<form method="POST" action="?/perfil_estudante" class="button-estudante">
+		<form method="POST" action="?/perfil_estudante" class="button-estudante" use:enhance>
 			<button class="button-estudante">
 				<div>
 					<img class="icon" alt="Ícone do perfil de aluno" src="icone-aluno.svg" />
@@ -14,7 +16,7 @@
 				</div>
 			</button>
 		</form>
-		<form method="POST" action="?/perfil_professor" class="button-professor">
+		<form method="POST" action="?/perfil_professor" class="button-professor" use:enhance>
 			<button class="button-professor">
 				<div>
 					<img class="icon" alt="Ícone do perfil de professor" src="icone-professor.svg" />

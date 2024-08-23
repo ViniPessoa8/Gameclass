@@ -1,4 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { enhance } from '$app/forms';
 
 export async function load({ cookies }) {
 	const session_raw = cookies.get("session");
@@ -26,7 +27,7 @@ export const actions = {
 		})
 
 		// FIX: Redirect to '/turmas'
-		return redirect(300, '/turmas')
+		redirect(307, '/turmas')
 
 	},
 	perfil_estudante: async ({ cookies }) => {
