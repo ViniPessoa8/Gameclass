@@ -3,7 +3,7 @@
 </script>
 
 <div class="content-container">
-	<h1>Olá, ${data.username}!</h1>
+	<h1>Olá, {data.username}!</h1>
 	<span>escolha seu perfil</span>
 	<div class="button-container">
 		<form method="POST" action="?/perfil_estudante" class="button-estudante">
