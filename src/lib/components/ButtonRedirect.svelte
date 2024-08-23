@@ -3,7 +3,7 @@
 </script>
 
 <a {href}>
-	<button class="button">
+	<button class="button" on:click>
 		<slot />
 	</button>
 </a>

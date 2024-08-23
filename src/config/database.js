@@ -15,7 +15,8 @@ async function getConnection() {
 		console.log("Database connected")
 		return client
 	} catch (err) {
-		console.log(err)
+		console.log("Error while connecting to the database")
+		throw ("Error while connecting to the database")
 	}
 }
 

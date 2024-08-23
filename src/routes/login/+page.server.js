@@ -31,7 +31,6 @@ export const actions = {
 				sameSite: true,
 				secure: false
 			});
-			console.log(session)
 
 			redirect(307, "/escolha_perfil")
 		} else {
