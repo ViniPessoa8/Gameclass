@@ -4,6 +4,7 @@
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
 	import { enhance } from '$app/forms';
+	import { Toaster, toast } from 'svelte-sonner';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -42,6 +43,7 @@
 	}
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="login-container">
 	<h1>Bem vindo(a) ao <b>Gameclass</b></h1>
 	<span>Sua plataforma online de aprendizado gamificado</span>
@@ -50,10 +52,15 @@
 		method="post"
 		use:enhance={({ cancel }) => {
 			if (!checkInputs()) {
+				toast.warning('Preencha todos os campos obrigatórios.');
 				cancel();
 			}
 
-			return async ({ update }) => {
+			return async ({ result, update }) => {
+				if (result.type === 'failure') {
+					toast.error('Login incorreto');
+				}
+
 				await update();
 			};
 		}}
@@ -88,17 +95,7 @@
 				<span class="error-password" style="visibility: hidden">*Campo obrigatório*</span>
 			{/if}
 		</div>
-		<br />
 
-		{#if form?.incorrect}
-			<span class="incorrect-login">Login incorreto</span>
-		{:else if form?.not_registered}
-			<span class="incorrect-login">Usuário não cadastrado</span>
-		{:else if form?.success}
-			<span class="successful-login">Login realizado com sucesso!</span>
-		{:else}
-			<span class="successful-login" style="visibility: hidden;">fill</span>
-		{/if}
 		<Button type="submit" onclick={checkInputs}>Login</Button>
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
@@ -127,9 +124,11 @@
 
 	.error-login {
 		color: red;
+		font-weight: 600;
 	}
 
 	.error-password {
+		font-weight: 600;
 		color: red;
 	}
 

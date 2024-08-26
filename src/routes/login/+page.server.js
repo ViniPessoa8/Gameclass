@@ -33,7 +33,6 @@ export const actions = {
 
 			redirect(307, "/escolha_perfil")
 		} else {
-			console.log("RES FALHOU")
 			return fail(400, { incorrect: true })
 		}
 	},
