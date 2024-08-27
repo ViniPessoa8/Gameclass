@@ -5,9 +5,17 @@
 	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
 	import { enhance } from '$app/forms';
 	import { Toaster, toast } from 'svelte-sonner';
+	import { onMount } from 'svelte';
+	console.debug('[LOGIN PAGE]');
 
 	/** @type {import('./$types').ActionData} */
-	export let form;
+	export let data;
+
+	onMount(async () => {
+		if (data.toast === 'cadastro') {
+			toast.success('Cadastro realizado com sucesso');
+		}
+	});
 
 	let loginRes = '';
 	let userLogin, userPassword;
@@ -43,7 +51,7 @@
 	}
 </script>
 
-<Toaster richColors expand position="top-center" closeButton />
+<Toaster richColors position="top-center" closeButton />
 <div class="login-container">
 	<h1>Bem vindo(a) ao <b>Gameclass</b></h1>
 	<span>Sua plataforma online de aprendizado gamificado</span>

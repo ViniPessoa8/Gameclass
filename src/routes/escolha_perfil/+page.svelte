@@ -1,9 +1,18 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
+	import { toast, Toaster } from 'svelte-sonner';
 
 	export let data;
+
+	onMount(async () => {
+		if (data.toast === 'login') {
+			toast.success('Login realizado com sucesso');
+		}
+	});
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="content-container">
 	<h1>Olá, {data.username}!</h1>
 	<span>escolha seu perfil</span>
@@ -12,7 +21,7 @@
 			<button class="button-estudante">
 				<div>
 					<img class="icon" alt="Ícone do perfil de aluno" src="icone-aluno.svg" />
-					<h1>Aluno</h1>
+					<h1>Estudante</h1>
 				</div>
 			</button>
 		</form>

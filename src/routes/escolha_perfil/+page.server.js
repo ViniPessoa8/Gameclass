@@ -1,18 +1,28 @@
-import { fail, redirect } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 
 export function load({ cookies }) {
+	console.debug("[SERVER/ESCOLHA_PERFIL]")
+	const toast = cookies.get("toast")
 	const session_raw = cookies.get("session");
 	if (!session_raw) {
 		console.log("Usuário não autenticado")
 		redirect(300, "/")
 	}
+
 	const session = JSON.parse(session_raw);
 	const username = session["login"]
 
+	let resObject = {
+		username: username,
+	}
 
-	return {
-		username: username
-	};
+	if (toast) {
+		resObject.toast = toast
+		cookies.set("toast", "", { path: '/' })
+	}
+
+	return resObject;
+
 }
 
 export const actions = {
@@ -25,7 +35,6 @@ export const actions = {
 			secure: false
 		})
 
-		// FIX: Redirect to '/turmas'
 		redirect(307, '/turmas')
 
 	},
@@ -38,7 +47,6 @@ export const actions = {
 			secure: false
 		})
 
-		// FIX: Redirect to '/turmas'
 		redirect(300, '/turmas')
 	}
 }

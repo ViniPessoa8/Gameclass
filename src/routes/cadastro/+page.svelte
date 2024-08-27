@@ -6,9 +6,20 @@
 	import Select from '$lib/components/Select.svelte';
 	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 
 	export let data;
 	export let form;
+
+	console.log('DATA:', data);
+
+	onMount(async () => {
+		console.log('onMount');
+		if (data.message) {
+			console.log('entrou');
+			toast.success(data.message);
+		}
+	});
 
 	let nomeCompleto,
 		usuario,
@@ -225,7 +236,7 @@
 				>
 			{:else if erroSenhaCaracteres}
 				<span class="error" style="visibility: visible;">
-					Deve conter número, maíusculas, minúsculas e caracteres especiais
+					Senha deve conter número, maíusculas, minúsculas e caracteres especiais
 				</span>
 			{:else}
 				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>

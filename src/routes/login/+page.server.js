@@ -1,6 +1,18 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { loginUser } from "$controllers/auth";
-import { getInstituicaoById } from "../../lib/server/controllers/instituicao";
+import { getInstituicaoById } from "$controllers/instituicao";
+
+export function load({ cookies }) {
+	console.debug("[SERVER LOGIN load()]")
+
+	const message = cookies.get("toast");
+	if (message === 'cadastro') {
+		cookies.set("toast", "", { path: '/' });
+		return { "toast": message }
+	} else {
+		return { "toast": "" }
+	}
+}
 
 export const actions = {
 	default: async ({ cookies, request }) => {
@@ -31,7 +43,9 @@ export const actions = {
 				secure: false
 			});
 
-			redirect(307, "/escolha_perfil")
+			cookies.set("toast", 'login', { path: '/' });
+			redirect(300, "/escolha_perfil")
+
 		} else {
 			return fail(400, { incorrect: true })
 		}
