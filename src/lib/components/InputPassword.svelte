@@ -3,12 +3,14 @@
 	export let value;
 	export let inputHandler = null;
 	export let onFocusOut = null;
-	export let name;
+	export let autocomplete = 'new-password';
+	export let name = '';
 </script>
 
 <input
 	class="input"
 	type="password"
+	{autocomplete}
 	{name}
 	{placeholder}
 	bind:value
