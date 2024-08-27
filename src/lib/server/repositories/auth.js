@@ -47,16 +47,14 @@ export async function loginDB(login, password) {
 }
 
 export async function findUserByLogin(login) {
-
-	// Get salt from login
-	const saltQuery = {
+	const query = {
 		text: `SELECT salt FROM ${DB_INFO.auth_table} WHERE login = $1`,
 		values: [login]
 	}
 
 	try {
-		const salt = await dbConn.query(saltQuery)
-		if (salt.rowCount > 0) {
+		const queryRes = await dbConn.query(query)
+		if (queryRes.rowCount > 0) {
 			return true
 		} else {
 			return false

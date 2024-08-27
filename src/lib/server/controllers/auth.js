@@ -9,12 +9,10 @@ export async function registerNewUser(nome, login, password, instituicao, dtNasc
 	}
 
 	const instituicaoRes = await getInstituicaoByNome(instituicao);
-	console.log(instituicaoRes)
 	const id_instituicao = instituicaoRes.id
-	console.log(id_instituicao)
 
 	// TODO: verificar se já existe usuário com o mesmo login
-	if (findUserByLogin(login)) {
+	if (await findUserByLogin(login)) {
 		throw ("Já existe usuário com o mesmo login cadastrado.")
 	}
 
@@ -27,7 +25,6 @@ export async function registerNewUser(nome, login, password, instituicao, dtNasc
 			return true
 		}
 	} catch (e) {
-		console.log(e);
 		throw e;
 	}
 }
