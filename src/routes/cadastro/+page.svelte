@@ -7,6 +7,7 @@
 	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
+	import InputTextArea from '../../lib/components/InputTextArea.svelte';
 
 	export let data;
 	export let form;
@@ -22,18 +23,23 @@
 	});
 
 	let nomeCompleto,
-		usuario,
+		login,
 		senha,
 		repetirSenha,
 		instituicao,
-		dtNasc = '';
+		dtNasc,
+		bio,
+		email,
+		matriculaAluno = '';
 
 	let nomeCompletoEmpty,
-		usuarioEmpty,
+		loginEmpty,
 		senhaEmpty,
 		repetirSenhaEmpty,
 		instituicaoEmpty,
-		dtNascEmpty = false;
+		dtNascEmpty,
+		emailEmpty,
+		matriculaAlunoEmpty = false;
 
 	let senhasIncompativeis = false;
 	let erroSenhaTamanhoMinimo, erroSenhaTamanhoMaximo, erroSenhaCaracteres;
@@ -61,8 +67,8 @@
 	function checkInputs() {
 		let ok = true;
 
-		if (!usuario) {
-			usuarioEmpty = true;
+		if (!login) {
+			loginEmpty = true;
 			ok = false;
 		}
 		if (!nomeCompleto) {
@@ -83,6 +89,14 @@
 		}
 		if (!dtNasc) {
 			dtNascEmpty = true;
+			ok = false;
+		}
+		if (!email) {
+			emailEmpty = true;
+			ok = false;
+		}
+		if (!matriculaAluno) {
+			matriculaAlunoEmpty = true;
 			ok = false;
 		}
 
@@ -124,8 +138,8 @@
 		return false;
 	}
 
-	function usuarioInputHandler(e) {
-		if (e.target.value.length > 0) usuarioEmpty = false;
+	function loginInputHandler(e) {
+		if (e.target.value.length > 0) loginEmpty = false;
 		form.already_registered = false;
 	}
 
@@ -167,9 +181,17 @@
 	function dtNascInputHandler(e) {
 		if (e.target.value.length > 0) dtNascEmpty = false;
 	}
+
+	function emailInputHandler(e) {
+		if (e.target.value.length > 0) emailEmpty = false;
+	}
+
+	function matriculaAlunoInputHandler(e) {
+		if (e.target.value.length > 0) matriculaAlunoEmpty = false;
+	}
 </script>
 
-<div class="login-container">
+<div class="cadastro-container">
 	<h1>Cadastre-se no <b>Gameclass</b></h1>
 	<span>e descubra uma nova experiência de aprendizado</span>
 	<form
@@ -180,7 +202,7 @@
 				cancel();
 			}
 
-			return async ({ result, update }) => {
+			return async ({ update }) => {
 				await update();
 			};
 		}}
@@ -202,13 +224,41 @@
 
 		<div style="display:flex; flex-direction: column;">
 			<InputText
-				name="usuario"
+				name="email"
+				placeholder="E-mail"
+				bind:value={email}
+				inputHandler={emailInputHandler}
+			/>
+			{#if emailEmpty}
+				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+			{:else}
+				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+			{/if}
+		</div>
+
+		<div style="display:flex; flex-direction: column;">
+			<InputText
+				name="matriculaAluno"
+				placeholder="Matrícula Institucional"
+				bind:value={matriculaAluno}
+				inputHandler={matriculaAlunoInputHandler}
+			/>
+			{#if matriculaAlunoEmpty}
+				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+			{:else}
+				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+			{/if}
+		</div>
+
+		<div style="display:flex; flex-direction: column;">
+			<InputText
+				name="login"
 				placeholder="Usuário"
-				bind:value={usuario}
-				inputHandler={usuarioInputHandler}
+				bind:value={login}
+				inputHandler={loginInputHandler}
 			/>
 
-			{#if usuarioEmpty}
+			{#if loginEmpty}
 				<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 			{:else if form?.already_registered}
 				<span class="error" style="visibility: visible;">Login já cadastrado</span>
@@ -281,6 +331,16 @@
 				<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
 			{/if}
 		</div>
+
+		<div style="display:flex; flex-direction: column;">
+			<h2 id="bio">Bio</h2>
+			<InputTextArea
+				name="bio"
+				placeholder="Fale um pouco de você... (opcional)"
+				bind:value={bio}
+			/>
+		</div>
+
 		<br />
 
 		<Button type="submit">Criar Conta</Button>
@@ -288,14 +348,12 @@
 </div>
 
 <style>
-	.login-container {
+	.cadastro-container {
 		height: 100%;
 		font: var(--font);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		padding-bottom: 48px;
 	}
 
 	h1 {
@@ -303,8 +361,11 @@
 		font-size: 48px;
 		/* font-weight: lighter; */
 	}
+	#bio {
+		color: var(--cor-secundaria);
+	}
 
-	.login-container > span {
+	.cadastro-container > span {
 		margin-top: 18px;
 		font-size: 30px;
 	}
@@ -323,6 +384,7 @@
 		padding-left: 42px;
 		padding-top: 84px;
 		padding-bottom: 42px;
+		margin-bottom: 75px;
 		margin-top: 75px;
 		border-radius: 15px;
 		gap: 24px;

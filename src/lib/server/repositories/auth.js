@@ -2,10 +2,10 @@ import bcrypt from "bcryptjs";
 import { DB_INFO } from "../../constants";
 import { dbConn } from "$config/database.js"
 
-export async function registerDB(nome, login, hash, salt, id_instituicao, dt_nasc) {
+export async function registerDB(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso) {
 	const query = {
-		text: `INSERT INTO ${DB_INFO.auth_table}(nome, login, hash, salt, id_instituicao, dt_nasc) VALUES ($1, $2, $3, $4, $5, $6)`,
-		values: [nome, login, hash, salt, id_instituicao, dt_nasc]
+		text: `INSERT INTO ${DB_INFO.auth_table}(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, data_criacao, ultimo_acesso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+		values: [nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso]
 	}
 
 	try {
@@ -17,8 +17,6 @@ export async function registerDB(nome, login, hash, salt, id_instituicao, dt_nas
 }
 
 export async function loginDB(login, password) {
-	// TODO: verificar se hash é equivalente à vinda do banco de dados
-
 	// Get salt from login
 	const saltQuery = {
 		text: `SELECT salt FROM ${DB_INFO.auth_table} WHERE login = $1`,
@@ -49,6 +47,24 @@ export async function loginDB(login, password) {
 export async function findUserByLogin(login) {
 	const query = {
 		text: `SELECT salt FROM ${DB_INFO.auth_table} WHERE login = $1`,
+		values: [login]
+	}
+
+	try {
+		const queryRes = await dbConn.query(query)
+		if (queryRes.rowCount > 0) {
+			return true
+		} else {
+			return false
+		}
+	} catch (e) {
+
+	}
+}
+
+export async function removeUserByLoginDB(login) {
+	const query = {
+		text: `DELETE FROM ${DB_INFO.auth_table} WHERE login = $1`,
 		values: [login]
 	}
 
