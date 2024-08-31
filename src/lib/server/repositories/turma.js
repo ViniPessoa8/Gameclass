@@ -32,3 +32,18 @@ export async function getTurmaByCodigoBD(codigo) {
 		throw (`Erro ao buscar turma por codigo (${codigo}): ${e}`)
 	}
 }
+
+export async function deleteTurmaByCodigoBD(codigo) {
+
+	const query = {
+		text: `DELETE FROM ${DB_INFO.turma_table} WHERE codigo = $1 RETURNING id;`,
+		values: [codigo]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao deletar turma por codigo (${codigo}): ${e}`)
+	}
+}
