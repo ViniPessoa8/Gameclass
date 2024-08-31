@@ -2,6 +2,10 @@
 	import Button from './Button.svelte';
 	import SideBarButton from './SideBarButton.svelte';
 	import SideBarTurma from './SideBarTurma.svelte';
+
+	export let perfil;
+	console.log(`[/Autenticado/Turmas] (${perfil})`);
+	console.log(perfil);
 </script>
 
 <div class="sidebar">
@@ -19,11 +23,21 @@
 	</div>
 
 	<Button
-		onClick={() => {
-			console.log('teste');
+		on:click={() => {
+			if (perfil === 'professor') {
+				console.log('entra a criação de turma');
+			}
+
+			if (perfil === 'estudante') {
+				console.log('Participar de uma turma existente');
+			}
 		}}
 	>
-		+ Adicionar Turma
+		{#if perfil === 'estudante'}
+			+ Participar de Turma
+		{:else if perfil === 'professor'}
+			+ Criar Nova Turma
+		{/if}
 	</Button>
 </div>
 

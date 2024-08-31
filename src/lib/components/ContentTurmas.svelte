@@ -1,6 +1,8 @@
 <script>
 	import Turma from './Turma.svelte';
 
+	// Turmas de exemplo
+	// TODO: Usar turmas do banco de dados
 	let turmas = [
 		{
 			nome: 'Calculados',
@@ -57,4 +59,3 @@
 		gap: 60px;
 	}
 </style>
-
