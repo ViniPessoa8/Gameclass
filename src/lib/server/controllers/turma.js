@@ -5,14 +5,22 @@ export async function registraTurma(codigo, disciplina, nome, ano, periodo, loca
 	// TODO: Checar se já existe turma cadastrada
 
 	const instituicaoJson = await getInstituicaoByNome(instituicao)
-	await registraTurmaBD(codigo, disciplina, nome, ano, periodo, local, instituicaoJson.id)
+	let res = await registraTurmaBD(codigo, disciplina, nome, ano, periodo, local, instituicaoJson.id)
+	if (res.rows.length > 0) {
+		return res.rows[0]
+	}
+	throw ("Erro na criação da turma.")
 }
 
 export async function getTurmaByCodigo(codigo) {
 	// TODO: Checar se já existe turma cadastrada
 
 	const turma = await getTurmaByCodigoBD(codigo);
-	if (turma.rows.length > 1) {
+	if (turma.rows.length > 0) {
+		return turma.rows[0]
+	}
+	return false
+}
 		return turma.rows[0]
 	}
 	return false

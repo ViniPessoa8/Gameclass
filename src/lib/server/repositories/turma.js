@@ -6,7 +6,7 @@ import { dbConn } from "$config/database.js"
 export async function registraTurmaBD(codigo, disciplina, nome, ano, periodo, local, instituicaoId) {
 
 	const query = {
-		text: `INSERT INTO ${DB_INFO.turma_table}(codigo, disciplina, nome, ano, periodo, local, id_instituicao) VALUES ($1, $2, $3, $4, $5, $6, $7);`,
+		text: `INSERT INTO ${DB_INFO.turma_table}(codigo, disciplina, nome, ano, periodo, local, id_instituicao) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;`,
 		values: [codigo, disciplina, nome, ano, periodo, local, instituicaoId]
 	}
 
