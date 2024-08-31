@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
-	import ButtonRedirect from '../../lib/components/ButtonRedirect.svelte';
+	import ButtonRedirect from '$lib/components/ButtonRedirect.svelte';
 	import { enhance } from '$app/forms';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { onMount } from 'svelte';

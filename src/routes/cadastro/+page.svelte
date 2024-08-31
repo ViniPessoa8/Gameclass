@@ -7,7 +7,7 @@
 	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
-	import InputTextArea from '../../lib/components/InputTextArea.svelte';
+	import InputTextArea from '$lib/components/InputTextArea.svelte';
 
 	export let data;
 	export let form;

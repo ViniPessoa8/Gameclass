@@ -20,7 +20,7 @@
 		<form method="POST" action="?/perfil_estudante" class="button-estudante" use:enhance>
 			<button class="button-estudante">
 				<div>
-					<img class="icon" alt="Ícone do perfil de aluno" src="icone-aluno.svg" />
+					<img class="icon" alt="Ícone do perfil de aluno" src="src/lib/assets/icone-aluno.svg" />
 					<h1>Estudante</h1>
 				</div>
 			</button>
@@ -28,7 +28,11 @@
 		<form method="POST" action="?/perfil_professor" class="button-professor" use:enhance>
 			<button class="button-professor">
 				<div>
-					<img class="icon" alt="Ícone do perfil de professor" src="icone-professor.svg" />
+					<img
+						class="icon"
+						alt="Ícone do perfil de professor"
+						src="/src/lib/assets/icone-professor.svg"
+					/>
 					<h1>Professor</h1>
 				</div>
 			</button>
