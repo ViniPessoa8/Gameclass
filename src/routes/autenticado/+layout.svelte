@@ -3,13 +3,13 @@
 	import SideBar from '$lib/components/SideBar.svelte';
 
 	export let data;
-	console.log('estudante/layout/ data=', data);
+	console.log('autenticado/layout/ data=', data);
 </script>
 
 <div class="turmas-container">
 	<Header session={data} />
 	<div class="content-container">
-		<SideBar />
+		<SideBar perfil={data.perfil} />
 		<slot></slot>
 	</div>
 </div>

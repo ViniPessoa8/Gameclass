@@ -1,7 +1,7 @@
 import { registraTurma } from "$lib/server/controllers/turma";
 
 export function load() {
-	console.debug("[SERVER/ESTUDANTE/TURMAS]")
+	console.debug("[SERVER/AUTENTICADO/TURMAS]")
 }
 
 export const actions = {

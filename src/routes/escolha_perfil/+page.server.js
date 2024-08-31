@@ -35,7 +35,7 @@ export const actions = {
 			secure: false
 		})
 
-		redirect(307, '/professor/turmas')
+		redirect(307, '/autenticado/turmas')
 
 	},
 	perfil_estudante: async ({ cookies }) => {
@@ -47,6 +47,6 @@ export const actions = {
 			secure: false
 		})
 
-		redirect(300, 'estudante/turmas')
+		redirect(300, 'autenticado/turmas')
 	}
 }
