@@ -1,9 +1,11 @@
 <script>
 	import '../static/app.css';
-	import '../lib/index.js';
+	import '$lib/index.js';
 </script>
 
-<a href="/login">Login</a>
-<a href="/cadastro">Cadastro</a>
-<a href="/turmas">Turmas</a>
-<a href="/escolha_perfil">escolha_perfil</a>
+<div style="display:flex; flex-direction:column;">
+	<a href="/login">Login</a>
+	<a href="/cadastro">Cadastro</a>
+	<a href="/escolha_perfil">escolha_perfil</a>
+	<a href="/estudante/turmas">estudante/Turmas</a>
+</div>
