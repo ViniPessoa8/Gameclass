@@ -10,7 +10,9 @@
 	<Header session={data} />
 	<div class="content-container">
 		<SideBar perfil={data.perfil} />
-		<slot></slot>
+		<div class="content-page">
+			<slot></slot>
+		</div>
 	</div>
 </div>
 
@@ -28,5 +30,9 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
+	}
+
+	.content-page {
+		padding-top: 80px;
 	}
 </style>
