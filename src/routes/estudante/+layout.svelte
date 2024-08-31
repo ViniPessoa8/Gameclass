@@ -1,16 +1,16 @@
 <script>
-	import Header from '../../lib/components/Header.svelte';
-	import SideBar from '../../lib/components/SideBar.svelte';
-	import ContentTurmas from '../../lib/components/ContentTurmas.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import SideBar from '$lib/components/SideBar.svelte';
 
 	export let data;
+	console.log('estudante/layout/ data=', data);
 </script>
 
 <div class="turmas-container">
 	<Header session={data} />
 	<div class="content-container">
 		<SideBar />
-		<ContentTurmas session={data} />
+		<slot></slot>
 	</div>
 </div>
 
