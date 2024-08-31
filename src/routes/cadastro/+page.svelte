@@ -323,6 +323,7 @@
 			{/if}
 		</div>
 
+		<!-- TODO: Adicionar titulo 'Data de nascimento' -->
 		<div style="display:flex; flex-direction: column;">
 			<InputDate name="dtNasc" inputHandler={dtNascInputHandler} bind:value={dtNasc} />
 			{#if dtNascEmpty}

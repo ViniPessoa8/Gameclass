@@ -1,11 +1,12 @@
 <script>
 	import Button from './Button.svelte';
 	import SideBarButton from './SideBarButton.svelte';
+
 	import SideBarTurma from './SideBarTurma.svelte';
+	import { goto } from '$app/navigation';
 
 	export let perfil;
 	console.log(`[/Autenticado/Turmas] (${perfil})`);
-	console.log(perfil);
 </script>
 
 <div class="sidebar">
@@ -26,6 +27,8 @@
 		on:click={() => {
 			if (perfil === 'professor') {
 				console.log('entra a criação de turma');
+				goto('/autenticado/turmas/create');
+				// redirect(307, '/autenticado/turmas/create');
 			}
 
 			if (perfil === 'estudante') {

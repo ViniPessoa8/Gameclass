@@ -1,8 +1,10 @@
 <script>
 	export let type = '';
+	export let color = '';
+	export let backgroundColor = '';
 </script>
 
-<button {type} class="button" on:click>
+<button {type} class="button" style="background-color: {backgroundColor}; color: {color}" on:click>
 	<slot></slot>
 </button>
 
