@@ -3,19 +3,27 @@
 	export let value;
 	export let inputHandler;
 	export let name = '';
+	export let borded = false;
 </script>
 
-<input type="date" {placeholder} bind:value on:change={inputHandler} {name} />
+{#if borded}
+	<div class="bord">
+		<input class="borded" type="date" {placeholder} bind:value on:change={inputHandler} {name} />
+	</div>
+{:else}
+	<input type="date" class="unborded" {placeholder} bind:value on:change={inputHandler} {name} />
+{/if}
 
 <style>
-	input {
-		font-family: var(--font);
+	.bord {
+		background-color: var(--cor-primaria);
+		padding: 14px;
+		border-radius: 12px;
 	}
 
 	input {
 		border: none;
 		font-family: var(--font);
-		border-bottom: 1px solid var(--cor-secundaria);
 		background-color: transparent;
 		color: var(--text-1);
 		font-size: 24px;
