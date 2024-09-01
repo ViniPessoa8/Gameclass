@@ -3,7 +3,6 @@
 	import SideBar from '$lib/components/SideBar.svelte';
 
 	export let data;
-	console.log('autenticado/layout/ data=', data);
 </script>
 
 <div class="turmas-container">
@@ -36,5 +35,7 @@
 		width: 100%;
 		height: 100%;
 		padding-top: 80px;
+		overflow: auto;
+		box-sizing: border-box;
 	}
 </style>
