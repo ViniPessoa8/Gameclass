@@ -3,7 +3,7 @@
 	import SideBarButton from './SideBarButton.svelte';
 
 	import SideBarTurma from './SideBarTurma.svelte';
-	import { goto } from '$app/navigation';
+	import { goto, afterNavigate } from '$app/navigation';
 
 	export let perfil;
 	console.log(`[/Autenticado/Turmas] (${perfil})`);
@@ -11,7 +11,12 @@
 
 <div class="sidebar">
 	<div class="buttons">
-		<SideBarButton img={'home'}>Home</SideBarButton>
+		<SideBarButton
+			img={'home'}
+			onClick={() => {
+				goto('/autenticado/turmas');
+			}}>Home</SideBarButton
+		>
 		<SideBarButton img={'logout'}>Logout</SideBarButton>
 	</div>
 
