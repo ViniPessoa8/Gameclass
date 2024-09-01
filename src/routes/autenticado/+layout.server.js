@@ -1,7 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 
 export function load({ cookies }) {
-	console.debug("[/AUTENTICADO/LAYOUT/SERVER]")
 	const session_raw = cookies.get("session");
 	if (!session_raw) {
 		console.log("Usuário não autenticado")

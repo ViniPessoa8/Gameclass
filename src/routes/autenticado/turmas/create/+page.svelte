@@ -247,7 +247,9 @@
 
 		<!-- TODO: Fazer botão aparecer -->
 		<div class="row" style="align-self: center;">
-			<Button backgroundColor="var(--cor-secundaria)" color="var(--cor-primaria)">Próximo</Button>
+			<Button backgroundColor="var(--cor-secundaria)" color="var(--cor-primaria)"
+				>Criar Turma</Button
+			>
 		</div>
 	</form>
 </div>
