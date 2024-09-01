@@ -1,7 +1,7 @@
 import { redirect, fail } from "@sveltejs/kit";
 import { registraTurma } from "$lib/server/controllers/turma"
 
-export function load({ cookies }) {
+export function load() {
 	console.log("turmas/create/server/")
 }
 
