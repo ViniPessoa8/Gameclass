@@ -28,7 +28,7 @@
 <div class="barra-container">
 	{#each input as num, index}
 		<div
-			class="barra-container barra-progresso"
+			class="barra-progresso"
 			style:width="{(index + 1) * input_step}px"
 			style:background-color={colors[index]}
 			style:z-index={100 - index}
@@ -40,6 +40,9 @@
 
 <style>
 	.barra-container {
+		position: relative;
+		display: flex;
+		flex-direction: row;
 		margin-top: 4px;
 		width: 390px;
 		height: 24px;
@@ -47,13 +50,13 @@
 	}
 
 	.barra-progresso {
-		border-radius: 40px;
+		border-radius: 0px 40px 40px 0px;
 		position: absolute;
 		display: flex;
 		flex-direction: row;
 		justify-content: end;
 		box-sizing: border-box;
 		padding-right: 8.65px;
+		font-weight: 800;
 	}
 </style>
-
