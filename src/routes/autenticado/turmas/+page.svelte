@@ -1,5 +1,8 @@
 <script>
 	import Turma from '$lib/components/Turma.svelte';
+	import { onMount } from 'svelte';
+	import { toast, Toaster } from 'svelte-sonner';
+	export let data;
 
 	// Turmas de exemplo
 	// TODO: Usar turmas do banco de dados
@@ -23,8 +26,17 @@
 			estudantes: 20
 		}
 	];
+
+	onMount(async () => {
+		console.log('onMount() /turmas');
+		if (data.toast === 'turma_criada') {
+			console.log('Toast turma_criada');
+			toast.success('Turma criada com sucesso!');
+		}
+	});
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="content-turmas">
 	<h1>Suas Turmas</h1>
 	<div class="turmas-container">

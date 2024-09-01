@@ -35,6 +35,7 @@ export const actions = {
 			}
 		}
 		if (res.id) {
+			cookies.set("toast", 'turma_criada', { path: "/" })
 			redirect(300, "/autenticado/turmas")
 		}
 	}

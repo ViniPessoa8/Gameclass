@@ -1,7 +1,14 @@
 import { registraTurma } from "$lib/server/controllers/turma";
 
-export function load() {
+export function load({ cookies }) {
 	console.debug("[SERVER/AUTENTICADO/TURMAS]")
+	const message = cookies.get("toast");
+	if (message === 'turma_criada') {
+		cookies.set("toast", "", { path: '/' });
+		return { "toast": message }
+	} else {
+		return { "toast": "" }
+	}
 }
 
 export const actions = {
