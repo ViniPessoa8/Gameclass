@@ -3,11 +3,11 @@ import { DB_INFO } from "../../constants";
 import { dbConn } from "$config/database.js"
 
 
-export async function registraTurmaBD(codigo, disciplina, nome, ano, periodo, local, instituicaoId) {
+export async function registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId) {
 
 	const query = {
-		text: `INSERT INTO ${DB_INFO.turma_table}(codigo, disciplina, nome, ano, periodo, local, id_instituicao) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;`,
-		values: [codigo, disciplina, nome, ano, periodo, local, instituicaoId]
+		text: `INSERT INTO ${DB_INFO.turma_table}(codigo, disciplina, nome, descricao, ano, periodo, local, id_instituicao, id_professor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;`,
+		values: [codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId]
 	}
 
 	try {
@@ -15,6 +15,20 @@ export async function registraTurmaBD(codigo, disciplina, nome, ano, periodo, lo
 		return res
 	} catch (e) {
 		throw (`Erro ao registrar nova turma: ${e}`)
+	}
+}
+
+export async function isTurmaRegisteredDB(codigo, instituicaoId) {
+	const query = {
+		text: `SELECT * FROM ${DB_INFO.turma_table} WHERE codigo = $1 AND id_instituicao = $2;`,
+		values: [codigo, instituicaoId]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao buscar turma por codigo (${codigo}) e instituicao (${instituicaoId})): ${e}`)
 	}
 }
 

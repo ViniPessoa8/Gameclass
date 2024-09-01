@@ -8,7 +8,7 @@
 		"preview": "vite preview",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"test": "vitest"
+		"test": "vitest --sequence.setupfiles='list'"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",

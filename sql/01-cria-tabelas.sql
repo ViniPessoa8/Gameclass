@@ -25,13 +25,16 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE turma (
-    "id" SERIAL primary key,
+    "id" SERIAL,
 	"codigo" VARCHAR(12) NOT NULL,
 	"disciplina" VARCHAR(100) NOT NULL,
 	"nome" VARCHAR(100) NOT NULL,
     "ano" SMALLINT NOT NULL,
     "periodo" SMALLINT NOT NULL,
+	"descricao" VARCHAR(255),
 	"local" VARCHAR(255),
-	"id_instituicao" SERIAL references instituicao(id)
+	"id_instituicao" SERIAL references instituicao(id),
+	"id_professor" SERIAL references usuario(id),
+	PRIMARY KEY ("codigo", "id_instituicao")
 );
 

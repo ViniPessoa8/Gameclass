@@ -5,14 +5,26 @@ const turma_exemplo = {
 	codigo: "COD-TURMA-01",
 	disciplina: "Matemática",
 	nome: "Matemáticos de Plantão",
+	descricao: "turma top de matemática",
 	ano: 2024,
 	periodo: 1,
 	local: "Sala A24",
-	instituicao: "UFAM"
+	instituicao: "UFAM",
+	professorId: 1,
 }
 
 test("Cria nova turma", async () => {
-	let res = await registraTurma(turma_exemplo.codigo, turma_exemplo.disciplina, turma_exemplo.nome, turma_exemplo.ano, turma_exemplo.periodo, turma_exemplo.local, turma_exemplo.instituicao)
+	let res = await registraTurma(
+		turma_exemplo.codigo,
+		turma_exemplo.disciplina,
+		turma_exemplo.nome,
+		turma_exemplo.descricao,
+		turma_exemplo.ano,
+		turma_exemplo.periodo,
+		turma_exemplo.local,
+		turma_exemplo.instituicao,
+		turma_exemplo.professorId
+	)
 	expect(res.id).toBeTruthy()
 	turma_exemplo.id = res.id
 })
@@ -21,12 +33,14 @@ test("Busca turma criada, por código", async () => {
 	const exemplo_resposta = {
 		codigo: turma_exemplo.codigo,
 		disciplina: turma_exemplo.disciplina,
+		descricao: turma_exemplo.descricao,
 		nome: turma_exemplo.nome,
 		ano: turma_exemplo.ano,
 		periodo: turma_exemplo.periodo,
 		id: turma_exemplo.id,
 		id_instituicao: 2,
 		local: turma_exemplo.local,
+		id_professor: turma_exemplo.professorId,
 	}
 	let res = await getTurmaByCodigo(turma_exemplo.codigo)
 	expect(res).toStrictEqual(exemplo_resposta)

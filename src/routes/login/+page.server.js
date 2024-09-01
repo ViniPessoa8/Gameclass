@@ -30,6 +30,7 @@ export const actions = {
 
 		if (res) {
 			let session = {
+				"id": res.id,
 				"nome": res.nome,
 				"login": res.login,
 				"dtNasc": res.dt_nasc,
