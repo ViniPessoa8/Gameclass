@@ -9,6 +9,7 @@ afterAll(async () => {
 	await removeUserByLogin("conta_exemplo_turmas")
 })
 
+
 test("Cria usuário de exemplo pros testes de Turma", async () => {
 	let res = await registerNewUser('Nome Completo', 'conta_exemplo_turmas', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
 	id_usuario_exemplo = res[0].id
@@ -24,7 +25,6 @@ test("Cria usuário de exemplo pros testes de Turma", async () => {
 		professorId: id_usuario_exemplo,
 	}
 })
-
 
 test("Cria nova turma", async () => {
 	let res = await registraTurma(
@@ -79,7 +79,7 @@ test("Busca turma criada, por código", async () => {
 })
 
 test("Busca turma criada, por ID do professor", async () => {
-	const exemplo_resposta = {
+	const exemplo_resposta = [{
 		codigo: turma_exemplo.codigo,
 		disciplina: turma_exemplo.disciplina,
 		descricao: turma_exemplo.descricao,
@@ -90,7 +90,7 @@ test("Busca turma criada, por ID do professor", async () => {
 		id_instituicao: 2,
 		local: turma_exemplo.local,
 		id_professor: turma_exemplo.professorId,
-	}
+	}]
 	let res = await getTurmasByIdProfessor(turma_exemplo.professorId)
 	expect(res).toStrictEqual(exemplo_resposta)
 })

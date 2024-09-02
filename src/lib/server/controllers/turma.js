@@ -49,7 +49,7 @@ export async function getTurmasByIdProfessor(idProfessor) {
 	const turmas = await getTurmasByIdProfessorBD(idProfessor)
 
 	if (turmas.rows.length > 0) {
-		return turmas.rows[0]
+		return turmas.rows
 	}
 
 	return false

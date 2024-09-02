@@ -46,14 +46,14 @@ export async function loginDB(login, password) {
 
 export async function findUserByLogin(login) {
 	const query = {
-		text: `SELECT salt FROM ${DB_INFO.auth_table} WHERE login = $1`,
+		text: `SELECT * FROM ${DB_INFO.auth_table} WHERE login = $1`,
 		values: [login]
 	}
 
 	try {
 		const queryRes = await dbConn.query(query)
 		if (queryRes.rowCount > 0) {
-			return true
+			return queryRes.rows[0]
 		} else {
 			return false
 		}

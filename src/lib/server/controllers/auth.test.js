@@ -1,11 +1,29 @@
 import { test } from "vitest";
 import { loginUser, registerNewUser, removeUserByLogin } from "./auth";
+import { registraTurma } from "./turma";
+import { findUserByLogin } from "../repositories/auth";
 
-test("Cria usuário admin (vini)", async () => {
+test("Cria usuário e turma de exemplos (vini)", async () => {
+	let userId;
 	try {
-		await registerNewUser('Vinícius Pessoa', 'ViniPessoa8', 'Senhavalida!1', 'UEA', '1999-12-06', 'Sou estudante de SI', "vcbp.snf18@uea.edu.br", "1811440260")
+		let res = await registerNewUser('Vinícius Pessoa', 'ViniPessoa8', 'Senhavalida!1', 'UEA', '1999-12-06', 'Sou estudante de SI', "vcbp.snf18@uea.edu.br", "1811440260")
+		userId = res.id
 	} catch (e) {
 		console.log("Criação do user admin (vini):", e)
+		try {
+			let res = await findUserByLogin('ViniPessoa8')
+			userId = res.id
+		} catch (e) {
+			console.log("Criação do user admin login (vini):", e)
+		}
+	}
+
+	try {
+
+		let res = await registraTurma("COD-TESTE-01", "Matéria_teste", "Nome da Turma", "descricao da turma", 2024, 1, "sala A24", "UFAM", userId)
+		console.log(res)
+	} catch (e) {
+		console.log("Criação da turma (vini):", e)
 	}
 
 })

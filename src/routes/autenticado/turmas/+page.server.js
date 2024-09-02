@@ -1,14 +1,25 @@
 import { registraTurma } from "$lib/server/controllers/turma";
+import { getTurmasByIdProfessor } from "$controllers/turma"
 
-export function load({ cookies }) {
+export async function load({ cookies }) {
 	console.debug("[SERVER/AUTENTICADO/TURMAS]")
 	const message = cookies.get("toast");
+	const session = JSON.parse(cookies.get('session'))
+	const idProfessor = session.id
+	let data = {};
+
+	let turmas = await getTurmasByIdProfessor(idProfessor)
+	data.turmas = turmas
+
 	if (message === 'turma_criada') {
 		cookies.set("toast", "", { path: '/' });
-		return { "toast": message }
+		data.toast = message
 	} else {
-		return { "toast": "" }
+		data.toast = ""
 	}
+
+	console.log(data)
+	return data
 }
 
 export const actions = {
