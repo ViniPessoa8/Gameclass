@@ -27,6 +27,8 @@
 
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
+	let anoOptionList = [2024, 2023, 2022]; // TODO: Automatizar lista
+	let periodoOptionList = [1, 2];
 
 	function checkInputs() {
 		let ok = true;
@@ -186,28 +188,6 @@
 			</div>
 		</div>
 		<div class="row">
-			<h2>Ano letivo:</h2>
-			<div style="display:flex; flex-direction: column;">
-				<InputText borded name="ano" bind:value={ano} inputHandler={anoInputHandler} />
-				{#if anoEmpty}
-					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
-				{:else}
-					<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
-				{/if}
-			</div>
-		</div>
-		<div class="row">
-			<h2>Período:</h2>
-			<div style="display:flex; flex-direction: column;">
-				<InputText borded name="periodo" bind:value={periodo} inputHandler={periodoInputHandler} />
-				{#if periodoEmpty}
-					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
-				{:else}
-					<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
-				{/if}
-			</div>
-		</div>
-		<div class="row">
 			<h2>Local:</h2>
 			<div style="display:flex; flex-direction: column;">
 				<InputText borded name="local" bind:value={local} inputHandler={localInputHandler} />
@@ -219,11 +199,48 @@
 			</div>
 		</div>
 		<div class="row">
-			<h2>Instituição</h2>
+			<h2>Ano letivo:</h2>
+			<div style="display:flex; flex-direction: column;">
+				<!-- <InputText borded name="ano" bind:value={ano} inputHandler={anoInputHandler} /> -->
+				<Select
+					borded
+					name="ano"
+					width="100"
+					optionList={anoOptionList}
+					inputHandler={anoInputHandler}
+					bind:value={ano}
+				/>
+				{#if anoEmpty}
+					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+				{:else}
+					<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+				{/if}
+			</div>
+			<h2>Período:</h2>
+			<div style="display:flex; flex-direction: column;">
+				<!-- <InputText borded name="periodo" bind:value={periodo} inputHandler={periodoInputHandler} /> -->
+				<Select
+					borded
+					name="periodo"
+					width="60"
+					optionList={periodoOptionList}
+					inputHandler={periodoInputHandler}
+					bind:value={periodo}
+				/>
+				{#if periodoEmpty}
+					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+				{:else}
+					<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+				{/if}
+			</div>
+		</div>
+		<div class="row">
+			<h2>Instituição:</h2>
 			<div style="display:flex; flex-direction: column;">
 				<Select
 					borded
 					name="instituicao"
+					unselectedText="--Selecione sua Instituição--"
 					optionList={selectOptionList}
 					inputHandler={instituicaoInputHandler}
 					bind:value={instituicao}
