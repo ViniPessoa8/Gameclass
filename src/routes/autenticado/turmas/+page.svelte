@@ -4,33 +4,10 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	export let data;
 
-	// Turmas de exemplo
-	// TODO: Usar turmas do banco de dados
-	let turmas = [
-		{
-			nome: 'Calculados',
-			disciplina: 'Cálculo I',
-			ano: 2024,
-			estudantes: 35
-		},
-		{
-			nome: 'AED 1',
-			disciplina: 'Algoritmo e Estrutura de Dados',
-			ano: 2024,
-			estudantes: 31
-		},
-		{
-			nome: 'Eng. de Soft. - 2023',
-			disciplina: 'Engenharia de Software',
-			ano: 2023,
-			estudantes: 20
-		}
-	];
+	let turmas = data.turmas;
 
 	onMount(async () => {
-		console.log('onMount() /turmas');
 		if (data.toast === 'turma_criada') {
-			console.log('Toast turma_criada');
 			toast.success('Turma criada com sucesso!');
 		}
 	});
