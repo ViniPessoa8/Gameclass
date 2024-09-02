@@ -4,7 +4,7 @@ import { dbConn } from "$config/database.js"
 
 export async function registerDB(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso) {
 	const query = {
-		text: `INSERT INTO ${DB_INFO.auth_table}(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, data_criacao, ultimo_acesso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+		text: `INSERT INTO ${DB_INFO.auth_table}(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, data_criacao, ultimo_acesso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`,
 		values: [nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso]
 	}
 
@@ -64,7 +64,7 @@ export async function findUserByLogin(login) {
 
 export async function removeUserByLoginDB(login) {
 	const query = {
-		text: `DELETE FROM ${DB_INFO.auth_table} WHERE login = $1`,
+		text: `DELETE FROM ${DB_INFO.auth_table} WHERE login = $1 RETURNING id`,
 		values: [login]
 	}
 

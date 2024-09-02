@@ -1,12 +1,13 @@
 <script>
 	export let img = '';
+	export let type = '';
 
 	export let onClick = (x) => {
 		console.log(x);
 	};
 </script>
 
-<button on:click={onClick}>
+<button on:click={onClick} {type}>
 	{#await import(`$lib/assets/${img}.svg`) then src}
 		<img src={src.default} alt="" />
 	{/await}

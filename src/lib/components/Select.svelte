@@ -4,20 +4,26 @@
 	export let value;
 	export let name = '';
 	export let borded = false;
+	export let unselectedText = '';
+	export let width;
 </script>
 
 {#if borded}
 	<!-- <div class="board"> -->
-	<select class="boarded" on:change={inputHandler} bind:value {name}>
-		<option value="" disabled selected>Selecione sua Instituição</option>
+	<select class="boarded" style="width: {width}px;" on:change={inputHandler} bind:value {name}>
+		{#if unselectedText != ''}
+			<option value="" disabled selected>{unselectedText}</option>
+		{/if}
 		{#each optionList as opt}
 			<option class="option">{opt}</option>
 		{/each}
 	</select>
 	<!-- </div> -->
 {:else}
-	<select class="unborded" on:change={inputHandler} bind:value {name}>
-		<option value="" disabled selected>Selecione sua Instituição</option>
+	<select class="unborded" style="width: {width}px;" on:change={inputHandler} bind:value {name}>
+		{#if unselectedText != ''}
+			<option value="" disabled selected>{unselectedText}</option>
+		{/if}
 		{#each optionList as opt}
 			<option class="option">{opt}</option>
 		{/each}
