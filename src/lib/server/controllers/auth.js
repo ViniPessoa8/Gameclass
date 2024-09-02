@@ -26,7 +26,7 @@ export async function registerNewUser(nome, login, password, instituicao, dtNasc
 		let res = await registerDB(nome, login, hash, salt, idInstituicao, dtNasc, bio, email, matricula_aluno, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso)
 
 		if (res.rowCount > 0) {
-			return true
+			return res.rows
 		}
 	} catch (e) {
 		throw e;

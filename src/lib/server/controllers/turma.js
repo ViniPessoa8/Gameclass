@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { deleteTurmaByCodigoBD, getTurmaByCodigoBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
+import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
 import { getInstituicaoByNome } from "./instituicao";
 
 export async function registraTurma(codigo, disciplina, nome, descricao, ano, periodo, local, instituicao, professorId) {
@@ -40,6 +40,16 @@ export async function getTurmaByCodigo(codigo) {
 
 	if (turma.rows.length > 0) {
 		return turma.rows[0]
+	}
+
+	return false
+}
+
+export async function getTurmasByIdProfessor(idProfessor) {
+	const turmas = await getTurmasByIdProfessorBD(idProfessor)
+
+	if (turmas.rows.length > 0) {
+		return turmas.rows[0]
 	}
 
 	return false

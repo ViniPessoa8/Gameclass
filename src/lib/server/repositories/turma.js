@@ -47,6 +47,20 @@ export async function getTurmaByCodigoBD(codigo) {
 	}
 }
 
+export async function getTurmasByIdProfessorBD(idProfessor) {
+
+	const query = {
+		text: `SELECT * FROM ${DB_INFO.turma_table} WHERE id_professor = $1;`,
+		values: [idProfessor]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao buscar turma por id do professor (${idProfessor}): ${e}`)
+	}
+}
 export async function deleteTurmaByCodigoBD(codigo) {
 
 	const query = {
