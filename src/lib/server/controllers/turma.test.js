@@ -29,6 +29,25 @@ test("Cria nova turma", async () => {
 	turma_exemplo.id = res.id
 })
 
+test("Falha ao criar turma repetida", async () => {
+	try {
+		await registraTurma(
+			turma_exemplo.codigo,
+			turma_exemplo.disciplina,
+			turma_exemplo.nome,
+			turma_exemplo.descricao,
+			turma_exemplo.ano,
+			turma_exemplo.periodo,
+			turma_exemplo.local,
+			turma_exemplo.instituicao,
+			turma_exemplo.professorId
+		)
+	} catch (e) {
+		expect(e.status).toBe(409)
+		expect(e.body.already_registered).toBeTruthy()
+	}
+})
+
 test("Busca turma criada, por código", async () => {
 	const exemplo_resposta = {
 		codigo: turma_exemplo.codigo,
@@ -46,7 +65,17 @@ test("Busca turma criada, por código", async () => {
 	expect(res).toStrictEqual(exemplo_resposta)
 })
 
+test("Falha ao buscar turma inexistente", async () => {
+	let res = await getTurmaByCodigo("-1")
+	expect(res).toBe(false)
+})
+
 test("Remove turma criada", async () => {
 	let res = await deleteTurmaByCodigo(turma_exemplo.codigo)
 	expect(res.id).toBe(turma_exemplo.id)
+})
+
+test("Falha ao remover turma inexistente", async () => {
+	let res = await deleteTurmaByCodigo(turma_exemplo.codigo)
+	expect(res).toBe(false)
 })
