@@ -22,6 +22,8 @@ test("Cria usuário de exemplo pros testes de Turma", async () => {
 		local: "Sala A24",
 		instituicao: "UFAM",
 		professorId: id_usuario_exemplo,
+		numero_alunos: 0,
+		cor: "FF00FF"
 	}
 })
 
@@ -35,7 +37,9 @@ test("Cria nova turma", async () => {
 		turma_exemplo.periodo,
 		turma_exemplo.local,
 		turma_exemplo.instituicao,
-		turma_exemplo.professorId
+		turma_exemplo.professorId,
+		turma_exemplo.numero_alunos,
+		turma_exemplo.cor
 	)
 	expect(res.id).toBeTruthy()
 	turma_exemplo.id = res.id
@@ -52,7 +56,9 @@ test("Falha ao criar turma repetida", async () => {
 			turma_exemplo.periodo,
 			turma_exemplo.local,
 			turma_exemplo.instituicao,
-			turma_exemplo.professorId
+			turma_exemplo.professorId,
+			turma_exemplo.numero_alunos,
+			turma_exemplo.cor
 		)
 	} catch (e) {
 		expect(e.status).toBe(409)
@@ -73,6 +79,7 @@ test("Busca turma criada, por código", async () => {
 		numero_alunos: 0,
 		local: turma_exemplo.local,
 		id_professor: turma_exemplo.professorId,
+		cor: "FF00FF"
 	}
 	let res = await getTurmaByCodigo(turma_exemplo.codigo)
 	expect(res).toStrictEqual(exemplo_resposta)
@@ -91,6 +98,7 @@ test("Busca turma criada, por ID do professor", async () => {
 		numero_alunos: 0,
 		local: turma_exemplo.local,
 		id_professor: turma_exemplo.professorId,
+		cor: "FF00FF"
 	}]
 	let res = await getTurmasByIdProfessor(turma_exemplo.professorId)
 	expect(res).toStrictEqual(exemplo_resposta)

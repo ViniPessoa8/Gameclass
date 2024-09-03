@@ -2,7 +2,13 @@ import { error } from "@sveltejs/kit";
 import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
 import { getInstituicaoByNome } from "./instituicao";
 
-export async function registraTurma(codigo, disciplina, nome, descricao, ano, periodo, local, instituicao, professorId, numero_alunos = 0) {
+const CORES = ['FFFF00', 'FF00FF', '00FFFF']
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * max);
+}
+
+export async function registraTurma(codigo, disciplina, nome, descricao, ano, periodo, local, instituicao, professorId, numero_alunos = 0, cor = "") {
 	// Verifica se turma ja existe
 	let isRegistered = await isTurmaRegistered(codigo, instituicao)
 	if (isRegistered) {
@@ -14,9 +20,13 @@ export async function registraTurma(codigo, disciplina, nome, descricao, ano, pe
 		error(422, { message: "The request has missing data", missing_info: true })
 	}
 
+	if (cor === "") {
+		cor = CORES[getRandomInt(CORES.length)]
+	}
+
 	const instituicaoJson = await getInstituicaoByNome(instituicao)
 
-	let res = await registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoJson.id, professorId, numero_alunos)
+	let res = await registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoJson.id, professorId, numero_alunos, cor)
 
 	if (res.rows.length > 0) {
 		return res.rows[0]

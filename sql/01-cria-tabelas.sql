@@ -27,6 +27,7 @@ CREATE TABLE usuario (
 CREATE TABLE turma (
     "id" SERIAL,
 	"codigo" VARCHAR(12) NOT NULL,
+	"cor" VARCHAR(6) NOT NULL,
 	"disciplina" VARCHAR(100) NOT NULL,
 	"nome" VARCHAR(100) NOT NULL,
     "ano" SMALLINT NOT NULL,

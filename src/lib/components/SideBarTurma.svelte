@@ -7,7 +7,7 @@
 </script>
 
 <div class="turma">
-	<CircularTextIcon backgroundColor={color}>{acronym}</CircularTextIcon>
+	<CircularTextIcon backgroundColor="#{color}">{acronym}</CircularTextIcon>
 	<h1><slot></slot></h1>
 </div>
 
@@ -23,4 +23,3 @@
 		font-size: 20px;
 	}
 </style>
-

@@ -3,9 +3,9 @@
 	import SideBarButton from './SideBarButton.svelte';
 
 	import SideBarTurma from './SideBarTurma.svelte';
-	import { goto, afterNavigate } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
-	export let perfil;
+	export let perfil, turmas;
 	console.log(`[/Autenticado/Turmas] (${perfil})`);
 </script>
 
@@ -22,18 +22,18 @@
 
 	<div class="turmas">
 		<div class="turma">
-			<SideBarTurma acronym="CA" color={'red'}>Calculados - 2023</SideBarTurma>
-			<SideBarTurma acronym="AE" color={'green'}>AED 1 - 2023</SideBarTurma>
-			<SideBarTurma acronym="ES" color={'black'}>Eng. de Soft. - 2023</SideBarTurma>
+			{#if turmas?.length > 0}
+				{#each turmas as turma}
+					<SideBarTurma acronym={turma.nome[0]} color={turma.cor}>{turma.nome}</SideBarTurma>
+				{/each}
+			{/if}
 		</div>
 	</div>
 
 	<Button
 		on:click={() => {
 			if (perfil === 'professor') {
-				console.log('entra a criação de turma');
 				goto('/autenticado/turmas/create');
-				// redirect(307, '/autenticado/turmas/create');
 			}
 
 			if (perfil === 'estudante') {

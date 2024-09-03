@@ -29,7 +29,7 @@
 <div class="turmas-container">
 	<Header session={data} />
 	<div class="content-container">
-		<SideBar perfil={data.perfil} />
+		<SideBar perfil={data.perfil} turmas={data.turmas} />
 		<div class="content-page">
 			<!-- TODO: melhorar design do botão -->
 			{#if !BACK_SKIP.includes($page.url.pathname)}

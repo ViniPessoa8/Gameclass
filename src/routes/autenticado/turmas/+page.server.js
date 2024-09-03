@@ -18,7 +18,6 @@ export async function load({ cookies }) {
 		data.toast = ""
 	}
 
-	console.log(data)
 	return data
 }
 
