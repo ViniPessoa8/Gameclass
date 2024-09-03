@@ -5,6 +5,7 @@
 	export let data;
 
 	let turmas = data.turmas;
+	console.log(turmas);
 
 	onMount(async () => {
 		if (data.toast === 'turma_criada') {
@@ -22,7 +23,7 @@
 				titulo={turma.nome}
 				disciplina={turma.disciplina}
 				ano={turma.ano}
-				nEstudantes={turma.estudantes}
+				nEstudantes={turma.numero_alunos}
 			/>
 		{/each}
 	</div>

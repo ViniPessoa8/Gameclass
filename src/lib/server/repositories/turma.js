@@ -3,11 +3,11 @@ import { DB_INFO } from "../../constants";
 import { dbConn } from "$config/database.js"
 
 
-export async function registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId) {
+export async function registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId, numero_alunos) {
 
 	const query = {
-		text: `INSERT INTO ${DB_INFO.turma_table}(codigo, disciplina, nome, descricao, ano, periodo, local, id_instituicao, id_professor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;`,
-		values: [codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId]
+		text: `INSERT INTO ${DB_INFO.turma_table}(codigo, disciplina, nome, descricao, ano, periodo, local, id_instituicao, id_professor, numero_alunos) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;`,
+		values: [codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId, numero_alunos]
 	}
 
 	try {

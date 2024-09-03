@@ -33,6 +33,7 @@ CREATE TABLE turma (
     "periodo" SMALLINT NOT NULL,
 	"descricao" VARCHAR(255),
 	"local" VARCHAR(255),
+	"numero_alunos" SMALLINT NOT NULL,
 	"id_instituicao" SERIAL references instituicao(id),
 	"id_professor" SERIAL references usuario(id),
 	PRIMARY KEY ("codigo", "id_instituicao")

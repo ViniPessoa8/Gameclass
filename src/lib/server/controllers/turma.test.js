@@ -9,7 +9,6 @@ afterAll(async () => {
 	await removeUserByLogin("conta_exemplo_turmas")
 })
 
-
 test("Cria usuário de exemplo pros testes de Turma", async () => {
 	let res = await registerNewUser('Nome Completo', 'conta_exemplo_turmas', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
 	id_usuario_exemplo = res[0].id
@@ -71,6 +70,7 @@ test("Busca turma criada, por código", async () => {
 		periodo: turma_exemplo.periodo,
 		id: turma_exemplo.id,
 		id_instituicao: 2,
+		numero_alunos: 0,
 		local: turma_exemplo.local,
 		id_professor: turma_exemplo.professorId,
 	}
@@ -88,6 +88,7 @@ test("Busca turma criada, por ID do professor", async () => {
 		periodo: turma_exemplo.periodo,
 		id: turma_exemplo.id,
 		id_instituicao: 2,
+		numero_alunos: 0,
 		local: turma_exemplo.local,
 		id_professor: turma_exemplo.professorId,
 	}]

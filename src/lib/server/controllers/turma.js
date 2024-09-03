@@ -2,7 +2,7 @@ import { error } from "@sveltejs/kit";
 import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
 import { getInstituicaoByNome } from "./instituicao";
 
-export async function registraTurma(codigo, disciplina, nome, descricao, ano, periodo, local, instituicao, professorId) {
+export async function registraTurma(codigo, disciplina, nome, descricao, ano, periodo, local, instituicao, professorId, numero_alunos = 0) {
 	// Verifica se turma ja existe
 	let isRegistered = await isTurmaRegistered(codigo, instituicao)
 	if (isRegistered) {
@@ -16,7 +16,7 @@ export async function registraTurma(codigo, disciplina, nome, descricao, ano, pe
 
 	const instituicaoJson = await getInstituicaoByNome(instituicao)
 
-	let res = await registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoJson.id, professorId)
+	let res = await registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoJson.id, professorId, numero_alunos)
 
 	if (res.rows.length > 0) {
 		return res.rows[0]
