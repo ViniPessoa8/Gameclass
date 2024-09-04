@@ -4,7 +4,8 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	export let data;
 
-	let turmas = data.turmas;
+	let turmasLista = data.turmas;
+	console.log(turmasLista);
 
 	onMount(async () => {
 		if (data.toast === 'turma_criada') {
@@ -17,7 +18,7 @@
 <div class="content-turmas">
 	<h1>Suas Turmas</h1>
 	<div class="turmas-container">
-		{#each turmas as turma}
+		{#each turmasLista as turma}
 			<Turma
 				titulo={turma.nome}
 				disciplina={turma.disciplina}

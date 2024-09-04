@@ -2,7 +2,18 @@ import { error } from "@sveltejs/kit";
 import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
 import { getInstituicaoByNome } from "./instituicao";
 
-const CORES = ['FFFF00', 'FF00FF', '00FFFF']
+const CORES = [
+	"4682B4", // Azul aço
+	"6B8E23", // Verde oliva
+	"CD5C5C", // Vermelho indiano
+	"9370DB", // Roxo médio
+	"778899", // Cinza ardósia claro
+	"D2691E", // Marrom chocolate
+	"DA70D6", // Orquídea
+	"6495ED", // Azul centáurea
+	"4169E1", // Azul royal
+	"A0522D"  // Marrom sienna;
+]
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);

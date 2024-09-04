@@ -20,9 +20,9 @@ test("Cria usuário e turma de exemplos (vini)", async () => {
 
 	try {
 
-		let res = await registraTurma("COD-TESTE-01", "Matéria_teste", "Nome da Turma", "descricao da turma", 2024, 1, "sala A24", "UFAM", userId)
-		let res2 = await registraTurma("COD-TESTE-02", "Matéria_teste 2", "Nome da Turma 2", "descricao da turma 2", 2024, 2, "sala A25", "UFAM", userId)
-		let res3 = await registraTurma("COD-TESTE-03", "Matéria_teste 3", "Nome da Turma 3", "descricao da turma 3", 2024, 2, "sala A26", "UFAM", userId)
+		let res = await registraTurma("COD-TESTE-01", "Matéria_teste", "Nome_Teste", "descricao da turma", 2024, 1, "sala A24", "UFAM", userId)
+		let res2 = await registraTurma("COD-TESTE-02", "Essa matéria é boa", "Essa turma é boa", "descricao da turma 2", 2024, 2, "sala A25", "UFAM", userId)
+		let res3 = await registraTurma("COD-TESTE-03", "A melhor de todas", "A turma mais daora", "descricao da turma 3", 2024, 2, "sala A26", "UFAM", userId)
 		console.log(res)
 		console.log(res2)
 		console.log(res3)
