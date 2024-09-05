@@ -1,15 +1,13 @@
 <script>
 	import { COLORS } from '../constants';
+	export let width;
+	export let input = [1, 2, 3];
 
 	// input[0] > input[1] > input[2] > ....
-	let input = [1, 3, 5];
-
 	checkInput(input);
 
-	let barra_width = 390;
-	let input_step = barra_width / input.length;
-
-	// Colors
+	let input_step;
+	$: input_step = width / input.length;
 	const colors = [COLORS.secundaria_1, COLORS.secundaria_2, COLORS.secundaria_3];
 
 	function checkInput(input) {
@@ -44,7 +42,6 @@
 		display: flex;
 		flex-direction: row;
 		margin-top: 4px;
-		width: 390px;
 		height: 24px;
 		border-radius: 40px;
 	}

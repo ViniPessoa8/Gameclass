@@ -3,7 +3,6 @@
 	import icon_atividades from '$lib/assets/icon_atividades.png';
 	import icon_pontuacao from '$lib/assets/icon_pontuacao.png';
 	import icon_membros from '$lib/assets/icon_membros.png';
-	import icon_perfil from '$lib/assets/icon_perfil.png';
 	import TurmaTabBarItem from './TurmaTabBarItem.svelte';
 
 	export let underline_tab = 1;
