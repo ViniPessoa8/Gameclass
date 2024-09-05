@@ -9,4 +9,5 @@
 	<a href="/escolha_perfil">escolha_perfil</a>
 	<a href="/autenticado/turmas">autenticado/Turmas</a>
 	<a href="/autenticado/turmas/create">autenticado/Turmas/create</a>
+	<a href="/autenticado/turmas/1">autenticado/Turmas/1</a>
 </div>
