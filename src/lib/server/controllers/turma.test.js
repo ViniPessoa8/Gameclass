@@ -1,6 +1,6 @@
 import { test, expect, afterAll } from "vitest"
 import { registerNewUser, removeUserByLogin } from "./auth";
-import { deleteTurmaByCodigo, getTurmaByCodigo, getTurmasByIdProfessor, registraTurma } from "./turma"
+import { deleteTurmaByCodigo, getTurmaByCodigo, getTurmaById, getTurmasByIdProfessor, registraTurma } from "./turma"
 
 let id_usuario_exemplo;
 let turma_exemplo;
@@ -101,6 +101,25 @@ test("Busca turma criada, por ID do professor", async () => {
 		cor: "FF00FF"
 	}]
 	let res = await getTurmasByIdProfessor(turma_exemplo.professorId)
+	expect(res).toStrictEqual(exemplo_resposta)
+})
+
+test("Busca turma criada, por ID da turma", async () => {
+	const exemplo_resposta = {
+		codigo: turma_exemplo.codigo,
+		disciplina: turma_exemplo.disciplina,
+		descricao: turma_exemplo.descricao,
+		nome: turma_exemplo.nome,
+		ano: turma_exemplo.ano,
+		periodo: turma_exemplo.periodo,
+		id: turma_exemplo.id,
+		id_instituicao: 2,
+		numero_alunos: 0,
+		local: turma_exemplo.local,
+		id_professor: turma_exemplo.professorId,
+		cor: "FF00FF"
+	}
+	let res = await getTurmaById(turma_exemplo.id)
 	expect(res).toStrictEqual(exemplo_resposta)
 })
 

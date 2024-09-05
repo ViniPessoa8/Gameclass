@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
+import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, getTurmaByIdBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
 import { getInstituicaoByNome } from "./instituicao";
 
 const CORES = [
@@ -56,8 +56,19 @@ export async function isTurmaRegistered(codigo, instituicao) {
 
 	return false
 }
+
 export async function getTurmaByCodigo(codigo) {
 	const turma = await getTurmaByCodigoBD(codigo);
+
+	if (turma.rows.length > 0) {
+		return turma.rows[0]
+	}
+
+	return false
+}
+
+export async function getTurmaById(codigo) {
+	const turma = await getTurmaByIdBD(codigo);
 
 	if (turma.rows.length > 0) {
 		return turma.rows[0]
