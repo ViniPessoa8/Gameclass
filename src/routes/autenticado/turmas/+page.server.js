@@ -1,10 +1,16 @@
 import { registraTurma } from "$lib/server/controllers/turma";
 import { getTurmasByIdProfessor } from "$controllers/turma"
+import { redirect } from "@sveltejs/kit";
 
 export async function load({ cookies }) {
 	console.debug("[SERVER/AUTENTICADO/TURMAS]")
 	const message = cookies.get("toast");
-	const session = JSON.parse(cookies.get('session'))
+	let sessionRaw = cookies.get('session')
+	if (!sessionRaw) {
+		console.log("Usuário não autenticado")
+		redirect(300, "/")
+	}
+	const session = JSON.parse(sessionRaw)
 	const idProfessor = session.id
 	let data = {};
 

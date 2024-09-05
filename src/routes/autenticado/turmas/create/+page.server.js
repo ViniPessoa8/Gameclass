@@ -10,7 +10,15 @@ export const actions = {
 		let res;
 
 		const data = await request.formData();
-		const session = JSON.parse(cookies.get('session'));
+		const sessionRaw = cookies.get('session')
+		console.log(sessionRaw)
+
+		if (!sessionRaw) {
+			console.log("Usuário não autenticado")
+			redirect(300, "/")
+
+		}
+		const session = JSON.parse(sessionRaw);
 		const professorId = session["id"];
 
 		try {
