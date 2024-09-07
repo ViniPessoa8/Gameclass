@@ -3,11 +3,11 @@
 	import Button from './Button.svelte';
 	import BarraDeProgresso from './BarraDeProgresso.svelte';
 
-	export let titulo, disciplina, ano, nEstudantes, cor;
+	export let titulo, disciplina, ano, nEstudantes, cor, width;
 </script>
 
 <div class="turma">
-	<div class="turma-info">
+	<div class="turma-info" bind:clientWidth={width}>
 		<div class="turma-icon">
 			<CircularTextIcon backgroundColor="#{cor}">{titulo[0]}</CircularTextIcon>
 		</div>
@@ -22,7 +22,7 @@
 	</div>
 	<div class="turma-progresso">
 		<span>Progresso de Atividades</span>
-		<BarraDeProgresso />
+		<BarraDeProgresso {width} />
 	</div>
 	<div class="turma-buttons">
 		<Button>Abrir</Button>
