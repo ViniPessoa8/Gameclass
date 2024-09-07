@@ -6,7 +6,17 @@
 	import icon_seta_cima from '$lib/assets/icon_seta_cima.png';
 	import IconeInformacao from './IconeInformacao.svelte';
 
+	const STATUS = {
+		corrigido: 'corrigido',
+		pendente: 'pendente',
+		entregue: 'entregue'
+	};
+	export let status = STATUS.pendente;
 	let width = 0;
+
+	function capitalizeFirstLetter(string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
 </script>
 
 <!-- TODO: Toggle Button para abrir as etapas -->
@@ -20,25 +30,29 @@
 		</div>
 		<span>Prazo: 16/07/2023</span>
 		<img src={icon_seta_cima} alt="Seta para abrir a turma" />
-		<!-- TODO: Etapas -->
 	</div>
-	<div class="etapas-container">
+	<!-- TODO: Etapas as component (parameter: list of etapas)-->
+	<div class="etapas">
 		<h2>Etapas</h2>
 		<hr />
-		<div class="etapa">
-			<CircularIcon />
-			<div class="titulo-etapa">
-				<h3>Titulo_da_etapa</h3>
-				<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
-			</div>
-			<div class="column">
-				<span>Prazo: 16/07/2023</span>
-				<div class="row">
-					<h3>Corrigido</h3>
-					<h3>8.5</h3>
+		<div class="etapas-container">
+			<div class="etapa">
+				<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text="E1" />
+				<div class="titulo-etapa">
+					<h3>Titulo_da_etapa</h3>
+					<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 				</div>
+				<div class="column">
+					<span>Prazo: 16/07/2023</span>
+					<div class="status row">
+						<h3 class="status-text-{status}">{capitalizeFirstLetter(status)}</h3>
+						{#if status === STATUS.corrigido}
+							<h3 class="status-grade-{status}">8.5</h3>
+						{/if}
+					</div>
+				</div>
+				<ButtonRedirect color="white">Visualizar</ButtonRedirect>
 			</div>
-			<ButtonRedirect color="white">Visualizar</ButtonRedirect>
 		</div>
 	</div>
 </div>
@@ -71,10 +85,15 @@
 		flex-direction: column;
 	}
 
+	.etapas {
+		display: flex;
+		flex-direction: column;
+	}
+
 	.etapas-container {
 		display: flex;
 		flex-direction: column;
-		width: 80%;
+		align-items: center;
 	}
 
 	.etapa {
@@ -83,6 +102,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
+		width: 80%;
 	}
 
 	.titulo-etapa {
@@ -99,5 +119,24 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-evenly;
+	}
+
+	.status-text-corrigido {
+		color: var(--cor-secundaria-4);
+	}
+
+	.status-grade-corrigido {
+		padding-left: 4px;
+		padding-right: 4px;
+		background-color: var(--cor-secundaria-4);
+		border-radius: 10px;
+	}
+
+	.status-text-entregue {
+		color: var(--cor-secundaria);
+	}
+
+	.status-text-pendente {
+		color: var(--cor-secundaria-2);
 	}
 </style>
