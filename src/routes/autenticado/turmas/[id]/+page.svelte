@@ -20,4 +20,8 @@
 		align-items: center;
 		margin-top: 24px;
 	}
+
+	.content-turma > h1 {
+		margin-bottom: 48px;
+	}
 </style>
