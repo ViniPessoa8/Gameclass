@@ -1,9 +1,19 @@
 <script>
 	export let href;
+	export let backgroundColor = 'var(--cor-secundaria)';
+	export let color = 'var(--cor-primaria)';
+	export let borderRadius;
 </script>
 
 <a {href}>
-	<button class="button" on:click>
+	<button
+		class="button"
+		style="
+			background-color: {backgroundColor};
+			color: {color};
+			border-radius: {borderRadius}"
+		on:click
+	>
 		<slot />
 	</button>
 </a>
@@ -16,7 +26,6 @@
 		font-size: 24px;
 		font-family: var(--font);
 		font-weight: bold;
-		color: var(--cor-primaria);
 		border-radius: 15px;
 		padding: 10px 15px;
 	}
