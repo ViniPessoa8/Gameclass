@@ -3,43 +3,58 @@
 	import CircularIcon from './CircularIcon.svelte';
 	import icon_atividade_turma from '$lib/assets/icon_atividade_turma.png';
 	import icon_seta_cima from '$lib/assets/icon_seta_cima.png';
+	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
 	import Etapa from './Etapa.svelte';
 
 	let width = 0;
+	let toggled = false;
 </script>
 
 <!-- TODO: Toggle Button para abrir as etapas -->
 <div class="atividade-container" bind:clientWidth={width}>
 	<BarraDeProgresso {width} />
-	<div class="atividade-info">
+	<div
+		class="atividade-info"
+		aria-hidden="true"
+		on:click={() => {
+			toggled = toggled ? false : true;
+		}}
+	>
 		<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
 		<div class="column">
 			<h2>Avaliação Parcial 1</h2>
 			<span>Individual</span>
 		</div>
 		<span>Prazo: 16/07/2023</span>
-		<img src={icon_seta_cima} alt="Seta para abrir a turma" />
+		{#if toggled}
+			<img src={icon_seta_cima} alt="Seta para abrir a turma" />
+		{:else}
+			<img src={icon_seta_baixo} alt="Seta para fechar a turma" />
+		{/if}
 	</div>
 	<!-- TODO: Etapas as component (parameter: list of etapas)-->
-	<div class="etapas">
-		<h2>Etapas</h2>
-		<hr />
-		<div class="etapas-container">
-			<Etapa
-				titulo="Pesquisa de referencial teórico"
-				status="entregue"
-				iconText="E1"
-				prazo="22/12/2024"
-			/>
-			<Etapa titulo="Mockup de telas" status="pendente" iconText="E2" prazo="22/12/2024" />
-			<Etapa titulo="Protótipo" status="corrigido" iconText="E3" prazo="22/12/2024" />
+	{#if toggled}
+		<div class="etapas">
+			<h2>Etapas</h2>
+			<hr />
+			<div class="etapas-container">
+				<Etapa
+					titulo="Pesquisa de referencial teórico"
+					status="entregue"
+					iconText="E1"
+					prazo="22/12/2024"
+				/>
+				<Etapa titulo="Mockup de telas" status="pendente" iconText="E2" prazo="22/12/2024" />
+				<Etapa titulo="Protótipo" status="corrigido" iconText="E3" prazo="22/12/2024" />
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
 
 <style>
 	.atividade-container {
 		width: 50%;
+		margin-bottom: 24px;
 	}
 
 	.atividade-info {
@@ -48,6 +63,17 @@
 		align-items: center;
 		width: 100%;
 		margin-bottom: 12px;
+		cursor: pointer;
+	}
+
+	button {
+		background: none;
+		color: inherit;
+		border: none;
+		padding: 0;
+		font: inherit;
+		cursor: pointer;
+		outline: inherit;
 	}
 
 	.atividade-info > span {
