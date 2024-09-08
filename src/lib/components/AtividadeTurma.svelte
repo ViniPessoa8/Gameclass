@@ -25,9 +25,14 @@
 		<h2>Etapas</h2>
 		<hr />
 		<div class="etapas-container">
-			<Etapa status="entregue" />
-			<Etapa status="pendente" />
-			<Etapa status="corrigido" />
+			<Etapa
+				titulo="Pesquisa de referencial teórico"
+				status="entregue"
+				iconText="E1"
+				prazo="22/12/2024"
+			/>
+			<Etapa titulo="Mockup de telas" status="pendente" iconText="E2" prazo="22/12/2024" />
+			<Etapa titulo="Protótipo" status="corrigido" iconText="E3" prazo="22/12/2024" />
 		</div>
 	</div>
 </div>

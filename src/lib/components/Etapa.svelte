@@ -4,6 +4,9 @@
 	import CircularIcon from './CircularIcon.svelte';
 
 	export let status = STATUS.pendente;
+	export let titulo,
+		prazo,
+		iconText = '';
 
 	const STATUS = {
 		corrigido: 'corrigido',
@@ -17,13 +20,13 @@
 </script>
 
 <div class="etapa">
-	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text="E1" />
+	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={iconText} />
 	<div class="titulo-etapa">
-		<h3>Titulo_da_etapa</h3>
+		<h3>{titulo}</h3>
 		<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 	</div>
 	<div class="column">
-		<span>Prazo: 16/07/2023</span>
+		<span>Prazo: {prazo}</span>
 		<div class="status row">
 			<h3 class="status-text-{status}">{capitalizeFirstLetter(status)}</h3>
 			{#if status === STATUS.corrigido}
@@ -36,28 +39,32 @@
 
 <style>
 	.etapa {
+		width: 100%;
 		margin-top: 12px;
 		display: flex;
-		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
-		width: 80%;
 	}
 
 	.titulo-etapa {
+		width: 300px;
 		display: flex;
-		flex-direction: row;
 	}
 
 	.titulo-etapa > h3 {
 		margin-right: 8px;
+		word-wrap: break-word;
+		display: inline-block;
+		white-space: normal;
+	}
+
+	.column {
+		width: 150px;
 	}
 
 	.row {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-evenly;
+		justify-content: start;
 	}
 
 	.status-text-corrigido {
@@ -65,6 +72,7 @@
 	}
 
 	.status-grade-corrigido {
+		margin-left: 8px;
 		padding-left: 4px;
 		padding-right: 4px;
 		background-color: var(--cor-secundaria-4);
