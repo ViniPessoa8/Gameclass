@@ -21,13 +21,7 @@
 	<h1>Suas Turmas</h1>
 	<div class="turmas-container">
 		{#each turmasLista as turma}
-			<Turma
-				titulo={turma.nome}
-				disciplina={turma.disciplina}
-				ano={turma.ano}
-				cor={turma.cor}
-				nEstudantes={turma.numero_alunos}
-			/>
+			<Turma {turma} />
 		{/each}
 	</div>
 </div>

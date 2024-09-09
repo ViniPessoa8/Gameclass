@@ -1,20 +1,21 @@
 <script>
 	import CircularTextIcon from './CircularTextIcon.svelte';
 	import selectedTurma from '$src/stores/selectedTurma.js';
+	import { goto } from '$app/navigation';
 
 	export let turma;
-	console.log(turma);
 
 	const acronym = turma.nome[0];
 	const color = turma.cor;
 
-	let backgroundColor;
+	let backgroundColor, disciplinaCor;
 	$: {
 		if ($selectedTurma === turma.id) {
-			console.log('Selected ', turma.id);
 			backgroundColor = 'var(--cor-secundaria)';
+			disciplinaCor = 'var(--cor-primaria)';
 		} else {
 			backgroundColor = '';
+			disciplinaCor = 'var(--cor-secundaria)';
 		}
 	}
 </script>
@@ -23,15 +24,16 @@
 	class="turma"
 	aria-hidden="true"
 	style="background-color: {backgroundColor};"
-	bind
 	on:click={() => {
-		console.debug('clicked');
 		$selectedTurma = turma.id;
-		console.log($selectedTurma);
+		goto('/autenticado/turmas/' + turma.id);
 	}}
 >
 	<CircularTextIcon backgroundColor="#{color}">{acronym}</CircularTextIcon>
-	<h1>{turma.nome}</h1>
+	<div class="info">
+		<h1>{turma.nome}</h1>
+		<p style="color:{disciplinaCor}">{turma.disciplina}</p>
+	</div>
 </div>
 
 <style>
@@ -44,6 +46,7 @@
 		padding: 5px;
 		cursor: pointer;
 		transition: border 100ms;
+		transition: background-color 100ms;
 		border-radius: 32px;
 		margin-top: 8px;
 	}
@@ -51,15 +54,26 @@
 	.turma:hover {
 		border: 1px solid rgba(54, 136, 181, 1);
 		transition: border 200ms;
+		transition: background-color 200ms;
 	}
 
-	.turma > h1 {
+	.info {
 		max-width: 90%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.info > h1 {
 		font-size: 20px;
 
 		overflow: hidden;
 		white-space: nowrap;
 		text-wrap: nowrap;
 		text-overflow: ellipsis;
+	}
+
+	.info > p {
+		color: var(--cor-secundaria);
+		transition: color 200ms;
 	}
 </style>

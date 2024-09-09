@@ -2,21 +2,24 @@
 	import CircularTextIcon from './CircularTextIcon.svelte';
 	import Button from './Button.svelte';
 	import BarraDeProgresso from './BarraDeProgresso.svelte';
+	import selectedTurma from '$src/stores/selectedTurma';
+	import { goto } from '$app/navigation';
 
-	export let titulo, disciplina, ano, nEstudantes, cor, width;
+	export let turma;
+	export let width;
 </script>
 
 <div class="turma">
 	<div class="turma-info" bind:clientWidth={width}>
 		<div class="turma-icon">
-			<CircularTextIcon backgroundColor="#{cor}">{titulo[0]}</CircularTextIcon>
+			<CircularTextIcon backgroundColor="#{turma.cor}">{turma.nome[0]}</CircularTextIcon>
 		</div>
 		<div class="turma-data">
-			<h1>{titulo}</h1>
-			<span>{disciplina}</span>
+			<h1>{turma.nome}</h1>
+			<span>{turma.disciplina}</span>
 			<div>
-				<span>{ano}</span>
-				<span>{nEstudantes} Estudantes</span>
+				<span>{turma.ano}</span>
+				<span>{turma.nEstudantes} Estudantes</span>
 			</div>
 		</div>
 	</div>
@@ -25,7 +28,12 @@
 		<BarraDeProgresso {width} />
 	</div>
 	<div class="turma-buttons">
-		<Button>Abrir</Button>
+		<Button
+			on:click={() => {
+				goto('turmas/' + turma.id);
+				$selectedTurma = turma.id;
+			}}>Abrir</Button
+		>
 		<Button>Relatório da Turma</Button>
 	</div>
 </div>
