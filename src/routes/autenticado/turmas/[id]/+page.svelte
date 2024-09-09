@@ -11,6 +11,7 @@
 <div class="content-turma">
 	<h1>Atividades</h1>
 	<AtividadeTurma />
+	<AtividadeTurma />
 </div>
 
 <style>

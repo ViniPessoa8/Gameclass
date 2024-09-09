@@ -30,6 +30,6 @@
 	.icon > .info {
 		text-align: center;
 		justify-self: center;
+		width: 220px;
 	}
 </style>
-

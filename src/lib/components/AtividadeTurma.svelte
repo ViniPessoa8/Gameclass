@@ -97,8 +97,10 @@
 	}
 
 	.etapas-container {
+		width: 90%;
 		display: flex;
 		flex-direction: column;
+		align-self: center;
 		align-items: center;
 	}
 </style>
