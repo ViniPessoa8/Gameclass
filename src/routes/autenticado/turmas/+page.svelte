@@ -2,12 +2,14 @@
 	import Turma from '$lib/components/Turma.svelte';
 	import { onMount } from 'svelte';
 	import { toast, Toaster } from 'svelte-sonner';
+	import selectedTurma from '$src/stores/selectedTurma';
+
 	export let data;
 
 	let turmasLista = data.turmas;
-	console.log(turmasLista);
 
 	onMount(async () => {
+		$selectedTurma = null;
 		if (data.toast === 'turma_criada') {
 			toast.success('Turma criada com sucesso!');
 		}

@@ -24,7 +24,7 @@
 		<div class="turma">
 			{#if turmas?.length > 0}
 				{#each turmas as turma}
-					<SideBarTurma acronym={turma.nome[0]} color={turma.cor}>{turma.nome}</SideBarTurma>
+					<SideBarTurma {turma} />
 				{/each}
 			{/if}
 		</div>
