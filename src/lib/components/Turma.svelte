@@ -1,5 +1,5 @@
 <script>
-	import CircularTextIcon from './CircularTextIcon.svelte';
+	import CircularIcon from './CircularIcon.svelte';
 	import Button from './Button.svelte';
 	import BarraDeProgresso from './BarraDeProgresso.svelte';
 	import selectedTurma from '$src/stores/selectedTurma';
@@ -12,7 +12,7 @@
 <div class="turma">
 	<div class="turma-info" bind:clientWidth={width}>
 		<div class="turma-icon">
-			<CircularTextIcon backgroundColor="#{turma.cor}">{turma.nome[0]}</CircularTextIcon>
+			<CircularIcon type="text" backgroundColor="#{turma.cor}" text={turma.nome[0]} />
 		</div>
 		<div class="turma-data">
 			<h1>{turma.nome}</h1>

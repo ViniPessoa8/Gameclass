@@ -1,5 +1,5 @@
 <script>
-	import CircularTextIcon from './CircularTextIcon.svelte';
+	import CircularIcon from './CircularIcon.svelte';
 	export let session;
 </script>
 
@@ -10,8 +10,7 @@
 			<h4 class="logged-user-name">{session.login}</h4>
 			<p class="logged-user-role">{session.perfil}</p>
 		</div>
-		<CircularTextIcon backgroundColor={'#FF00FF'}>{session.login[0].toUpperCase()}</CircularTextIcon
-		>
+		<CircularIcon type="text" backgroundColor={'#FF00FF'} text={session.login[0].toUpperCase()} />
 	</div>
 </div>
 
@@ -46,4 +45,3 @@
 		font-weight: bolder;
 	}
 </style>
-

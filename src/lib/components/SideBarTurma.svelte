@@ -1,5 +1,5 @@
 <script>
-	import CircularTextIcon from './CircularTextIcon.svelte';
+	import CircularIcon from './CircularIcon.svelte';
 	import selectedTurma from '$src/stores/selectedTurma.js';
 	import { goto } from '$app/navigation';
 
@@ -29,7 +29,7 @@
 		goto('/autenticado/turmas/' + turma.id);
 	}}
 >
-	<CircularTextIcon backgroundColor="#{color}">{acronym}</CircularTextIcon>
+	<CircularIcon backgroundColor="#{color}" text={acronym} type="text" />
 	<div class="info">
 		<h1>{turma.nome}</h1>
 		<p style="color:{disciplinaCor}">{turma.disciplina}</p>
