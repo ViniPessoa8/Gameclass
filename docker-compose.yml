@@ -6,6 +6,7 @@ services:
     volumes:
       - ./sql/01-cria-tabelas.sql:/docker-entrypoint-initdb.d/01-cria-tabelas.sql
       - ./sql/02-insert-statements.sql:/docker-entrypoint-initdb.d/02-insert-statements.sql
+      - ./sql/03-insert-debug-data.sql:/docker-entrypoint-initdb.d/03-insert-debug-data.sql
     environment:
       POSTGRES_PASSWORD: $VITE_DATABASE_PASSWORD
       PGUSER: $VITE_DATABASE_USER

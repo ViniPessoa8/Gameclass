@@ -13,9 +13,12 @@ export const COLORS = {
 };
 
 export const DB_INFO = {
-	auth_table: "usuario",
-	instituicao_table: "instituicao",
-	turma_table: "turma"
+	tables: {
+		auth: "usuario",
+		instituicao: "instituicao",
+		turma: "turma",
+		atividade: "atividade"
+	}
 }
 
 export const ROLES = {

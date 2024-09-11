@@ -11,7 +11,7 @@ afterAll(async () => {
 
 test("Cria usuário de exemplo pros testes de Turma", async () => {
 	let res = await registerNewUser('Nome Completo', 'conta_exemplo_turmas', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
-	id_usuario_exemplo = res[0].id
+	id_usuario_exemplo = parseInt(res[0].id)
 	turma_exemplo = {
 		codigo: "COD-TURMA-01",
 		disciplina: "Matemática",

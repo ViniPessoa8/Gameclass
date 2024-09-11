@@ -3,34 +3,6 @@ import { loginUser, registerNewUser, removeUserByLogin } from "./auth";
 import { registraTurma } from "./turma";
 import { findUserByLogin } from "../repositories/auth";
 
-test("Cria usuário e turma de exemplos (vini)", async () => {
-	let userId;
-	try {
-		let res = await registerNewUser('Vinícius Pessoa', 'ViniPessoa8', 'Senhavalida!1', 'UEA', '1999-12-06', 'Sou estudante de SI', "vcbp.snf18@uea.edu.br", "1811440260")
-		userId = res.id
-	} catch (e) {
-		console.log("Criação do user admin (vini):", e)
-		try {
-			let res = await findUserByLogin('ViniPessoa8')
-			userId = res.id
-		} catch (e) {
-			console.log("Criação do user admin login (vini):", e)
-		}
-	}
-
-	try {
-
-		let res = await registraTurma("COD-TESTE-01", "Matéria_teste", "Nome_Teste", "descricao da turma", 2024, 1, "sala A24", "UFAM", userId)
-		let res2 = await registraTurma("COD-TESTE-02", "Essa matéria é boa", "Essa turma é boa", "descricao da turma 2", 2024, 2, "sala A25", "UFAM", userId)
-		let res3 = await registraTurma("COD-TESTE-03", "A melhor de todas", "A turma mais daora", "descricao da turma 3", 2024, 2, "sala A26", "UFAM", userId)
-		console.log(res)
-		console.log(res2)
-		console.log(res3)
-	} catch (e) {
-		console.log("Criação da turma (vini):", e)
-	}
-
-})
 test("Cria usuário válido", async () => {
 	await registerNewUser('Nome Completo', 'login123', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
 })
