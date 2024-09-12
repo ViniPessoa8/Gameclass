@@ -1,4 +1,4 @@
-import { cadastraAtividadeBD, removeAtividadeBD } from "../repositories/atividade"
+import { cadastraAtividadeBD, getAtividadeByIdBD, getAtividadeByTituloBD, removeAtividadeBD } from "../repositories/atividade"
 
 export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
 	if (!titulo || !prazo || !id_turma) {
@@ -21,4 +21,13 @@ export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
 
 export async function removeAtividade(titulo, id_turma) {
 	await removeAtividadeBD(titulo, id_turma)
+}
+
+export async function getAtividadeById(id) {
+	return await getAtividadeByIdBD(id)
+}
+
+export async function getAtividadeByTitulo(titulo, id_turma) {
+	return await getAtividadeByTituloBD(titulo, id_turma)
+
 }
