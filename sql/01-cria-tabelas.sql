@@ -48,7 +48,7 @@ CREATE TABLE atividade (
 	"descricao" TEXT,
 	"prazo" TIMESTAMP NOT NULL,
 	"id_turma" SERIAL REFERENCES turma(id) NOT NULL,
-	PRIMARY KEY ("id")
+	PRIMARY KEY ("titulo", "id_turma")
 );
 
 CREATE TABLE item_atividade (
