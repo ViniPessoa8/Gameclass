@@ -24,7 +24,12 @@ export async function removeAtividade(titulo, id_turma) {
 }
 
 export async function getAtividadeById(id) {
-	return await getAtividadeByIdBD(id)
+	let res = await getAtividadeByIdBD(id)
+	console.log(res)
+	if (res.rowCount === 0) {
+		throw ("Não foi encontrada atividade com esse id.")
+	}
+	return res
 }
 
 export async function getAtividadeByTitulo(titulo, id_turma) {
