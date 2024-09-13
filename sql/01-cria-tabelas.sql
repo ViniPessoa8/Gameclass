@@ -53,6 +53,7 @@ CREATE TABLE atividade (
 
 CREATE TABLE item_atividade (
 	"id" BIGSERIAL UNIQUE,
+	"titulo" VARCHAR(255) NOT NULL,
 	"nota_max" FLOAT NOT NULL,
 	"data_entrega_inicial" TIMESTAMP NOT NULL,
 	"data_entrega_final" TIMESTAMP NOT NULL,
