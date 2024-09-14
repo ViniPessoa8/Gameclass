@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, test } from "vitest";
 import { cadastraAtividade, removeAtividade } from "./atividade";
-import { cadastraItemAtividade, listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId, removeItemAtividadePorTitulo } from "./itemAtividade";
+import { buscaItemAtividadePorId, buscaItemAtividadePorTitulo, cadastraItemAtividade, listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId, removeItemAtividadePorTitulo } from "./itemAtividade";
 import { ATRIBUICAO } from "../../constants";
 import { listaItensDaAtividadeBD } from "../repositories/itemAtividade";
 
@@ -52,15 +52,16 @@ describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 	})
 
 	test.sequential("Lista itens da atividade", async () => {
-		let res = await listaItensDaAtividadePorId(idAtividadePai)
+		await listaItensDaAtividadePorId(idAtividadePai)
 	})
 
 	test.sequential("Remove item da atividade por ID", async () => {
-		let res = await removeItemAtividadePorId(idItemAtividade)
+		await removeItemAtividadePorId(idItemAtividade)
 	})
 
 	test.sequential("Remove item da atividade por Titulo", async () => {
-		let res = await removeItemAtividadePorTitulo("Nome do item da atividade 2", idAtividadePai)
+		let itemAtividade2 = await buscaItemAtividadePorTitulo("Nome do item da atividade 2", idAtividadePai)
+		await removeItemAtividadePorId(itemAtividade2.id)
 	})
 
 })
