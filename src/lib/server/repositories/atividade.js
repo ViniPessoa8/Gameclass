@@ -25,7 +25,7 @@ export async function removeAtividadeBD(titulo, id_turma) {
 		const res = await dbConn.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao cadastrar nova atividade: ${e}`)
+		throw (`Erro ao remover atividade (${titulo}, ${id_turma}): ${e}`)
 	}
 }
 
@@ -37,6 +37,9 @@ export async function getAtividadeByIdBD(id) {
 
 	try {
 		const res = await dbConn.query(query)
+		if (!res) {
+			throw (`Não foi encontrada atividade com ID ${id}`)
+		}
 		return res
 	} catch (e) {
 		throw (`Erro ao buscar nova atividade por ID (${id}): ${e}`)

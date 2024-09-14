@@ -49,9 +49,11 @@ describe.sequential("Buscar de Atividade", () => {
 		}
 
 		let res = await getAtividadeByTitulo("Nome da atividade", id_turma)
-		res = res.rows
-		res[0].prazo = res[0].prazo.toString()
-		expect(res[0]).toMatchObject(template_resultado)
+		if (!res) {
+			throw ("Não foi encontrada atividade com o titulo 'Nome da atividade' na turma ", id_turma)
+		}
+		res.prazo = res.prazo.toString()
+		expect(res).toMatchObject(template_resultado)
 	})
 
 	test("Erro ao buscar Atividade que não existe por id", async () => {

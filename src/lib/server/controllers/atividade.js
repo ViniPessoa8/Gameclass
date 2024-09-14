@@ -1,8 +1,10 @@
 import { cadastraAtividadeBD, getAtividadeByIdBD, getAtividadeByTituloBD, removeAtividadeBD } from "../repositories/atividade"
+import { buscaItemAtividadePorId } from "../repositories/itemAtividade";
+import { listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId } from "./itemAtividade";
 
 export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
 	if (!titulo || !prazo || !id_turma) {
-		throw ("Dados obrigatórios não foram preenchidos.")
+		throw ("Dados obrigatórios não foram preenchidos. (Atividade)")
 	}
 
 	try {
@@ -20,6 +22,16 @@ export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
 }
 
 export async function removeAtividade(titulo, id_turma) {
+	// Verifica se atividade tem itens para serem excluidos
+	let atividade = await getAtividadeByTitulo(titulo, id_turma)
+	if (!atividade) return
+
+	let idAtividadePai = atividade.id
+	let listaItens = await listaItensDaAtividadePorId(idAtividadePai)
+	listaItens.forEach((item) => {
+		removeItemAtividadePorId(item.id)
+	})
+
 	await removeAtividadeBD(titulo, id_turma)
 }
 
@@ -32,6 +44,8 @@ export async function getAtividadeById(id) {
 }
 
 export async function getAtividadeByTitulo(titulo, id_turma) {
-	return await getAtividadeByTituloBD(titulo, id_turma)
+	let res = await getAtividadeByTituloBD(titulo, id_turma)
+	return res.rows[0]
 
 }
+
