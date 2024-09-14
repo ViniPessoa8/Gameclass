@@ -4,7 +4,7 @@ import { getInstituicaoByNome } from "./instituicao";
 import { findUserByLogin, removeUserByLoginDB } from "../repositories/auth";
 
 export async function registerNewUser(nome, login, password, instituicao, dtNasc, bio, email, matricula_aluno) {
-	if (!nome && !login && !password && !instituicao && !dtNasc && !email) {
+	if (!nome || !login || !password || !instituicao || !dtNasc || !email) {
 		throw ("Dados obrigatórios não foram preenchidos.")
 	}
 
@@ -37,7 +37,7 @@ export async function removeUserByLogin(login) {
 	removeUserByLoginDB(login);
 }
 export async function loginUser(login, password) {
-	if (!login && !password) {
+	if (!login || !password) {
 		throw ("Preencha o login e a senha")
 	}
 

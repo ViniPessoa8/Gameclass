@@ -3,36 +3,37 @@ import { loginUser, registerNewUser, removeUserByLogin } from "./auth";
 import { registraTurma } from "./turma";
 import { findUserByLogin } from "../repositories/auth";
 
-test("Cria usuário válido", async () => {
+test.sequential("Cria usuário válido", async () => {
 	await registerNewUser('Nome Completo', 'login123', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
 })
 
-test.fails("Falha ao criar usuário com dados faltando", async () => {
+test.sequential.fails("Falha ao criar usuário com dados faltando", async () => {
 
 	let res = await registerNewUser('Nome Completo', '', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
+	console.log("Falha ao criar usuário com dados faltando: res: ", res)
 })
 
-test.fails("Falha ao criar usuário duplicado", async () => {
+test.sequential.fails("Falha ao criar usuário duplicado", async () => {
 	await registerNewUser('Nome Completo', 'login123', 'Senhavalida!1', 'UEA', '2024-08-21', 'bio', "email@uea.edu.br", "1811440260")
 })
 
-test.fails("Falha ao logar com senha incorreto", async () => {
+test.sequential.fails("Falha ao logar com senha incorreto", async () => {
 	await loginUser("login123", "Senhavalida!2")
 })
 
-test.fails("Falha ao logar sem usuário", async () => {
+test.sequential.fails("Falha ao logar sem usuário", async () => {
 	await loginUser("", "Senhavalida!2")
 })
 
-test.fails("Falha ao logar sem senha", async () => {
+test.sequential.fails("Falha ao logar sem senha", async () => {
 	await loginUser("login123", "")
 })
 
-test("Loga com usuário criado", async () => {
+test.sequential("Loga com usuário criado", async () => {
 	await loginUser("login123", "Senhavalida!1")
 })
 
-test("Remove usuário criado", async () => {
+test.sequential("Remove usuário criado", async () => {
 	await removeUserByLogin("login123")
 })
 
