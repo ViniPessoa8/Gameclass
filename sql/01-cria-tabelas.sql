@@ -58,11 +58,11 @@ CREATE TABLE item_atividade (
 	"data_entrega_inicial" TIMESTAMP NOT NULL,
 	"data_entrega_final" TIMESTAMP NOT NULL,
 	"tipo_atribuicao_nota" SMALLINT NOT NULL,
-	"tipo_realizacao" SMALLINT NOT NULL,
+	"em_grupos" BOOLEAN NOT NULL, -- TODO: Mudar nome no diagrama MER
 	"receber_apos_prazo" BOOLEAN NOT NULL,
-	"n_integrantes_grupo" SMALLINT NOT NULL,
-	"n_max_grupos" SMALLINT NOT NULL,
-	"id_atividade" SERIAL REFERENCES turma(id) NOT NULL,
+	"n_integrantes_grupo" SMALLINT,
+	"n_max_grupos" SMALLINT,
+	"id_atividade_pai" SERIAL REFERENCES turma(id) NOT NULL,
 	PRIMARY KEY ("id")
 );
 
