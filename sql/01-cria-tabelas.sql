@@ -62,8 +62,8 @@ CREATE TABLE item_atividade (
 	"receber_apos_prazo" BOOLEAN NOT NULL,
 	"n_integrantes_grupo" SMALLINT,
 	"n_max_grupos" SMALLINT,
-	"id_atividade_pai" SERIAL REFERENCES turma(id) NOT NULL,
-	PRIMARY KEY ("id")
+	"id_atividade_pai" SERIAL REFERENCES atividade(id) NOT NULL,
+	PRIMARY KEY ("titulo", "id_atividade_pai")
 );
 
 CREATE TABLE tag (
