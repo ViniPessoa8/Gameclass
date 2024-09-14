@@ -5,14 +5,13 @@ let prazo = new Date("2024-09-12T16:20");
 let id_turma = 1;
 let id_atividade;
 
-describe("Cadastro de Atividade", () => {
+describe.sequential("Cadastro de Atividade", () => {
 	test.sequential("Cadastra atividade", async () => {
 		let res = await cadastraAtividade("Nome da atividade", "descricao", prazo, id_turma)
-		console.log(res)
 		id_atividade = res[0].id
 	})
 
-	test("Erro ao cadastrar atividade com dados faltando", async () => {
+	test.sequential("Erro ao cadastrar atividade com dados faltando", async () => {
 		await expect(() => cadastraAtividade("", "descricao", prazo, id_turma)).rejects.toThrowError("Dados obrigatórios não foram preenchidos")
 		await expect(() => cadastraAtividade("Nome da atividade", "descricao", prazo)).rejects.toThrowError("Dados obrigatórios não foram preenchidos")
 		await expect(() => cadastraAtividade("Nome da atividade", "descricao", null, id_turma)).rejects.toThrowError("Dados obrigatórios não foram preenchidos")
@@ -23,7 +22,7 @@ describe("Cadastro de Atividade", () => {
 	})
 })
 
-describe("Buscar de Atividade", () => {
+describe.sequential("Buscar de Atividade", () => {
 	test("Por ID", async () => {
 		const template_resultado = {
 			"descricao": "descricao",
@@ -58,10 +57,9 @@ describe("Buscar de Atividade", () => {
 	test("Erro ao buscar Atividade que não existe por id", async () => {
 		await expect(getAtividadeById(id_atividade + 1)).rejects.toThrowError("Não foi encontrada atividade com esse id.")
 	})
-
 })
 
-test("Remoção de Atividade", async () => {
+test.sequential("Remoção de Atividade", async () => {
 	await removeAtividade("Nome da atividade", id_turma)
 })
 
