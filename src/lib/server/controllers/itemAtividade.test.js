@@ -51,6 +51,16 @@ describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 		idItemAtividade2 = res[0].id
 	})
 
+	test.sequential("Busca item da atividade por id", async () => {
+		await buscaItemAtividadePorId(idItemAtividade)
+		// TODO: Adicinar checagem do objeto resposta
+	})
+
+	test.sequential("Busca item da atividade por titulo", async () => {
+		await buscaItemAtividadePorTitulo("Nome do item da atividade", idAtividadePai)
+		// TODO: Adicinar checagem do objeto resposta
+	})
+
 	test.sequential("Lista itens da atividade", async () => {
 		await listaItensDaAtividadePorId(idAtividadePai)
 	})

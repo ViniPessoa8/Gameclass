@@ -32,7 +32,7 @@ export async function buscaItemAtividadePorId(idItemAtividade) {
 
 export async function buscaItemAtividadePorTitulo(titulo, idAtividadePai) {
 	if (!titulo || !idAtividadePai) {
-		throw ("Dados obrigatórios não foram preenchidos. (buscaItemAtividadePorId)")
+		throw ("Dados obrigatórios não foram preenchidos. (buscaItemAtividadePorTitulo)")
 	}
 
 	let res = await buscaItemAtividadePorTituloBD(titulo, idAtividadePai);
