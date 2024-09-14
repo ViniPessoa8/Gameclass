@@ -17,7 +17,8 @@ export const DB_INFO = {
 		auth: "usuario",
 		instituicao: "instituicao",
 		turma: "turma",
-		atividade: "atividade"
+		atividade: "atividade",
+		item_atividade: "item_atividade"
 	}
 }
 
@@ -25,5 +26,10 @@ export const ROLES = {
 	estudante: "ESTUDANTE",
 	professor: "PROFESSOR",
 	admin: "ADMIN"
+}
+
+export const ATRIBUICAO = {
+	media_simples: 1,
+	media_ponderada: 2
 }
 
