@@ -1,13 +1,25 @@
 <script>
 	export let options = [];
 	let group = [];
+	$: console.log(group);
 	console.log(options);
 </script>
 
 <div class="container">
-	{#each options as option}
+	{#each options as option, index}
 		<div class="row">
-			<input name={option.name} bind:group id={option.name} type="radio" value={option.text} />
+			{#if index === 0}
+				<input
+					name={option.name}
+					bind:group
+					id={option.name}
+					type="radio"
+					value={option.text}
+					checked="true"
+				/>
+			{:else}
+				<input name={option.name} bind:group id={option.name} type="radio" value={option.text} />
+			{/if}
 			<label for={option.name}>{option.text}</label>
 		</div>
 	{/each}
