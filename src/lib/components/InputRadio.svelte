@@ -1,22 +1,18 @@
 <script>
 	export let options = [];
 	let group = [];
-	$: console.log(group);
-	console.log(options);
+	if (options) {
+		group = options[0].text;
+	}
+	$: console.log('InputRadio group: ', group);
+	console.log('InputRadio options: ', options);
 </script>
 
 <div class="container">
 	{#each options as option, index}
 		<div class="row">
 			{#if index === 0}
-				<input
-					name={option.name}
-					bind:group
-					id={option.name}
-					type="radio"
-					value={option.text}
-					checked="true"
-				/>
+				<input name={option.name} bind:group id={option.name} type="radio" value={option.text} />
 			{:else}
 				<input name={option.name} bind:group id={option.name} type="radio" value={option.text} />
 			{/if}
