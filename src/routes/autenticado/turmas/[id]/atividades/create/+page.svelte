@@ -4,9 +4,20 @@
 	import InputDate from '$lib/components/InputDate.svelte';
 	import InputRadio from '$lib/components/InputRadio.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
+	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import Tags from 'svelte-tags-input';
+
 	export let data;
+
+	let autocomplete = []; // TODO: Get previous tags from user
 	let tags = [];
+
+	// TODO: Validar inputs
+
+	function onSubmit() {
+		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
+	}
 </script>
 
 <form class="cria-atividade-form">
@@ -72,20 +83,17 @@
 	</div>
 	<!-- Receber após o prazo -->
 	<div class="row">
-		<InputRadio
-			options={[
-				{
-					name: 'receber_pos_prazo',
-					text: 'Receber após o prazo'
-				}
-			]}
-		/>
+		<InputCheckbox text="Receber após o prazo" name="receber_apos_prazo" />
 		<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
+	</div>
+	<div class="row">
+		<Button type="submit" backgroundColor="var(--cor-primaria)" color="white">Próximo</Button>
 	</div>
 </form>
 
 <style>
 	.cria-atividade-form {
+		margin-top: 16px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
