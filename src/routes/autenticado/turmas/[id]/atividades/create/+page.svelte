@@ -4,7 +4,9 @@
 	import InputDate from '$lib/components/InputDate.svelte';
 	import InputRadio from '$lib/components/InputRadio.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
+	import Tags from 'svelte-tags-input';
 	export let data;
+	let tags = [];
 </script>
 
 <form class="cria-atividade-form">
@@ -26,10 +28,9 @@
 		<InputDate borded="true" />
 	</div>
 	<!-- Tags -->
-	<!-- TODO: InputTag.svelte -->
 	<div class="row">
 		<h3>Tags:</h3>
-		<InputText borded="true" />
+		<Tags bind:tags name="tag" maxTags={5} onlyUnique={false} onTagClick={(tag) => alert(tag)} />
 	</div>
 	<!-- Atribuição de Notas -->
 	<div class="row">
