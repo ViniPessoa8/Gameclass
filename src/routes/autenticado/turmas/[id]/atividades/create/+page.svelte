@@ -4,10 +4,11 @@
 	import InputDate from '$lib/components/InputDate.svelte';
 	import InputRadio from '$lib/components/InputRadio.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
+	export let data;
 </script>
 
 <form class="cria-atividade-form">
-	<h1>[Nome da turma]</h1>
+	<h1>{data.nomeTurma}</h1>
 	<h2>Criação de Atividade</h2>
 	<!-- Titulo da Atividade -->
 	<div class="row">
