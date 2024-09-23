@@ -1,4 +1,5 @@
 <script>
+	import { enhance } from '$app/forms';
 	import InputText from '$lib/components/InputText.svelte';
 	import InputTextArea from '$lib/components/InputTextArea.svelte';
 	import InputDate from '$lib/components/InputDate.svelte';
@@ -10,33 +11,61 @@
 
 	export let data;
 
+	let titulo,
+		descricao,
+		prazo,
+		realizacao = null;
+	let atribuicaoDeNotas = ['media_simples'];
+
+	let receberAposPrazo = false;
 	let autocomplete = []; // TODO: Get previous tags from user
 	let tags = [];
 
 	// TODO: Validar inputs
+	function validaInputs() {}
 
 	function onSubmit() {
+		console.debug('/atividades/create onSubmit()');
+		console.debug('titulo: ', titulo);
+		console.debug('descricao: ', descricao);
+		console.debug('prazo: ', prazo);
+		console.debug('tags: ', tags);
+		console.debug('atribuicaoDeNotas: ', atribuicaoDeNotas);
+		console.debug('realizacao: ', realizacao);
+		console.debug('receberAposPrazo: ', receberAposPrazo);
 		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
 	}
 </script>
 
-<form class="cria-atividade-form">
+<form
+	class="cria-atividade-form"
+	method="post"
+	use:enhance={({ cancel }) => {
+		if (!onSubmit() /* || form?.already_registered */) {
+			cancel();
+		}
+
+		return async ({ update }) => {
+			await update();
+		};
+	}}
+>
 	<h1>{data.nomeTurma}</h1>
 	<h2>Criação de Atividade</h2>
 	<!-- Titulo da Atividade -->
 	<div class="row">
 		<h3>Titulo da atividade:</h3>
-		<InputText borded="true" />
+		<InputText borded="true" bind:value={titulo} />
 	</div>
 	<!-- Descrição -->
 	<div class="row">
 		<h3>Descrição:</h3>
-		<InputTextArea borded="true" />
+		<InputTextArea borded="true" bind:value={descricao} />
 	</div>
 	<!-- Prazo -->
 	<div class="row">
 		<h3>Prazo:</h3>
-		<InputDate borded="true" />
+		<InputDate borded="true" bind:value={prazo} />
 	</div>
 	<!-- Tags -->
 	<div class="row">
@@ -48,6 +77,7 @@
 		<h3>Atribuição de notas:</h3>
 		<div class="column">
 			<InputRadio
+				bind:group={atribuicaoDeNotas}
 				options={[
 					{
 						name: 'media_simples',
@@ -67,6 +97,7 @@
 		<h3>Realização:</h3>
 		<div class="column">
 			<InputRadio
+				bind:group={realizacao}
 				options={[
 					{
 						name: 'individual',
@@ -83,7 +114,11 @@
 	</div>
 	<!-- Receber após o prazo -->
 	<div class="row">
-		<InputCheckbox text="Receber após o prazo" name="receber_apos_prazo" />
+		<InputCheckbox
+			bind:checked={receberAposPrazo}
+			text="Receber após o prazo"
+			name="receber_apos_prazo"
+		/>
 		<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
 	</div>
 	<div class="row">

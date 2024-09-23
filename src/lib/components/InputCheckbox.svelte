@@ -1,10 +1,10 @@
 <script>
-	export let text, name;
+	export let text, name, checked;
 </script>
 
 <div class="container">
 	<div class="row">
-		<input {name} type="checkbox" value={text} />
+		<input {name} type="checkbox" value={text} bind:checked />
 		<p>{text}</p>
 	</div>
 </div>

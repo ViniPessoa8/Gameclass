@@ -1,6 +1,6 @@
 <script>
 	export let options = [];
-	let group = [];
+	export let group = [];
 	if (options) {
 		group = options[0].text;
 	}
