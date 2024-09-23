@@ -30,7 +30,6 @@
 
 		if (prazoDate <= hoje) {
 			throw Error('Criação de atividade: Prazo inválido.');
-			return false;
 		}
 
 		return true;
@@ -53,9 +52,6 @@
 			prazoEmpty = true;
 			ok = false;
 		}
-		// if (!titulo || !descricao || !prazo || realizacao == null) {
-		// 	throw Error('Criação de atividade: dados faltando.');
-		// }
 
 		// TODO: Verificar se não existe outra atividade com o mesmo título na mesma turma
 
