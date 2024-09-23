@@ -8,6 +8,7 @@
 	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Tags from 'svelte-tags-input';
+	import InputDatetime from '$lib/components/InputDatetime.svelte';
 
 	export let data;
 
@@ -17,12 +18,37 @@
 		realizacao = null;
 	let atribuicaoDeNotas = ['media_simples'];
 
+	let tituloEmpty, descricaoEmpty, prazoEmpty;
+
 	let receberAposPrazo = false;
 	let autocomplete = []; // TODO: Get previous tags from user
 	let tags = [];
 
-	// TODO: Validar inputs
-	function validaInputs() {}
+	function validaInputs() {
+		let ok = true;
+
+		if (!titulo) {
+			tituloEmpty = true;
+			ok = false;
+		}
+
+		if (!descricao) {
+			descricaoEmpty = true;
+			ok = false;
+		}
+
+		if (!prazo) {
+			prazoEmpty = true;
+			ok = false;
+		}
+		// if (!titulo || !descricao || !prazo || realizacao == null) {
+		// 	throw Error('Criação de atividade: dados faltando.');
+		// }
+
+		// TODO: Verificar se não existe outra atividade com o mesmo título na mesma turma
+
+		return ok;
+	}
 
 	function onSubmit() {
 		console.debug('/atividades/create onSubmit()');
@@ -33,7 +59,26 @@
 		console.debug('atribuicaoDeNotas: ', atribuicaoDeNotas);
 		console.debug('realizacao: ', realizacao);
 		console.debug('receberAposPrazo: ', receberAposPrazo);
+
 		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
+
+		validaInputs();
+	}
+
+	// INPUT HANDLERS
+	function tituloInputHandler(e) {
+		if (e.target.value.length > 0) tituloEmpty = false;
+		// form.already_registered = false;
+	}
+
+	function descricaoInputHandler(e) {
+		if (e.target.value.length > 0) tituloEmpty = false;
+		// form.already_registered = false;
+	}
+
+	function prazoInputHandler(e) {
+		if (e.target.value.length != undefined) prazoEmpty = false;
+		// form.already_registered = false;
 	}
 </script>
 
@@ -53,19 +98,40 @@
 	<h1>{data.nomeTurma}</h1>
 	<h2>Criação de Atividade</h2>
 	<!-- Titulo da Atividade -->
-	<div class="row">
-		<h3>Titulo da atividade:</h3>
-		<InputText borded="true" bind:value={titulo} />
+	<div class="column">
+		<div class="row">
+			<h3>Titulo da atividade:</h3>
+			<InputText borded="true" bind:value={titulo} inputHandler={tituloInputHandler} />
+		</div>
+		{#if tituloEmpty}
+			<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+		{:else}
+			<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+		{/if}
 	</div>
 	<!-- Descrição -->
-	<div class="row">
-		<h3>Descrição:</h3>
-		<InputTextArea borded="true" bind:value={descricao} />
+	<div class="column">
+		<div class="row">
+			<h3>Descrição:</h3>
+			<InputTextArea borded="true" bind:value={descricao} inputHandler={descricaoInputHandler} />
+		</div>
+		{#if descricaoEmpty}
+			<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+		{:else}
+			<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+		{/if}
 	</div>
 	<!-- Prazo -->
-	<div class="row">
-		<h3>Prazo:</h3>
-		<InputDate borded="true" bind:value={prazo} />
+	<div class="column">
+		<div class="row">
+			<h3>Prazo:</h3>
+			<InputDatetime borded="true" bind:value={prazo} inputHandler={prazoInputHandler} />
+		</div>
+		{#if prazoEmpty}
+			<span class="error" style="visibility: visible;">*Campo obrigatório</span>
+		{:else}
+			<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
+		{/if}
 	</div>
 	<!-- Tags -->
 	<div class="row">
@@ -146,5 +212,12 @@
 	.column {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.error {
+		align-self: end;
+		color: red;
+		font-weight: 700;
+		margin-right: 12px;
 	}
 </style>
