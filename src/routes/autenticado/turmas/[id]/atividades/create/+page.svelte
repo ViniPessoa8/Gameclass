@@ -24,6 +24,18 @@
 	let autocomplete = []; // TODO: Get previous tags from user
 	let tags = [];
 
+	function validaPrazo() {
+		let prazoDate = new Date(prazo).getTime();
+		let hoje = new Date().getTime();
+
+		if (prazoDate <= hoje) {
+			throw Error('Criação de atividade: Prazo inválido.');
+			return false;
+		}
+
+		return true;
+	}
+
 	function validaInputs() {
 		let ok = true;
 
@@ -63,6 +75,7 @@
 		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
 
 		validaInputs();
+		validaPrazo();
 	}
 
 	// INPUT HANDLERS
