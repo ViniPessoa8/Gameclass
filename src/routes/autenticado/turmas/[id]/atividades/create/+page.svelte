@@ -122,7 +122,12 @@
 	<div class="column">
 		<div class="row">
 			<h3>Descrição:</h3>
-			<InputTextArea borded="true" bind:value={descricao} inputHandler={descricaoInputHandler} />
+			<InputTextArea
+				borded="true"
+				bind:value={descricao}
+				inputHandler={descricaoInputHandler}
+				backgroundColor="var(--cor-primaria)"
+			/>
 		</div>
 		{#if descricaoEmpty}
 			<span class="error" style="visibility: visible;">*Campo obrigatório</span>
