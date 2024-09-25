@@ -31,6 +31,9 @@
 		font-family: var(--font);
 		font-size: 24px;
 		height: 100%;
+		max-width: 400px;
+		max-height: 100px;
+		resize: none;
 	}
 
 	textarea:focus {
