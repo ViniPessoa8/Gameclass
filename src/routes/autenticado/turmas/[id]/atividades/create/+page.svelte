@@ -12,17 +12,16 @@
 
 	export let data;
 
-	let titulo,
-		descricao,
-		prazo,
-		realizacao = null;
-	let atribuicaoDeNotas = ['media_simples'];
-
+	let titulo = null,
+		descricao = null,
+		prazo = null,
+		realizacao = null,
+		atribuicaoDeNotas = ['media_simples'],
+		receberAposPrazo = false,
+		tags = [];
+	let tagsAutocomplete = [];
+	let tagsColors = {};
 	let tituloEmpty, descricaoEmpty, prazoEmpty;
-
-	let receberAposPrazo = false;
-	let autocomplete = []; // TODO: Get previous tags from user
-	let tags = [];
 
 	function validaPrazo() {
 		let prazoDate = new Date(prazo).getTime();
@@ -64,14 +63,34 @@
 		console.debug('descricao: ', descricao);
 		console.debug('prazo: ', prazo);
 		console.debug('tags: ', tags);
+		console.debug('tagsColors: ', tagsColors);
 		console.debug('atribuicaoDeNotas: ', atribuicaoDeNotas);
 		console.debug('realizacao: ', realizacao);
 		console.debug('receberAposPrazo: ', receberAposPrazo);
 
 		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
 
-		validaInputs();
-		validaPrazo();
+		if (!validaInputs()) return false;
+		if (!validaPrazo()) return false;
+		return true;
+	}
+
+	function onTagAdicionada(tag, index) {
+		console.log('onTagAdicionada() param.tag: ', tag);
+		console.log('onTagAdicionada() param.index: ', index);
+		tagsColors[tag] = 'black';
+		console.log('onTagAdicionada() tags: ', tags);
+		console.log('onTagAdicionada() tagsColors: ', tagsColors);
+	}
+
+	function onTagRemovida() {
+		// remove a cor correspondente no dicionario de cores
+		let tagsColorsKeys = Object.keys(tagsColors);
+		tagsColorsKeys.forEach((tagKey) => {
+			if (!tags.includes(tagKey)) {
+				delete tagsColors[tagKey];
+			}
+		});
 	}
 
 	// INPUT HANDLERS
@@ -94,12 +113,24 @@
 <form
 	class="cria-atividade-form"
 	method="post"
-	use:enhance={({ cancel }) => {
+	use:enhance={({ formData, cancel }) => {
 		if (!onSubmit() /* || form?.already_registered */) {
 			cancel();
 		}
 
-		return async ({ update }) => {
+		formData.delete('media_simples');
+		formData.delete('media_ponderada');
+		formData.delete('individual');
+		formData.delete('grupos');
+		formData.delete('svelte-tags-input');
+
+		formData.set('tags', JSON.stringify(tagsColors));
+		formData.set('atribuicaoDeNotas', atribuicaoDeNotas);
+		formData.set('realizacao', realizacao);
+		formData.set('receberAposPrazo', receberAposPrazo);
+
+		return async ({ result, update }) => {
+			console.debug('form enhace result: ', result);
 			await update();
 		};
 	}}
@@ -110,7 +141,12 @@
 	<div class="column">
 		<div class="row">
 			<h3>Titulo da atividade:</h3>
-			<InputText borded="true" bind:value={titulo} inputHandler={tituloInputHandler} />
+			<InputText
+				name="titulo"
+				borded="true"
+				bind:value={titulo}
+				inputHandler={tituloInputHandler}
+			/>
 		</div>
 		{#if tituloEmpty}
 			<span class="error" style="visibility: visible;">*Campo obrigatório</span>
@@ -123,6 +159,7 @@
 		<div class="row">
 			<h3>Descrição:</h3>
 			<InputTextArea
+				name="descricao"
 				borded="true"
 				bind:value={descricao}
 				inputHandler={descricaoInputHandler}
@@ -139,7 +176,12 @@
 	<div class="column">
 		<div class="row">
 			<h3>Prazo:</h3>
-			<InputDatetime borded="true" bind:value={prazo} inputHandler={prazoInputHandler} />
+			<InputDatetime
+				name="prazo"
+				borded="true"
+				bind:value={prazo}
+				inputHandler={prazoInputHandler}
+			/>
 		</div>
 		{#if prazoEmpty}
 			<span class="error" style="visibility: visible;">*Campo obrigatório</span>
@@ -150,7 +192,15 @@
 	<!-- Tags -->
 	<div class="row">
 		<h3>Tags:</h3>
-		<Tags bind:tags name="tag" maxTags={5} onlyUnique={false} onTagClick={(tag) => alert(tag)} />
+		<!-- TODO: Make Tag style editable (https://svelte-tags-input.vercel.app/#:~:text=How%20to%20override%20default%20styles%3F) -->
+		<!-- TODO: Generate random colors -->
+		<Tags
+			bind:tags
+			maxTags={5}
+			onlyUnique={true}
+			onTagAdded={onTagAdicionada}
+			onTagRemoved={onTagRemovida}
+		/>
 	</div>
 	<!-- Atribuição de Notas -->
 	<div class="row">
@@ -194,11 +244,7 @@
 	</div>
 	<!-- Receber após o prazo -->
 	<div class="row">
-		<InputCheckbox
-			bind:checked={receberAposPrazo}
-			text="Receber após o prazo"
-			name="receber_apos_prazo"
-		/>
+		<InputCheckbox bind:checked={receberAposPrazo} text="Receber após o prazo" />
 		<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
 	</div>
 	<div class="row">
