@@ -18,7 +18,8 @@ export const DB_INFO = {
 		instituicao: "instituicao",
 		turma: "turma",
 		atividade: "atividade",
-		item_atividade: "item_atividade"
+		item_atividade: "item_atividade",
+		tag: "tag"
 	}
 }
 

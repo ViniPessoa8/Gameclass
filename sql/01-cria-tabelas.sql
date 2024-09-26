@@ -70,7 +70,8 @@ CREATE TABLE tag (
 	"id" BIGSERIAL UNIQUE,
 	"titulo" VARCHAR(255) NOT NULL,
 	"cor" varchar(6) NOT NULL,
-	PRIMARY KEY ("id")
+	"id_professor" BIGSERIAL REFERENCES usuario(id) NOT NULL,
+	PRIMARY KEY ("titulo", "id_professor")
 );
 
 CREATE TABLE Criterio (
