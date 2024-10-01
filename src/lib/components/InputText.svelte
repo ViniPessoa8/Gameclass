@@ -3,15 +3,32 @@
 	export let value;
 	export let inputHandler;
 	export let name;
+	export let width;
 	export let borded = false;
 </script>
 
 {#if borded}
 	<div class="board">
-		<input class="borded" type="text" {name} {placeholder} bind:value on:input={inputHandler} />
+		<input
+			class="borded"
+			type="text"
+			{name}
+			{placeholder}
+			bind:value
+			on:input={inputHandler}
+			style="width: {width};"
+		/>
 	</div>
 {:else}
-	<input class="unborded" type="text" {name} {placeholder} bind:value on:input={inputHandler} />
+	<input
+		class="unborded"
+		type="text"
+		{name}
+		{placeholder}
+		bind:value
+		on:input={inputHandler}
+		style="width: {width};"
+	/>
 {/if}
 
 <style>

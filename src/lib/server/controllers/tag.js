@@ -1,7 +1,6 @@
 import { cadastraTagBD, deletaTagBD, listaTagsProfessorBD } from "../repositories/tag"
 
 export async function cadastraTag(titulo, cor, idProfessor) {
-	console.log(`cadastraTag(${titulo}, ${cor}, ${idProfessor})`)
 	if (!titulo || !cor || !idProfessor) {
 		throw ("cadastraTag: Dados obrigatórios não foram preenchidos.")
 	}
@@ -13,10 +12,6 @@ export async function cadastraTag(titulo, cor, idProfessor) {
 			return res.rows
 		}
 	} catch (e) {
-		console.log(typeof e)
-		// if (e.includes("duplicate key value violates unique constraint")) {
-		// 	throw ("Uma tag com o mesmo nome já existe nessa turma.")
-		// }
 		throw e;
 	}
 }

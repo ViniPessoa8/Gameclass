@@ -1,11 +1,21 @@
 <script>
+	/** {options}
+	* Lista de opções a serem escolhidas.
+
+	* Dicionário no seguinte formato:
+	* {
+	* 	name: str, // identificador do campo.
+	*	text: str  // texto que será mostrado como opção.
+	* }
+	*/
 	export let options = [];
+
+	// Variável de controle da tag input
 	export let group = [];
+
 	if (options) {
 		group = options[0].text;
 	}
-	$: console.log('InputRadio group: ', group);
-	console.log('InputRadio options: ', options);
 </script>
 
 <div class="container">
@@ -35,9 +45,4 @@
 		flex-direction: row;
 		gap: 8px;
 	}
-
-	/* input[type='radio'] { */
-	/* 	width: 1.3em; */
-	/* 	height: 1.3em; */
-	/* } */
 </style>

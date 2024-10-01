@@ -11,4 +11,7 @@
 	<a href="/autenticado/turmas/create">autenticado/Turmas/create</a>
 	<a href="/autenticado/turmas/1">autenticado/Turmas/1</a>
 	<a href="/autenticado/turmas/1/atividades/create">autenticado/Turmas/1/atividades/create</a>
+	<a href="/autenticado/turmas/1/atividades/create/etapas/1"
+		>autenticado/Turmas/1/atividades/create/etapas/1</a
+	>
 </div>

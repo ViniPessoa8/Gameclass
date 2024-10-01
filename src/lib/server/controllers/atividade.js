@@ -2,6 +2,7 @@ import { cadastraAtividadeBD, getAtividadeByIdBD, getAtividadeByTituloBD, remove
 import { buscaItemAtividadePorId } from "../repositories/itemAtividade";
 import { listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId } from "./itemAtividade";
 
+// TODO: Add missing parameters
 export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
 	if (!titulo || !prazo || !id_turma) {
 		throw ("Dados obrigatórios não foram preenchidos. (Atividade)")
