@@ -12,6 +12,8 @@
 
 	export let data;
 
+	console.log(data.tags);
+
 	let titulo = null,
 		descricao = null,
 		prazo = null,
@@ -19,7 +21,7 @@
 		atribuicaoDeNotas = ['media_simples'],
 		receberAposPrazo = false,
 		tags = [];
-	let tagsAutocomplete = [];
+	let tagsAutocomplete = data.tags.map((elem) => elem.titulo);
 	let tagsColors = {};
 	let tituloEmpty, descricaoEmpty, prazoEmpty;
 
@@ -52,8 +54,6 @@
 			ok = false;
 		}
 
-		// TODO: Verificar se não existe outra atividade com o mesmo título na mesma turma
-
 		return ok;
 	}
 
@@ -67,8 +67,6 @@
 		console.debug('atribuicaoDeNotas: ', atribuicaoDeNotas);
 		console.debug('realizacao: ', realizacao);
 		console.debug('receberAposPrazo: ', receberAposPrazo);
-
-		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
 
 		if (!validaInputs()) return false;
 		if (!validaPrazo()) return false;
@@ -198,6 +196,7 @@
 			bind:tags
 			maxTags={5}
 			onlyUnique={true}
+			autoComplete={tagsAutocomplete}
 			onTagAdded={onTagAdicionada}
 			onTagRemoved={onTagRemovida}
 		/>
