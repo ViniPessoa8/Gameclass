@@ -46,6 +46,23 @@ export async function getAtividadeByIdBD(id) {
 	}
 }
 
+export async function getAtividadesByIdTurmaBD(idTurma) {
+	const query = {
+		text: `SELECT * FROM ${DB_INFO.tables.atividade} WHERE id_turma=$1`,
+		values: [idTurma]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		if (!res) {
+			throw (`Não foi encontrada atividade na turma com ID ${idTurma}`)
+		}
+		return res
+	} catch (e) {
+		throw (`Erro ao buscar atividade por ID da turma (${idTurma}): ${e}`)
+	}
+}
+
 export async function getAtividadeByTituloBD(titulo, id_turma) {
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.atividade} WHERE titulo=$1 AND id_turma=$2`,

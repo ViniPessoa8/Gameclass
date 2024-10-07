@@ -6,6 +6,8 @@
 	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
 	import Etapa from './Etapa.svelte';
 
+	export let atividade;
+	console.log('ATIVIDADE: ', atividade);
 	let width = 0;
 	let toggled = false;
 </script>
@@ -22,10 +24,9 @@
 	>
 		<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
 		<div class="column">
-			<h2>Avaliação Parcial 1</h2>
-			<span>Individual</span>
+			<h2>{atividade.titulo}</h2>
 		</div>
-		<span>Prazo: 16/07/2023</span>
+		<span>Prazo: {atividade.prazo.toLocaleString('pt-BR', { timeZone: 'UTC' }).slice(0, -3)}</span>
 		{#if toggled}
 			<img src={icon_seta_cima} alt="Seta para abrir a turma" />
 		{:else}
@@ -36,17 +37,22 @@
 	{#if toggled}
 		<div class="etapas">
 			<h2>Etapas</h2>
-			<hr />
-			<div class="etapas-container">
-				<Etapa
-					titulo="Pesquisa de referencial teórico"
-					status="entregue"
-					iconText="E1"
-					prazo="22/12/2024"
-				/>
-				<Etapa titulo="Mockup de telas" status="pendente" iconText="E2" prazo="22/12/2024" />
-				<Etapa titulo="Protótipo" status="corrigido" iconText="E3" prazo="22/12/2024" />
-			</div>
+			{#if atividade.itens_atividade.length === 0}
+				<h3 style="align-self: center; margin: 8px;">(Não há etapas nessa atividade)</h3>
+			{/if}
+			{#each atividade.itens_atividade as itemAtividade}
+				<hr />
+				<div class="etapas-container">
+					<Etapa
+						titulo={itemAtividade.titulo}
+						status="Lançado"
+						iconText="E1"
+						prazo={itemAtividade.data_entrega_final
+							.toLocaleString('pt-BR', { timeZone: 'UTC' })
+							.slice(0, -3)}
+					/>
+				</div>
+			{/each}
 		</div>
 	{/if}
 </div>

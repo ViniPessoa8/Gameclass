@@ -1,4 +1,4 @@
-import { cadastraAtividadeBD, getAtividadeByIdBD, getAtividadeByTituloBD, removeAtividadeBD } from "../repositories/atividade"
+import { cadastraAtividadeBD, getAtividadeByIdBD, getAtividadesByIdTurmaBD, getAtividadeByTituloBD, removeAtividadeBD } from "../repositories/atividade"
 import { buscaItemAtividadePorId } from "../repositories/itemAtividade";
 import { listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId } from "./itemAtividade";
 
@@ -42,6 +42,12 @@ export async function getAtividadeById(id) {
 		throw ("Não foi encontrada atividade com esse id.")
 	}
 	return res
+}
+
+export async function getAtividadesByIdTurma(id_turma) {
+	let res = await getAtividadesByIdTurmaBD(id_turma)
+	return res.rows
+
 }
 
 export async function getAtividadeByTitulo(titulo, id_turma) {

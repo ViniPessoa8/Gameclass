@@ -1,6 +1,7 @@
 import { getTurmaById } from "$lib/server/controllers/turma"
 import { cadastraTag } from "$lib/server/controllers/tag"
-import { error } from "@sveltejs/kit"
+import { error, redirect } from "@sveltejs/kit"
+import { cadastraAtividade } from "$lib/server/controllers/atividade"
 
 export async function load({ params }) {
 	const turmaId = params.id
@@ -22,10 +23,9 @@ export const actions = {
 		let descricaoAtividade = data.get('descricao')
 		let prazoAtividade = data.get('prazo')
 		let tags = JSON.parse(data.get("tags"))
-		let atribuicaoDeNotasAtividade = data.get('atribuicaoDeNotas')
-		let realizacao = data.get('realizacao')
 
 		// Salva tags do usuário
+		// TODO: Verificar se tag ja existe antes de salvar
 		for (const [key, value] of Object.entries(tags)) {
 			let tituloTag = key
 			let corTag = value
@@ -37,7 +37,15 @@ export const actions = {
 		}
 
 		// Cria atividade
-		// TODO: PAREI AQUI, FINALIZAR CRIAÇÃO DA ATIVIDADE
+		let idAtividade;
+		try {
+			idAtividade = await cadastraAtividade(tituloAtividade, descricaoAtividade, prazoAtividade, idProfessor)
+			idAtividade = idAtividade[0].id
+		} catch (e) {
+			console.log("POST /atividades/create ERROR: ", e)
+		}
+		console.log("URL: ", request.url)
+		redirect(307, request.url + '/etapas/' + idAtividade)
 
 
 	}

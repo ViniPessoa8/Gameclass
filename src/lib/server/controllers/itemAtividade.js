@@ -1,6 +1,6 @@
 import { buscaItemAtiv, buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, removeItemAtividadePorTituloBD } from "../repositories/itemAtividade";
 
-export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai) {
+export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai) {
 
 	if (!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal || !tipoAtribuicaoNota || idAtividadePai <= 0) {
 		throw ("Dados obrigatórios não foram preenchidos. (Item Atividade)")

@@ -3,16 +3,21 @@
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import AtividadeTurma from '$lib/components/AtividadeTurma.svelte';
 	import ButtonRedirect from '$lib/components/ButtonRedirect.svelte';
+
+	export let data;
+	let atividades = data.atividades;
 	let id = $page.params.id;
 
 	console.log('TURMAS/ID DATA:', id);
+	console.log('TURMAS/ID ATIVIDADES:', atividades);
 </script>
 
 <TurmaTabBar />
 <div class="content-turma">
 	<h1>Atividades</h1>
-	<AtividadeTurma />
-	<AtividadeTurma />
+	{#each atividades as atividade}
+		<AtividadeTurma {atividade} />
+	{/each}
 	<ButtonRedirect href="/autenticado/turmas/{id}/atividades/create"
 		>Criar nova atividade</ButtonRedirect
 	>
