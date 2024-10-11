@@ -2,9 +2,15 @@
 	export let type = '';
 	export let color = '';
 	export let backgroundColor = '';
+	export let marginTop = '';
 </script>
 
-<button {type} class="button" style="background-color: {backgroundColor}; color: {color}" on:click>
+<button
+	{type}
+	class="button"
+	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}"
+	on:click
+>
 	<slot></slot>
 </button>
 
