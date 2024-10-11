@@ -9,6 +9,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Tags from 'svelte-tags-input';
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
+	import { toast, Toaster } from 'svelte-sonner';
 
 	export let data;
 
@@ -110,11 +111,12 @@
 	}
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <form
 	class="cria-atividade-form"
 	method="post"
 	use:enhance={({ formData, cancel }) => {
-		if (!onSubmit() /* || form?.already_registered */) {
+		if (!onSubmit()) {
 			cancel();
 		}
 
@@ -123,14 +125,17 @@
 		formData.delete('individual');
 		formData.delete('grupos');
 		formData.delete('svelte-tags-input');
-
 		formData.set('tags', JSON.stringify(tagsColors));
 		formData.set('atribuicaoDeNotas', atribuicaoDeNotas);
 		formData.set('realizacao', realizacao);
 		formData.set('receberAposPrazo', receberAposPrazo);
 
 		return async ({ result, update }) => {
-			console.debug('form enhace result: ', result);
+			if (result.type == 'failure') {
+				if (result.data.duplicated) {
+					toast.error(result.data.e);
+				}
+			}
 			await update();
 		};
 	}}

@@ -7,12 +7,8 @@ export async function cadastraAtividadeBD(titulo, descricao, prazo, id_turma) {
 		values: [titulo, descricao, prazo, id_turma]
 	}
 
-	try {
-		const res = await dbConn.query(query)
-		return res
-	} catch (e) {
-		throw (`Erro ao cadastrar nova atividade: ${e}`)
-	}
+	const res = await dbConn.query(query)
+	return res
 }
 
 export async function removeAtividadeBD(titulo, id_turma) {

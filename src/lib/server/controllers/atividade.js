@@ -15,8 +15,8 @@ export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
 			return res.rows
 		}
 	} catch (e) {
-		if (e.includes("duplicate key value violates unique constraint")) {
-			throw ("Uma atividade com o mesmo nome já existe nessa turma.")
+		if (e.message.includes("duplicate key value violates unique constraint")) {
+			throw new Error(`Uma atividade com o mesmo nome já existe nessa turma`)
 		}
 		throw e;
 	}
