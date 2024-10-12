@@ -50,6 +50,11 @@
 		{ name: 'realizacao_grupos', text: 'Em Grupos' }
 	];
 
+	let atribuicaoOpcoes = [
+		{ name: 'media_simples', text: 'Média Simples' },
+		{ name: 'media_ponderada', text: 'Média Ponderada' }
+	];
+
 	let titulo = '';
 	let dtEntregaMin = '1999-12-06T16:20'; // TODO: usar a data atual
 	let dtEntregaMax = '1999-12-06T16:20';
@@ -163,10 +168,7 @@
 								borded
 								name="atribuicao_notas"
 								bind:group={atribuicaoNotasGroup}
-								options={[
-									{ name: 'atribuicao_individual', text: 'Individual' },
-									{ name: 'atribuicao_grupos', text: 'Em Grupos' }
-								]}
+								options={atribuicaoOpcoes}
 							/>
 						</div>
 						<div class="row">

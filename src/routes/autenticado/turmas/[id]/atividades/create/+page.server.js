@@ -5,9 +5,9 @@ import { cadastraAtividade } from "$lib/server/controllers/atividade"
 
 export async function load({ params }) {
 	const turmaId = params.id
-	console.log("atividades/create/server turmaId: " + turmaId)
 	const turma = await getTurmaById(turmaId)
-	console.log("atividades/create/server nomeTurma: " + turma.nome)
+
+	console.assert(turma != null, `Turma ${turmaId} não encontrada.`)
 
 	return { "nomeTurma": turma.nome }
 }
@@ -34,9 +34,7 @@ export const actions = {
 				await cadastraTag(tituloTag, corTag, idProfessor)
 			} catch (e) {
 				erro = e
-				console.log("POST /atividades/create ERROR: ", e)
 			}
-			console.debug("erro: ", erro)
 			if (erro) fail(400, `POST /atividades/create ERROR: ${erro}`)
 		}
 
@@ -51,8 +49,7 @@ export const actions = {
 		}
 
 		if (erro) {
-			// TODO: Fazer essa checagem funcionar
-			console.debug(erro)
+			console.error(erro)
 			if (erro.message.includes("Uma atividade com o mesmo nome já existe nessa turma")) {
 				return fail(400, { duplicated: true, e: erro.message })
 
@@ -61,7 +58,6 @@ export const actions = {
 			}
 		}
 
-		console.log("URL: ", request.url)
 		redirect(307, request.url + '/etapas/' + idAtividade)
 
 	}

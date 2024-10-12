@@ -7,14 +7,14 @@
 	export let data;
 	let atividades = data.atividades;
 	let id = $page.params.id;
-
-	console.log('TURMAS/ID DATA:', id);
-	console.log('TURMAS/ID ATIVIDADES:', atividades);
 </script>
 
 <TurmaTabBar />
 <div class="content-turma">
 	<h1>Atividades</h1>
+	{#if atividades.length == 0}
+		<p>(Não há atividades nessa turma)</p>
+	{/if}
 	{#each atividades as atividade}
 		<AtividadeTurma {atividade} />
 	{/each}
@@ -29,6 +29,12 @@
 		flex-direction: column;
 		align-items: center;
 		margin-top: 24px;
+	}
+
+	p {
+		margin-top: 64px;
+		margin-bottom: 96px;
+		font-size: 24px;
 	}
 
 	.content-turma > h1 {

@@ -1,5 +1,6 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
+	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import SideBarButton from '$lib/components/SideBarButton.svelte';
 	import { goto } from '$app/navigation';
 
@@ -8,7 +9,7 @@
 	export let etapas;
 	export let selectedEtapa;
 	export let onMudaEtapa;
-	console.assert(etapas != null, '[EtapasBarraLateral] data vazia');
+	console.assert(etapas != null, '[EtapasBarraLateral] etapas vazia');
 
 	let backgroundColor = 'var(--cor-secundaria)';
 	let textColor = 'white';
@@ -18,6 +19,10 @@
 
 <div class="tab">
 	<div class="etapas-container">
+		<div class="header">
+			<p>Etapas da Atividade</p>
+			<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
+		</div>
 		{#each etapas as etapa}
 			<div
 				class="etapa"
@@ -25,7 +30,10 @@
 				style="
 				background-color: {selectedEtapa === etapa.id ? selectedBackgroundColor : backgroundColor};
 				color: {selectedEtapa === etapa.id ? selectedTextColor : textColor};
-				border: {selectedEtapa !== etapa.id ? '1px solid var(--cor-primaria)' : 'none'};	
+				border: {selectedEtapa === etapa.id ? 'none' : '1px solid var(--cor-primaria)'};	
+				font-weight: {selectedEtapa === etapa.id ? '700' : '500'};
+				font-size: 24px;
+				text-align: center;
 				min-height: 48px;
 				min-width: 200px;
 				"
@@ -37,9 +45,11 @@
 			>
 				<div class="info">
 					{#if etapa.titulo === ''}
-						<p style="color: rgba(200,200,150,0.3); font-weight=100; text-align: center;">Titulo</p>
+						<p style="color: rgba(200,200,150,0.4); font-weight=100; text-align: center;">
+							(Título)
+						</p>
 					{/if}
-					<h1>{etapa.titulo}</h1>
+					<p>{etapa.titulo}</p>
 				</div>
 			</div>
 		{/each}
@@ -59,6 +69,13 @@
 </div>
 
 <style>
+	.header > p {
+		text-align: center;
+		text-decoration: underline;
+		font-size: 24px;
+		margin-bottom: 24px;
+	}
+
 	.tab {
 		display: flex;
 		width: 300px;
@@ -73,7 +90,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-evenly;
 		gap: 24px;
 	}
 
@@ -111,9 +128,5 @@
 		text-wrap: nowrap;
 		text-overflow: ellipsis;
 		text-align: center;
-	}
-
-	.btn-nova-etapa {
-		margin-top: 42px;
 	}
 </style>
