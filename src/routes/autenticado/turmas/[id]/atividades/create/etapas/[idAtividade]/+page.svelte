@@ -5,11 +5,30 @@
 	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
+	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO, REALIZACAO } from '$lib/constants';
+	import selectedEtapa from '$src/stores/selectedEtapa.js';
+	import { onMount } from 'svelte';
 
 	export let data;
-	console.log('create etapa data:', data);
+
+	// {
+	// 	id: 2,
+	// 	titulo: 'teste 2'
+	// }
+	let etapas = [
+		{
+			id: 1,
+			titulo: ''
+		}
+	];
+
+	if (!$selectedEtapa) {
+		$selectedEtapa = etapas[0].id;
+	}
+
+	console.log($selectedEtapa);
 
 	let criterios = [
 		{
@@ -65,115 +84,148 @@
 
 		return true;
 	}
+
+	function tituloInputHandler(e) {
+		let etapaIndex = $selectedEtapa - 1;
+		console.debug(etapas[etapaIndex]);
+		etapas[etapaIndex].titulo = titulo;
+	}
+
+	function onMudaEtapa() {
+		console.log($selectedEtapa);
+		titulo = etapas[$selectedEtapa - 1].titulo;
+	}
+
+	onMount(() => {
+		if (!$selectedEtapa) {
+			$selectedEtapa = etapas[0].id;
+		}
+	});
 </script>
 
 <!-- TODO: Barra lateral de etapas -->
-<div class="content-container">
-	<h1>Calculados</h1>
-	<h2>Definição das etapas da atividade</h2>
-	<div class="form-container">
-		<form
-			class="cria-etapa-form"
-			method="post"
-			use:enhance={({ formData, cancel }) => {
-				console.debug('postou:', formData);
-				if (!onSubmit(formData) /* || form?.already_registered */) {
-					cancel();
-				}
+<div class="panel">
+	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} {onMudaEtapa} />
+	<div class="content-container">
+		<h1>Calculados</h1>
+		<h2>Definição das etapas da atividade</h2>
+		<div class="form-container">
+			<form
+				class="cria-etapa-form"
+				method="post"
+				use:enhance={({ formData, cancel }) => {
+					console.debug('postou:', formData);
+					if (!onSubmit(formData) /* || form?.already_registered */) {
+						cancel();
+					}
 
-				// formData.delete('media_simples');
-				// formData.set('tags', JSON.stringify(tagsColors));
+					// formData.delete('media_simples');
+					// formData.set('tags', JSON.stringify(tagsColors));
 
-				return async ({ result, update }) => {
-					await update(); // TODO: Remover reset false
-				};
-			}}
-		>
-			<div class="form-content">
-				<div class="info-container">
-					<h1>Informações</h1>
-					<div class="row">
-						<h2>Título da etapa:</h2>
-						<InputText borded bind:value={titulo} name="titulo" />
-					</div>
-					<div class="row">
-						<h2>Data de início:</h2>
-						<InputDatetime borded bind:value={dtEntregaMin} name="dtEntregaMin" />
-					</div>
-					<div class="row">
-						<h2>Data máxima de entrega:</h2>
-						<InputDatetime borded bind:value={dtEntregaMax} name="dtEntregaMax" />
-					</div>
-					<div class="row">
-						<h2>Realização:</h2>
-						<InputRadio
-							borded
-							name="realizacao"
-							bind:group={realizacaoGroup}
-							bind:options={realizacaoOpcoes}
-						/>
-					</div>
-					<div class="row">
-						<h2>Atribuição de Notas:</h2>
-						<InputRadio
-							borded
-							name="atribuicao_notas"
-							bind:group={atribuicaoNotasGroup}
-							options={[
-								{ name: 'atribuicao_individual', text: 'Individual' },
-								{ name: 'atribuicao_grupos', text: 'Em Grupos' }
-							]}
-						/>
-					</div>
-					<div class="row">
-						<InputCheckbox bind:checked={receberAposPrazo} text="Receber após o prazo" />
-						<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
-					</div>
-				</div>
-				<div class="criterios-container">
-					<h1>Critérios</h1>
-					<form name="form-criterio">
+					return async ({ result, update }) => {
+						console.debug('post result:', result);
+						await update(); // TODO: Remover reset false
+					};
+				}}
+			>
+				<div class="form-content">
+					<div class="info-container">
+						<h1>Informações</h1>
 						<div class="row">
-							<!-- TODO: Limitar input de dados com mascaras  -->
-							<!-- TODO: Adicionar critério ao clicar no botão -->
-							<!-- TODO: Limpar formulário ao adicionar critério -->
-							<InputText borded name="titulo-criterio" placeholder="Novo critério" />
-							<InputText borded name="nota-max-criterio" placeholder="0,0" width="50px" />
-							<Button borded color="var(--cor primaria)" backgroundColor="var(--cor-secundaria)"
-								>+</Button
-							>
+							<h2>Título da etapa:</h2>
+							<InputText
+								borded
+								bind:value={titulo}
+								inputHandler={tituloInputHandler}
+								game="titulo"
+							/>
 						</div>
-					</form>
-					<div class="criterios-definidos">
-						<hr />
-						{#each criterios as criterio}
-							<div class="criterio-container">
-								<h2>{criterio.titulo}</h2>
-								<h2>{criterio.nota_max.toFixed(2)}</h2>
+						<div class="row">
+							<h2>Data de início:</h2>
+							<InputDatetime borded bind:value={dtEntregaMin} name="dtEntregaMin" />
+						</div>
+						<div class="row">
+							<h2>Data máxima de entrega:</h2>
+							<InputDatetime borded bind:value={dtEntregaMax} name="dtEntregaMax" />
+						</div>
+						<div class="row">
+							<h2>Realização:</h2>
+							<InputRadio
+								borded
+								name="realizacao"
+								bind:group={realizacaoGroup}
+								bind:options={realizacaoOpcoes}
+							/>
+						</div>
+						<div class="row">
+							<h2>Atribuição de Notas:</h2>
+							<InputRadio
+								borded
+								name="atribuicao_notas"
+								bind:group={atribuicaoNotasGroup}
+								options={[
+									{ name: 'atribuicao_individual', text: 'Individual' },
+									{ name: 'atribuicao_grupos', text: 'Em Grupos' }
+								]}
+							/>
+						</div>
+						<div class="row">
+							<InputCheckbox bind:checked={receberAposPrazo} text="Receber após o prazo" />
+							<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
+						</div>
+					</div>
+					<div class="criterios-container">
+						<h1>Critérios</h1>
+						<form name="form-criterio">
+							<div class="row">
+								<!-- TODO: Limitar input de dados com mascaras  -->
+								<!-- TODO: Adicionar critério ao clicar no botão -->
+								<!-- TODO: Limpar formulário ao adicionar critério -->
+								<InputText borded name="titulo-criterio" placeholder="Novo critério" />
+								<InputText borded name="nota-max-criterio" placeholder="0,0" width="50px" />
+								<Button borded color="var(--cor primaria)" backgroundColor="var(--cor-secundaria)"
+									>+</Button
+								>
 							</div>
+						</form>
+						<div class="criterios-definidos">
 							<hr />
-						{/each}
-						<h2 class="total-de-pontos">
-							Total de pontos:&emsp;
-							{parseFloat(criterios.map((x) => x.nota_max).reduce((a, b) => a + b)).toFixed(2)}pts
-						</h2>
+							{#each criterios as criterio}
+								<div class="criterio-container">
+									<h2>{criterio.titulo}</h2>
+									<h2>{criterio.nota_max.toFixed(2)}</h2>
+								</div>
+								<hr />
+							{/each}
+							<h2 class="total-de-pontos">
+								Total de pontos:&emsp;
+								{parseFloat(criterios.map((x) => x.nota_max).reduce((a, b) => a + b)).toFixed(2)}pts
+							</h2>
+						</div>
 					</div>
 				</div>
-			</div>
-			{#if realizacaoGroup === 'Individual'}
-				<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-					>Próximo</Button
-				>
-			{:else}
-				<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-					>Definir formação de grupos</Button
-				>
-			{/if}
-		</form>
+				{#if realizacaoGroup === 'Individual'}
+					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
+						>Próximo</Button
+					>
+				{:else}
+					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
+						>Definir formação de grupos</Button
+					>
+				{/if}
+			</form>
+		</div>
 	</div>
 </div>
 
 <style>
+	.panel {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+	}
+
 	.content-container {
 		display: flex;
 		flex-direction: column;

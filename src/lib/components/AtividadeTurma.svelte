@@ -1,18 +1,18 @@
 <script>
 	import BarraDeProgresso from './BarraDeProgresso.svelte';
 	import CircularIcon from './CircularIcon.svelte';
+	import Button from './Button.svelte';
 	import icon_atividade_turma from '$lib/assets/icon_atividade_turma.png';
 	import icon_seta_cima from '$lib/assets/icon_seta_cima.png';
 	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
 	import Etapa from './Etapa.svelte';
+	import { goto } from '$app/navigation';
 
 	export let atividade;
-	console.log('ATIVIDADE: ', atividade);
 	let width = 0;
 	let toggled = false;
 </script>
 
-<!-- TODO: Toggle Button para abrir as etapas -->
 <div class="atividade-container" bind:clientWidth={width}>
 	<BarraDeProgresso {width} />
 	<div
@@ -53,6 +53,20 @@
 					/>
 				</div>
 			{/each}
+			<!-- TODO: Toggle Button para abrir as etapas -->
+			<div class="button">
+				<Button
+					on:click={() => {
+						console.log('clicked');
+						// TODO: Get id disponivel para etapa
+						goto(`atividades/create/etapas/${atividade.id}`); // TODO: utilziar id dinamico da turma e da etapa
+					}}
+					color="white"
+					backgroundColor="var(--cor-primaria)"
+					marginTop="24px"
+					fontSize="16px">+ Adicionar Etapa</Button
+				>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -72,15 +86,19 @@
 		cursor: pointer;
 	}
 
-	button {
-		background: none;
-		color: inherit;
-		border: none;
-		padding: 0;
-		font: inherit;
-		cursor: pointer;
-		outline: inherit;
+	.button {
+		align-self: center;
 	}
+
+	/* button { */
+	/* 	background: none; */
+	/* 	color: inherit; */
+	/* 	border: none; */
+	/* 	padding: 0; */
+	/* 	font: inherit; */
+	/* 	cursor: pointer; */
+	/* 	outline: inherit; */
+	/* } */
 
 	.atividade-info > span {
 		margin-left: auto;

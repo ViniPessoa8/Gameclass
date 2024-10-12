@@ -39,7 +39,7 @@ export let actions = {
 		console.log('receberAposPrazo: ', receberAposPrazo)
 		console.log('idAtividadePai: ', idAtividadePai)
 
-		await cadastraItemAtividade(
+		let res = await cadastraItemAtividade(
 			titulo,
 			notaMax,
 			dtEntregaMin,
@@ -51,6 +51,8 @@ export let actions = {
 			0,
 			idAtividadePai
 		);
+
+		console.debug(res)
 
 		// TODO: Cadastrar criterios
 
