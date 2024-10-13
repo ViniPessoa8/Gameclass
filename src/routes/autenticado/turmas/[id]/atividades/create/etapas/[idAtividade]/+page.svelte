@@ -13,6 +13,9 @@
 
 	// export let data;
 
+	let novoCriterioTitulo = '';
+	let novoCriterioNota = '';
+
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
 		{ name: 'realizacao_grupos', text: 'Em Grupos' }
@@ -23,12 +26,16 @@
 		{ name: 'media_ponderada', text: 'Média Ponderada' }
 	];
 
+	let dateNow = new Date();
+	let dateNowString = dateNow.toISOString();
+	let dateNowFormated = dateNowString.slice(0, dateNowString.indexOf(':', 16));
+
 	let etapas = [
 		{
 			id: 1,
 			titulo: '',
-			dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
-			dtEntregaMax: '1999-12-06T16:20',
+			dtEntregaMin: dateNowFormated,
+			dtEntregaMax: '', // TODO: Validar campo
 			realizacaoGroup: 'Individual',
 			atribuicaoNotasGroup: 'Média Simples',
 			receberAposPrazo: true,
@@ -85,6 +92,22 @@
 		return true;
 	}
 
+	function onAdicionaCriterio() {
+		if (!novoCriterioTitulo || !novoCriterioNota) {
+			console.error('Definir critério: Dados incompletos');
+			// TODO: Criar feedback de erro
+		}
+
+		let novoCriterio = {
+			titulo: novoCriterioTitulo,
+			nota_max: parseFloat(novoCriterioNota)
+		};
+
+		$: etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
+
+		console.log(etapas[$selectedEtapa].criterios);
+	}
+
 	onMount(() => {
 		if (!$selectedEtapa) {
 			$selectedEtapa = 0;
@@ -102,7 +125,6 @@
 	});
 </script>
 
-<!-- TODO: Barra lateral de etapas -->
 <div class="panel">
 	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} />
 	<div class="content-container">
@@ -184,10 +206,25 @@
 								<!-- TODO: Limitar input de dados com mascaras  -->
 								<!-- TODO: Adicionar critério ao clicar no botão -->
 								<!-- TODO: Limpar formulário ao adicionar critério -->
-								<InputText borded name="titulo-criterio" placeholder="Novo critério" />
-								<InputText borded name="nota-max-criterio" placeholder="0,0" width="50px" />
-								<Button borded color="var(--cor primaria)" backgroundColor="var(--cor-secundaria)"
-									>+</Button
+								<InputText
+									borded
+									name="titulo-criterio"
+									placeholder="Novo critério"
+									bind:value={novoCriterioTitulo}
+								/>
+								<InputText
+									borded
+									name="nota-max-criterio"
+									placeholder="0,0"
+									width="50px"
+									bind:value={novoCriterioNota}
+								/>
+								<Button
+									borded
+									color="var(--cor primaria)"
+									backgroundColor="var(--cor-secundaria)"
+									type="button"
+									on:click={onAdicionaCriterio}>+</Button
 								>
 							</div>
 						</form>
