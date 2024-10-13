@@ -11,39 +11,7 @@
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
 	import { onMount } from 'svelte';
 
-	export let data;
-
-	// {
-	// 	id: 2,
-	// 	titulo: 'teste 2'
-	// }
-	let etapas = [
-		{
-			id: 1,
-			titulo: ''
-		}
-	];
-
-	if (!$selectedEtapa) {
-		$selectedEtapa = etapas[0].id;
-	}
-
-	console.log($selectedEtapa);
-
-	let criterios = [
-		{
-			titulo: 'Documentação',
-			nota_max: 3.0
-		},
-		{
-			titulo: 'Formatação',
-			nota_max: 5.0
-		},
-		{
-			titulo: 'Apresentação',
-			nota_max: 2.0
-		}
-	];
+	// export let data;
 
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
@@ -55,62 +23,88 @@
 		{ name: 'media_ponderada', text: 'Média Ponderada' }
 	];
 
-	let titulo = '';
-	let dtEntregaMin = '1999-12-06T16:20'; // TODO: usar a data atual
-	let dtEntregaMax = '1999-12-06T16:20';
-	let realizacaoGroup = [];
-	let atribuicaoNotasGroup = [];
-	let receberAposPrazo = true;
-	let idAtividadePai = data.idAtividadePai;
+	let etapas = [
+		{
+			id: 1,
+			titulo: '',
+			dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
+			dtEntregaMax: '1999-12-06T16:20',
+			realizacaoGroup: 'Individual',
+			atribuicaoNotasGroup: 'Média Simples',
+			receberAposPrazo: true,
+			criterios: [
+				{
+					titulo: 'Documentação',
+					nota_max: 3.0
+				},
+				{
+					titulo: 'Formatação',
+					nota_max: 5.0
+				},
+				{
+					titulo: 'Apresentação',
+					nota_max: 2.0
+				}
+			]
+		}
+	];
+
+	if (!$selectedEtapa) {
+		$selectedEtapa = 0;
+	}
 
 	function onSubmit(formData) {
-		let realizacao = realizacaoGroup;
-		let atribuicaoNotas = atribuicaoNotasGroup;
-		let notaMax = criterios.map((criterio) => criterio.nota_max).reduce((item, acc) => item + acc);
+		let realizacao = etapas[$selectedEtapa].realizacaoGroup;
+		let atribuicaoNotas = etapas[$selectedEtapa].atribuicaoNotasGroup;
+		let notaMax = etapas[$selectedEtapa].criterios
+			.map((criterio) => criterio.nota_max)
+			.reduce((item, acc) => item + acc);
 
 		// TODO: Validar dados
-
 		atribuicaoNotas =
 			atribuicaoNotas === 'Média Simples' ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada;
 		realizacao = realizacao === 'Individual' ? REALIZACAO.individual : REALIZACAO.grupos;
 
-		formData.set('atribuicaoNotas', atribuicaoNotas);
-		formData.set('realizacao', realizacao);
-		formData.set('receberAposPrazo', receberAposPrazo);
-		formData.set('notaMax', notaMax);
-		formData.set('receberAposPrazo', receberAposPrazo);
-		formData.set('idAtividadePai', idAtividadePai);
-		formData.set('criterios', JSON.stringify(criterios));
+		// TODO: Formatar dados para que envie todas as etapas ao mesmo tempo
 
-		formData.delete('realizacao_individual');
-		formData.delete('atribuicao_individual');
-		formData.delete('realizacao_grupos');
-		formData.delete('atribuicao_grupos');
+		formData.set('etapas', etapas);
+
+		// formData.set('atribuicaoNotas', atribuicaoNotas);
+		// formData.set('realizacao', realizacao);
+		// formData.set('receberAposPrazo', receberAposPrazo);
+		// formData.set('notaMax', notaMax);
+		// formData.set('receberAposPrazo', receberAposPrazo);
+		// formData.set('idAtividadePai', idAtividadePai);
+		// formData.set('criterios', JSON.stringify(criterios));
+
+		// formData.delete('realizacao_individual');
+		// formData.delete('atribuicao_individual');
+		// formData.delete('realizacao_grupos');
+		// formData.delete('atribuicao_grupos');
 
 		return true;
 	}
 
-	function tituloInputHandler(e) {
-		let etapaIndex = $selectedEtapa - 1;
-		console.debug(etapas[etapaIndex]);
-		etapas[etapaIndex].titulo = titulo;
-	}
-
-	function onMudaEtapa() {
-		console.log($selectedEtapa);
-		titulo = etapas[$selectedEtapa - 1].titulo;
-	}
-
 	onMount(() => {
 		if (!$selectedEtapa) {
-			$selectedEtapa = etapas[0].id;
+			$selectedEtapa = 0;
 		}
+
+		realizacaoOpcoes = [
+			{ name: 'realizacao_individual', text: 'Individual' },
+			{ name: 'realizacao_grupos', text: 'Em Grupos' }
+		];
+
+		atribuicaoOpcoes = [
+			{ name: 'media_simples', text: 'Média Simples' },
+			{ name: 'media_ponderada', text: 'Média Ponderada' }
+		];
 	});
 </script>
 
 <!-- TODO: Barra lateral de etapas -->
 <div class="panel">
-	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} {onMudaEtapa} />
+	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} />
 	<div class="content-container">
 		<h1>Calculados</h1>
 		<h2>Definição das etapas da atividade</h2>
@@ -124,6 +118,7 @@
 						cancel();
 					}
 
+					console.debug(formData.get('titulo'));
 					// formData.delete('media_simples');
 					// formData.set('tags', JSON.stringify(tagsColors));
 
@@ -138,27 +133,30 @@
 						<h1>Informações</h1>
 						<div class="row">
 							<h2>Título da etapa:</h2>
-							<InputText
-								borded
-								bind:value={titulo}
-								inputHandler={tituloInputHandler}
-								game="titulo"
-							/>
+							<InputText borded bind:value={etapas[$selectedEtapa].titulo} game="titulo" />
 						</div>
 						<div class="row">
 							<h2>Data de início:</h2>
-							<InputDatetime borded bind:value={dtEntregaMin} name="dtEntregaMin" />
+							<InputDatetime
+								borded
+								bind:value={etapas[$selectedEtapa].dtEntregaMin}
+								name="dtEntregaMin"
+							/>
 						</div>
 						<div class="row">
 							<h2>Data máxima de entrega:</h2>
-							<InputDatetime borded bind:value={dtEntregaMax} name="dtEntregaMax" />
+							<InputDatetime
+								borded
+								bind:value={etapas[$selectedEtapa].dtEntregaMax}
+								name="dtEntregaMax"
+							/>
 						</div>
 						<div class="row">
 							<h2>Realização:</h2>
 							<InputRadio
 								borded
 								name="realizacao"
-								bind:group={realizacaoGroup}
+								bind:group={etapas[$selectedEtapa].realizacaoGroup}
 								bind:options={realizacaoOpcoes}
 							/>
 						</div>
@@ -167,12 +165,15 @@
 							<InputRadio
 								borded
 								name="atribuicao_notas"
-								bind:group={atribuicaoNotasGroup}
+								bind:group={etapas[$selectedEtapa].atribuicaoNotasGroup}
 								options={atribuicaoOpcoes}
 							/>
 						</div>
 						<div class="row">
-							<InputCheckbox bind:checked={receberAposPrazo} text="Receber após o prazo" />
+							<InputCheckbox
+								bind:checked={etapas[$selectedEtapa].receberAposPrazo}
+								text="Receber após o prazo"
+							/>
 							<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
 						</div>
 					</div>
@@ -192,7 +193,7 @@
 						</form>
 						<div class="criterios-definidos">
 							<hr />
-							{#each criterios as criterio}
+							{#each etapas[$selectedEtapa].criterios as criterio}
 								<div class="criterio-container">
 									<h2>{criterio.titulo}</h2>
 									<h2>{criterio.nota_max.toFixed(2)}</h2>
@@ -201,12 +202,14 @@
 							{/each}
 							<h2 class="total-de-pontos">
 								Total de pontos:&emsp;
-								{parseFloat(criterios.map((x) => x.nota_max).reduce((a, b) => a + b)).toFixed(2)}pts
+								{parseFloat(
+									etapas[$selectedEtapa].criterios.map((x) => x.nota_max).reduce((a, b) => a + b)
+								).toFixed(2)}pts
 							</h2>
 						</div>
 					</div>
 				</div>
-				{#if realizacaoGroup === 'Individual'}
+				{#if etapas[$selectedEtapa].realizacaoGroup === 'Individual'}
 					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
 						>Próximo</Button
 					>

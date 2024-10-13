@@ -13,22 +13,33 @@ export let actions = {
 		let idUsuario = JSON.parse(await cookies.get("session"));
 		idUsuario = idUsuario.id
 
-		let idAtividade = params.idAtividade
-
 		let data = await request.formData();
 
 		console.log(`turmas/${params.id}/atividades/create/etapas/${params.idAtividade} actions default data: `, data)
 
-		let criterios = JSON.parse(data.get('criterios'))
+		let etapas = data.get('etapas')
 
-		let titulo = data.get('titulo')
-		let notaMax = parseFloat(data.get('notaMax'))
-		let dtEntregaMin = new Date(data.get('dtEntregaMin'))
-		let dtEntregaMax = new Date(data.get('dtEntregaMax'))
-		let atribuicaoNotas = parseInt(data.get('atribuicaoNotas'))
-		let realizacao = parseInt(data.get('realizacao'))
-		let receberAposPrazo = Boolean(data.get('receberAposPrazo'))
-		let idAtividadePai = parseInt(data.get('idAtividadePai'))
+		let criterios
+		let titulo
+		let notaMax
+		let dtEntregaMin
+		let dtEntregaMax
+		let atribuicaoNotas
+		let realizacao
+		let receberAposPrazo
+		let idAtividadePai
+
+		etapas.forEach((etapa) => {
+			criterios = JSON.parse(etapa.criterios)
+			titulo = etapa.titulo
+			notaMax = parseFloat(etapa.notaMax)
+			dtEntregaMin = new Date(etapa.dtEntregaMin)
+			dtEntregaMax = new Date(etapa.dtEntregaMax)
+			atribuicaoNotas = parseInt(etapa.atribuicaoNotas)
+			realizacao = parseInt(etapa.realizacao)
+			receberAposPrazo = Boolean(etapa.receberAposPrazo)
+			idAtividadePai = parseInt(etapa.idAtividadePai)
+		})
 
 		console.log('titulo: ', titulo)
 		console.log('notaMax: ', notaMax)

@@ -11,7 +11,7 @@ let prazo = new Date("2024-09-12T16:20");
 
 beforeAll(async () => {
 	let res = await cadastraAtividade("turma_teste_item_atividade", "descricao", prazo, idTurma)
-	idAtividadePai = res[0].id
+	idAtividadePai = parseInt(res[0].id)
 })
 
 afterAll(async () => await removeAtividade("turma_teste_item_atividade", idTurma))

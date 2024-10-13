@@ -15,10 +15,11 @@
 	let textColor = 'white';
 	let selectedBackgroundColor = 'var(--cor-primaria)';
 	let selectedTextColor = 'white';
+	let etapasContainer;
 </script>
 
 <div class="tab">
-	<div class="etapas-container">
+	<div class="etapas-container" bind:this={etapasContainer}>
 		<div class="header">
 			<p>Etapas da Atividade</p>
 			<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
@@ -28,19 +29,27 @@
 				class="etapa"
 				aria-hidden="true"
 				style="
-				background-color: {selectedEtapa === etapa.id ? selectedBackgroundColor : backgroundColor};
-				color: {selectedEtapa === etapa.id ? selectedTextColor : textColor};
-				border: {selectedEtapa === etapa.id ? 'none' : '1px solid var(--cor-primaria)'};	
-				font-weight: {selectedEtapa === etapa.id ? '700' : '500'};
+				background-color: {etapas[selectedEtapa].id === etapa.id
+					? selectedBackgroundColor
+					: backgroundColor};
+				color: {etapas[selectedEtapa].id === etapa.id ? selectedTextColor : textColor};
+				border: {etapas[selectedEtapa].id === etapa.id ? 'none' : '1px solid var(--cor-primaria)'};	
+				font-weight: {etapas[selectedEtapa].id === etapa.id ? '700' : '500'};
 				font-size: 24px;
 				text-align: center;
 				min-height: 48px;
 				min-width: 200px;
 				"
 				on:click={() => {
-					selectedEtapa = etapa.id;
-					console.debug(selectedEtapa);
-					onMudaEtapa();
+					console.debug('etapasContainer: ', etapasContainer);
+					for (var i = 0, len = etapasContainer.children.length; i < len; i++) {
+						(function (index) {
+							etapasContainer.children[i].onclick = function () {
+								selectedEtapa = index - 1;
+							};
+						})(i);
+					}
+					console.debug('selectedEtapa: ', selectedEtapa);
 				}}
 			>
 				<div class="info">
@@ -59,10 +68,30 @@
 			backgroundColor="white"
 			on:click={() => {
 				console.debug(etapas[etapas.length - 1]);
-				let newId = etapas[etapas.length - 1].id + 1;
-				etapas.push({ id: newId, titulo: '' });
-				selectedEtapa = newId;
-				onMudaEtapa();
+				etapas.push({
+					id: etapas[etapas.length - 1].id + 1,
+					titulo: '',
+					dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
+					dtEntregaMax: '1999-12-06T16:20',
+					realizacaoGroup: 'Individual',
+					atribuicaoNotasGroup: 'Média Simples',
+					receberAposPrazo: true,
+					criterios: [
+						{
+							titulo: 'Documentação',
+							nota_max: 3.0
+						},
+						{
+							titulo: 'Formatação',
+							nota_max: 5.0
+						},
+						{
+							titulo: 'Apresentação',
+							nota_max: 2.0
+						}
+					]
+				});
+				selectedEtapa = etapas.length - 1;
 			}}>+ Nova Etapa</Button
 		>
 	</div>

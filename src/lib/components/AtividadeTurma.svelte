@@ -7,10 +7,13 @@
 	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
 	import Etapa from './Etapa.svelte';
 	import { goto } from '$app/navigation';
+	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '../constants';
 
 	export let atividade;
 	let width = 0;
 	let toggled = false;
+
+	console.debug(atividade);
 </script>
 
 <div class="atividade-container" bind:clientWidth={width}>
@@ -43,14 +46,7 @@
 			{#each atividade.itens_atividade as itemAtividade}
 				<hr />
 				<div class="etapas-container">
-					<Etapa
-						titulo={itemAtividade.titulo}
-						status="Lançado"
-						iconText="E1"
-						prazo={itemAtividade.data_entrega_final
-							.toLocaleString('pt-BR', { timeZone: 'UTC' })
-							.slice(0, -3)}
-					/>
+					<Etapa {itemAtividade} />
 				</div>
 			{/each}
 			<!-- TODO: Toggle Button para abrir as etapas -->

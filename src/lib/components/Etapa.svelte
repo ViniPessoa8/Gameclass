@@ -2,35 +2,46 @@
 	import ButtonRedirect from './ButtonRedirect.svelte';
 	import IconeInformacao from './IconeInformacao.svelte';
 	import CircularIcon from './CircularIcon.svelte';
+	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '$lib/constants.js';
 
-	export let status = STATUS.pendente;
-	export let titulo,
-		prazo,
-		iconText = '';
-
-	const STATUS = {
-		corrigido: 'corrigido',
-		pendente: 'pendente',
-		entregue: 'entregue'
-	};
+	// TODO: get status dinamicamente
+	export let itemAtividade;
+	itemAtividade.data_entrega_final.toLocaleString('pt-BR', { timeZone: 'UTC' }).slice(0, -3);
 
 	function capitalizeFirstLetter(string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
+
+	let dataInicial = itemAtividade.data_entrega_inicial.getTime();
+	let dataFinal = itemAtividade.data_entrega_final.getTime();
+	console.debug(dataAtual, dataInicial, dataFinal);
+
+	let status;
+	if (!dataInicial) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.pendente;
+	} else if (dataAtual < dataInicial) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.agendado;
+	} else if (dataAtual >= dataInicial && dataAtual <= dataFinal) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.lancado;
+	} else if (dataAtual > dataFinal) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.aguardando_correcao;
+	}
 </script>
 
 <div class="etapa">
-	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={iconText} />
+	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={itemAtividade.iconText} />
 	<div class="titulo-etapa">
-		<h3>{titulo}</h3>
+		<h3>{itemAtividade.titulo}</h3>
 		<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 	</div>
 	<div class="column">
-		<span>Prazo: {prazo}</span>
+		<span>Prazo: {itemAtividade.prazo}</span>
 		<div class="status row">
-			<h3 class="status-text-{status}">{capitalizeFirstLetter(status)}</h3>
-			{#if status === STATUS.corrigido}
-				<h3 class="status-grade-{status}">8.5</h3>
+			<h3 class="status-text-{itemAtividade.status}">
+				{capitalizeFirstLetter(itemAtividade.status)}
+			</h3>
+			{#if itemAtividade.status === STATUS_ITEM_ATIVIDADE_PROFESSOR.corrigido}
+				<h3 class="status-grade-{itemAtividade.status}">8.5</h3>
 			{/if}
 		</div>
 	</div>

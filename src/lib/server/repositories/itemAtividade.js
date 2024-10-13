@@ -1,5 +1,7 @@
 import { dbConn } from "$config/database.js"
-import { DB_INFO } from "../../constants"
+import { DB_INFO } from "$lib/constants"
+
+//INSERT
 
 export async function cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai) {
 	const query = {
@@ -14,6 +16,8 @@ export async function cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicia
 		throw (`Erro ao cadastrar novo item da atividade (${idAtividadePai}): ${e}`)
 	}
 }
+
+// SELECT
 
 export async function listaItensDaAtividadePorIdBD(idAtividadePai) {
 	const query = {
@@ -56,6 +60,8 @@ export async function buscaItemAtividadePorTituloBD(titulo, idAtividadePai) {
 		throw (`Erro ao buscar item de atividade, com titulo ${titulo} na atividade (${idAtividadePai}): ${e}`)
 	}
 }
+
+// DELETE
 
 export async function removeItemAtividadePorIdBD(idItemAtividade) {
 	const query = {

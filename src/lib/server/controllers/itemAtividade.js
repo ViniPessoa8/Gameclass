@@ -1,8 +1,9 @@
-import { buscaItemAtiv, buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, removeItemAtividadePorTituloBD } from "../repositories/itemAtividade";
+import { buscaItemAtiv, buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, removeItemAtividadePorTituloBD, listaItensDaAtividadePorStatusBD } from "../repositories/itemAtividade";
+import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "$lib/constants";
 
 export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai) {
 
-	if (!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal || !tipoAtribuicaoNota || idAtividadePai <= 0) {
+	if (!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal || ![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0) {
 		throw ("Dados obrigatórios não foram preenchidos. (Item Atividade)")
 	}
 
@@ -19,7 +20,6 @@ export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial,
 		throw e;
 	}
 }
-
 
 export async function buscaItemAtividadePorId(idItemAtividade) {
 	if (!idItemAtividade) {
@@ -47,7 +47,6 @@ export async function listaItensDaAtividadePorId(idAtividadePai) {
 	let res = await listaItensDaAtividadePorIdBD(idAtividadePai);
 	return res
 }
-
 
 export async function removeItemAtividadePorId(idItemAtividade) {
 	if (!idItemAtividade) {

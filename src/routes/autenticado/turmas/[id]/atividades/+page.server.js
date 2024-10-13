@@ -7,7 +7,7 @@ export async function load({ params }) {
 
 	let atividades = await getAtividadesByIdTurma(params.id)
 
-	for (let i = 0; i < atividades.length; i += 1) {
+	for (let i = 0; i <= atividades.length - 1; i += 1) {
 		let itensAtividade = await listaItensDaAtividadePorId(atividades[i].id)
 		atividades[i].itens_atividade = itensAtividade
 	}
