@@ -16,6 +16,7 @@
 	let selectedBackgroundColor = 'var(--cor-primaria)';
 	let selectedTextColor = 'white';
 	let etapasContainer;
+	let erroEtapaTituloVazio = false;
 </script>
 
 <div class="tab">
@@ -68,6 +69,12 @@
 			backgroundColor="white"
 			on:click={() => {
 				console.debug(etapas[etapas.length - 1]);
+				if (!onMudaEtapa()) {
+					erroEtapaTituloVazio = true;
+					return;
+				} else {
+					erroEtapaTituloVazio = false;
+				}
 				etapas.push({
 					id: etapas[etapas.length - 1].id + 1,
 					titulo: '',
@@ -94,6 +101,11 @@
 				selectedEtapa = etapas.length - 1;
 			}}>+ Nova Etapa</Button
 		>
+		{#if erroEtapaTituloVazio}
+			<p style="color:red">*Etapa deve ter um título</p>
+		{:else}
+			<p style="color:red; visibility: hidden;">*Etapa deve ter um título</p>
+		{/if}
 	</div>
 </div>
 

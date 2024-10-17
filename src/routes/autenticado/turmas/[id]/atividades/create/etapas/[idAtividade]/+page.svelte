@@ -48,6 +48,14 @@
 		$selectedEtapa = 0;
 	}
 
+	function onMudaEtapa() {
+		if (etapas[$selectedEtapa].titulo === '') {
+			return false;
+		}
+
+		return true;
+	}
+
 	function onSubmit(formData) {
 		let realizacao = etapas[$selectedEtapa].realizacaoGroup;
 		let atribuicaoNotas = etapas[$selectedEtapa].atribuicaoNotasGroup;
@@ -150,7 +158,7 @@
 </script>
 
 <div class="panel">
-	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} />
+	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} {onMudaEtapa} />
 	<div class="content-container">
 		<h1>Calculados</h1>
 		<h2>Definição das etapas da atividade</h2>
