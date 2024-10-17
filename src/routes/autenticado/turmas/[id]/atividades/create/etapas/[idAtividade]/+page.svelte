@@ -40,20 +40,7 @@
 			realizacaoGroup: 'Individual',
 			atribuicaoNotasGroup: 'Média Simples',
 			receberAposPrazo: true,
-			criterios: [
-				{
-					titulo: 'Documentação',
-					nota_max: 3.0
-				},
-				{
-					titulo: 'Formatação',
-					nota_max: 5.0
-				},
-				{
-					titulo: 'Apresentação',
-					nota_max: 2.0
-				}
-			]
+			criterios: []
 		}
 	];
 
@@ -105,9 +92,15 @@
 			nota_max: novoCriterioNota
 		};
 
-		let totalPontos = etapas[$selectedEtapa].criterios
-			.map((elem) => elem.nota_max)
-			.reduce((i, acc) => acc + i);
+		let totalPontos;
+		if (etapas[$selectedEtapa].criterios.length !== 0) {
+			totalPontos = etapas[$selectedEtapa].criterios
+				.map((elem) => elem.nota_max)
+				.reduce((i, acc) => acc + i);
+		} else {
+			totalPontos = 0;
+		}
+
 		if (totalPontos + novoCriterioNota > LIMITE_DE_PONTOS_DA_ETAPA) {
 			erroNotaCriterio = true;
 			return;
@@ -115,12 +108,23 @@
 			erroNotaCriterio = false;
 		}
 
-		$: etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
+		if (etapas[$selectedEtapa].criterios.length !== 0) {
+			$: etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
+		} else {
+			$: etapas[$selectedEtapa].criterios = [novoCriterio];
+		}
 
 		console.log(etapas[$selectedEtapa].criterios);
 
 		novoCriterioTitulo = '';
 		novoCriterioNota = '';
+	}
+
+	function onRemoveCriterio(criterio) {
+		etapas[$selectedEtapa].criterios = etapas[$selectedEtapa].criterios.filter((elem) => {
+			return elem !== criterio;
+		});
+		console.log(etapas);
 	}
 
 	onMount(() => {
@@ -260,14 +264,26 @@
 								<div class="criterio-container">
 									<h2>{criterio.titulo}</h2>
 									<h2>{criterio.nota_max.toFixed(2)}</h2>
+									<Button
+										color="var(--cor primaria)"
+										type="button"
+										on:click={() => {
+											onRemoveCriterio(criterio);
+										}}>X</Button
+									>
 								</div>
 								<hr />
 							{/each}
 							<h2 class="total-de-pontos">
 								Total de pontos:&emsp;
-								{parseFloat(
-									etapas[$selectedEtapa].criterios.map((x) => x.nota_max).reduce((a, b) => a + b)
-								).toFixed(2)}pts
+								{#if etapas[$selectedEtapa].criterios.length === 0}
+									0.00
+								{:else}
+									{parseFloat(
+										etapas[$selectedEtapa].criterios.map((x) => x.nota_max).reduce((a, b) => a + b)
+									).toFixed(2)}
+								{/if}
+								pts
 							</h2>
 						</div>
 					</div>
