@@ -1,5 +1,6 @@
 export const PASSWORD_MAX_CHARACTERS = 16
 export const PASSWORD_MIN_CHARACTERS = 8
+export const LIMITE_DE_PONTOS_DA_ETAPA = 100
 
 export const COLORS = {
 	primaria_1: "#123181",

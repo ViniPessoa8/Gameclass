@@ -7,7 +7,7 @@
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
 	import { enhance } from '$app/forms';
-	import { ATRIBUICAO, REALIZACAO } from '$lib/constants';
+	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
 	import { onMount } from 'svelte';
 
@@ -15,6 +15,7 @@
 
 	let novoCriterioTitulo = '';
 	let novoCriterioNota = '';
+	let erroNotaCriterio = false;
 
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
@@ -95,17 +96,31 @@
 	function onAdicionaCriterio() {
 		if (!novoCriterioTitulo || !novoCriterioNota) {
 			console.error('Definir critério: Dados incompletos');
-			// TODO: Criar feedback de erro
 		}
+
+		novoCriterioNota = parseFloat(novoCriterioNota);
 
 		let novoCriterio = {
 			titulo: novoCriterioTitulo,
-			nota_max: parseFloat(novoCriterioNota)
+			nota_max: novoCriterioNota
 		};
+
+		let totalPontos = etapas[$selectedEtapa].criterios
+			.map((elem) => elem.nota_max)
+			.reduce((i, acc) => acc + i);
+		if (totalPontos + novoCriterioNota > LIMITE_DE_PONTOS_DA_ETAPA) {
+			erroNotaCriterio = true;
+			return;
+		} else {
+			erroNotaCriterio = false;
+		}
 
 		$: etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
 
 		console.log(etapas[$selectedEtapa].criterios);
+
+		novoCriterioTitulo = '';
+		novoCriterioNota = '';
 	}
 
 	onMount(() => {
@@ -146,7 +161,7 @@
 
 					return async ({ result, update }) => {
 						console.debug('post result:', result);
-						await update(); // TODO: Remover reset false
+						await update();
 					};
 				}}
 			>
@@ -202,30 +217,41 @@
 					<div class="criterios-container">
 						<h1>Critérios</h1>
 						<form name="form-criterio">
-							<div class="row">
+							<div class="column">
 								<!-- TODO: Limitar input de dados com mascaras  -->
 								<!-- TODO: Adicionar critério ao clicar no botão -->
 								<!-- TODO: Limpar formulário ao adicionar critério -->
-								<InputText
-									borded
-									name="titulo-criterio"
-									placeholder="Novo critério"
-									bind:value={novoCriterioTitulo}
-								/>
-								<InputText
-									borded
-									name="nota-max-criterio"
-									placeholder="0,0"
-									width="50px"
-									bind:value={novoCriterioNota}
-								/>
-								<Button
-									borded
-									color="var(--cor primaria)"
-									backgroundColor="var(--cor-secundaria)"
-									type="button"
-									on:click={onAdicionaCriterio}>+</Button
-								>
+								<div class="row">
+									<InputText
+										borded
+										name="titulo-criterio"
+										placeholder="Novo critério"
+										bind:value={novoCriterioTitulo}
+									/>
+									<InputText
+										borded
+										name="nota-max-criterio"
+										placeholder="0,0"
+										width="50px"
+										bind:value={novoCriterioNota}
+									/>
+									<Button
+										borded
+										color="var(--cor primaria)"
+										backgroundColor="var(--cor-secundaria)"
+										type="button"
+										on:click={onAdicionaCriterio}>+</Button
+									>
+								</div>
+								{#if erroNotaCriterio}
+									<p class="erro-criterio">
+										*Critério ultrapassa limite de {LIMITE_DE_PONTOS_DA_ETAPA} pontos
+									</p>
+								{:else}
+									<p class="erro-criterio" style="visibility: hidden;">
+										*Critério ultrapassa limite de {LIMITE_DE_PONTOS_DA_ETAPA} pontos
+									</p>
+								{/if}
 							</div>
 						</form>
 						<div class="criterios-definidos">
@@ -290,6 +316,15 @@
 		margin-top: 20px;
 	}
 
+	.column {
+		display: flex;
+		flex-direction: column;
+		/* align-items: center; */
+		/* justify-content: center; */
+		/* gap: 20px; */
+		/* margin-top: 20px; */
+	}
+
 	.info-container {
 		display: flex;
 		flex-direction: column;
@@ -323,5 +358,11 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.erro-criterio {
+		margin-left: 8px;
+		justify-self: flex-start;
+		color: red;
 	}
 </style>
