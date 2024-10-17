@@ -3,6 +3,7 @@
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import SideBarButton from '$lib/components/SideBarButton.svelte';
 	import { goto } from '$app/navigation';
+	import { LIMITE_NUMERO_DE_ETAPAS } from '$lib/constants';
 
 	// TODO: Tornar etapas dinamicas
 	// TODO: Fazer o input do título da etapa atualizar em tempo real o titulo da etapa na barra lateral
@@ -16,7 +17,7 @@
 	let selectedBackgroundColor = 'var(--cor-primaria)';
 	let selectedTextColor = 'white';
 	let etapasContainer;
-	let erroEtapaTituloVazio = false;
+	let erroEtapa = [false, ''];
 </script>
 
 <div class="tab">
@@ -63,48 +64,56 @@
 				</div>
 			</div>
 		{/each}
-		<Button
-			marginTop="48px"
-			color="var(--cor-secundaria)"
-			backgroundColor="white"
-			on:click={() => {
-				console.debug(etapas[etapas.length - 1]);
-				if (!onMudaEtapa()) {
-					erroEtapaTituloVazio = true;
-					return;
-				} else {
-					erroEtapaTituloVazio = false;
-				}
-				etapas.push({
-					id: etapas[etapas.length - 1].id + 1,
-					titulo: '',
-					dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
-					dtEntregaMax: '1999-12-06T16:20',
-					realizacaoGroup: 'Individual',
-					atribuicaoNotasGroup: 'Média Simples',
-					receberAposPrazo: true,
-					criterios: [
-						{
-							titulo: 'Documentação',
-							nota_max: 3.0
-						},
-						{
-							titulo: 'Formatação',
-							nota_max: 5.0
-						},
-						{
-							titulo: 'Apresentação',
-							nota_max: 2.0
-						}
-					]
-				});
-				selectedEtapa = etapas.length - 1;
-			}}>+ Nova Etapa</Button
-		>
-		{#if erroEtapaTituloVazio}
-			<p style="color:red">*Etapa deve ter um título</p>
+		{#if etapas.length < LIMITE_NUMERO_DE_ETAPAS}
+			<Button
+				marginTop="48px"
+				color="var(--cor-secundaria)"
+				backgroundColor="white"
+				on:click={() => {
+					console.debug(etapas[etapas.length - 1]);
+					if (!onMudaEtapa()) {
+						erroEtapa = [true, 'Etapa tem que ter título'];
+						return;
+					} else {
+						erroEtapa = [false, ''];
+					}
+
+					if (etapas.length > LIMITE_NUMERO_DE_ETAPAS) {
+						erroEtapa = [true, 'Limite de etapas atingido'];
+						return;
+					}
+
+					etapas.push({
+						id: etapas[etapas.length - 1].id + 1,
+						titulo: '',
+						dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
+						dtEntregaMax: '1999-12-06T16:20',
+						realizacaoGroup: 'Individual',
+						atribuicaoNotasGroup: 'Média Simples',
+						receberAposPrazo: true,
+						criterios: [
+							{
+								titulo: 'Documentação',
+								nota_max: 3.0
+							},
+							{
+								titulo: 'Formatação',
+								nota_max: 5.0
+							},
+							{
+								titulo: 'Apresentação',
+								nota_max: 2.0
+							}
+						]
+					});
+					selectedEtapa = etapas.length - 1;
+				}}>+ Nova Etapa</Button
+			>
+		{/if}
+		{#if erroEtapa[0]}
+			<p style="color:red">{erroEtapa[1]}</p>
 		{:else}
-			<p style="color:red; visibility: hidden;">*Etapa deve ter um título</p>
+			<p style="color:red; visibility: hidden;">{erroEtapa[1]}</p>
 		{/if}
 	</div>
 </div>
