@@ -83,6 +83,8 @@
 	function onAdicionaCriterio() {
 		if (!novoCriterioTitulo || !novoCriterioNota) {
 			console.error('Definir critério: Dados incompletos');
+			erroNotaCriterio = [true, `*Digite o título e a nota`];
+			return;
 		}
 
 		novoCriterioNota = parseFloat(novoCriterioNota);
@@ -102,10 +104,13 @@
 		}
 
 		if (totalPontos + novoCriterioNota > LIMITE_DE_PONTOS_DA_ETAPA) {
-			erroNotaCriterio = true;
+			erroNotaCriterio = [
+				true,
+				`*Critério ultrapassa limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos`
+			];
 			return;
 		} else {
-			erroNotaCriterio = false;
+			erroNotaCriterio = [false, ''];
 		}
 
 		if (etapas[$selectedEtapa].criterios.length !== 0) {
@@ -247,14 +252,10 @@
 										on:click={onAdicionaCriterio}>+</Button
 									>
 								</div>
-								{#if erroNotaCriterio}
-									<p class="erro-criterio">
-										*Critério ultrapassa limite de {LIMITE_DE_PONTOS_DA_ETAPA} pontos
-									</p>
+								{#if erroNotaCriterio[0]}
+									<p class="erro-criterio">{erroNotaCriterio[1]}</p>
 								{:else}
-									<p class="erro-criterio" style="visibility: hidden;">
-										*Critério ultrapassa limite de {LIMITE_DE_PONTOS_DA_ETAPA} pontos
-									</p>
+									<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
 								{/if}
 							</div>
 						</form>
