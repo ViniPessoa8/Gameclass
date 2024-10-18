@@ -1,4 +1,4 @@
-import { redirect } from "@sveltejs/kit"
+import { fail, redirect } from "@sveltejs/kit"
 import { cadastraItemAtividade } from '$controllers/itemAtividade.js';
 
 
@@ -17,7 +17,9 @@ export let actions = {
 
 		console.log(`turmas/${params.id}/atividades/create/etapas/${params.idAtividade} actions default data: `, data)
 
-		let etapas = data.get('etapas')
+		let etapasData = data.get('etapas')
+		console.log("[server] etapasData = ", etapasData)
+		let etapas = JSON.parse(etapasData)
 
 		let criterios
 		let titulo
@@ -29,43 +31,59 @@ export let actions = {
 		let receberAposPrazo
 		let idAtividadePai
 
-		etapas.forEach((etapa) => {
-			criterios = JSON.parse(etapa.criterios)
+		if (!etapas) {
+			fail(401, "Erro ao carregar etapas: lista vazia")
+		}
+
+		etapas.forEach(async (etapa) => {
+			criterios = etapa.criterios
 			titulo = etapa.titulo
-			notaMax = parseFloat(etapa.notaMax)
+			notaMax = parseFloat(etapa.criterios.map((elem) => elem.nota_max).reduce((elem, acc) => (elem + acc)))
 			dtEntregaMin = new Date(etapa.dtEntregaMin)
 			dtEntregaMax = new Date(etapa.dtEntregaMax)
-			atribuicaoNotas = parseInt(etapa.atribuicaoNotas)
-			realizacao = parseInt(etapa.realizacao)
+			atribuicaoNotas = parseInt(etapa.atribuicaoNotasGroup)
+			realizacao = parseInt(etapa.realizacaoGroup)
 			receberAposPrazo = Boolean(etapa.receberAposPrazo)
 			idAtividadePai = parseInt(etapa.idAtividadePai)
+
+			console.log('titulo: ', titulo)
+			console.log('notaMax: ', notaMax)
+			console.log('dtEntregaMin: ', dtEntregaMin)
+			console.log('dtEntregaMax: ', dtEntregaMax)
+			console.log('atribuicaoNotas: ', atribuicaoNotas)
+			console.log('realizacao: ', realizacao)
+			console.log('receberAposPrazo: ', receberAposPrazo)
+			console.log('idAtividadePai: ', idAtividadePai)
+
+
+			try {
+				let res = await cadastraItemAtividade(
+					titulo,
+					notaMax,
+					dtEntregaMin,
+					dtEntregaMax,
+					atribuicaoNotas,
+					realizacao,
+					receberAposPrazo,
+					0,
+					0,
+					idAtividadePai,
+					criterios,
+				);
+				console.debug("[server] cadastraItemAtividade result = ", res)
+
+			} catch (e) {
+				if (e.includes("Dados obrigatórios não foram preenchidos.")) {
+					fail(401, "Dados obrigatórios não foram preenchidos.")
+				} else {
+					fail(401, e)
+				}
+			}
 		})
 
-		console.log('titulo: ', titulo)
-		console.log('notaMax: ', notaMax)
-		console.log('dtEntregaMin: ', dtEntregaMin)
-		console.log('dtEntregaMax: ', dtEntregaMax)
-		console.log('atribuicaoNotas: ', atribuicaoNotas)
-		console.log('realizacao: ', realizacao)
-		console.log('receberAposPrazo: ', receberAposPrazo)
-		console.log('idAtividadePai: ', idAtividadePai)
-
-		let res = await cadastraItemAtividade(
-			titulo,
-			notaMax,
-			dtEntregaMin,
-			dtEntregaMax,
-			atribuicaoNotas,
-			realizacao,
-			receberAposPrazo,
-			0,
-			0,
-			idAtividadePai
-		);
-
-		console.debug(res)
-
-		// TODO: Cadastrar criterios
-
 	}
+
+
+	// TODO: Cadastrar criterios
+
 }

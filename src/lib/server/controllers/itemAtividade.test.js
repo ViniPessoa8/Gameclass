@@ -1,20 +1,35 @@
 import { afterAll, beforeAll, describe, test } from "vitest";
 import { cadastraAtividade, removeAtividade } from "./atividade";
-import { buscaItemAtividadePorId, buscaItemAtividadePorTitulo, cadastraItemAtividade, listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId, removeItemAtividadePorTitulo } from "./itemAtividade";
+import { removeCriterioPorIdItemAtividade } from "./criterio";
+import { buscaItemAtividadePorId, buscaItemAtividadePorTitulo, cadastraItemAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId } from "./itemAtividade";
 import { ATRIBUICAO } from "../../constants";
-import { listaItensDaAtividadeBD } from "../repositories/itemAtividade";
 
 let idAtividadePai
 let idTurma = 1
 let idItemAtividade, idItemAtividade2
 let prazo = new Date("2024-09-12T16:20");
+let criterios = [
+	{
+		titulo: "Formatação",
+		nota_max: 4.0
+	},
+	{
+		titulo: "Conteúdo",
+		nota_max: 6.0
+	},
+]
 
 beforeAll(async () => {
 	let res = await cadastraAtividade("turma_teste_item_atividade", "descricao", prazo, idTurma)
 	idAtividadePai = parseInt(res[0].id)
 })
 
-afterAll(async () => await removeAtividade("turma_teste_item_atividade", idTurma))
+afterAll(async () => {
+	await removeCriterioPorIdItemAtividade(idItemAtividade)
+	await removeCriterioPorIdItemAtividade(idItemAtividade2)
+	await removeAtividade("turma_teste_item_atividade", idTurma)
+
+})
 
 describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 	test.sequential("Cria Item da atividade", async () => {
@@ -28,7 +43,8 @@ describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 			false,
 			null,
 			null,
-			idAtividadePai
+			idAtividadePai,
+			criterios
 		)
 
 		idItemAtividade = res[0].id
@@ -45,7 +61,8 @@ describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 			false,
 			null,
 			null,
-			idAtividadePai
+			idAtividadePai,
+			criterios
 		)
 
 		idItemAtividade2 = res[0].id

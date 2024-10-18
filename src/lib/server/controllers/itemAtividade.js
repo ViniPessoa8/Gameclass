@@ -1,23 +1,36 @@
-import { buscaItemAtiv, buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, removeItemAtividadePorTituloBD, listaItensDaAtividadePorStatusBD } from "../repositories/itemAtividade";
-import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "$lib/constants";
+import { buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, } from "../repositories/itemAtividade";
+import { cadastraCriterioBD } from "../repositories/criterio";
+import { removeCriterioPorIdItemAtividade } from "./criterio";
 
-export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai) {
+export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai, criterios) {
+	let res
 
-	if (!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal || ![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0) {
+	if (!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal || ![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0 || !criterios) {
 		throw ("Dados obrigatórios não foram preenchidos. (Item Atividade)")
 	}
 
 	try {
-		let res = await cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai);
-
-		if (res.rowCount > 0) {
-			return res.rows
-		}
+		res = await cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai);
 	} catch (e) {
 		if (e.includes("duplicate key value violates unique constraint")) {
 			throw ("Esta etapa ja existe nessa atividade.")
 		}
 		throw e;
+	}
+
+	let idItemAtividade = res.rows[0].id
+
+	criterios.forEach(async (c) => {
+		try {
+			await cadastraCriterioBD(c.titulo, c.nota_max, c.peso, idItemAtividade)
+		} catch (e) {
+			throw ("Erro ao cadastrar criterio: ", e)
+		}
+
+	})
+
+	if (res.rowCount > 0) {
+		return res.rows
 	}
 }
 
@@ -52,6 +65,8 @@ export async function removeItemAtividadePorId(idItemAtividade) {
 	if (!idItemAtividade) {
 		throw ("Dados obrigatórios não foram preenchidos. (RemoveItemAtividadePorId)")
 	}
+
+	removeCriterioPorIdItemAtividade(idItemAtividade)
 
 	let res = await removeItemAtividadePorIdBD(idItemAtividade);
 	if (res.rowCount > 0) {

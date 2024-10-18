@@ -70,7 +70,8 @@
 
 		// TODO: Formatar dados para que envie todas as etapas ao mesmo tempo
 
-		formData.set('etapas', etapas);
+		console.assert(etapas.length !== 0, 'Erro ao submeter: lista de etapas vazia');
+		formData.set('etapas', JSON.stringify(etapas));
 
 		// formData.set('atribuicaoNotas', atribuicaoNotas);
 		// formData.set('realizacao', realizacao);
@@ -127,8 +128,6 @@
 			$: etapas[$selectedEtapa].criterios = [novoCriterio];
 		}
 
-		console.log(etapas[$selectedEtapa].criterios);
-
 		novoCriterioTitulo = '';
 		novoCriterioNota = '';
 	}
@@ -137,7 +136,6 @@
 		etapas[$selectedEtapa].criterios = etapas[$selectedEtapa].criterios.filter((elem) => {
 			return elem !== criterio;
 		});
-		console.log(etapas);
 	}
 
 	onMount(() => {
@@ -172,7 +170,7 @@
 						cancel();
 					}
 
-					console.debug(formData.get('titulo'));
+					console.debug(JSON.parse(formData.get('etapas')));
 					// formData.delete('media_simples');
 					// formData.set('tags', JSON.stringify(tagsColors));
 
@@ -236,8 +234,6 @@
 						<form name="form-criterio">
 							<div class="column">
 								<!-- TODO: Limitar input de dados com mascaras  -->
-								<!-- TODO: Adicionar critério ao clicar no botão -->
-								<!-- TODO: Limpar formulário ao adicionar critério -->
 								<div class="row">
 									<InputText
 										borded
