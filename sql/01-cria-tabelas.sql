@@ -74,11 +74,11 @@ CREATE TABLE tag (
 	PRIMARY KEY ("titulo", "id_professor")
 );
 
-CREATE TABLE Criterio (
+CREATE TABLE criterio (
 	"id" BIGSERIAL UNIQUE,
 	"titulo" VARCHAR(255) NOT NULL,
-	"pontuacao_max" FLOAT NOT NULL,
-	"peso" FLOAT NOT NULL,
-	"id_atividade" SERIAL REFERENCES atividade(id) NOT NULL,
+	"nota_max" FLOAT NOT NULL,
+	"peso" FLOAT ,
+	"id_item_atividade" SERIAL REFERENCES item_atividade(id) NOT NULL,
 	PRIMARY KEY ("id")
 )
