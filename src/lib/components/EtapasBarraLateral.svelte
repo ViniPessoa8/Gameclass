@@ -9,7 +9,6 @@
 	// TODO: Fazer o input do título da etapa atualizar em tempo real o titulo da etapa na barra lateral
 	export let etapas;
 	export let selectedEtapa;
-	export let onMudaEtapa;
 	console.assert(etapas != null, '[EtapasBarraLateral] etapas vazia');
 
 	let backgroundColor = 'var(--cor-secundaria)';
@@ -18,6 +17,10 @@
 	let selectedTextColor = 'white';
 	let etapasContainer;
 	let erroEtapa = [false, ''];
+	function onRemoveEtapa(etapa) {
+		selectedEtapa = selectedEtapa - 1;
+		etapas = etapas.filter((elem) => elem !== etapa);
+	}
 </script>
 
 <div class="tab">
@@ -26,7 +29,7 @@
 			<p>Etapas da Atividade</p>
 			<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 		</div>
-		{#each etapas as etapa}
+		{#each etapas as etapa, index}
 			<div
 				class="etapa"
 				aria-hidden="true"
@@ -43,13 +46,14 @@
 				min-width: 200px;
 				"
 				on:click={() => {
-					console.debug('etapasContainer: ', etapasContainer);
-					for (var i = 0, len = etapasContainer.children.length; i < len; i++) {
-						(function (index) {
-							etapasContainer.children[i].onclick = function () {
-								selectedEtapa = index - 1;
-							};
-						})(i);
+					if (etapasContainer) {
+						for (var i = 0, len = Array.from(etapasContainer.children).length; i < len; i++) {
+							(function (index) {
+								etapasContainer.children[i].onclick = function () {
+									selectedEtapa = index - 1;
+								};
+							})(i);
+						}
 					}
 					console.debug('selectedEtapa: ', selectedEtapa);
 				}}
@@ -57,11 +61,26 @@
 				<div class="info">
 					{#if etapa.titulo === ''}
 						<p style="color: rgba(200,200,150,0.4); font-weight=100; text-align: center;">
-							(Título)
+							{index + 1}. (Título)
 						</p>
+					{:else}
+						<div style="display: flex; flex-direction: row; gap: 8px">
+							<p style="color: rgba(200,200,150,0.4); font-weight=100; text-align: center;">
+								{index + 1}.
+							</p>
+							<p>{etapa.titulo}</p>
+						</div>
 					{/if}
-					<p>{etapa.titulo}</p>
 				</div>
+				{#if index !== 0}
+					<Button
+						color="var(--cor primaria)"
+						type="button"
+						on:click={() => {
+							onRemoveEtapa(etapa);
+						}}>X</Button
+					>
+				{/if}
 			</div>
 		{/each}
 		{#if etapas.length < LIMITE_NUMERO_DE_ETAPAS}
@@ -71,12 +90,7 @@
 				backgroundColor="white"
 				on:click={() => {
 					console.debug(etapas[etapas.length - 1]);
-					if (!onMudaEtapa()) {
-						erroEtapa = [true, 'Etapa tem que ter título'];
-						return;
-					} else {
-						erroEtapa = [false, ''];
-					}
+					erroEtapa = [false, ''];
 
 					if (etapas.length > LIMITE_NUMERO_DE_ETAPAS) {
 						erroEtapa = [true, 'Limite de etapas atingido'];
@@ -106,7 +120,7 @@
 							}
 						]
 					});
-					selectedEtapa = etapas.length - 1;
+					selectedEtapa = selectedEtapa + 1;
 				}}>+ Nova Etapa</Button
 			>
 		{/if}

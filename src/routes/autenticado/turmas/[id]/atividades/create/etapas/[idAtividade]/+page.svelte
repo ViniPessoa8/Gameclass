@@ -48,14 +48,6 @@
 		$selectedEtapa = 0;
 	}
 
-	function onMudaEtapa() {
-		if (etapas[$selectedEtapa].titulo === '') {
-			return false;
-		}
-
-		return true;
-	}
-
 	function onSubmit(formData) {
 		let realizacao = etapas[$selectedEtapa].realizacaoGroup;
 		let atribuicaoNotas = etapas[$selectedEtapa].atribuicaoNotasGroup;
@@ -123,9 +115,9 @@
 		}
 
 		if (etapas[$selectedEtapa].criterios.length !== 0) {
-			$: etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
+			etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
 		} else {
-			$: etapas[$selectedEtapa].criterios = [novoCriterio];
+			etapas[$selectedEtapa].criterios = [novoCriterio];
 		}
 
 		novoCriterioTitulo = '';
@@ -156,7 +148,7 @@
 </script>
 
 <div class="panel">
-	<EtapasBarraLateral {etapas} bind:selectedEtapa={$selectedEtapa} {onMudaEtapa} />
+	<EtapasBarraLateral bind:etapas bind:selectedEtapa={$selectedEtapa} />
 	<div class="content-container">
 		<h1>Calculados</h1>
 		<h2>Definição das etapas da atividade</h2>
@@ -166,7 +158,15 @@
 				method="post"
 				use:enhance={({ formData, cancel }) => {
 					console.debug('postou:', formData);
-					if (!onSubmit(formData) /* || form?.already_registered */) {
+					let res;
+					try {
+						res = onSubmit(formData);
+					} catch (e) {
+						toast.error(`${e.message}`);
+						cancel();
+					}
+
+					if (!res /* || form?.already_registered */) {
 						cancel();
 					}
 
