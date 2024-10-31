@@ -10,6 +10,7 @@
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
 	import { onMount } from 'svelte';
+	import { Toaster, toast } from 'svelte-sonner';
 	import InputNumber from '$lib/components/InputNumber.svelte';
 
 	// export let data;
@@ -50,22 +51,33 @@
 	}
 
 	function onSubmit(formData) {
+		let titulo = etapas[$selectedEtapa].titulo;
+		if (titulo === '') throw new Error('Título vazio');
+
 		let realizacao = etapas[$selectedEtapa].realizacaoGroup;
 		let atribuicaoNotas = etapas[$selectedEtapa].atribuicaoNotasGroup;
+		realizacao = realizacao === 'Individual' ? REALIZACAO.individual : REALIZACAO.grupos;
+		atribuicaoNotas =
+			atribuicaoNotas === 'Média Simples' ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada;
+
+		let criterios = etapas[$selectedEtapa].criterios;
+		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
+
 		let notaMax = etapas[$selectedEtapa].criterios
 			.map((criterio) => criterio.nota_max)
 			.reduce((item, acc) => item + acc);
+		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
+			throw new Error('Nota total passa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos');
 
-		// TODO: Validar dados
-		atribuicaoNotas =
-			atribuicaoNotas === 'Média Simples' ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada;
-		realizacao = realizacao === 'Individual' ? REALIZACAO.individual : REALIZACAO.grupos;
+		let dataInicial = etapas[$selectedEtapa].dtEntregaMin;
+		let dataFinal = etapas[$selectedEtapa].dtEntregaMax;
+		if (!isValidDate(dataInicial)) throw new Error('Data inicial inválida');
+		if (!isValidDate(dataFinal)) throw new Error('Data final inválida');
+
 
 		// TODO: Formatar dados para que envie todas as etapas ao mesmo tempo
 
-		console.assert(etapas.length !== 0, 'Erro ao submeter: lista de etapas vazia');
 		formData.set('etapas', JSON.stringify(etapas));
-
 		// formData.set('atribuicaoNotas', atribuicaoNotas);
 		// formData.set('realizacao', realizacao);
 		// formData.set('receberAposPrazo', receberAposPrazo);
@@ -89,7 +101,11 @@
 			return;
 		}
 
-		novoCriterioNota = parseFloat(novoCriterioNota);
+		if (!/1?\d.\d/g.test(novoCriterioNota)) {
+			console.error('Definir critério: Nota no formato inválido');
+			erroNotaCriterio = [true, `*Formato inválido`];
+			return;
+		}
 
 		let novoCriterio = {
 			titulo: novoCriterioTitulo,
@@ -131,6 +147,17 @@
 		});
 	}
 
+	function isValidDate(dateStr) {
+		return !isNaN(new Date(dateStr));
+	}
+
+	function onChangeCriterioNota() {
+		console.log('onchange: ', novoCriterioNota);
+		novoCriterioNota = String(novoCriterioNota)
+			.replace(/[^0-9.]/g, '')
+			.replace(/(\..*)\./g, '$1');
+	}
+
 	onMount(() => {
 		if (!$selectedEtapa) {
 			$selectedEtapa = 0;
@@ -148,6 +175,7 @@
 	});
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="panel">
 	<EtapasBarraLateral bind:etapas bind:selectedEtapa={$selectedEtapa} />
 	<div class="content-container">
