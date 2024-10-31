@@ -10,6 +10,7 @@
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
 	import { onMount } from 'svelte';
+	import InputNumber from '$lib/components/InputNumber.svelte';
 
 	// export let data;
 
@@ -241,11 +242,12 @@
 										placeholder="Novo critério"
 										bind:value={novoCriterioTitulo}
 									/>
-									<InputText
+									<InputNumber
 										borded
 										name="nota-max-criterio"
 										placeholder="0,0"
 										width="50px"
+										on:input={onChangeCriterioNota}
 										bind:value={novoCriterioNota}
 									/>
 									<Button
