@@ -17,6 +17,7 @@
 
 	let novoCriterioTitulo = '';
 	let novoCriterioNota = '';
+	let oldCriterioNota = '';
 	let erroNotaCriterio = false;
 
 	let realizacaoOpcoes = [
@@ -74,22 +75,9 @@
 		if (!isValidDate(dataInicial)) throw new Error('Data inicial inválida');
 		if (!isValidDate(dataFinal)) throw new Error('Data final inválida');
 
-
 		// TODO: Formatar dados para que envie todas as etapas ao mesmo tempo
 
 		formData.set('etapas', JSON.stringify(etapas));
-		// formData.set('atribuicaoNotas', atribuicaoNotas);
-		// formData.set('realizacao', realizacao);
-		// formData.set('receberAposPrazo', receberAposPrazo);
-		// formData.set('notaMax', notaMax);
-		// formData.set('receberAposPrazo', receberAposPrazo);
-		// formData.set('idAtividadePai', idAtividadePai);
-		// formData.set('criterios', JSON.stringify(criterios));
-
-		// formData.delete('realizacao_individual');
-		// formData.delete('atribuicao_individual');
-		// formData.delete('realizacao_grupos');
-		// formData.delete('atribuicao_grupos');
 
 		return true;
 	}
@@ -101,7 +89,7 @@
 			return;
 		}
 
-		if (!/1?\d.\d/g.test(novoCriterioNota)) {
+		if (Number(novoCriterioNota) === novoCriterioNota && Number(novoCriterioNota) <= 10.0) {
 			console.error('Definir critério: Nota no formato inválido');
 			erroNotaCriterio = [true, `*Formato inválido`];
 			return;
@@ -152,10 +140,20 @@
 	}
 
 	function onChangeCriterioNota() {
-		console.log('onchange: ', novoCriterioNota);
+		// Máscara de input (0.0 [max: 10.0])
 		novoCriterioNota = String(novoCriterioNota)
-			.replace(/[^0-9.]/g, '')
-			.replace(/(\..*)\./g, '$1');
+			.replace(/(?<=^[0-9]{1})[0-9]$/g, '.$&')
+			.replace(/(?<=^[0-9])(\.)([0-9])([0-9])$/g, '$2$1$3')
+			.replace(/(?<=^[0-9]{2})\.$/g, '')
+			.replace(/(?<=^[0-9])\.$/g, '')
+			.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
+			.replace(/^(1)(0)$/g, '$1.$2');
+
+		if (parseFloat(novoCriterioNota) > 10.0) {
+			novoCriterioNota = oldCriterioNota;
+		} else {
+			oldCriterioNota = novoCriterioNota;
+		}
 	}
 
 	onMount(() => {
@@ -270,12 +268,12 @@
 										placeholder="Novo critério"
 										bind:value={novoCriterioTitulo}
 									/>
-									<InputNumber
+									<InputText
 										borded
 										name="nota-max-criterio"
-										placeholder="0,0"
 										width="50px"
-										on:input={onChangeCriterioNota}
+										placeholder="0.0"
+										inputHandler={onChangeCriterioNota}
 										bind:value={novoCriterioNota}
 									/>
 									<Button
@@ -298,7 +296,7 @@
 							{#each etapas[$selectedEtapa].criterios as criterio}
 								<div class="criterio-container">
 									<h2>{criterio.titulo}</h2>
-									<h2>{criterio.nota_max.toFixed(2)}</h2>
+									<h2>{parseFloat(criterio.nota_max).toFixed(2)}</h2>
 									<Button
 										color="var(--cor primaria)"
 										type="button"

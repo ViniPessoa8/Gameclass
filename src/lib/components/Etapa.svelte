@@ -4,44 +4,55 @@
 	import CircularIcon from './CircularIcon.svelte';
 	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '$lib/constants.js';
 
-	// TODO: get status dinamicamente
 	export let itemAtividade;
-	itemAtividade.data_entrega_final.toLocaleString('pt-BR', { timeZone: 'UTC' }).slice(0, -3);
+	let prazoFinalStr = itemAtividade.data_entrega_final
+		.toLocaleString('pt-BR', { timeZone: 'UTC' })
+		.slice(0, -3);
 
-	function capitalizeFirstLetter(string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
+	function capitalizeFirstLetter(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
-	let dataInicial = itemAtividade.data_entrega_inicial.getTime();
-	let dataFinal = itemAtividade.data_entrega_final.getTime();
+	// Props
+	let titulo = itemAtividade.titulo;
+	let notaMax = parseFloat(itemAtividade.nota_max).toFixed(1);
+	let dataInicial = itemAtividade.data_entrega_inicial;
+	let dataFinal = itemAtividade.data_entrega_final;
+
+	// calculated variables
+	let dataAtual = new Date().getTime();
+	let iconText = titulo[0].toUpperCase();
+	let dataInicialTime = dataInicial.getTime();
+	let dataFinalTime = dataFinal.getTime();
+
 	console.debug(dataAtual, dataInicial, dataFinal);
 
 	let status;
-	if (!dataInicial) {
+	if (!dataInicialTime) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.pendente;
-	} else if (dataAtual < dataInicial) {
+	} else if (dataAtual < dataInicialTime) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.agendado;
-	} else if (dataAtual >= dataInicial && dataAtual <= dataFinal) {
+	} else if (dataAtual >= dataInicialTime && dataAtual <= dataFinalTime) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.lancado;
-	} else if (dataAtual > dataFinal) {
+	} else if (dataAtual > dataFinalTime) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.aguardando_correcao;
 	}
 </script>
 
 <div class="etapa">
-	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={itemAtividade.iconText} />
+	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={iconText} />
 	<div class="titulo-etapa">
-		<h3>{itemAtividade.titulo}</h3>
+		<h3>{titulo}</h3>
 		<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 	</div>
-	<div class="column">
-		<span>Prazo: {itemAtividade.prazo}</span>
+	<div class="column info">
+		<span class="prazo">Prazo: {prazoFinalStr}</span>
 		<div class="status row">
-			<h3 class="status-text-{itemAtividade.status}">
-				{capitalizeFirstLetter(itemAtividade.status)}
+			<h3 class="status-text-{status.toLowerCase()}">
+				{capitalizeFirstLetter(status)}
 			</h3>
 			{#if itemAtividade.status === STATUS_ITEM_ATIVIDADE_PROFESSOR.corrigido}
-				<h3 class="status-grade-{itemAtividade.status}">8.5</h3>
+				<h3 class="status-grade-{status.toLowerCase()}">{notaMax}</h3>
 			{/if}
 		</div>
 	</div>
@@ -49,6 +60,12 @@
 </div>
 
 <style>
+	.info {
+		margin-right: 8px;
+		text-align: end;
+		width: 100%;
+	}
+
 	.etapa {
 		width: 100%;
 		margin-top: 12px;
@@ -64,18 +81,20 @@
 
 	.titulo-etapa > h3 {
 		margin-right: 8px;
+		margin-left: 8px;
 		word-wrap: break-word;
 		display: inline-block;
 		white-space: normal;
 	}
 
-	.column {
-		width: 150px;
+	.column .info {
+		width: 100%;
 	}
 
 	.row {
+		width: 100%;
 		display: flex;
-		justify-content: start;
+		justify-content: end;
 	}
 
 	.status-text-corrigido {
@@ -90,11 +109,22 @@
 		border-radius: 10px;
 	}
 
+	.status-grade-pendente,
+	.status-grade-agendado {
+		margin-left: 8px;
+		padding-left: 4px;
+		padding-right: 4px;
+		background-color: var(--cor-primaria);
+		color: white;
+		border-radius: 10px;
+	}
+
 	.status-text-entregue {
 		color: var(--cor-secundaria);
 	}
 
-	.status-text-pendente {
+	.status-text-pendente,
+	.status-text-agendado {
 		color: var(--cor-secundaria-2);
 	}
 </style>

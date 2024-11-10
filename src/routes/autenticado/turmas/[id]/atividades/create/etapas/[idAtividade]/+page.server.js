@@ -1,5 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { cadastraItemAtividade } from '$controllers/itemAtividade.js';
+import { ATRIBUICAO, REALIZACAO } from "../../../../../../../../lib/constants";
 
 
 export async function load({ params }) {
@@ -41,10 +42,13 @@ export let actions = {
 			notaMax = parseFloat(etapa.criterios.map((elem) => elem.nota_max).reduce((elem, acc) => (elem + acc)))
 			dtEntregaMin = new Date(etapa.dtEntregaMin)
 			dtEntregaMax = new Date(etapa.dtEntregaMax)
-			atribuicaoNotas = parseInt(etapa.atribuicaoNotasGroup)
-			realizacao = parseInt(etapa.realizacaoGroup)
+			atribuicaoNotas = etapa.atribuicaoNotasGroup
+			realizacao = etapa.realizacaoGroup
 			receberAposPrazo = Boolean(etapa.receberAposPrazo)
-			idAtividadePai = parseInt(etapa.idAtividadePai)
+			idAtividadePai = params.idAtividade
+
+			atribuicaoNotas = atribuicaoNotas === "Média Simples" ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada
+			realizacao = realizacao === "Individual" ? REALIZACAO.individual : REALIZACAO.grupos
 
 			console.log('titulo: ', titulo)
 			console.log('notaMax: ', notaMax)
@@ -56,6 +60,7 @@ export let actions = {
 			console.log('idAtividadePai: ', idAtividadePai)
 
 
+			let error;
 			try {
 				let res = await cadastraItemAtividade(
 					titulo,
@@ -73,10 +78,15 @@ export let actions = {
 				console.debug("[server] cadastraItemAtividade result = ", res)
 
 			} catch (e) {
-				if (e.includes("Dados obrigatórios não foram preenchidos.")) {
+				console.error(e)
+				error = e
+			}
+
+			if (error) {
+				if (error.includes("Dados obrigatórios não foram preenchidos.")) {
 					fail(401, "Dados obrigatórios não foram preenchidos.")
 				} else {
-					fail(401, e)
+					fail(401, error)
 				}
 			}
 		})
