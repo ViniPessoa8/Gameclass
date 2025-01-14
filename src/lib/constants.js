@@ -44,8 +44,9 @@ export const REALIZACAO = {
 }
 
 export const STATUS_ITEM_ATIVIDADE_PROFESSOR = {
-	pendente: "Sem data para lançamento",
-	agendado: "Agendado",
-	lancado: "Lançado",
-	aguardando_correcao: "Aguardando Correção",
+	0: "Sem data para lançamento",
+	1: "Agendado",
+	2: "Lançado",
+	3: "Aguardando Correção",
+	4: "Corrigido",
 }

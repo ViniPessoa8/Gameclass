@@ -7,6 +7,7 @@
 	import { enhance } from '$app/forms';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { onMount } from 'svelte';
+
 	console.debug('[LOGIN PAGE]');
 
 	/** @type {import('./$types').ActionData} */
