@@ -1,4 +1,5 @@
 <script>
+	import '../../static/app.css';
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';

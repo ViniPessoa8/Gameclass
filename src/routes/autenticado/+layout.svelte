@@ -1,4 +1,5 @@
 <script>
+	import '../../static/app.css';
 	import Header from '$lib/components/Header.svelte';
 	import SideBar from '$lib/components/SideBar.svelte';
 	import { afterNavigate, goto } from '$app/navigation';
