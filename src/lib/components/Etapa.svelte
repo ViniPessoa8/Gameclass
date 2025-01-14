@@ -5,6 +5,7 @@
 	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '$lib/constants.js';
 
 	export let itemAtividade;
+
 	let prazoFinalStr = itemAtividade.data_entrega_final
 		.toLocaleString('pt-BR', { timeZone: 'UTC' })
 		.slice(0, -3);
@@ -18,25 +19,20 @@
 	let notaMax = parseFloat(itemAtividade.nota_max).toFixed(1);
 	let dataInicial = itemAtividade.data_entrega_inicial;
 	let dataFinal = itemAtividade.data_entrega_final;
+	let status = itemAtividade.status;
 
 	// calculated variables
 	let dataAtual = new Date().getTime();
 	let iconText = titulo[0].toUpperCase();
-	let dataInicialTime = dataInicial.getTime();
-	let dataFinalTime = dataFinal.getTime();
 
 	console.debug(dataAtual, dataInicial, dataFinal);
-
-	let status;
-	if (!dataInicialTime) {
-		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.pendente;
-	} else if (dataAtual < dataInicialTime) {
-		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.agendado;
-	} else if (dataAtual >= dataInicialTime && dataAtual <= dataFinalTime) {
-		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.lancado;
-	} else if (dataAtual > dataFinalTime) {
-		status = STATUS_ITEM_ATIVIDADE_PROFESSOR.aguardando_correcao;
-	}
+	const STATUS_ID = {
+		0: 'pendente',
+		1: 'agendado',
+		2: 'lancado',
+		3: 'aguardando_correcao',
+		4: 'corrigido'
+	};
 </script>
 
 <div class="etapa">
@@ -48,12 +44,10 @@
 	<div class="column info">
 		<span class="prazo">Prazo: {prazoFinalStr}</span>
 		<div class="status row">
-			<h3 class="status-text-{status.toLowerCase()}">
-				{capitalizeFirstLetter(status)}
+			<h3 class="status-text-{STATUS_ID[status]}">
+				{capitalizeFirstLetter(STATUS_ITEM_ATIVIDADE_PROFESSOR[status])}
 			</h3>
-			{#if itemAtividade.status === STATUS_ITEM_ATIVIDADE_PROFESSOR.corrigido}
-				<h3 class="status-grade-{status.toLowerCase()}">{notaMax}</h3>
-			{/if}
+			<h3 class="status-grade-{STATUS_ID[status]}">{notaMax}</h3>
 		</div>
 	</div>
 	<ButtonRedirect color="white">Visualizar</ButtonRedirect>
@@ -69,13 +63,14 @@
 	.etapa {
 		width: 100%;
 		margin-top: 12px;
+		margin-bottom: 12px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
 	.titulo-etapa {
-		width: 300px;
+		width: 50em;
 		display: flex;
 	}
 
@@ -92,39 +87,55 @@
 	}
 
 	.row {
+		align-items: center;
 		width: 100%;
 		display: flex;
 		justify-content: end;
 	}
 
+	/* 	0. PENDENTE */
+	/* 1. AGENDADO */
+	/* 2. LANCADO */
+	.status-grade-pendente,
+	.status-grade-lancado,
+	.status-grade-agendado {
+		margin-left: 8px;
+		padding-left: 4px;
+		padding-right: 4px;
+		background-color: var(--cor-secundaria);
+		/* color: black; */
+		border-radius: 10px;
+	}
+
+	.status-text-pendente,
+	.status-text-lancado,
+	.status-text-agendado {
+		color: var(--cor-secundaria);
+	}
+
+	/* 3. AGUARDANDO_CORRECAO */
+	.status-text-aguardando_correcao {
+		color: red;
+	}
+
+	.status-grade-aguardando_correcao {
+		margin-left: 8px;
+		padding-left: 4px;
+		padding-right: 4px;
+		background-color: var(--cor-secundaria);
+		border-radius: 10px;
+	}
+
+	/* 4. CORRIGIDO */
 	.status-text-corrigido {
-		color: var(--cor-secundaria-4);
+		color: green;
 	}
 
 	.status-grade-corrigido {
 		margin-left: 8px;
 		padding-left: 4px;
 		padding-right: 4px;
-		background-color: var(--cor-secundaria-4);
+		background-color: var(--cor-secundaria);
 		border-radius: 10px;
-	}
-
-	.status-grade-pendente,
-	.status-grade-agendado {
-		margin-left: 8px;
-		padding-left: 4px;
-		padding-right: 4px;
-		background-color: var(--cor-primaria);
-		color: white;
-		border-radius: 10px;
-	}
-
-	.status-text-entregue {
-		color: var(--cor-secundaria);
-	}
-
-	.status-text-pendente,
-	.status-text-agendado {
-		color: var(--cor-secundaria-2);
 	}
 </style>

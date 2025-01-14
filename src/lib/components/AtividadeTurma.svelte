@@ -16,8 +16,10 @@
 	console.debug(atividade);
 </script>
 
-<div class="atividade-container" bind:clientWidth={width}>
-	<BarraDeProgresso {width} />
+<div
+	class={toggled ? 'atividade-container-toggled' : 'atividade-container'}
+	bind:clientWidth={width}
+>
 	<div
 		class="atividade-info"
 		aria-hidden="true"
@@ -25,16 +27,22 @@
 			toggled = toggled ? false : true;
 		}}
 	>
-		<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
-		<div class="column">
-			<h2>{atividade.titulo}</h2>
+		<div class="atividade-info-barra">
+			<BarraDeProgresso {width} />
 		</div>
-		<span>Prazo: {atividade.prazo.toLocaleString('pt-BR', { timeZone: 'UTC' }).slice(0, -3)}</span>
-		{#if toggled}
-			<img src={icon_seta_cima} alt="Seta para abrir a turma" />
-		{:else}
-			<img src={icon_seta_baixo} alt="Seta para fechar a turma" />
-		{/if}
+		<div class="atividade-info-content">
+			<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
+			<div class="column">
+				<h2>{atividade.titulo}</h2>
+			</div>
+			<span>Prazo: {atividade.prazo.toLocaleString('pt-BR', { timeZone: 'UTC' }).slice(0, -3)}</span
+			>
+			{#if toggled}
+				<img src={icon_seta_cima} alt="Seta para abrir a turma" />
+			{:else}
+				<img src={icon_seta_baixo} alt="Seta para fechar a turma" />
+			{/if}
+		</div>
 	</div>
 	<!-- TODO: Etapas as component (parameter: list of etapas)-->
 	{#if toggled}
@@ -55,7 +63,7 @@
 					on:click={() => {
 						console.log('clicked');
 						// TODO: Get id disponivel para etapa
-						goto(`atividades/create/etapas/${atividade.id}`); // TODO: utilziar id dinamico da turma e da etapa
+						goto(`atividades/create/${atividade.id}/etapas`); // TODO: utilziar id dinamico da turma e da etapa
 					}}
 					color="white"
 					backgroundColor="var(--cor-primaria)"
@@ -73,13 +81,33 @@
 		margin-bottom: 24px;
 	}
 
+	.atividade-container-toggled {
+		width: 50%;
+		margin-bottom: 24px;
+		padding: 8px;
+		border: 1px solid var(--input-border);
+		border-radius: 8px;
+		background-color: var(--input-border);
+	}
+
 	.atividade-info {
+		display: flex;
+		flex-direction: column;
+		cursor: pointer;
+	}
+
+	.atividade-info-barra {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+	}
+
+	.atividade-info-content {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		width: 100%;
 		margin-bottom: 12px;
-		cursor: pointer;
 	}
 
 	.button {
@@ -96,12 +124,12 @@
 	/* 	outline: inherit; */
 	/* } */
 
-	.atividade-info > span {
+	.atividade-info-content > span {
 		margin-left: auto;
 		font-size: 1.2em;
 	}
 
-	.atividade-info > img {
+	.atividade-info-content > img {
 		margin-left: 12px;
 	}
 
@@ -114,6 +142,7 @@
 	.etapas {
 		display: flex;
 		flex-direction: column;
+		margin-bottom: 12px;
 	}
 
 	.etapas-container {
