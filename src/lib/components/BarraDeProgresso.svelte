@@ -27,7 +27,7 @@
 	{#each input as num, index}
 		<div
 			class="barra-progresso"
-			style:width="{(index + 1) * input_step}px"
+			style:width="{(index + 1) * input_step - 12}px"
 			style:background-color={colors[index]}
 			style:z-index={100 - index}
 		>
