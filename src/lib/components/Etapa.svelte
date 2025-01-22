@@ -25,7 +25,6 @@
 	let dataAtual = new Date().getTime();
 	let iconText = titulo[0].toUpperCase();
 
-	console.debug(dataAtual, dataInicial, dataFinal);
 	const STATUS_ID = {
 		0: 'pendente',
 		1: 'agendado',

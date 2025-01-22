@@ -13,7 +13,6 @@
 	let width = 0;
 	let toggled = false;
 
-	console.debug(atividade);
 </script>
 
 <div

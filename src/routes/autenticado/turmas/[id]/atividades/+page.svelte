@@ -5,8 +5,11 @@
 	import ButtonRedirect from '$lib/components/ButtonRedirect.svelte';
 
 	export let data;
-	let atividades = data.atividades;
-	let id = $page.params.id;
+	let atividades;
+	let id;
+
+	$: atividades = data.atividades;
+	$: id = $page.params.id;
 </script>
 
 <TurmaTabBar />
@@ -14,10 +17,11 @@
 	<h1>Atividades</h1>
 	{#if atividades.length == 0}
 		<p>(Não há atividades nessa turma)</p>
+	{:else}
+		{#each atividades as atividade}
+			<AtividadeTurma {atividade} />
+		{/each}
 	{/if}
-	{#each atividades as atividade}
-		<AtividadeTurma {atividade} />
-	{/each}
 	<ButtonRedirect href="/autenticado/turmas/{id}/atividades/create"
 		>Criar nova atividade</ButtonRedirect
 	>

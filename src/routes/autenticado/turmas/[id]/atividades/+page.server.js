@@ -3,9 +3,11 @@ import { getAtividadesByIdTurma } from "$lib/server/controllers/atividade"
 import { listaItensDaAtividadePorId } from "../../../../../lib/server/controllers/itemAtividade"
 
 export async function load({ params }) {
-	console.log('load turmas/id')
-
 	let atividades = await getAtividadesByIdTurma(params.id)
+
+	if (atividades && atividades.length == 0) {
+		return { atividades: [] }
+	}
 
 	for (let i = 0; i <= atividades.length - 1; i += 1) {
 		let itensAtividade = await listaItensDaAtividadePorId(atividades[i].id)

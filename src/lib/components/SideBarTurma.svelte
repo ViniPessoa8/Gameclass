@@ -26,7 +26,12 @@
 	style="background-color: {backgroundColor};"
 	on:click={() => {
 		$selectedTurma = turma.id;
-		goto('/autenticado/turmas/' + turma.id);
+		try {
+			let url = '/autenticado/turmas/' + turma.id + '/atividades';
+			goto(url);
+		} catch (e) {
+			console.error('Erro:', e);
+		}
 	}}
 >
 	<CircularIcon backgroundColor="#{color}" text={acronym} type="text" />
