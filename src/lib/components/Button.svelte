@@ -1,5 +1,6 @@
 <script>
 	export let type = '';
+	export let width = '';
 	export let color = '';
 	export let backgroundColor = '';
 	export let marginTop = '';
@@ -9,8 +10,9 @@
 <button
 	{type}
 	class="button"
-	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}"
+	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}; width: {width}"
 	on:click
+	{...$$restProps}
 >
 	<slot></slot>
 </button>
@@ -19,7 +21,6 @@
 	.button {
 		border: none;
 		height: 48px;
-		width: fit-content;
 		font-family: var(--font);
 		font-weight: bold;
 		color: var(--cor-primaria);

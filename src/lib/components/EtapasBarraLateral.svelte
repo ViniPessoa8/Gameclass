@@ -97,6 +97,11 @@
 						return;
 					}
 
+					if (etapas[selectedEtapa].titulo == '') {
+						erroEtapa = [true, 'Etapa deve ter um título'];
+						return;
+					}
+
 					etapas.push({
 						id: etapas[etapas.length - 1].id + 1,
 						titulo: '',
@@ -105,20 +110,7 @@
 						realizacaoGroup: 'Individual',
 						atribuicaoNotasGroup: 'Média Simples',
 						receberAposPrazo: true,
-						criterios: [
-							{
-								titulo: 'Documentação',
-								nota_max: 3.0
-							},
-							{
-								titulo: 'Formatação',
-								nota_max: 5.0
-							},
-							{
-								titulo: 'Apresentação',
-								nota_max: 2.0
-							}
-						]
+						criterios: []
 					});
 					selectedEtapa = selectedEtapa + 1;
 				}}>+ Nova Etapa</Button
