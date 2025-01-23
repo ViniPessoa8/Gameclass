@@ -5,6 +5,8 @@
 	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '$lib/constants.js';
 
 	export let itemAtividade;
+	export let idAtividade;
+	export let idTurma;
 
 	let prazoFinalStr = itemAtividade.data_entrega_final
 		.toLocaleString('pt-BR', { timeZone: 'UTC' })
@@ -49,7 +51,9 @@
 			<h3 class="status-grade-{STATUS_ID[status]}">{notaMax}</h3>
 		</div>
 	</div>
-	<ButtonRedirect color="white">Visualizar</ButtonRedirect>
+	<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}" color="white"
+		>Visualizar</ButtonRedirect
+	>
 </div>
 
 <style>

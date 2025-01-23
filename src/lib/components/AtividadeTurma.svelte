@@ -5,14 +5,14 @@
 	import icon_atividade_turma from '$lib/assets/icon_atividade_turma.png';
 	import icon_seta_cima from '$lib/assets/icon_seta_cima.png';
 	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
-	import Etapa from './Etapa.svelte';
+	import EtapaSubMenu from './EtapaSubMenu.svelte';
 	import { goto } from '$app/navigation';
 	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '../constants';
 
 	export let atividade;
+	export let idTurma;
 	let width = 0;
 	let toggled = false;
-
 </script>
 
 <div
@@ -53,7 +53,7 @@
 			{#each atividade.itens_atividade as itemAtividade}
 				<hr />
 				<div class="etapas-container">
-					<Etapa {itemAtividade} />
+					<EtapaSubMenu {itemAtividade} {idTurma} idAtividade={atividade.id} />
 				</div>
 			{/each}
 			<!-- TODO: Toggle Button para abrir as etapas -->

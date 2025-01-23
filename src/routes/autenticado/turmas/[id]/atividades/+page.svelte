@@ -19,7 +19,7 @@
 		<p>(Não há atividades nessa turma)</p>
 	{:else}
 		{#each atividades as atividade}
-			<AtividadeTurma {atividade} />
+			<AtividadeTurma {atividade} idTurma={id} />
 		{/each}
 	{/if}
 	<ButtonRedirect href="/autenticado/turmas/{id}/atividades/create"
