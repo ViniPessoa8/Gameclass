@@ -91,15 +91,15 @@
 	.page-info-container {
 		display: flex;
 		flex-direction: row;
-		padding-bottom: 12px;
+		padding-bottom: 8px;
 	}
 
 	.titulo-atividade {
-		font-size: 26px;
+		font-size: 22px;
 	}
 
 	.realizacao-atividade {
-		font-size: 20px;
+		font-size: 16px;
 		color: var(--cor-secundaria);
 	}
 
@@ -111,12 +111,12 @@
 
 	.descricao-etapa {
 		min-height: 348px;
-		font-size: 24px;
+		font-size: 20px;
 		color: var(--cor-secundaria);
 	}
 
 	.titulo-etapa {
-		font-size: 24px;
+		font-size: 20px;
 		color: var(--cor-primaria);
 	}
 
@@ -128,7 +128,7 @@
 
 	.prazo-etapa {
 		color: var(--cor-primaria);
-		font-size: 20px;
+		font-size: 16px;
 	}
 
 	.comentarios-etapa {
