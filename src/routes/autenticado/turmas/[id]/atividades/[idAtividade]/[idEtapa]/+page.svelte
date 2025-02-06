@@ -57,8 +57,6 @@
 				data: dataFormatada
 			}
 		];
-
-		console.debug(comentarios);
 	}
 </script>
 
@@ -87,11 +85,9 @@
 				<Comentario texto={comentario.texto} nome={comentario.nome} data={comentario.data} />
 			{/each}
 		</div>
-		<!-- FIX: tamanho do input de comentario -->
 		<div class="comentario-input">
 			<CircularIcon backgroundColor={iconColor} text="V" type="text" />
 			<InputText bind:value={textoComentario} borded placeholder="Deixe um comentário" />
-			<!-- TODO: Fazer botão funcionar -->
 			<Button type="text" backgroundColor="var(--cor-secundaria)" on:click={adicionarComentario}
 				>Enviar</Button
 			>
@@ -245,11 +241,5 @@
 		justify-self: center;
 		margin-top: auto;
 		margin-bottom: 24px;
-	}
-
-	.titulo-data {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
 	}
 </style>
