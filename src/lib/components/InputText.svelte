@@ -33,6 +33,7 @@
 
 <style>
 	input {
+		width: 100%;
 		border: none;
 		font-family: var(--font);
 		border-bottom: 1px solid var(--cor-secundaria);
@@ -41,6 +42,7 @@
 	}
 
 	.board {
+		width: 100%;
 		background-color: var(--cor-primaria);
 		padding: 14px;
 		border-radius: 12px;
