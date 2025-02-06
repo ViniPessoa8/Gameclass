@@ -3,7 +3,6 @@ export const PASSWORD_MIN_CHARACTERS = 8
 export const LIMITE_DE_PONTOS_DA_ETAPA = 100
 export const LIMITE_NUMERO_DE_ETAPAS = 5
 
-
 export const COLORS = {
 	primaria_1: "#123181",
 	primaria_2: "#51ACDF",
@@ -49,4 +48,9 @@ export const STATUS_ITEM_ATIVIDADE_PROFESSOR = {
 	2: "Lançado",
 	3: "Aguardando Correção",
 	4: "Corrigido",
+}
+
+export const TIPO_ARQUIVO = {
+	PDF: "pdf",
+	TXT: "txt",
 }

@@ -24,7 +24,12 @@
 		flex-direction: row;
 	}
 
+	.container {
+		width: 100%;
+	}
+
 	.content {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		padding-left: 12px;
@@ -32,6 +37,7 @@
 	}
 
 	.titulo-data {
+		width: 100%;
 		justify-content: space-between;
 	}
 
