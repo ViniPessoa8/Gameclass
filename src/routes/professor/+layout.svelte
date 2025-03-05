@@ -9,7 +9,7 @@
 
 	export let data;
 	let previousPage;
-	const BACK_SKIP = ['/autenticado/turmas'];
+	const BACK_SKIP = [`/${data.perfil}/turmas`];
 
 	onMount(() => {
 		console.log('onMount() $page.url.pathname:', $page.url.pathname);

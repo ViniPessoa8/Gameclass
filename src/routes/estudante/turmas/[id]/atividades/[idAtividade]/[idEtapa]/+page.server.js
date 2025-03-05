@@ -10,9 +10,13 @@ export async function load({ cookies, params }) {
 	}
 	const data = JSON.parse(session_raw);
 	data["perfil"] = cookies.get("perfil")
+	console.debug(data)
 
 	const idEtapa = params.idEtapa
+	console.debug(`Carrega informações da etapa. Id da etapa: ${idEtapa}`);
 	const etapa = await buscaItemAtividadePorId(idEtapa)
+	console.debug(etapa)
+
 
 	return { "usuario": data, "etapa": etapa }
 }

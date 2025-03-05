@@ -22,7 +22,11 @@ export const DB_INFO = {
 		atividade: "atividade",
 		item_atividade: "item_atividade",
 		tag: "tag",
-		criterio: "criterio"
+		criterio: "criterio",
+		estudante_turma: "estudante_turma",
+		estudante: "estudante",
+		usuario: "usuario",
+		entrega: "entrega"
 	}
 }
 

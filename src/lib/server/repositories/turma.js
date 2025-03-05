@@ -72,6 +72,31 @@ export async function getTurmaByIdBD(id) {
 	}
 }
 
+export async function listAlunosByTurmaIdBD(idTurma) {
+	const query = {
+		text: `	SELECT 
+					e.*, u.*
+ 				FROM 
+					${DB_INFO.tables.turma} t,
+					${DB_INFO.tables.estudante_turma} et,
+					${DB_INFO.tables.estudante} e,
+					${DB_INFO.tables.usuario} u
+				WHERE 
+					t.id = $1
+					AND et.id_turma = t.id
+					AND e.id_usuario = u.id
+					AND et.id_estudante = e.id;`,
+		values: [idTurma]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao buscar turma por id (${idTurma}): ${e}`)
+	}
+}
+
 export async function deleteTurmaByCodigoBD(codigo) {
 	const query = {
 		text: `DELETE FROM ${DB_INFO.tables.turma} WHERE codigo = $1 RETURNING id;`,

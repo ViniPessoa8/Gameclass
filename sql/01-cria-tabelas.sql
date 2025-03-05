@@ -52,6 +52,13 @@ CREATE TABLE turma (
 	PRIMARY KEY ("codigo", "id_instituicao")
 );
 
+CREATE TABLE estudante_turma (
+    "id" BIGSERIAL UNIQUE,
+	"id_estudante" SERIAL REFERENCES estudante(id) NOT NULL,
+	"id_turma" SERIAL REFERENCES turma(id) NOT NULL,
+	PRIMARY KEY ("id_estudante", "id_turma")
+);
+
 CREATE TABLE atividade (
 	"id" BIGSERIAL UNIQUE,
 	"titulo" VARCHAR(255) NOT NULL,
@@ -64,6 +71,7 @@ CREATE TABLE atividade (
 CREATE TABLE item_atividade (
 	"id" BIGSERIAL UNIQUE,
 	"titulo" VARCHAR(255) NOT NULL,
+	"descricao" VARCHAR(5000) NOT NULL,
 	"nota_max" FLOAT NOT NULL,
 	"data_entrega_inicial" TIMESTAMP NOT NULL,
 	"data_entrega_final" TIMESTAMP NOT NULL,
@@ -126,8 +134,8 @@ CREATE TABLE integrante_grupo_de_alunos (
 CREATE TABLE entrega (
 	"id" BIGSERIAL UNIQUE,
 	"data_entrega" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"id_grupo_de_alunos" SERIAL REFERENCES grupo_de_alunos(id),
-	"id_estudante" SERIAL REFERENCES estudante(id),
+	"id_grupo_de_alunos" BIGINT REFERENCES grupo_de_alunos(id) NULL,
+	"id_estudante" BIGINT REFERENCES estudante(id) NULL,
 	"id_item_atividade" SERIAL REFERENCES item_atividade(id),
 	PRIMARY KEY ("id")
 );

@@ -10,6 +10,7 @@ export const actions = {
 		let res;
 
 		const data = await request.formData();
+		const perfil = cookies.get("perfil")
 		const sessionRaw = cookies.get('session')
 		console.log(sessionRaw)
 
@@ -44,7 +45,7 @@ export const actions = {
 		}
 		if (res.id) {
 			cookies.set("toast", 'turma_criada', { path: "/" })
-			redirect(300, "/autenticado/turmas")
+			redirect(300, `/${perfil}/turmas`)
 		}
 	}
 }

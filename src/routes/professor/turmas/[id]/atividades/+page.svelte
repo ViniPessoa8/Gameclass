@@ -22,7 +22,7 @@
 			<AtividadeTurma {atividade} idTurma={id} />
 		{/each}
 	{/if}
-	<ButtonRedirect href="/autenticado/turmas/{id}/atividades/create"
+	<ButtonRedirect href="/${data.perfil}/turmas/{id}/atividades/create"
 		>Criar nova atividade</ButtonRedirect
 	>
 </div>

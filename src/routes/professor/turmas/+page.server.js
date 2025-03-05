@@ -3,7 +3,7 @@ import { getTurmasByIdProfessor } from "$controllers/turma"
 import { redirect } from "@sveltejs/kit";
 
 export async function load({ cookies }) {
-	console.debug("[SERVER/AUTENTICADO/TURMAS]")
+	console.debug("[SERVER/PROFESSOR/TURMAS]")
 	const message = cookies.get("toast");
 	let sessionRaw = cookies.get('session')
 	if (!sessionRaw) {

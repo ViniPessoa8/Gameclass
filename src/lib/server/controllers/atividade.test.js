@@ -33,9 +33,8 @@ describe.sequential("Buscar de Atividade", () => {
 		}
 
 		let res = await getAtividadeById(id_atividade)
-		res = res.rows
-		res[0].prazo = res[0].prazo.toString()
-		expect(res[0]).toMatchObject(template_resultado)
+		res.prazo = res.prazo.toString()
+		expect(res).toMatchObject(template_resultado)
 
 	})
 

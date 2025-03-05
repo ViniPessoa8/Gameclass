@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, getTurmaByIdBD, isTurmaRegisteredDB, registraTurmaBD } from "../repositories/turma";
+import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, getTurmaByIdBD, isTurmaRegisteredDB, registraTurmaBD, listAlunosByTurmaIdBD } from "../repositories/turma";
 import { getInstituicaoByNome } from "./instituicao";
 
 const CORES = [
@@ -85,6 +85,12 @@ export async function getTurmasByIdProfessor(idProfessor) {
 	}
 
 	return false
+}
+
+export async function listAlunosByTurmaId(idTurma) {
+	const alunos = await listAlunosByTurmaIdBD(idTurma)
+
+	return alunos.rows
 }
 
 export async function deleteTurmaByCodigo(codigo) {

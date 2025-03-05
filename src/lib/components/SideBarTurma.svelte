@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 
 	export let turma;
+	export let perfil;
 
 	const acronym = turma.nome[0];
 	const color = turma.cor;
@@ -27,7 +28,7 @@
 	on:click={() => {
 		$selectedTurma = turma.id;
 		try {
-			let url = '/autenticado/turmas/' + turma.id + '/atividades';
+			let url = `/${perfil}/turmas/` + turma.id + '/atividades';
 			goto(url);
 		} catch (e) {
 			console.error('Erro:', e);

@@ -14,7 +14,7 @@
 		<SideBarButton
 			img={'home'}
 			onClick={() => {
-				goto('/autenticado/turmas');
+				goto(`/${perfil}/turmas`);
 			}}>Home</SideBarButton
 		>
 		<SideBarButton img={'logout'}>Logout</SideBarButton>
@@ -24,7 +24,7 @@
 		<div class="turma">
 			{#if turmas?.length > 0}
 				{#each turmas as turma}
-					<SideBarTurma {turma} />
+					<SideBarTurma {turma} {perfil} />
 				{/each}
 			{/if}
 		</div>
@@ -33,7 +33,7 @@
 	<Button
 		on:click={() => {
 			if (perfil === 'professor') {
-				goto('/autenticado/turmas/create');
+				goto(`/${perfil}/turmas/create`);
 			}
 
 			if (perfil === 'estudante') {

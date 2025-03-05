@@ -41,7 +41,7 @@ export async function getAtividadeById(id) {
 	if (res.rowCount === 0) {
 		throw ("Não foi encontrada atividade com esse id.")
 	}
-	return res
+	return res.rows[0]
 }
 
 export async function getAtividadesByIdTurma(id_turma) {

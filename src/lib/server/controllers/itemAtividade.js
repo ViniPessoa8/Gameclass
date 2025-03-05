@@ -1,6 +1,7 @@
 import { buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, } from "../repositories/itemAtividade";
 import { cadastraCriterioBD } from "../repositories/criterio";
 import { removeCriterioPorIdItemAtividade } from "./criterio";
+import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
 
 export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai, criterios) {
 	let res
@@ -40,6 +41,10 @@ export async function buscaItemAtividadePorId(idItemAtividade) {
 	}
 
 	let res = await buscaItemAtividadePorIdBD(idItemAtividade);
+
+	const status = calculaStatusItemAtividade(res)
+	res["status"] = status
+
 	return res
 }
 
@@ -71,5 +76,32 @@ export async function removeItemAtividadePorId(idItemAtividade) {
 	let res = await removeItemAtividadePorIdBD(idItemAtividade);
 	if (res.rowCount > 0) {
 		return res.rows
+	}
+}
+
+function calculaStatusItemAtividade(itemAtividade) {
+	let status = ""
+
+	// itemAtividade["entregue"] = buscaEntregaItemAtividade()
+
+	console.debug("teste:", itemAtividade.data_entregaInicial > new Date())
+	if (itemAtividade.data_entrega_inicial == undefined) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["0"];
+
+	} else if (itemAtividade.data_entregaInicial != undefined
+		&& itemAtividade.data_entregaInicial > new Date()) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["1"];
+
+	} else if (itemAtividade.data_entregaInicial != undefined
+		&& itemAtividade.data_entregaInicial <= new Date()) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["2"];
+
+	} else if (itemAtividade.entregue == true
+		&& itemAtividade.nota == undefined) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["3"];
+
+	} else if (itemAtividade.entregue == true
+		&& itemAtividade.nota != undefined) {
+		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["4"];
 	}
 }
