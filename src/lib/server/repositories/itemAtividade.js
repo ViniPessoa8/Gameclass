@@ -3,17 +3,17 @@ import { DB_INFO } from "$lib/constants"
 
 //INSERT
 
-export async function cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai) {
+export async function cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividade) {
 	const query = {
-		text: `INSERT INTO ${DB_INFO.tables.item_atividade}(titulo, nota_max, data_entrega_inicial, data_entrega_final, tipo_atribuicao_nota, em_grupos, receber_apos_prazo, n_integrantes_grupo, n_max_grupos, id_atividade_pai) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
-		values: [titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai]
+		text: `INSERT INTO ${DB_INFO.tables.item_atividade}(titulo, nota_max, data_entrega_inicial, data_entrega_final, tipo_atribuicao_nota, em_grupos, receber_apos_prazo, n_integrantes_grupo, n_max_grupos, id_atividade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
+		values: [titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividade]
 	}
 
 	try {
 		const res = await dbConn.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao cadastrar novo item da atividade (${idAtividadePai}): ${e}`)
+		throw (`Erro ao cadastrar novo item da atividade (${idAtividade}): ${e}`)
 	}
 }
 
@@ -21,7 +21,7 @@ export async function cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicia
 
 export async function listaItensDaAtividadePorIdBD(idAtividadePai) {
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id_atividade_pai = $1`,
+		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id_atividade = $1`,
 		values: [idAtividadePai]
 	}
 
@@ -49,7 +49,7 @@ export async function buscaItemAtividadePorIdBD(idItemAtividade) {
 
 export async function buscaItemAtividadePorTituloBD(titulo, idAtividadePai) {
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE titulo = $1 AND id_atividade_pai = $2`,
+		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE titulo = $1 AND id_atividade = $2`,
 		values: [titulo, idAtividadePai]
 	}
 

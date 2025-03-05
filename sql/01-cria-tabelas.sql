@@ -26,6 +26,16 @@ CREATE TABLE usuario (
 	PRIMARY KEY ("id")
 );
 
+CREATE TABLE estudante (
+	"id" BIGSERIAL UNIQUE,
+	"matricula" VARCHAR(30) NOT NULL,
+	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"acumulo_xp" BIGINT NOT NULL DEFAULT 0,
+	"nivel" INT NOT NULL DEFAULT 0,
+	"id_usuario" SERIAL REFERENCES usuario(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
 CREATE TABLE turma (
     "id" BIGSERIAL UNIQUE,
 	"codigo" VARCHAR(12) NOT NULL,
@@ -63,8 +73,8 @@ CREATE TABLE item_atividade (
 	"n_integrantes_grupo" SMALLINT,
 	"n_max_grupos" SMALLINT,
 	"status" varchar(20),
-	"id_atividade_pai" SERIAL REFERENCES atividade(id) NOT NULL,
-	PRIMARY KEY ("titulo", "id_atividade_pai")
+	"id_atividade" SERIAL REFERENCES atividade(id) NOT NULL,
+	PRIMARY KEY ("titulo", "id_atividade")
 );
 
 CREATE TABLE tag (
@@ -78,8 +88,87 @@ CREATE TABLE tag (
 CREATE TABLE criterio (
 	"id" BIGSERIAL UNIQUE,
 	"titulo" VARCHAR(255) NOT NULL,
-	"nota_max" FLOAT NOT NULL,
+	"pontuacao_max" FLOAT NOT NULL,
 	"peso" FLOAT ,
 	"id_item_atividade" SERIAL REFERENCES item_atividade(id) NOT NULL,
 	PRIMARY KEY ("id")
-)
+);
+
+CREATE TABLE avaliacao_criterio (
+	"id" BIGSERIAL UNIQUE,
+	"nota_atribuida" FLOAT NOT NULL,
+	"id_criterio" SERIAL REFERENCES criterio(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE realizar_avaliacao (
+	"id" BIGSERIAL UNIQUE,
+	"data_avaliacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_avaliacao_criterio" SERIAL REFERENCES avaliacao_criterio(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE grupo_de_alunos (
+	"id" BIGSERIAL UNIQUE,
+	"nome" VARCHAR(100) NOT NULL,
+	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_item_atividade" SERIAL REFERENCES item_atividade(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE integrante_grupo_de_alunos (
+	"id" BIGSERIAL UNIQUE,
+	"id_estudante" SERIAL REFERENCES estudante(id) NOT NULL,
+	"id_grupo_de_alunos" SERIAL REFERENCES grupo_de_alunos(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE entrega (
+	"id" BIGSERIAL UNIQUE,
+	"data_entrega" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_grupo_de_alunos" SERIAL REFERENCES grupo_de_alunos(id),
+	"id_estudante" SERIAL REFERENCES estudante(id),
+	"id_item_atividade" SERIAL REFERENCES item_atividade(id),
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE publicacao_mural (
+	"id" BIGSERIAL UNIQUE,
+	"conteudo" VARCHAR(255) NOT NULL,
+	"data_publicacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_turma" SERIAL REFERENCES turma(id) NOT NULL,
+	"id_usuario" SERIAL REFERENCES usuario(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE anexo (
+	"id" BIGSERIAL UNIQUE,
+	"conteudo" VARCHAR(255) NOT NULL,
+	"data_upload" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_entrega" SERIAL REFERENCES entrega(id),
+	"id_publicacao_mural" SERIAL REFERENCES publicacao_mural(id),
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE comentario (
+	"id" BIGSERIAL UNIQUE,
+	"texto" VARCHAR(255) NOT NULL,
+	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_realizar_avaliacao" SERIAL REFERENCES realizar_avaliacao(id),
+	"id_item_atividade" SERIAL REFERENCES item_atividade(id),
+	"id_publicacao_mural" SERIAL REFERENCES publicacao_mural(id),
+	"id_usuario" SERIAL REFERENCES usuario(id) NOT NULL,
+	"tipo" VARCHAR(30) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+
+CREATE TABLE pontuacao (
+	"id" BIGSERIAL UNIQUE,
+	"pontos_turma" BIGINT NOT NULL DEFAULT 0,
+	"pontos_experiencia" BIGINT NOT NULL DEFAULT 0,
+	"data_recebimento" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_estudante" SERIAL REFERENCES estudante(id) NOT NULL,
+	"id_turma" SERIAL REFERENCES turma(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
