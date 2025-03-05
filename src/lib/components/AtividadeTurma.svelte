@@ -13,6 +13,17 @@
 	export let idTurma;
 	let width = 0;
 	let toggled = false;
+
+	const prazoEtapa = new Date(atividade.prazo.toISOString());
+	const dateOptions = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		timezone: 'America/Manaus'
+	};
+	const prazoFinalStr = prazoEtapa.toLocaleString('pt-BR', dateOptions);
 </script>
 
 <div
@@ -34,8 +45,7 @@
 			<div class="column">
 				<h2>{atividade.titulo}</h2>
 			</div>
-			<span>Prazo: {atividade.prazo.toLocaleString('pt-BR', { timeZone: 'UTC' }).slice(0, -3)}</span
-			>
+			<span>Prazo: {prazoFinalStr}</span>
 			{#if toggled}
 				<img src={icon_seta_cima} alt="Seta para abrir a turma" />
 			{:else}
@@ -84,9 +94,8 @@
 		width: 50%;
 		margin-bottom: 24px;
 		padding: 8px;
-		border: 1px solid var(--input-border);
+		border: 2px solid var(--input-border);
 		border-radius: 8px;
-		background-color: var(--input-border);
 	}
 
 	.atividade-info {

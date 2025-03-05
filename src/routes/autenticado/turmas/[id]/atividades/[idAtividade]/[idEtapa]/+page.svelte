@@ -37,11 +37,21 @@
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
 	$: idEtapa = $page.params.idEtapa;
+	// Gambiarra pra mostrar a data no dia certo (diferença de timezone)
+	const prazoEtapa = new Date(data.etapa.data_entrega_final.toISOString());
+	const dateOptions = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		timezone: 'America/Manaus'
+	};
+	const dataFormatada = prazoEtapa.toLocaleString('pt-BR', dateOptions);
 
 	function adicionarComentario() {
-		let nomeUsuario = data.login;
-		let dataAtual = new Date();
-		// let dataFormatada = `${dataAtual.getDay()}/${dataAtual.getMonth()}/${dataAtual.getFullYear()}`;
+		const nomeUsuario = data.usuario.login;
+		const dataAtual = new Date();
 		const formatter = new Intl.DateTimeFormat('pt-BR', {
 			day: '2-digit',
 			month: '2-digit',
@@ -72,7 +82,7 @@
 			<CircularIcon backgroundColor={iconColor} text="t" type="text" />
 			<p class="titulo-etapa"><b>Nome da Etapa</b></p>
 			<div class="prazo-status-etapa">
-				<p class="prazo-etapa">Prazo: xx/xx/xxxx</p>
+				<p class="prazo-etapa">Prazo: {dataFormatada}</p>
 				<p style="color: {statusColor}; font-size: 20px"><b>Status<b /></b></p>
 			</div>
 		</div>

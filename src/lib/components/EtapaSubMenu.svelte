@@ -8,9 +8,17 @@
 	export let idAtividade;
 	export let idTurma;
 
-	let prazoFinalStr = itemAtividade.data_entrega_final
-		.toLocaleString('pt-BR', { timeZone: 'UTC' })
-		.slice(0, -3);
+	// Gambiarra pra mostrar a data no dia certo (diferença de timezone)
+	const prazoEtapa = new Date(itemAtividade.data_entrega_final.toISOString());
+	const dateOptions = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		timezone: 'America/Manaus'
+	};
+	const prazoFinalStr = prazoEtapa.toLocaleString('pt-BR', dateOptions);
 
 	function capitalizeFirstLetter(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
