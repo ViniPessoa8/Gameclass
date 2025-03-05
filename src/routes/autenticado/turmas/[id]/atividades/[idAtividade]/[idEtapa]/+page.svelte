@@ -33,10 +33,14 @@
 	let idAtividade;
 	let idEtapa;
 	let textoComentario;
+	let arquivos = [];
+	let arquivo = 'teste';
 
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
 	$: idEtapa = $page.params.idEtapa;
+	$: arquivos = [...arquivos, arquivo];
+
 	// Gambiarra pra mostrar a data no dia certo (diferença de timezone)
 	const prazoEtapa = new Date(data.etapa.data_entrega_final.toISOString());
 	const dateOptions = {
@@ -107,21 +111,40 @@
 		<div class="resposta-container">
 			<div class="top-content">
 				<div class="resposta-header">
-					<p><b>Sua resposta</b></p>
+					{#if data.usuario.perfil == 'estudante'}
+						<p><b>Sua resposta</b></p>
+					{:else if data.usuario.perfil == 'professor'}
+						<p><b>Resposta</b></p>
+					{/if}
 					<p class="status-resposta">({statusResposta})</p>
 				</div>
 				<!-- TODO: icone do tipo de arquivo -->
-				<Anexo arquivo="teste" tipoDoArquivo={TIPO_ARQUIVO.PDF} nomeArquivo="teste" />
-				<div class="btn-anexo">
-					<!-- TODO: Fazer botão funcionar -->
-					<Button type="file" width="50px">+</Button>
+				{#if arquivos && arquivos.length != 0}
+					{#each arquivos as arquivo}
+						{@const nomeDoArquivo = arquivo.split('/').at(-1).split('\\').at(-1).split('.')[0]}
+						<Anexo {arquivo} tipoDoArquivo={TIPO_ARQUIVO.PDF} nomeArquivo={nomeDoArquivo} />
+					{/each}
+				{/if}
+				{#if data.usuario.perfil == 'estudante'}
+					<div class="btn-anexo">
+						<label title="Anexar arquivo" for="inputFiles" class="btn">+</label>
+						<input
+							id="inputFiles"
+							bind:value={arquivo}
+							type="file"
+							accept="image/*"
+							style="display: none;"
+						/>
+					</div>
+				{/if}
+			</div>
+			{#if data.usuario.perfil == 'estudante'}
+				<div class="btn-cancelar">
+					<Button backgroundColor="var(--cor-secundaria)" color="white" type="text" marginTop="auto"
+						>Cancelar Envio</Button
+					>
 				</div>
-			</div>
-			<div class="btn-cancelar">
-				<Button backgroundColor="var(--cor-secundaria)" color="white" type="text" marginTop="auto"
-					>Cancelar Envio</Button
-				>
-			</div>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -142,13 +165,11 @@
 	}
 
 	.left-column {
-		border: 1px solid red;
 		padding: 12px;
 		flex: 2;
 	}
 
 	.right-column {
-		border: 1px solid red;
 		padding: 12px;
 		flex: 1;
 	}
@@ -243,7 +264,7 @@
 
 	.btn-anexo {
 		align-self: center;
-		margin-top: auto;
+		margin-top: 12px;
 		margin-bottom: 24px;
 	}
 
@@ -251,5 +272,22 @@
 		justify-self: center;
 		margin-top: auto;
 		margin-bottom: 24px;
+	}
+
+	.btn {
+		border: none;
+		height: 48px;
+		font-family: var(--font);
+		font-weight: bold;
+		color: var(--cor-primaria);
+		background-color: var(--cor-secundaria);
+		border-radius: 15px;
+		padding: 10px 15px;
+	}
+
+	.btn:hover {
+		background-color: #a1a1a1;
+		transition: 0.3s;
+		cursor: pointer;
 	}
 </style>

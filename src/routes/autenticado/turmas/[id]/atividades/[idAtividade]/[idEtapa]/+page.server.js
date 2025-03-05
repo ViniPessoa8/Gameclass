@@ -9,6 +9,7 @@ export async function load({ cookies, params }) {
 		redirect(300, "/")
 	}
 	const data = JSON.parse(session_raw);
+	data["perfil"] = cookies.get("perfil")
 
 	const idEtapa = params.idEtapa
 	const etapa = await buscaItemAtividadePorId(idEtapa)

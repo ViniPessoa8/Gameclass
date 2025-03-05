@@ -25,7 +25,9 @@
 
 	.nome {
 		align-self: center;
-		margin-left: 30px;
+		margin-left: 12px;
 		font-size: 20px;
+		text-wrap: nowrap;
+		text-overflow: ellipsis;
 	}
 </style>
