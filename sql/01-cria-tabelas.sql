@@ -162,11 +162,18 @@ CREATE TABLE comentario (
 	"id" BIGSERIAL UNIQUE,
 	"texto" VARCHAR(255) NOT NULL,
 	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"id_realizar_avaliacao" SERIAL REFERENCES realizar_avaliacao(id),
-	"id_item_atividade" SERIAL REFERENCES item_atividade(id),
-	"id_publicacao_mural" SERIAL REFERENCES publicacao_mural(id),
+	"id_realizar_avaliacao" BIGINT REFERENCES realizar_avaliacao(id),
+	"id_item_atividade" BIGINT REFERENCES item_atividade(id) ,
+	"id_entrega" BIGINT REFERENCES entrega(id) ,
+	"id_publicacao_mural" BIGINT REFERENCES publicacao_mural(id) ,
 	"id_usuario" SERIAL REFERENCES usuario(id) NOT NULL,
 	"tipo" VARCHAR(30) NOT NULL,
+	CHECK (
+        id_realizar_avaliacao IS NOT NULL 
+        OR id_item_atividade IS NOT NULL 
+        OR id_entrega IS NOT NULL 
+        OR id_publicacao_mural IS NOT NULL
+    ),
 	PRIMARY KEY ("id")
 );
 

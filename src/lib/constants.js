@@ -26,7 +26,8 @@ export const DB_INFO = {
 		estudante_turma: "estudante_turma",
 		estudante: "estudante",
 		usuario: "usuario",
-		entrega: "entrega"
+		entrega: "entrega",
+		comentario: "comentario"
 	}
 }
 

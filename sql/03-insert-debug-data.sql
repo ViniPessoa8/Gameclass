@@ -63,3 +63,9 @@ VALUES
 ('2024-03-03 18:45:00', NULL, 6, 1),
 ('2024-03-04 09:00:00', NULL, 9, 1),
 ('2024-03-05 16:20:00', NULL, 10, 1);
+
+
+INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "tipo") 
+VALUES 
+('Prof, meu cachorro comeu meu dever', 3, 6, 'entrega'),
+('te vira', 3, 1, 'entrega');

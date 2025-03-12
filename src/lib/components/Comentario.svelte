@@ -10,7 +10,7 @@
 	<CircularIcon text={nome[0]} type="text" />
 	<div class="content">
 		<div class="titulo-data">
-			<p>{nome}</p>
+			<p><b>{nome}</b></p>
 			<p class="data">{data}</p>
 		</div>
 		<p>{texto}</p>
