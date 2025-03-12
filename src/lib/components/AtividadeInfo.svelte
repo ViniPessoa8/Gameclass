@@ -49,6 +49,10 @@
 		background-color: #007aff;
 	}
 
+	.col:nth-child(2) {
+		flex: 2;
+	}
+
 	.label {
 		font-size: 20px;
 		color: #b0b0b0;

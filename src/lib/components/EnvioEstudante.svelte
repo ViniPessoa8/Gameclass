@@ -1,13 +1,16 @@
 <script>
+	import { goto } from '$app/navigation';
+
 	export let nome;
 	export let data_envio;
+	export let onClick;
 </script>
 
 {#if data_envio}
 	<div class="card">
 		<p class="nome">{nome}</p>
 		<p class="data">{data_envio}</p>
-		<button class="botao">Visualizar</button>
+		<button on:click={onClick} class="botao">Visualizar</button>
 	</div>
 {:else}
 	<div class="card off">

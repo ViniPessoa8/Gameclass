@@ -24,3 +24,22 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 		throw (`Erro ao buscar turma por id (${idItemAtividade}): ${e}`)
 	}
 }
+
+export async function buscaEntregaPorIdBD(idEntrega) {
+	const query = {
+		text: `	SELECT 
+					*
+ 				FROM 
+					${DB_INFO.tables.entrega}
+				WHERE 
+					id = $1;`,
+		values: [idEntrega]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao buscar turma por id (${idEntrega}): ${e}`)
+	}
+}

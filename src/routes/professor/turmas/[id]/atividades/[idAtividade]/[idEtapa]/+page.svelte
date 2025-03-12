@@ -8,6 +8,7 @@
 	import AtividadeInfo from '$lib/components/AtividadeInfo.svelte';
 	import { page } from '$app/stores';
 	import EnvioEstudante from '$lib/components/EnvioEstudante.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -39,6 +40,7 @@
 	let arquivos = [];
 	let arquivo = 'teste';
 
+	$: perfil = $page.params.perfil;
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
 	$: idEtapa = $page.params.idEtapa;
@@ -61,6 +63,10 @@
 		minute: '2-digit'
 	});
 
+	const onClick = (idEntrega) => {
+		goto(`/professor/turmas/${id}/atividades/${idAtividade}/${idEtapa}/${idEntrega}`);
+	};
+
 	console.debug(data.etapa);
 </script>
 
@@ -80,7 +86,11 @@
 		<div class="entregas">
 			{#each entregas_por_estudante as entrega}
 				{#if entrega.data_entrega != null}
-					<EnvioEstudante nome={entrega.nome} data_envio={formatter.format(entrega.data_entrega)} />
+					<EnvioEstudante
+						nome={entrega.nome}
+						data_envio={formatter.format(entrega.data_entrega)}
+						onClick={() => onClick(entrega.id)}
+					/>
 				{:else}
 					<EnvioEstudante nome={entrega.nome} data_envio={null} />
 				{/if}
