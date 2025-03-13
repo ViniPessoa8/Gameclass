@@ -167,7 +167,7 @@ CREATE TABLE comentario (
 	"id_entrega" BIGINT REFERENCES entrega(id) ,
 	"id_publicacao_mural" BIGINT REFERENCES publicacao_mural(id) ,
 	"id_usuario" SERIAL REFERENCES usuario(id) NOT NULL,
-	"tipo" VARCHAR(30) NOT NULL,
+	"tipo" int NOT NULL,
 	CHECK (
         id_realizar_avaliacao IS NOT NULL 
         OR id_item_atividade IS NOT NULL 

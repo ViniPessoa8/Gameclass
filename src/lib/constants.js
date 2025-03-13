@@ -59,3 +59,7 @@ export const TIPO_ARQUIVO = {
 	PDF: "pdf",
 	TXT: "txt",
 }
+
+export const TIPO_COMENTARIO = {
+	entrega: 1
+}

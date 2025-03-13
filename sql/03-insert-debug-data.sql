@@ -67,5 +67,5 @@ VALUES
 
 INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "tipo") 
 VALUES 
-('Prof, meu cachorro comeu meu dever', 3, 6, 'entrega'),
-('te vira', 3, 1, 'entrega');
+('Prof, meu cachorro comeu meu dever', 3, 6, 1),
+('te vira', 3, 1, 1);

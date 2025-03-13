@@ -2,7 +2,6 @@ import { DB_INFO } from "../../constants";
 import { dbConn } from "$config/database.js"
 
 export async function listaComentariosPorIdEntregaBD(idEntrega) {
-	console.debug("idEntrega: ", idEntrega)
 	const query = {
 		text: `	SELECT 
 					c.*, u.nome
@@ -22,5 +21,22 @@ export async function listaComentariosPorIdEntregaBD(idEntrega) {
 		return res
 	} catch (e) {
 		throw (`Erro ao listar comentarios por id da entrega (${idEntrega}): ${e}`)
+	}
+}
+
+export async function comentarBD(idUsuario, idEntrega, texto, data, tipo) {
+	const query = {
+		text: `	INSERT INTO  
+					${DB_INFO.tables.comentario}("id_usuario", "id_entrega", "texto", "data_criacao", "tipo")
+				VALUES
+					($1, $2, $3, $4, $5); `,
+		values: [parseInt(idUsuario), parseInt(idEntrega), texto, data, parseInt(tipo)]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao criar comentario no banco de dados: ${e}`)
 	}
 }

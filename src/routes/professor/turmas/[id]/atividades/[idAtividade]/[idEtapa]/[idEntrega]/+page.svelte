@@ -4,7 +4,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import { TIPO_ARQUIVO } from '$lib/constants.js';
+	import { TIPO_ARQUIVO, TIPO_COMENTARIO } from '$lib/constants.js';
 	import { page } from '$app/stores';
 
 	export let data;
@@ -28,8 +28,6 @@
 	$: idEtapa = $page.params.idEtapa;
 	$: arquivos = [...arquivos, arquivo];
 
-	// Gambiarra pra mostrar a data no dia certo (diferença de timezone)
-	const prazoEtapa = new Date(data.entrega.data_entrega);
 	const dateOptions = {
 		day: '2-digit',
 		month: '2-digit',
@@ -38,10 +36,10 @@
 		minute: '2-digit',
 		timezone: 'America/Manaus'
 	};
-	const dataFormatada = prazoEtapa.toLocaleString('pt-BR', dateOptions);
 
-	function adicionarComentario() {
-		const nomeUsuario = data.usuario.login;
+	async function adicionarComentario() {
+		const idUsuario = data.usuario.id;
+		const idEntrega = data.entrega.id;
 		const dataAtual = new Date();
 		const formatter = new Intl.DateTimeFormat('pt-BR', {
 			day: '2-digit',
@@ -50,14 +48,21 @@
 		});
 		const dataFormatada = formatter.format(dataAtual);
 
-		comentarios = [
-			...comentarios,
-			{
-				nome: nomeUsuario,
-				texto: textoComentario,
-				data: dataFormatada
+		const comentario = {
+			idUsuario: idUsuario,
+			idEntrega: idEntrega,
+			texto: textoComentario,
+			data: dataFormatada,
+			tipo: TIPO_COMENTARIO.entrega
+		};
+
+		const response = await fetch('/api/database/comentario', {
+			method: 'POST',
+			body: JSON.stringify({ comentario }),
+			headers: {
+				'Content-Type': 'application/json'
 			}
-		];
+		});
 	}
 </script>
 
