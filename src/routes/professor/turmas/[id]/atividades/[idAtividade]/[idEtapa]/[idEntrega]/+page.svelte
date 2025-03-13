@@ -1,11 +1,13 @@
 <script>
+	import { onMount } from 'svelte';
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 	import Comentario from '$lib/components/Comentario.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import { TIPO_ARQUIVO, TIPO_COMENTARIO } from '$lib/constants.js';
 	import { page } from '$app/stores';
+	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
+	import { TIPO_ARQUIVO, TIPO_COMENTARIO } from '$lib/constants.js';
 
 	export let data;
 
@@ -13,7 +15,6 @@
 	const iconColor = 'red';
 	const descricaoEtapa =
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus. Quisque mollis dui vel nisi commodo, nec aliquet ante tempor. Suspendisse at eros tristique, volutpat mi faucibus, viverra nibh. Nullam sagittis, sem in viverra blandit, nulla felis sollicitudin arcu, eu maximus ligula justo non tortor. Mauris sollicitudin scelerisque sapien tempor maximus. Sed in cursus magna. Suspendisse potenti. Nulla dolor nisl, tristique sit amet bibendum nec, auctor nec risus. Aenean tincidunt mi purus, at mollis quam faucibus in. Sed dictum erat arcu, vitae feugiat justo gravida ut.';
-	let comentarios = data.entrega.comentarios;
 	const statusResposta = 'Concluída';
 
 	let id;
@@ -22,11 +23,13 @@
 	let textoComentario;
 	let arquivos = [];
 	let arquivo = 'teste';
+	let listaComentarios;
 
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
 	$: idEtapa = $page.params.idEtapa;
 	$: arquivos = [...arquivos, arquivo];
+	$: listaComentarios = comentarios;
 
 	const dateOptions = {
 		day: '2-digit',
@@ -56,14 +59,23 @@
 			tipo: TIPO_COMENTARIO.entrega
 		};
 
-		const response = await fetch('/api/database/comentario', {
+		const response = await fetch('/api/database/adicionarComentario', {
 			method: 'POST',
 			body: JSON.stringify({ comentario }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
+
+		if (response.ok) {
+			fetchComentarios(idEntrega);
+		}
 	}
+
+	onMount(async () => {
+		await fetchComentarios(data.entrega.id);
+		console.debug(comentarios);
+	});
 </script>
 
 <div class="content-etapa">
@@ -76,8 +88,8 @@
 		<div class="descricao-etapa">{descricaoEtapa}</div>
 		<hr />
 		<div class="comentarios-etapa">
-			<p style="font-size:22px">{comentarios.length} Comentários</p>
-			{#each comentarios as comentario}
+			<p style="font-size:22px">{$listaComentarios.length} Comentários</p>
+			{#each $listaComentarios as comentario}
 				<Comentario
 					texto={comentario.texto}
 					nome={comentario.nome}

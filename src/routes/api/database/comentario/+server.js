@@ -1,13 +1,11 @@
-import { comentar } from "$controllers/comentario";
+import { listaComentariosPorIdEntrega } from "$controllers/comentario";
 
-/** 
- * Lista todas as instituições cadastradas no banco de dados
- */
 export async function POST(event) {
 	const body = await event.request.json();
-	const comentario = body["comentario"]
+	const idEntrega = body["idEntrega"]
 
-	await comentar(comentario.idUsuario, comentario.idEntrega, comentario.texto, comentario.data, comentario.tipo);
+	const res = await listaComentariosPorIdEntrega(idEntrega)
 
-	return new Response(JSON.stringify("funfou"))
+	return new Response(JSON.stringify(res))
 }
+
