@@ -93,7 +93,7 @@
 				<Comentario
 					texto={comentario.texto}
 					nome={comentario.nome}
-					data={comentario.data_criacao.toLocaleString('pt-BR', dateOptions)}
+					data={new Date(comentario.data_criacao).toLocaleString('pt-BR', dateOptions)}
 				/>
 			{/each}
 		</div>
