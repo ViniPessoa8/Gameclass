@@ -84,7 +84,6 @@ function calculaStatusItemAtividade(itemAtividade) {
 
 	// itemAtividade["entregue"] = buscaEntregaItemAtividade()
 
-	console.debug("teste:", itemAtividade.data_entregaInicial > new Date())
 	if (itemAtividade.data_entrega_inicial == undefined) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["0"];
 
