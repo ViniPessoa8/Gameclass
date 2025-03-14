@@ -4,10 +4,11 @@
 	export let nome = '';
 	export let data = '';
 	export let texto = '';
+	export let cor = '';
 </script>
 
 <div class="container">
-	<CircularIcon text={nome[0]} type="text" />
+	<CircularIcon text={nome[0]} type="text" backgroundColor={cor} />
 	<div class="content">
 		<div class="titulo-data">
 			<p><b>{nome}</b></p>

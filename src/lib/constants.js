@@ -16,7 +16,6 @@ export const COLORS = {
 
 export const DB_INFO = {
 	tables: {
-		auth: "usuario",
 		instituicao: "instituicao",
 		turma: "turma",
 		atividade: "atividade",
@@ -63,3 +62,28 @@ export const TIPO_ARQUIVO = {
 export const TIPO_COMENTARIO = {
 	entrega: 1
 }
+
+export const CORES_PERFIL = [
+	"#3D71A3", // Azul
+	"#6C943D", // Verde
+	"#C75B5B", // Vermelho
+	"#6A4CA3", // Roxo
+	"#D7854F", // Laranja
+	"#2E5D89", // Azul mais escuro
+	"#5B7F34", // Verde musgo
+	"#AD4D4D", // Bordô
+	"#7D63C2", // Lavanda escuro
+	"#E09560", // Laranja queimado
+	"#789BC0", // Azul acinzentado
+	"#A8C66E", // Verde amarelado
+	"#DA6E6E", // Coral
+	"#937BD9", // Roxo suave
+	"#F0A878", // Pêssego
+	"#568EC9", // Azul médio
+	"#8CAF58", // Verde folha
+	"#E07C7C", // Rosa queimado
+	"#5B3E89", // Roxo intenso
+	"#BF713D"  // Marrom alaranjado
+];
+
+

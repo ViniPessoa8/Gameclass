@@ -74,7 +74,6 @@
 
 	onMount(async () => {
 		await fetchComentarios(data.entrega.id);
-		console.debug(comentarios);
 	});
 </script>
 
@@ -94,11 +93,12 @@
 					texto={comentario.texto}
 					nome={comentario.nome}
 					data={new Date(comentario.data_criacao).toLocaleString('pt-BR', dateOptions)}
+					cor={'#' + comentario.cor}
 				/>
 			{/each}
 		</div>
 		<div class="comentario-input">
-			<CircularIcon backgroundColor={iconColor} text="V" type="text" />
+			<CircularIcon backgroundColor={'#' + data.cor} text="V" type="text" />
 			<InputText bind:value={textoComentario} borded placeholder="Deixe um comentário" />
 			<Button type="text" backgroundColor="var(--cor-secundaria)" on:click={adicionarComentario}
 				>Enviar</Button

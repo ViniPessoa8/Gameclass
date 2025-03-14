@@ -22,6 +22,7 @@ CREATE TABLE usuario (
 	"dt_nasc" DATE NOT NULL,-- TODO: Rename dt_nasc -> data_nascimento 
 	"data_criacao" DATE NOT NULL,
 	"ultimo_acesso" TIMESTAMP NOT NULL, 
+	"cor" varchar(6) NOT NULL, 
 	"id_instituicao" BIGINT REFERENCES instituicao(id),
 	PRIMARY KEY ("id")
 );
@@ -54,6 +55,7 @@ CREATE TABLE turma (
 
 CREATE TABLE estudante_turma (
     "id" BIGSERIAL UNIQUE,
+    "pontos" int NOT NULL DEFAULT 0,
 	"id_estudante" SERIAL REFERENCES estudante(id) NOT NULL,
 	"id_turma" SERIAL REFERENCES turma(id) NOT NULL,
 	PRIMARY KEY ("id_estudante", "id_turma")

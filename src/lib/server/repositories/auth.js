@@ -46,7 +46,7 @@ export async function loginDB(login, password) {
 
 export async function findUserByLogin(login) {
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.auth} WHERE login = $1`,
+		text: `SELECT * FROM ${DB_INFO.tables.usuario} WHERE login = $1`,
 		values: [login]
 	}
 

@@ -1,15 +1,15 @@
-INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "matricula_aluno", "dt_nasc", "data_criacao", "ultimo_acesso", "id_instituicao") VALUES(1, 'Vinícius Pessoa', 'ViniPessoa8', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Sou estudante de SI :)', 'vcbp.snf18@uea.edu.br', 0, 0, '1811440260', '1999-12-06', '2024-09-10', '2024-09-10T23:51:53.764Z', 1);
-INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "matricula_aluno", "dt_nasc", "data_criacao", "ultimo_acesso", "id_instituicao") VALUES
-(2, 'Ana Souza', 'AnaS10', '$2a$10$XyZABCD12345KJHsdUqPObFlh123Ghv67YPLOpWZXQ', '$2a$10$XyZABCD12345KJHsdUqPO', 'Apaixonada por tecnologia e educação.', 'ana.souza@email.com', 150, 2, '1811440261', '2001-05-15', '2024-09-11', '2024-09-11T10:25:30.123Z', 1),
-(3, 'Carlos Oliveira', 'Carlos_Oliveira', '$2a$10$MNOPQRST9876543JHKLZXVBNMP', '$2a$10$MNOPQRST9876543JHKLZX', 'Entusiasta de IA e jogos.', 'carlos.oliveira@email.com', 320, 3, '1811440262', '1998-07-22', '2024-09-12', '2024-09-12T14:12:45.567Z', 1),
-(4, 'Mariana Lima', 'MariLima99', '$2a$10$UVWXYZ87654321LMNOPQRSTJHKL', '$2a$10$UVWXYZ87654321LMNO', 'Amante de dados e estatística.', 'mariana.lima@email.com', 200, 2, '1811440263', '2000-02-08', '2024-09-13', '2024-09-13T08:45:20.789Z', 1),
-(5, 'Felipe Martins', 'FelipeM', '$2a$10$ASDFGHJKLQWERTYUIOPZXCVBNM', '$2a$10$ASDFGHJKLQWERTYUIO', 'Desenvolvedor full-stack.', 'felipe.martins@email.com', 500, 4, '1811440264', '1997-10-30', '2024-09-14', '2024-09-14T19:05:10.234Z', 1),
-(6, 'Julia Ribeiro', 'Julia_R', '$2a$10$QAZWSXEDCRFV123456TGBYHN', '$2a$10$QAZWSXEDCRFV12345', 'Curiosa sobre ciência de dados.', 'julia.ribeiro@email.com', 100, 1, '1811440265', '2002-11-18', '2024-09-15', '2024-09-15T16:33:25.432Z', 1),
-(7, 'Ana Clara Souza', 'AnaSouza12', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Estudante de Direito apaixonada por filosofia!', 'ana.souza@uea.edu.br', 50, 1, '1811440261', '1998-05-15', '2024-09-11', '2024-09-11T09:00:00.000Z', 1),
-(8, 'Carlos Alberto Silva', 'CarlosSilva34', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Amo programação e tecnologia.', 'carlos.silva@uea.edu.br', 120, 2, '1811440262', '2000-01-20', '2024-09-11', '2024-09-11T09:30:00.000Z', 1),
-(9, 'Júlia Martins', 'JuliaMartins77', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Estudante de Biologia e amante da natureza!', 'julia.martins@uea.edu.br', 80, 1, '1811440263', '2001-02-28', '2024-09-11', '2024-09-11T10:00:00.000Z', 1),
-(10, 'Felipe Souza Lima', 'FelipeSouza44', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Curioso sobre tudo e estudante de Física.', 'felipe.souza@uea.edu.br', 150, 3, '1811440264', '1997-08-10', '2024-09-11', '2024-09-11T10:30:00.000Z', 1),
-(11, 'Mariana Gomes', 'MariGomes10', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Estudante de Psicologia, sempre em busca de autoconhecimento.', 'mariana.gomes@uea.edu.br', 30, 1, '1811440265', '1999-11-25', '2024-09-11', '2024-09-11T11:00:00.000Z', 1);
+INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "matricula_aluno", "dt_nasc", "data_criacao", "ultimo_acesso", "cor", "id_instituicao") VALUES(1, 'Vinícius Pessoa', 'ViniPessoa8', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Sou estudante de SI :)', 'vcbp.snf18@uea.edu.br', 0, 0, '1811440260', '1999-12-06', '2024-09-10', '2024-09-10T23:51:53.764Z', 'D7854F', 1);
+INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "matricula_aluno", "dt_nasc", "data_criacao", "ultimo_acesso", "cor", "id_instituicao") VALUES
+(2, 'Ana Souza', 'AnaS10', '$2a$10$XyZABCD12345KJHsdUqPObFlh123Ghv67YPLOpWZXQ', '$2a$10$XyZABCD12345KJHsdUqPO', 'Apaixonada por tecnologia e educação.', 'ana.souza@email.com', 150, 2, '1811440261', '2001-05-15', '2024-09-11', '2024-09-11T10:25:30.123Z', '6c943d', 1),
+(3, 'Carlos Oliveira', 'Carlos_Oliveira', '$2a$10$MNOPQRST9876543JHKLZXVBNMP', '$2a$10$MNOPQRST9876543JHKLZX', 'Entusiasta de IA e jogos.', 'carlos.oliveira@email.com', 320, 3, '1811440262', '1998-07-22', '2024-09-12', '2024-09-12T14:12:45.567Z', 'C75B5B', 1),
+(4, 'Mariana Lima', 'MariLima99', '$2a$10$UVWXYZ87654321LMNOPQRSTJHKL', '$2a$10$UVWXYZ87654321LMNO', 'Amante de dados e estatística.', 'mariana.lima@email.com', 200, 2, '1811440263', '2000-02-08', '2024-09-13', '2024-09-13T08:45:20.789Z', '6A4CA3', 1),
+(5, 'Felipe Martins', 'FelipeM', '$2a$10$ASDFGHJKLQWERTYUIOPZXCVBNM', '$2a$10$ASDFGHJKLQWERTYUIO', 'Desenvolvedor full-stack.', 'felipe.martins@email.com', 500, 4, '1811440264', '1997-10-30', '2024-09-14', '2024-09-14T19:05:10.234Z', 'D7854F', 1),
+(6, 'Julia Ribeiro', 'Julia_R', '$2a$10$QAZWSXEDCRFV123456TGBYHN', '$2a$10$QAZWSXEDCRFV12345', 'Curiosa sobre ciência de dados.', 'julia.ribeiro@email.com', 100, 1, '1811440265', '2002-11-18', '2024-09-15', '2024-09-15T16:33:25.432Z', '2E5D89', 1),
+(7, 'Ana Clara Souza', 'AnaSouza12', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Estudante de Direito apaixonada por filosofia!', 'ana.souza@uea.edu.br', 50, 1, '1811440261', '1998-05-15', '2024-09-11', '2024-09-11T09:00:00.000Z', '5B7F34', 1),
+(8, 'Carlos Alberto Silva', 'CarlosSilva34', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Amo programação e tecnologia.', 'carlos.silva@uea.edu.br', 120, 2, '1811440262', '2000-01-20', '2024-09-11', '2024-09-11T09:30:00.000Z', 'AD4D4D', 1),
+(9, 'Júlia Martins', 'JuliaMartins77', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Estudante de Biologia e amante da natureza!', 'julia.martins@uea.edu.br', 80, 1, '1811440263', '2001-02-28', '2024-09-11', '2024-09-11T10:00:00.000Z', '7D63C2', 1),
+(10, 'Felipe Souza Lima', 'FelipeSouza44', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Curioso sobre tudo e estudante de Física.', 'felipe.souza@uea.edu.br', 150, 3, '1811440264', '1997-08-10', '2024-09-11', '2024-09-11T10:30:00.000Z', 'E09560',1),
+(11, 'Mariana Gomes', 'MariGomes10', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Estudante de Psicologia, sempre em busca de autoconhecimento.', 'mariana.gomes@uea.edu.br', 30, 1, '1811440265', '1999-11-25', '2024-09-11', '2024-09-11T11:00:00.000Z', '789BC0',1);
 
 ALTER SEQUENCE usuario_id_seq RESTART WITH 12;
 -- ALTER SEQUENCE usuario_id_seq OWNED BY usuario.id;
@@ -34,16 +34,16 @@ INSERT INTO estudante("id", "matricula", "data_criacao", "acumulo_xp", "nivel", 
 (10, '20240011', '2024-09-11 11:00:00', 30, 1, 11);
 ALTER SEQUENCE estudante_id_seq RESTART WITH 11;
 
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(1, 1, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(2, 2, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(3, 3, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(4, 4, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(5, 5, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(6, 6, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(7, 7, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(8, 8, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(9, 9, 1);
-INSERT INTO estudante_turma("id", "id_estudante", "id_turma") VALUES(10, 10, 1);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(1, 1, 1, 100);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(2, 2, 1, 240);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(3, 3, 1, 130);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(4, 4, 1, 20);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(5, 5, 1, 300);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(6, 6, 1, 180);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(7, 7, 1, 210);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(8, 8, 1, 80);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(9, 9, 1, 100);
+INSERT INTO estudante_turma("id", "id_estudante", "id_turma", "pontos") VALUES(10, 10, 1, 120);
 ALTER SEQUENCE estudante_turma_id_seq RESTART WITH 6;
 
 INSERT INTO atividade("id", "titulo", "descricao", "prazo", "id_turma") VALUES(1, 'Atividade Exemplo 1', 'Atividade de exemplo.', '2025-03-01T00:00:00.000Z', 1);

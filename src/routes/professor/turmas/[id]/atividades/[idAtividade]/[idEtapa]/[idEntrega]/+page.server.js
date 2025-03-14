@@ -4,6 +4,7 @@ import { getAtividadeById } from '$controllers/atividade.js';
 import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
 import { listaComentariosPorIdEntrega } from "../../../../../../../../lib/server/controllers/comentario";
+import { findUserByLogin } from "../../../../../../../../lib/server/repositories/auth";
 
 export async function load({ cookies, params }) {
 	console.debug("LOAD")
@@ -23,8 +24,10 @@ export async function load({ cookies, params }) {
 	const entrega = await buscaEntregaPorId(idEntrega)
 	const estudante = await buscaEstudantePorId(parseInt(entrega.id_estudante))
 	const comentarios_entrega = await listaComentariosPorIdEntrega(parseInt(entrega.id))
+	const usuario = await findUserByLogin(data.login)
 
 	entrega["comentarios"] = comentarios_entrega
+	usuario["cor"] = usuario.cor
 
 	return { "usuario": data, "entrega": entrega, "atividade": atividade, "etapa": etapa, "nomeEstudante": estudante.nome }
 }

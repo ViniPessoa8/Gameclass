@@ -4,7 +4,7 @@ import { dbConn } from "$config/database.js"
 export async function listaComentariosPorIdEntregaBD(idEntrega) {
 	const query = {
 		text: `	SELECT 
-					c.*, u.nome
+					c.*, u.nome, u.cor
  				FROM 
 					${DB_INFO.tables.entrega} e,
 					${DB_INFO.tables.comentario} c,

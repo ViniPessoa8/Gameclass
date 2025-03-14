@@ -1,6 +1,8 @@
 <script>
 	import CircularIcon from './CircularIcon.svelte';
 	export let session;
+
+	console.debug(session);
 </script>
 
 <div class="header">
@@ -10,7 +12,11 @@
 			<h4 class="logged-user-name">{session.login}</h4>
 			<p class="logged-user-role">{session.perfil}</p>
 		</div>
-		<CircularIcon type="text" backgroundColor={'#FF00FF'} text={session.login[0].toUpperCase()} />
+		<CircularIcon
+			type="text"
+			backgroundColor={'#' + session.cor}
+			text={session.login[0].toUpperCase()}
+		/>
 	</div>
 </div>
 
