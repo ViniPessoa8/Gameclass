@@ -1,9 +1,12 @@
 <script>
 	import RankingAlunos from '$lib/components/RankingAlunos.svelte';
+
+	export let data;
+
 </script>
 
 <div class="container">
-	<RankingAlunos />
+	<RankingAlunos listaAlunos={data['ranking']} />
 	<slot></slot>
 </div>
 

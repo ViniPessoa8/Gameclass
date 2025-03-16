@@ -1,5 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import { getTurmasByIdProfessor } from "../../lib/server/controllers/turma";
+import { findUserByLogin } from "../../lib/server/repositories/auth";
 
 export async function load({ cookies }) {
 	const session_raw = cookies.get("session");
@@ -12,6 +13,9 @@ export async function load({ cookies }) {
 	data.perfil = perfil_raw
 
 	data.turmas = await getTurmasByIdProfessor(data.id)
+
+	const usuario = await findUserByLogin(data.login)
+	data.cor = usuario.cor
 
 	return data
 }

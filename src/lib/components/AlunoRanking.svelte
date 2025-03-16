@@ -9,9 +9,9 @@
 
 <div class="container">
 	<CircularTextIcon backgroundColor={cor}>{nome[0]}</CircularTextIcon>
-	<div style="display: flex; flex-direction: column;">
-		<p style="font-size: 24px;"><b>{nome} #{posicao}</b></p>
-		<p style="font-size: 20px;">{pontos} pts</p>
+	<div class="info-container">
+		<p style="font-size: 20px;"><b>{nome} #{posicao}</b></p>
+		<p style="font-size: 18px;">{pontos} pts</p>
 	</div>
 </div>
 
@@ -19,10 +19,17 @@
 	.container {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		background-color: white;
 		margin: 8px;
 		padding: 8px 0px 8px 8px;
 		border-radius: 50px;
 		gap: 12px;
+	}
+
+	.info-container {
+		display: flex;
+		flex-direction: column;
+		padding-right: 30px;
 	}
 </style>
