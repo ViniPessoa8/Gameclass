@@ -1,6 +1,6 @@
 import { getAtividadeById } from "$lib/server/controllers/atividade"
 import { getAtividadesByIdTurma } from "$lib/server/controllers/atividade"
-import { listaItensDaAtividadePorId } from "../../../../../lib/server/controllers/itemAtividade"
+import { listaItensDaAtividadePorId } from "$lib/server/controllers/itemAtividade"
 
 export async function load({ params, cookies }) {
 	let atividades = await getAtividadesByIdTurma(params.id)

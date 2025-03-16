@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { cadastraItemAtividade } from '$controllers/itemAtividade.js';
-import { ATRIBUICAO, REALIZACAO } from "../../../../../../../../lib/constants";
+import { ATRIBUICAO, REALIZACAO } from "$lib/constants";
 
 
 export async function load({ params }) {

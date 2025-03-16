@@ -2,8 +2,8 @@
 import { redirect } from "@sveltejs/kit";
 import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { getAtividadeById } from "$controllers/atividade";
-import { listAlunosByTurmaId } from "../../../../../../../lib/server/controllers/turma";
-import { listaEntregasPorItemAtividadeId } from "../../../../../../../lib/server/controllers/entrega";
+import { listAlunosByTurmaId } from "$lib/server/controllers/turma";
+import { listaEntregasPorItemAtividadeId } from "$lib/server/controllers/entrega";
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");

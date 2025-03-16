@@ -3,8 +3,8 @@ import { buscaEntregaPorId } from '$controllers/entrega.js';
 import { getAtividadeById } from '$controllers/atividade.js';
 import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
-import { listaComentariosPorIdEntrega } from "../../../../../../../../lib/server/controllers/comentario";
-import { findUserByLogin } from "../../../../../../../../lib/server/repositories/auth";
+import { listaComentariosPorIdEntrega } from "$lib/server/controllers/comentario";
+import { findUserByLogin } from "$lib/server/repositories/auth";
 
 export async function load({ cookies, params }) {
 	console.debug("LOAD")
