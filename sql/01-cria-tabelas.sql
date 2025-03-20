@@ -153,10 +153,16 @@ CREATE TABLE publicacao_mural (
 
 CREATE TABLE anexo (
 	"id" BIGSERIAL UNIQUE,
-	"conteudo" VARCHAR(255) NOT NULL,
+	"titulo" VARCHAR(255) NOT NULL,
+	"conteudo_texto" TEXT, -- Coluna para armazenar arquivos de texto
+	"conteudo_binario" BYTEA, -- Coluna para armazenar arquivos binários
 	"data_upload" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"id_entrega" SERIAL REFERENCES entrega(id),
-	"id_publicacao_mural" SERIAL REFERENCES publicacao_mural(id),
+	"id_entrega" INT REFERENCES entrega(id),
+	"id_publicacao_mural" INT REFERENCES publicacao_mural(id),
+	CHECK (
+        id_entrega IS NOT NULL 
+        OR id_publicacao_mural IS NOT NULL 
+    ),
 	PRIMARY KEY ("id")
 );
 

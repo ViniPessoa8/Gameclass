@@ -64,6 +64,8 @@ VALUES
 ('2024-03-04 09:00:00', NULL, 9, 1),
 ('2024-03-05 16:20:00', NULL, 10, 1);
 
+INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") 
+VALUES ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 3, NULL);
 
 INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "tipo") 
 VALUES 

@@ -28,7 +28,7 @@
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
 	$: idEtapa = $page.params.idEtapa;
-	$: arquivos = [...arquivos, arquivo];
+	// $: arquivos = [...arquivos, arquivo];
 	$: listaComentarios = comentarios;
 
 	const dateOptions = {
@@ -44,18 +44,12 @@
 		const idUsuario = data.usuario.id;
 		const idEntrega = data.entrega.id;
 		const dataAtual = new Date();
-		const formatter = new Intl.DateTimeFormat('pt-BR', {
-			day: '2-digit',
-			month: '2-digit',
-			year: 'numeric'
-		});
-		const dataFormatada = formatter.format(dataAtual);
 
 		const comentario = {
 			idUsuario: idUsuario,
 			idEntrega: idEntrega,
 			texto: textoComentario,
-			data: dataFormatada,
+			data: dataAtual,
 			tipo: TIPO_COMENTARIO.entrega
 		};
 
@@ -118,10 +112,9 @@
 					<p class="status-resposta">({statusResposta})</p>
 				</div>
 				<!-- TODO: icone do tipo de arquivo -->
-				{#if arquivos && arquivos.length != 0}
-					{#each arquivos as arquivo}
-						{@const nomeDoArquivo = arquivo.split('/').at(-1).split('\\').at(-1).split('.')[0]}
-						<Anexo {arquivo} tipoDoArquivo={TIPO_ARQUIVO.PDF} nomeArquivo={nomeDoArquivo} />
+				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
+					{#each data.entrega.anexos as arquivo}
+						<Anexo {arquivo} tipoDoArquivo={TIPO_ARQUIVO.PDF} nomeArquivo={arquivo.titulo} />
 					{/each}
 				{/if}
 				{#if data.usuario.perfil == 'estudante'}

@@ -5,6 +5,7 @@ import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
 import { listaComentariosPorIdEntrega } from "$lib/server/controllers/comentario";
 import { findUserByLogin } from "$lib/server/repositories/auth";
+import { listaAnexosPorIdEntrega } from "$lib/server/controllers/anexo";
 
 export async function load({ cookies, params }) {
 	console.debug("LOAD")
@@ -25,8 +26,10 @@ export async function load({ cookies, params }) {
 	const estudante = await buscaEstudantePorId(parseInt(entrega.id_estudante))
 	const comentarios_entrega = await listaComentariosPorIdEntrega(parseInt(entrega.id))
 	const usuario = await findUserByLogin(data.login)
+	const anexos = await listaAnexosPorIdEntrega(idEntrega)
 
 	entrega["comentarios"] = comentarios_entrega
+	entrega["anexos"] = anexos
 	usuario["cor"] = usuario.cor
 
 	return { "usuario": data, "entrega": entrega, "atividade": atividade, "etapa": etapa, "nomeEstudante": estudante.nome }
