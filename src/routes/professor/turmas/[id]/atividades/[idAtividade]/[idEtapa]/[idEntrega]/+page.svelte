@@ -63,6 +63,7 @@
 
 		if (response.ok) {
 			fetchComentarios(idEntrega);
+			textoComentario = '';
 		}
 	}
 
