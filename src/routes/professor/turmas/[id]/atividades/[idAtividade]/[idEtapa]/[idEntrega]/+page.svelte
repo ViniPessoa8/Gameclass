@@ -131,13 +131,11 @@
 					</div>
 				{/if}
 			</div>
-			{#if data.usuario.perfil == 'estudante'}
-				<div class="btn-cancelar">
-					<Button backgroundColor="var(--cor-secundaria)" color="white" type="text" marginTop="auto"
-						>Cancelar Envio</Button
-					>
-				</div>
-			{/if}
+			<div class="btn-avaliar">
+				<Button backgroundColor="var(--cor-secundaria)" color="white" type="text" marginTop="auto"
+					>Avaliar</Button
+				>
+			</div>
 		</div>
 	</div>
 </div>
@@ -262,7 +260,7 @@
 		margin-bottom: 24px;
 	}
 
-	.btn-cancelar {
+	.btn-avaliar {
 		justify-self: center;
 		margin-top: auto;
 		margin-bottom: 24px;
