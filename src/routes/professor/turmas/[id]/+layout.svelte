@@ -1,12 +1,16 @@
 <script>
 	import RankingAlunos from '$lib/components/RankingAlunos.svelte';
+	import { page } from '$app/stores';
+
+	$: urlAtual = $page.url.href;
 
 	export let data;
-
 </script>
 
-<div class="container">
-	<RankingAlunos listaAlunos={data['ranking']} />
+<div>
+	{#if !urlAtual.includes('create')}
+		<RankingAlunos listaAlunos={data['ranking']} />
+	{/if}
 	<slot></slot>
 </div>
 
