@@ -1,11 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 	import Comentario from '$lib/components/Comentario.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import { page } from '$app/stores';
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
 	import { TIPO_ARQUIVO, TIPO_COMENTARIO } from '$lib/constants.js';
 
@@ -132,8 +133,15 @@
 				{/if}
 			</div>
 			<div class="btn-avaliar">
-				<Button backgroundColor="var(--cor-secundaria)" color="white" type="text" marginTop="auto"
-					>Avaliar</Button
+				<Button
+					backgroundColor="var(--cor-secundaria)"
+					color="white"
+					type="text"
+					marginTop="auto"
+					on:click={() => {
+						console.debug('[$page.url.pathname]', $page.url.pathname);
+						goto($page.url.pathname + '/avaliacao');
+					}}>Avaliar</Button
 				>
 			</div>
 		</div>
