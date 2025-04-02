@@ -35,7 +35,7 @@ export async function listaItensDaAtividadePorIdBD(idAtividadePai) {
 
 export async function buscaItemAtividadePorIdBD(idItemAtividade) {
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id = $1`,
+		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id = $1 `,
 		values: [idItemAtividade]
 	}
 
@@ -61,6 +61,25 @@ export async function buscaItemAtividadePorTituloBD(titulo, idAtividadePai) {
 	}
 }
 
+export async function listaCriteriosPorIdItemAtividadeBD(idItemAtividade) {
+	const query = {
+		text: `SELECT 
+					c.* 
+				FROM 
+					${DB_INFO.tables.item_atividade} ia,
+					${DB_INFO.tables.criterio} c
+				WHERE ia.id = $1
+				AND c.id_item_atividade = ia.id`,
+		values: [idItemAtividade]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res.rows
+	} catch (e) {
+		throw (`Erro ao buscar item de atividade, com id ${idItemAtividade}: ${e}`)
+	}
+}
 // DELETE
 
 export async function removeItemAtividadePorIdBD(idItemAtividade) {
