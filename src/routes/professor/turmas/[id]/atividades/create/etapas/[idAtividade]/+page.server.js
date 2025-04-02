@@ -36,7 +36,7 @@ export let actions = {
 			fail(401, "Erro ao carregar etapas: lista vazia")
 		}
 
-		etapas.forEach(async (etapa) => {
+		for (const etapa of etapas) {
 			criterios = etapa.criterios
 			titulo = etapa.titulo
 			notaMax = parseFloat(etapa.criterios.map((elem) => elem.nota_max).reduce((elem, acc) => (elem + acc)))
@@ -50,20 +50,10 @@ export let actions = {
 			atribuicaoNotas = atribuicaoNotas === "Média Simples" ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada
 			realizacao = realizacao === "Individual" ? REALIZACAO.individual : REALIZACAO.grupos
 
-			console.log('titulo: ', titulo)
-			console.log('notaMax: ', notaMax)
-			console.log('dtEntregaMin: ', dtEntregaMin)
-			console.log('dtEntregaMax: ', dtEntregaMax)
-			console.log('atribuicaoNotas: ', atribuicaoNotas)
-			console.log('realizacao: ', realizacao)
-			console.log('receberAposPrazo: ', receberAposPrazo)
-			console.log('idAtividadePai: ', idAtividadePai)
-
-
-			let error;
 			try {
-				let res = await cadastraItemAtividade(
+				await cadastraItemAtividade(
 					titulo,
+					'',
 					notaMax,
 					dtEntregaMin,
 					dtEntregaMax,
@@ -75,25 +65,20 @@ export let actions = {
 					idAtividadePai,
 					criterios,
 				);
-				console.debug("[server] cadastraItemAtividade result = ", res)
 
 			} catch (e) {
-				console.error(e)
-				error = e
-			}
+				const errorMessage = typeof e === 'string' ? e : e.message
 
-			if (error) {
-				if (error.includes("Dados obrigatórios não foram preenchidos.")) {
+				if (errorMessage.includes("Dados obrigatórios não foram preenchidos.")) {
 					fail(401, "Dados obrigatórios não foram preenchidos.")
 				} else {
-					fail(401, error)
+					fail(401, e.message)
 				}
 			}
-		})
 
+			cookies.set("toast", 'etapas_criadas', { path: "/" })
+			redirect(300, `/professor/turmas/${params.id}/atividades/`)
+
+		}
 	}
-
-
-	// TODO: Cadastrar criterios
-
 }

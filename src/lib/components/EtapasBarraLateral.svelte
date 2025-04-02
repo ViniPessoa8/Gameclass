@@ -124,7 +124,7 @@
 	</div>
 </div>
 
-<style>
+<style scoped>
 	.header > p {
 		text-align: center;
 		text-decoration: underline;
@@ -138,8 +138,10 @@
 		height: 100%;
 		background-color: var(--cor-secundaria);
 		margin-right: 12px;
+		padding-top: 12px;
 		justify-content: center;
 		align-items: center;
+		border-radius: 16px;
 	}
 
 	.etapas-container {

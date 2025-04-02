@@ -7,9 +7,11 @@
 	export let data;
 	let atividades;
 	let id;
+	let url;
 
 	$: atividades = data.atividades;
 	$: id = $page.params.id;
+	$: url = `/${data.perfil}/turmas/${id}/atividades/create`;
 </script>
 
 <TurmaTabBar />
@@ -22,9 +24,7 @@
 			<AtividadeTurma {atividade} idTurma={id} />
 		{/each}
 	{/if}
-	<ButtonRedirect href="/${data.perfil}/turmas/{id}/atividades/create"
-		>Criar nova atividade</ButtonRedirect
-	>
+	<ButtonRedirect href={url}>Criar nova atividade</ButtonRedirect>
 </div>
 
 <style>

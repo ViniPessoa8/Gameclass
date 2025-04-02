@@ -32,7 +32,7 @@
 	</div>
 </div>
 
-<style>
+<style scoped>
 	.container {
 		margin-top: -24px;
 		float: right;

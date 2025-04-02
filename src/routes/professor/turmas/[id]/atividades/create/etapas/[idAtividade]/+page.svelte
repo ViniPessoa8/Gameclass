@@ -65,7 +65,7 @@
 		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
 
 		let notaMax = etapas[$selectedEtapa].criterios
-			.map((criterio) => criterio.nota_max)
+			.map((criterio) => parseFloat(criterio.nota_max))
 			.reduce((item, acc) => item + acc);
 		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
 			throw new Error('Nota total passa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos');
@@ -174,7 +174,7 @@
 </script>
 
 <Toaster richColors expand position="top-center" closeButton />
-<div class="panel">
+<div class="page-container">
 	<EtapasBarraLateral bind:etapas bind:selectedEtapa={$selectedEtapa} />
 	<div class="content-container">
 		<h1>Calculados</h1>
@@ -313,7 +313,9 @@
 									0.00
 								{:else}
 									{parseFloat(
-										etapas[$selectedEtapa].criterios.map((x) => x.nota_max).reduce((a, b) => a + b)
+										etapas[$selectedEtapa].criterios
+											.map((x) => parseFloat(x.nota_max))
+											.reduce((a, b) => a + b)
 									).toFixed(2)}
 								{/if}
 								pts
@@ -335,10 +337,9 @@
 	</div>
 </div>
 
-<style>
-	.panel {
-		width: 100%;
-		height: 100%;
+<style scoped>
+	.page-container {
+		padding: 24px;
 		display: flex;
 		flex-direction: row;
 	}

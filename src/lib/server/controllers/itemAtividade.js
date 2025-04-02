@@ -3,7 +3,7 @@ import { cadastraCriterioBD } from "../repositories/criterio";
 import { removeCriterioPorIdItemAtividade } from "./criterio";
 import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
 
-export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai, criterios) {
+export async function cadastraItemAtividade(titulo, descricao = '', notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai, criterios, status = 1) {
 	let res
 
 	if (!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal || ![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0 || !criterios) {
@@ -11,7 +11,7 @@ export async function cadastraItemAtividade(titulo, notaMax, dataEntregaInicial,
 	}
 
 	try {
-		res = await cadastraItemAtividadeBD(titulo, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai);
+		res = await cadastraItemAtividadeBD(titulo, descricao, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo, nMaxGrupos, idAtividadePai, status);
 	} catch (e) {
 		if (e.includes("duplicate key value violates unique constraint")) {
 			throw ("Esta etapa ja existe nessa atividade.")
