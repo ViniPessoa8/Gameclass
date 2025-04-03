@@ -19,7 +19,7 @@
 			<span>{turma.disciplina}</span>
 			<div>
 				<span>{turma.ano}</span>
-				<span>{turma.nEstudantes} Estudantes</span>
+				<span>{turma.numero_alunos} Estudantes</span>
 			</div>
 		</div>
 	</div>
