@@ -3,7 +3,7 @@ import { loginDB, registerDB } from "$repositories/auth";
 import { getInstituicaoByNome } from "./instituicao";
 import { findUserByLogin, removeUserByLoginDB } from "../repositories/auth";
 
-export async function registerNewUser(nome, login, password, instituicao, dtNasc, bio, email, matricula_aluno) {
+export async function registerNewUser(nome, login, password, instituicao, dtNasc, bio, email, matricula_aluno, cor) {
 	if (!nome || !login || !password || !instituicao || !dtNasc || !email) {
 		throw ("Dados obrigatórios não foram preenchidos.")
 	}
@@ -23,7 +23,7 @@ export async function registerNewUser(nome, login, password, instituicao, dtNasc
 	let hash = bcrypt.hashSync(password, salt)
 
 	try {
-		let res = await registerDB(nome, login, hash, salt, idInstituicao, dtNasc, bio, email, matricula_aluno, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso)
+		let res = await registerDB(nome, login, hash, salt, idInstituicao, dtNasc, bio, email, matricula_aluno, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso, cor)
 
 		if (res.rowCount > 0) {
 			return res.rows

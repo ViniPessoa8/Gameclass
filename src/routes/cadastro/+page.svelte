@@ -141,7 +141,9 @@
 
 	function loginInputHandler(e) {
 		if (e.target.value.length > 0) loginEmpty = false;
-		form.already_registered = false;
+		if (form) {
+			form.already_registered = false;
+		}
 	}
 
 	function nomeCompletoInputHandler(e) {
