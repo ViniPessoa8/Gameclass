@@ -1,10 +1,44 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
-	import InputText from '$lib/components/InputText.svelte';
+	import InputNumber from '$lib/components/InputNumber.svelte';
+	import { toast, Toaster } from 'svelte-sonner';
 
 	export let data;
+
+	let notas = Array(data.etapa.criterios.length).fill('');
+
+	function handleInputChange(index, value) {
+		notas[index] = value.trim();
+	}
+
+	function validarNotas() {
+		const inputs = document.querySelectorAll('.input-container input');
+		let todosPreenchidos = true;
+
+		inputs.forEach((input, index) => {
+			if (!input.value.trim()) {
+				todosPreenchidos = false;
+				notas[index] = null;
+			} else {
+			}
+		});
+
+		if (!todosPreenchidos) {
+			toast.error('Preencha a nota de todos os critérios para finalizar a avaliação.');
+			return false;
+		}
+
+		return true;
+	}
+
+	function finalizarAvaliacion() {
+		if (validarNotas()) {
+			console.log('Notas válidas:', notas);
+		}
+	}
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="container">
 	<p class="titulo-atividade">{data.atividade.titulo}</p>
 	<p class="titulo-etapa">Etapa: {data.etapa.titulo}</p>
@@ -18,11 +52,17 @@
 			<p class="header-max">Nota Max</p>
 		</div>
 
-		{#each data.etapa.criterios as criterio}
+		{#each data.etapa.criterios as criterio, index}
 			<div class="grid-row">
 				<p class="criterio-titulo">{criterio.titulo}</p>
 				<div class="input-container">
-					<InputText borded placeholder="Nota" width="80px" />
+					<InputNumber
+						borded
+						placeholder="Nota"
+						width="80px"
+						bind:value={notas[index]}
+						on:change={(e) => handleInputChange(index, e.target.value)}
+					/>
 				</div>
 				<div class="nota-max">
 					<p>{criterio.pontuacao_max}</p>
@@ -31,7 +71,9 @@
 		{/each}
 
 		<div class="btn-finalizar">
-			<Button backgroundColor="var(--cor-primaria)" color="white">Finalizar Avaliação</Button>
+			<Button on:click={finalizarAvaliacion} backgroundColor="var(--cor-primaria)" color="white"
+				>Finalizar Avaliação</Button
+			>
 		</div>
 	</div>
 </div>
