@@ -20,9 +20,15 @@
 <div class="content-turmas">
 	<h1>Suas Turmas</h1>
 	<div class="turmas-container">
-		{#each turmasLista as turma}
-			<Turma {turma} />
-		{/each}
+		{#if !turmasLista}
+			<div class="sem-turmas">
+				<p>Não há turmas cadastradas</p>
+			</div>
+		{:else}
+			{#each turmasLista as turma}
+				<Turma {turma} />
+			{/each}
+		{/if}
 	</div>
 </div>
 
@@ -44,5 +50,12 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 60px;
+	}
+
+	.sem-turmas {
+		margin-right: 94px;
+		width: 100%;
+		text-align: center;
+		font-size: 28px;
 	}
 </style>
