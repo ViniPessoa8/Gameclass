@@ -3,22 +3,52 @@ import { DB_INFO } from "../../constants";
 import { dbConn } from "$config/database.js"
 
 export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
-	const query = {
-		text: `	SELECT 
-					ent.*
- 				FROM 
-					${DB_INFO.tables.item_atividade} ia,
-					${DB_INFO.tables.entrega} ent,
-					${DB_INFO.tables.estudante} est
-				WHERE 
-					ia.id = ent.id_item_atividade
-					AND est.id = ent.id_estudante
-					AND ia.id = $1;`,
-		values: [idItemAtividade]
-	}
-
 	try {
+		const query = {
+			text: `	SELECT 
+						ent.* 
+					FROM 
+						${DB_INFO.tables.item_atividade} ia,
+						${DB_INFO.tables.entrega} ent,
+						${DB_INFO.tables.estudante} est
+					WHERE 
+						ia.id = ent.id_item_atividade
+						AND est.id = ent.id_estudante
+						AND ia.id = $1;`,
+			values: [idItemAtividade]
+		}
+
 		const res = await dbConn.query(query)
+
+		console.debug("entries", res.rows)
+		res.rows.forEach(async (entrega, index) => {
+			const query_avaliacao = {
+				text: `	SELECT 
+							ra.*
+						FROM 
+							${DB_INFO.tables.realizar_avaliacao} ra,
+							${DB_INFO.tables.entrega} ent
+						WHERE 
+							ra.id_entrega = ent.id
+							AND ent.id = $1;`,
+				values: [entrega.id]
+			}
+
+			const avaliacao = await dbConn.query(query_avaliacao)
+			if (avaliacao.rows.length > 0) {
+				res.rows[index]['avaliada'] = true
+			} else {
+				res.rows[index]['avaliada'] = false
+			}
+			console.debug(index)
+			console.debug(res.rows[index])
+		})
+		// for (const [entrega, index] of res.rows) {
+		// console.debug("AVALIACAO RES", avaliacao)
+		// console.debug("ENTREGA BD", entrega, index)
+
+		// }
+
 		return res
 	} catch (e) {
 		throw (`Erro ao listar entregas por por id do item atividade (${idItemAtividade}): ${e}`)

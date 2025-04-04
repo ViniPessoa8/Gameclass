@@ -13,10 +13,18 @@
 		hour: '2-digit',
 		minute: '2-digit'
 	});
+
+	let corCard;
+	console.debug(entrega.avaliada);
+	if (entrega.avaliada) {
+		corCard = 'green';
+	} else {
+		corCard = '#0b2a71';
+	}
 </script>
 
 {#if entrega.data_entrega}
-	<div class="card">
+	<div class="card" style="background-color: {corCard}">
 		<p class="nome">{entrega.nome}</p>
 		<p class="data">{formatter.format(entrega.data_entrega)}</p>
 		<button on:click={onClick} class="botao">Visualizar</button>
@@ -32,7 +40,6 @@
 	.card {
 		display: flex;
 		flex-direction: column;
-		background-color: #0b2a71;
 		color: white;
 		padding: 10px;
 		border-radius: 10px;
