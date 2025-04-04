@@ -104,17 +104,17 @@ CREATE TABLE criterio (
 	PRIMARY KEY ("id")
 );
 
-CREATE TABLE avaliacao_criterio (
+CREATE TABLE realizar_avaliacao (
 	"id" BIGSERIAL UNIQUE,
-	"nota_atribuida" FLOAT NOT NULL,
+	"data_avaliacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_criterio" SERIAL REFERENCES criterio(id) NOT NULL,
 	PRIMARY KEY ("id")
 );
 
-CREATE TABLE realizar_avaliacao (
+CREATE TABLE avaliacao_criterio (
 	"id" BIGSERIAL UNIQUE,
-	"data_avaliacao" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"id_avaliacao_criterio" SERIAL REFERENCES avaliacao_criterio(id) NOT NULL,
+	"nota_atribuida" FLOAT NOT NULL,
+	"id_realizar_avaliacao" SERIAL REFERENCES realizar_avaliacao(id) NOT NULL,
 	PRIMARY KEY ("id")
 );
 
