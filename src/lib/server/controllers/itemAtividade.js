@@ -87,12 +87,12 @@ function calculaStatusItemAtividade(itemAtividade) {
 	if (itemAtividade.data_entrega_inicial == undefined) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["0"];
 
-	} else if (itemAtividade.data_entregaInicial != undefined
-		&& itemAtividade.data_entregaInicial > new Date()) {
+	} else if (itemAtividade.data_entrega_inicial != undefined
+		&& itemAtividade.data_entrega_inicial > new Date()) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["1"];
 
-	} else if (itemAtividade.data_entregaInicial != undefined
-		&& itemAtividade.data_entregaInicial <= new Date()) {
+	} else if (itemAtividade.data_entrega_inicial != undefined
+		&& itemAtividade.data_entrega_inicial <= new Date()) {
 		status = STATUS_ITEM_ATIVIDADE_PROFESSOR["2"];
 
 	} else if (itemAtividade.entregue == true
