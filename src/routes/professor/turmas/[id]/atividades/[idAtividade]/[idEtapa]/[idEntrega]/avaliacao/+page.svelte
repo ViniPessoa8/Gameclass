@@ -2,14 +2,11 @@
 	import Button from '$lib/components/Button.svelte';
 	import InputNumber from '$lib/components/InputNumber.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
+	import { enhance } from '$app/forms';
 
 	export let data;
 
 	let notas = Array(data.etapa.criterios.length).fill('');
-
-	function handleInputChange(index, value) {
-		notas[index] = value.trim();
-	}
 
 	function validarNotas() {
 		const inputs = document.querySelectorAll('.input-container input');
@@ -19,7 +16,6 @@
 			if (!input.value.trim()) {
 				todosPreenchidos = false;
 				notas[index] = null;
-			} else {
 			}
 		});
 
@@ -31,7 +27,36 @@
 		return true;
 	}
 
-	function finalizarAvaliacion() {
+	function formatarNota(valor, index, event) {
+		let input = event.target;
+		let cursorPos = input.selectionStart;
+
+		if (valor.includes(',')) {
+			valor = valor.replace(',', '.');
+			cursorPos++;
+		}
+
+		// Permitir números no formato "X" ou "X.Y" com até 2 dígitos antes do ponto
+		if (/^\d{0,2}(\.\d{0,1})?$/.test(valor) || valor === '') {
+			notas[index] = valor;
+
+			// Aguarda a próxima renderização para restaurar a posição do cursor
+			setTimeout(() => {
+				input.setSelectionRange(cursorPos, cursorPos);
+			}, 0);
+		}
+	}
+
+	function formatarNotaFinal(index) {
+		const num = parseFloat(notas[index]);
+		if (!isNaN(num)) {
+			notas[index] = Math.min(num, 10).toFixed(1);
+		} else {
+			notas[index] = '';
+		}
+	}
+
+	function finalizarAvaliacao() {
 		if (validarNotas()) {
 			console.log('Notas válidas:', notas);
 		}
@@ -44,7 +69,19 @@
 	<p class="titulo-etapa">Etapa: {data.etapa.titulo}</p>
 	<p class="nome-estudante">Estudante: <b>{data.nomeEstudante}</b></p>
 
-	<div class="criterios-grid">
+	<form
+		class="criterios-grid"
+		method="POST"
+		use:enhance={({ cancel }) => {
+			if (!validarNotas()) {
+				cancel();
+			}
+
+			return async ({ update }) => {
+				await update();
+			};
+		}}
+	>
 		<h1>Critérios</h1>
 		<div class="grid-header">
 			<p class="header-titulo">Título</p>
@@ -58,10 +95,15 @@
 				<div class="input-container">
 					<InputNumber
 						borded
+						name={criterio.titulo}
 						placeholder="Nota"
 						width="80px"
 						bind:value={notas[index]}
-						on:change={(e) => handleInputChange(index, e.target.value)}
+						on:input={(e) => formatarNota(notas[index], index, e)}
+						on:blur={() => formatarNotaFinal(index)}
+						step="0.1"
+						min="0"
+						max="10"
 					/>
 				</div>
 				<div class="nota-max">
@@ -71,11 +113,11 @@
 		{/each}
 
 		<div class="btn-finalizar">
-			<Button on:click={finalizarAvaliacion} backgroundColor="var(--cor-primaria)" color="white"
+			<Button on:click={finalizarAvaliacao} backgroundColor="var(--cor-primaria)" color="white"
 				>Finalizar Avaliação</Button
 			>
 		</div>
-	</div>
+	</form>
 </div>
 
 <style scoped>

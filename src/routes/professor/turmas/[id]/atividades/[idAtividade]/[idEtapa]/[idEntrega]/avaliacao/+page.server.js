@@ -3,10 +3,10 @@ import { buscaEntregaPorId } from '$controllers/entrega.js';
 import { getAtividadeById } from '$controllers/atividade.js';
 import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
-import { listaComentariosPorIdEntrega } from "$lib/server/controllers/comentario";
 import { findUserByLogin } from "$lib/server/repositories/auth";
 import { listaAnexosPorIdEntrega } from "$lib/server/controllers/anexo";
 import { listaCriteriosPorIdItemAtividade } from "$lib/server/controllers/itemAtividade";
+import { avaliaEntrega } from "$lib/server/controllers/entrega";
 
 export async function load({ cookies, params }) {
 	console.debug("LOAD")
@@ -38,4 +38,39 @@ export async function load({ cookies, params }) {
 	etapa["criterios"] = criterios
 
 	return { "usuario": data, "entrega": entrega, "atividade": atividade, "etapa": etapa, "nomeEstudante": estudante.nome }
+}
+
+export const actions = {
+	default: async ({ request, cookies, params }) => {
+		let res;
+
+		const notas = await request.formData();
+		const idEntrega = params.idEntrega;
+
+		const perfil = cookies.get("perfil")
+		const sessionRaw = cookies.get('session')
+
+		if (!sessionRaw) {
+			console.log("Usuário não autenticado")
+			redirect(300, "/")
+		}
+
+		const session = JSON.parse(sessionRaw);
+		const professorId = session["id"];
+
+		try {
+
+			res = await avaliaEntrega(idEntrega, notas)
+
+		} catch (e) {
+			console.log(e)
+			if (e.body.already_registered) {
+				return fail("Turma já registrada", { already_registered: true })
+			}
+		}
+		if (res.id) {
+			cookies.set("toast", 'turma_criada', { path: "/" })
+			redirect(300, `/${perfil}/turmas`)
+		}
+	}
 }

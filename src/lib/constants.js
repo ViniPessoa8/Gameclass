@@ -27,7 +27,9 @@ export const DB_INFO = {
 		usuario: "usuario",
 		entrega: "entrega",
 		comentario: "comentario",
-		anexo: "anexo"
+		anexo: "anexo",
+		realizar_avaliacao: "realizar_avaliacao",
+		avaliacao_criterio: "avaliacao_criterio"
 	}
 }
 

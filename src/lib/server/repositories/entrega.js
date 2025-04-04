@@ -43,3 +43,31 @@ export async function buscaEntregaPorIdBD(idEntrega) {
 		throw (`Erro ao buscar turma por id (${idEntrega}): ${e}`)
 	}
 }
+
+export async function avaliaEntregaBD(idEntrega, notas) {
+	console.debug("avaliaEntregaBD")
+	const entrega = (await buscaEntregaPorIdBD(idEntrega)).rows[0]
+	console.debug(entrega)
+
+	for (const avaliacao of notas) {
+		const tituloCriterio = avaliacao[0]
+		const nota = avaliacao[1]
+
+		const query = {
+			text: `	INSERT INTO
+						${DB_INFO.tables.realizar_avaliacao} ("")
+					WHERE 
+						id = $1;`,
+			values: [idEntrega]
+		}
+
+		try {
+			const res = await dbConn.query(query)
+			return res
+		} catch (e) {
+			throw (`Erro ao buscar turma por id (${idEntrega}): ${e}`)
+		}
+	}
+
+	return true
+}

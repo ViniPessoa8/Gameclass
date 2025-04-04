@@ -15,7 +15,9 @@
 			{placeholder}
 			bind:value
 			on:input
+			on:blur
 			style="width: {width};"
+			{...$$restProps}
 		/>
 	</div>
 {:else}
@@ -26,7 +28,9 @@
 		{placeholder}
 		bind:value
 		on:input
+		on:blur
 		style="width: {width};"
+		{...$$restProps}
 	/>
 {/if}
 
