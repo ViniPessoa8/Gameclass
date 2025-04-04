@@ -7,6 +7,13 @@
 
 	export let perfil, turmas;
 	console.log(`[/Autenticado/Turmas] (${perfil})`);
+
+	async function logout() {
+		await fetch('/logout', {
+			method: 'POST'
+		});
+		window.location.href = '/login';
+	}
 </script>
 
 <div class="sidebar">
@@ -17,7 +24,7 @@
 				goto(`/${perfil}/turmas`);
 			}}>Home</SideBarButton
 		>
-		<SideBarButton img={'logout'}>Logout</SideBarButton>
+		<SideBarButton onClick={logout} img={'logout'}>Logout</SideBarButton>
 	</div>
 
 	<div class="turmas">
