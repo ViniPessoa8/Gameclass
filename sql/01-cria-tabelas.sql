@@ -104,32 +104,11 @@ CREATE TABLE criterio (
 	PRIMARY KEY ("id")
 );
 
-CREATE TABLE realizar_avaliacao (
-	"id" BIGSERIAL UNIQUE,
-	"data_avaliacao" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"id_criterio" SERIAL REFERENCES criterio(id) NOT NULL,
-	PRIMARY KEY ("id")
-);
-
-CREATE TABLE avaliacao_criterio (
-	"id" BIGSERIAL UNIQUE,
-	"nota_atribuida" FLOAT NOT NULL,
-	"id_realizar_avaliacao" SERIAL REFERENCES realizar_avaliacao(id) NOT NULL,
-	PRIMARY KEY ("id")
-);
-
 CREATE TABLE grupo_de_alunos (
 	"id" BIGSERIAL UNIQUE,
 	"nome" VARCHAR(100) NOT NULL,
 	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_item_atividade" SERIAL REFERENCES item_atividade(id) NOT NULL,
-	PRIMARY KEY ("id")
-);
-
-CREATE TABLE integrante_grupo_de_alunos (
-	"id" BIGSERIAL UNIQUE,
-	"id_estudante" SERIAL REFERENCES estudante(id) NOT NULL,
-	"id_grupo_de_alunos" SERIAL REFERENCES grupo_de_alunos(id) NOT NULL,
 	PRIMARY KEY ("id")
 );
 
@@ -141,6 +120,29 @@ CREATE TABLE entrega (
 	"id_item_atividade" SERIAL REFERENCES item_atividade(id),
 	PRIMARY KEY ("id")
 );
+
+CREATE TABLE realizar_avaliacao (
+	"id" BIGSERIAL UNIQUE,
+	"data_avaliacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_entrega" SERIAL REFERENCES entrega(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE avaliacao_criterio (
+	"id" BIGSERIAL UNIQUE,
+	"nota_atribuida" FLOAT NOT NULL,
+	"id_realizar_avaliacao" SERIAL REFERENCES realizar_avaliacao(id) NOT NULL,
+	"id_criterio" SERIAL REFERENCES criterio(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE integrante_grupo_de_alunos (
+	"id" BIGSERIAL UNIQUE,
+	"id_estudante" SERIAL REFERENCES estudante(id) NOT NULL,
+	"id_grupo_de_alunos" SERIAL REFERENCES grupo_de_alunos(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
+
 
 CREATE TABLE publicacao_mural (
 	"id" BIGSERIAL UNIQUE,

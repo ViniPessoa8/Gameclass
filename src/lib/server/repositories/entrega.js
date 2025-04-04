@@ -21,7 +21,7 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 		const res = await dbConn.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao buscar turma por id (${idItemAtividade}): ${e}`)
+		throw (`Erro ao listar entregas por por id do item atividade (${idItemAtividade}): ${e}`)
 	}
 }
 
@@ -40,33 +40,65 @@ export async function buscaEntregaPorIdBD(idEntrega) {
 		const res = await dbConn.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao buscar turma por id (${idEntrega}): ${e}`)
+		throw (`Erro ao buscar entrega por id (${idEntrega}): ${e}`)
 	}
 }
 
 export async function avaliaEntregaBD(idEntrega, notas) {
-	console.debug("avaliaEntregaBD")
-	const entrega = (await buscaEntregaPorIdBD(idEntrega)).rows[0]
-	console.debug(entrega)
+	const entregaResult = await buscaEntregaPorIdBD(idEntrega)
 
-	for (const avaliacao of notas) {
-		const tituloCriterio = avaliacao[0]
-		const nota = avaliacao[1]
+	if (!entregaResult.rows.length) {
+		console.error(`Entrega ${idEntrega} não encontrada`)
+		return false
+	}
 
-		const query = {
-			text: `	INSERT INTO
-						${DB_INFO.tables.realizar_avaliacao} ("")
-					WHERE 
-						id = $1;`,
-			values: [idEntrega]
+	const entrega = entregaResult.rows[0]
+
+	try {
+		let query = {
+			text: `	INSERT INTO ${DB_INFO.tables.realizar_avaliacao}("id_entrega")
+					VALUES($1)
+					RETURNING id;`,
+			values: [entrega.id]
 		}
 
-		try {
-			const res = await dbConn.query(query)
-			return res
-		} catch (e) {
-			throw (`Erro ao buscar turma por id (${idEntrega}): ${e}`)
+
+		let res = await dbConn.query(query)
+		const idRealizarAvaliacao = res.rows[0].id
+
+		for (const avaliacao of notas) {
+			const [tituloCriterio, nota] = avaliacao
+
+			query = {
+				text: `	SELECT id
+						FROM ${DB_INFO.tables.criterio} 
+						WHERE titulo = $1;`,
+				values: [tituloCriterio]
+			}
+
+			const criterioRes = await dbConn.query(query)
+			if (!criterioRes.rows.length) {
+				console.warn(`Critério "${tituloCriterio}" não encontrado. Pulando.`)
+				continue
+			}
+			const idCriterio = criterioRes.rows[0].id
+
+			query = {
+				text: `	INSERT INTO
+							${DB_INFO.tables.avaliacao_criterio} ("nota_atribuida", "id_realizar_avaliacao", "id_criterio")
+						VALUES(
+							$1, $2, $3
+						);`,
+				values: [nota, idRealizarAvaliacao, idCriterio]
+			}
+
+			res = await dbConn.query(query)
 		}
+
+		return true
+
+	} catch (e) {
+		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
 	}
 
 	return true

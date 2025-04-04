@@ -47,16 +47,12 @@ export const actions = {
 		const notas = await request.formData();
 		const idEntrega = params.idEntrega;
 
-		const perfil = cookies.get("perfil")
 		const sessionRaw = cookies.get('session')
 
 		if (!sessionRaw) {
 			console.log("Usuário não autenticado")
 			redirect(300, "/")
 		}
-
-		const session = JSON.parse(sessionRaw);
-		const professorId = session["id"];
 
 		try {
 
@@ -68,9 +64,10 @@ export const actions = {
 				return fail("Turma já registrada", { already_registered: true })
 			}
 		}
-		if (res.id) {
-			cookies.set("toast", 'turma_criada', { path: "/" })
-			redirect(300, `/${perfil}/turmas`)
+		if (res) {
+			cookies.set("toast", 'entrega_avaliada', { path: "/" })
+			const novaUrl = request.url.replace(/\/[^\/]*$/, "");
+			redirect(300, novaUrl)
 		}
 	}
 }
