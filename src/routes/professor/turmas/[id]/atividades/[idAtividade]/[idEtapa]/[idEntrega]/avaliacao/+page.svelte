@@ -31,7 +31,7 @@
 		let input = event.target;
 		let cursorPos = input.selectionStart;
 
-		if (valor.includes(',')) {
+		if (String(valor).includes(',')) {
 			valor = valor.replace(',', '.');
 			cursorPos++;
 		}
@@ -47,10 +47,10 @@
 		}
 	}
 
-	function formatarNotaFinal(index) {
+	function formatarNotaFinal(index, max) {
 		const num = parseFloat(notas[index]);
 		if (!isNaN(num)) {
-			notas[index] = Math.min(num, 10).toFixed(1);
+			notas[index] = Math.min(num, max).toFixed(1);
 		} else {
 			notas[index] = '';
 		}
@@ -100,7 +100,7 @@
 						width="80px"
 						bind:value={notas[index]}
 						on:input={(e) => formatarNota(notas[index], index, e)}
-						on:blur={() => formatarNotaFinal(index)}
+						on:blur={() => formatarNotaFinal(index, criterio.pontuacao_max)}
 						step="0.1"
 						min="0"
 						max="10"
