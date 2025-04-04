@@ -8,7 +8,7 @@
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
-	import { TIPO_ARQUIVO, TIPO_COMENTARIO } from '$lib/constants.js';
+	import { TIPO_ARQUIVO, TIPO_COMENTARIO, STATUS_ENTREGA } from '$lib/constants.js';
 
 	export let data;
 
@@ -16,11 +16,11 @@
 	const iconColor = 'red';
 	const descricaoEtapa =
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus. Quisque mollis dui vel nisi commodo, nec aliquet ante tempor. Suspendisse at eros tristique, volutpat mi faucibus, viverra nibh. Nullam sagittis, sem in viverra blandit, nulla felis sollicitudin arcu, eu maximus ligula justo non tortor. Mauris sollicitudin scelerisque sapien tempor maximus. Sed in cursus magna. Suspendisse potenti. Nulla dolor nisl, tristique sit amet bibendum nec, auctor nec risus. Aenean tincidunt mi purus, at mollis quam faucibus in. Sed dictum erat arcu, vitae feugiat justo gravida ut.';
-	const statusResposta = 'Concluída';
 
 	let id;
 	let idAtividade;
 	let idEtapa;
+	let status, corStatus;
 	let textoComentario;
 	let arquivos = [];
 	let arquivo = 'teste';
@@ -68,8 +68,20 @@
 		}
 	}
 
+	async function calculaStatusEntrega() {
+		if (data.entrega.avaliada) {
+			status = STATUS_ENTREGA['2'];
+			corStatus = 'lightgreen';
+		} else if (data.entrega.anexos.length > 0) {
+			status = STATUS_ENTREGA['1'];
+		} else {
+			status = STATUS_ENTREGA['0'];
+		}
+	}
+
 	onMount(async () => {
 		await fetchComentarios(data.entrega.id);
+		await calculaStatusEntrega();
 	});
 </script>
 
@@ -111,7 +123,7 @@
 					{:else if data.usuario.perfil == 'professor'}
 						<p><b>Resposta</b></p>
 					{/if}
-					<p class="status-resposta">({statusResposta})</p>
+					<p class="status-resposta" style="color:{corStatus}">({status})</p>
 				</div>
 				<!-- TODO: icone do tipo de arquivo -->
 				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
@@ -132,18 +144,26 @@
 					</div>
 				{/if}
 			</div>
-			<div class="btn-avaliar">
-				<Button
-					backgroundColor="var(--cor-secundaria)"
-					color="white"
-					type="text"
-					marginTop="auto"
-					on:click={() => {
-						console.debug('[$page.url.pathname]', $page.url.pathname);
-						goto($page.url.pathname + '/avaliacao');
-					}}>Avaliar</Button
-				>
-			</div>
+			{#if status != 'Sem Resposta'}
+				<div class="btn-avaliar">
+					<Button
+						backgroundColor="var(--cor-secundaria)"
+						color="white"
+						type="text"
+						marginTop="auto"
+						on:click={() => {
+							console.debug('[$page.url.pathname]', $page.url.pathname);
+							goto($page.url.pathname + '/avaliacao');
+						}}
+					>
+						{#if status == 'Corrigido'}
+							Editar Avaliação
+						{:else if status == 'Aguardando Correção'}
+							Avaliar
+						{/if}
+					</Button>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

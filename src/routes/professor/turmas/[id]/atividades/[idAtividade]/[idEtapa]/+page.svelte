@@ -85,15 +85,7 @@
 		</div>
 		<div class="entregas">
 			{#each entregas_por_estudante as entrega}
-				{#if entrega.data_entrega != null}
-					<EnvioEstudante
-						nome={entrega.nome}
-						data_envio={formatter.format(entrega.data_entrega)}
-						onClick={() => onClick(entrega.id)}
-					/>
-				{:else}
-					<EnvioEstudante nome={entrega.nome} data_envio={null} />
-				{/if}
+				<EnvioEstudante {entrega} onClick={() => onClick(entrega.id)} />
 			{/each}
 		</div>
 	</div>

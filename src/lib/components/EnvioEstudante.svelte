@@ -1,20 +1,29 @@
 <script>
 	import { goto } from '$app/navigation';
 
-	export let nome;
-	export let data_envio;
+	export let entrega;
 	export let onClick;
+
+	let corBotao, status;
+
+	const formatter = new Intl.DateTimeFormat('pt-BR', {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit'
+	});
 </script>
 
-{#if data_envio}
+{#if entrega.data_entrega}
 	<div class="card">
-		<p class="nome">{nome}</p>
-		<p class="data">{data_envio}</p>
+		<p class="nome">{entrega.nome}</p>
+		<p class="data">{formatter.format(entrega.data_entrega)}</p>
 		<button on:click={onClick} class="botao">Visualizar</button>
 	</div>
 {:else}
 	<div class="card off">
-		<p class="nome">{nome}</p>
+		<p class="nome">{entrega.nome}</p>
 		<p class="sem-resposta">Aguardando Resposta</p>
 	</div>
 {/if}

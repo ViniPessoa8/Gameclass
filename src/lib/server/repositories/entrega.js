@@ -95,11 +95,29 @@ export async function avaliaEntregaBD(idEntrega, notas) {
 			res = await dbConn.query(query)
 		}
 
-		return true
-
 	} catch (e) {
 		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
 	}
 
 	return true
 }
+
+export async function buscaAvaliacaoEntregaBD(idEntrega) {
+	try {
+		let query = {
+			text: `	SELECT *
+					FROM ${DB_INFO.tables.realizar_avaliacao}
+					WHERE id_entrega = $1
+					;`,
+			values: [idEntrega]
+		}
+
+		let res = await dbConn.query(query)
+		return res.rows
+
+	} catch (e) {
+		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
+	}
+}
+
+

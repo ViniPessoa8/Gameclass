@@ -57,6 +57,12 @@ export const STATUS_ITEM_ATIVIDADE_PROFESSOR = {
 	4: "Corrigido",
 }
 
+export const STATUS_ENTREGA = {
+	0: "Sem Resposta",
+	1: "Aguardando Correção",
+	2: "Corrigido",
+}
+
 export const TIPO_ARQUIVO = {
 	PDF: "pdf",
 	TXT: "txt",
