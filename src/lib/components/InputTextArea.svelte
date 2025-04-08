@@ -4,12 +4,22 @@
 		name,
 		backgroundColor = 'transparent',
 		textColor = 'var(--text-1)',
+		borded = false,
+		width,
+		height,
 		placeholder = '';
+
+	if (borded) {
+		backgroundColor = 'var(--cor-primaria)';
+		backgroundColor = 'var(--cor-primaria)';
+	}
 </script>
 
 <div
 	class="container"
 	style="
+	width: {width};
+	height: {height};
 	background-color: {backgroundColor};
 	"
 >
@@ -19,6 +29,8 @@
 		bind:value
 		on:input={inputHandler}
 		style="
+			width: {width};
+			heigth: {height};
 			color: {textColor};
 			background-color: {backgroundColor};
 		"
@@ -48,5 +60,25 @@
 		border: 1px solid var(--cor-secundaria);
 		border-radius: 8px;
 		padding: 8px;
+	}
+
+	.board {
+		width: 100%;
+		background-color: var(--cor-primaria);
+		padding: 14px;
+		border-radius: 12px;
+	}
+
+	.borded {
+		border-color: #cfd2d5;
+		background-color: var(--cor-primaria);
+	}
+
+	.borded:focus {
+		border-color: var(--cor-secundaria);
+	}
+
+	.unborded {
+		background-color: transparent;
 	}
 </style>

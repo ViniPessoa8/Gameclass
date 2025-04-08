@@ -12,6 +12,7 @@ export let actions = {
 
 		let criterios
 		let titulo
+		let descricao
 		let notaMax
 		let dtEntregaMin
 		let dtEntregaMax
@@ -27,6 +28,7 @@ export let actions = {
 		for (const etapa of etapas) {
 			criterios = etapa.criterios
 			titulo = etapa.titulo
+			descricao = etapa.descricao
 			notaMax = parseFloat(etapa.criterios.map((elem) => elem.nota_max).reduce((elem, acc) => (elem + acc)))
 			dtEntregaMin = new Date(etapa.dtEntregaMin)
 			dtEntregaMax = new Date(etapa.dtEntregaMax)
@@ -41,7 +43,7 @@ export let actions = {
 			try {
 				await cadastraItemAtividade(
 					titulo,
-					'',
+					descricao,
 					notaMax,
 					dtEntregaMin,
 					dtEntregaMax,

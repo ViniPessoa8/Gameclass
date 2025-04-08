@@ -1,5 +1,6 @@
 <script>
 	import InputText from '$lib/components/InputText.svelte';
+	import InputTextArea from '$lib/components/InputTextArea.svelte';
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
 	import InputRadio from '$lib/components/InputRadio.svelte';
 	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
@@ -39,6 +40,7 @@
 		{
 			id: 1,
 			titulo: '',
+			descricao: '',
 			dtEntregaMin: dateNowFormated,
 			dtEntregaMax: '', // TODO: Validar campo
 			realizacaoGroup: 'Individual',
@@ -209,7 +211,17 @@
 						<h1>Informações</h1>
 						<div class="row">
 							<h2>Título da etapa:</h2>
-							<InputText borded bind:value={etapas[$selectedEtapa].titulo} game="titulo" />
+							<InputText borded bind:value={etapas[$selectedEtapa].titulo} name="titulo" />
+						</div>
+						<div class="row">
+							<h2>Descrição:</h2>
+							<InputTextArea
+								borded
+								bind:value={etapas[$selectedEtapa].descricao}
+								name="descricao"
+								width="400px"
+								height="150px"
+							/>
 						</div>
 						<div class="row">
 							<h2>Data de início:</h2>
