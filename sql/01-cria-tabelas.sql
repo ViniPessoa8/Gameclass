@@ -98,6 +98,7 @@ CREATE TABLE tag (
 CREATE TABLE criterio (
 	"id" BIGSERIAL UNIQUE,
 	"titulo" VARCHAR(255) NOT NULL,
+	"descricao" VARCHAR(255) NOT NULL,
 	"pontuacao_max" FLOAT NOT NULL,
 	"peso" FLOAT ,
 	"id_item_atividade" SERIAL REFERENCES item_atividade(id) NOT NULL,

@@ -1,6 +1,7 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
 	import InputNumber from '$lib/components/InputNumber.svelte';
+	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 
@@ -91,7 +92,10 @@
 
 		{#each data.etapa.criterios as criterio, index}
 			<div class="grid-row">
-				<p class="criterio-titulo">{criterio.titulo}</p>
+				<div class="criterio-titulo-descricao">
+					<p class="criterio-titulo">{criterio.titulo}</p>
+					<IconeInformacao text={criterio.descricao} />
+				</div>
 				<div class="input-container">
 					<InputNumber
 						borded
@@ -201,10 +205,14 @@
 		font-size: 20px;
 		font-weight: 500;
 		padding-left: 8px;
-		min-width: 150px;
+		min-width: 126px;
 		max-width: 250px;
 		word-break: break-word;
 		white-space: normal;
+	}
+
+	.criterio-titulo-descricao {
+		display: flex;
 	}
 
 	.input-container {

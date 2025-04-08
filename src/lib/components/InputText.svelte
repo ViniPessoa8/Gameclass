@@ -8,7 +8,7 @@
 </script>
 
 {#if borded}
-	<div class="board">
+	<div class="board" style="width: {width};">
 		<input
 			class="borded"
 			type="text"

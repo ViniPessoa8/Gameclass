@@ -17,6 +17,7 @@
 
 	let novoCriterioTitulo = '';
 	let novoCriterioNota = '';
+	let novoCriterioDescricao = '';
 	let oldCriterioNota = '';
 	let erroNotaCriterio = false;
 
@@ -97,6 +98,7 @@
 
 		let novoCriterio = {
 			titulo: novoCriterioTitulo,
+			descricao: novoCriterioDescricao,
 			nota_max: novoCriterioNota
 		};
 
@@ -127,6 +129,7 @@
 
 		novoCriterioTitulo = '';
 		novoCriterioNota = '';
+		novoCriterioDescricao = '';
 	}
 
 	function onRemoveCriterio(criterio) {
@@ -255,28 +258,40 @@
 						<form name="form-criterio">
 							<div class="column">
 								<!-- TODO: Limitar input de dados com mascaras  -->
-								<div class="row">
-									<InputText
-										borded
-										name="titulo-criterio"
-										placeholder="Novo critério"
-										bind:value={novoCriterioTitulo}
-									/>
-									<InputText
-										borded
-										name="nota-max-criterio"
-										width="50px"
-										placeholder="0.0"
-										inputHandler={onChangeCriterioNota}
-										bind:value={novoCriterioNota}
-									/>
-									<Button
-										borded
-										color="var(--cor primaria)"
-										backgroundColor="var(--cor-secundaria)"
-										type="button"
-										on:click={onAdicionaCriterio}>+</Button
-									>
+								<div class="column">
+									<div class="row">
+										<InputText
+											borded
+											name="titulo-criterio"
+											placeholder="Título"
+											bind:value={novoCriterioTitulo}
+										/>
+										<InputText
+											borded
+											name="nota-max-criterio"
+											width="150px"
+											placeholder="Nota max."
+											inputHandler={onChangeCriterioNota}
+											bind:value={novoCriterioNota}
+										/>
+									</div>
+									<div class="row">
+										<InputText
+											borded
+											name="descricao-criterio"
+											placeholder="Descrição"
+											bind:value={novoCriterioDescricao}
+										/>
+									</div>
+									<div class="btn-add-criterio">
+										<Button
+											borded
+											color="var(--cor primaria)"
+											backgroundColor="var(--cor-secundaria)"
+											type="button"
+											on:click={onAdicionaCriterio}>Adicionar Critério</Button
+										>
+									</div>
 								</div>
 								{#if erroNotaCriterio[0]}
 									<p class="erro-criterio">{erroNotaCriterio[1]}</p>
@@ -289,7 +304,10 @@
 							<hr />
 							{#each etapas[$selectedEtapa].criterios as criterio}
 								<div class="criterio-container">
-									<h2>{criterio.titulo}</h2>
+									<div class="titulo-criterio">
+										<h2>{criterio.titulo}</h2>
+										<IconeInformacao text={criterio.descricao} />
+									</div>
 									<h2>{parseFloat(criterio.nota_max).toFixed(2)}</h2>
 									<Button
 										color="var(--cor primaria)"
@@ -374,6 +392,7 @@
 		flex-direction: column;
 		align-items: center;
 		margin-top: 40px;
+		margin-right: 24px;
 	}
 
 	.criterios-container {
@@ -382,6 +401,8 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 60px;
+		padding-left: 24px;
+		border-left: 1px solid black;
 	}
 
 	.form-content {
@@ -408,5 +429,18 @@
 		margin-left: 8px;
 		justify-self: flex-start;
 		color: red;
+	}
+
+	.btn-add-criterio {
+		display: flex;
+		justify-content: center;
+		margin-top: 24px;
+	}
+
+	.titulo-criterio {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
 	}
 </style>

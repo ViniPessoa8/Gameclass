@@ -1,10 +1,10 @@
 import { DB_INFO } from "$lib/constants";
 import { dbConn } from "$config/database.js"
 
-export async function cadastraCriterioBD(titulo, pontuacao_max, peso, idItemAtividade) {
+export async function cadastraCriterioBD(titulo, descricao, pontuacao_max, peso, idItemAtividade) {
 	const query = {
-		text: `INSERT INTO ${DB_INFO.tables.criterio}(titulo, pontuacao_max, peso, id_item_atividade) VALUES ($1, $2, $3, $4) RETURNING id`,
-		values: [titulo, pontuacao_max, peso, idItemAtividade]
+		text: `INSERT INTO ${DB_INFO.tables.criterio}(titulo, descricao, pontuacao_max, peso, id_item_atividade) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+		values: [titulo, descricao, pontuacao_max, peso, idItemAtividade]
 	}
 
 	const res = await dbConn.query(query)

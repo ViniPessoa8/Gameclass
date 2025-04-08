@@ -23,7 +23,7 @@ export async function cadastraItemAtividade(titulo, descricao = '', notaMax, dat
 
 	criterios.forEach(async (c) => {
 		try {
-			await cadastraCriterioBD(c.titulo, c.nota_max, c.peso, idItemAtividade)
+			await cadastraCriterioBD(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade)
 		} catch (e) {
 			throw ("Erro ao cadastrar criterio: ", e)
 		}

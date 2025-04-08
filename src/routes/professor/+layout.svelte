@@ -14,10 +14,6 @@
 
 	$: voltarPara = $page.data.voltarPara;
 
-	onMount(() => {
-		console.log('onMount() $page.url.pathname:', $page.url.pathname);
-	});
-
 	function onBack() {
 		if (voltarPara) {
 			goto(voltarPara);

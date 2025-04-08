@@ -72,7 +72,7 @@ VALUES
 ('Prof, meu cachorro comeu meu dever', 3, 6, 1),
 ('te vira', 3, 1, 1);
 
-INSERT INTO criterio ("titulo", "pontuacao_max", "peso", "id_item_atividade") 
+INSERT INTO criterio ("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") 
 VALUES 
-('Critério 1', 5, 1, 1),
-('Critério 2', 5, 1, 1);
+('Critério 1', 'Descrição do critério 1', 5, 1, 1),
+('Critério 2', 'Descrição do critério 2', 5, 1, 1);
