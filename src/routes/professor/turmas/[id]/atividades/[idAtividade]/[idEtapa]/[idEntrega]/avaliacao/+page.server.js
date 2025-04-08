@@ -9,14 +9,7 @@ import { listaCriteriosPorIdItemAtividade } from "$lib/server/controllers/itemAt
 import { avaliaEntrega } from "$lib/server/controllers/entrega";
 
 export async function load({ cookies, params }) {
-	console.debug("LOAD")
-
 	const session_raw = cookies.get("session");
-	if (!session_raw) {
-		console.log("Usuário não autenticado")
-		redirect(300, "/")
-	}
-
 	const data = JSON.parse(session_raw);
 	data["perfil"] = cookies.get("perfil")
 
@@ -46,13 +39,6 @@ export const actions = {
 
 		const notas = await request.formData();
 		const idEntrega = params.idEntrega;
-
-		const sessionRaw = cookies.get('session')
-
-		if (!sessionRaw) {
-			console.log("Usuário não autenticado")
-			redirect(300, "/")
-		}
 
 		try {
 

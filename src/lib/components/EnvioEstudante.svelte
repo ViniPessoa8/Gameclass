@@ -1,11 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
 
 	export let entrega;
 	export let onClick;
-
-	let corBotao, status;
 
 	const formatter = new Intl.DateTimeFormat('pt-BR', {
 		day: '2-digit',

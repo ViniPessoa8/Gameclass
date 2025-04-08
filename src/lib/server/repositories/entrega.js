@@ -19,7 +19,6 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 		}
 
 		const res = await dbConn.query(query)
-
 		const rowsComAvaliacao = await Promise.all(
 			res.rows.map(async (entrega) => {
 				const query_avaliacao = {

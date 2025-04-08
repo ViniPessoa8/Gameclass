@@ -70,7 +70,6 @@
 			<div class="button">
 				<Button
 					on:click={() => {
-						console.log('clicked');
 						// TODO: Get id disponivel para etapa
 						goto(`atividades/create/etapas/${atividade.id}/`); // TODO: utilziar id dinamico da turma e da etapa
 					}}

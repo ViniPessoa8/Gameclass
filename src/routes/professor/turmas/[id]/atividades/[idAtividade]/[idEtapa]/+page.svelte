@@ -12,35 +12,12 @@
 
 	export let data;
 
-	const statusColor = 'blue';
-	const iconColor = 'red';
-	// TODO: Pegar descrição do banco de dados
-	const descricaoEtapa =
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus. Quisque mollis dui vel nisi commodo, nec aliquet ante tempor. Suspendisse at eros tristique, volutpat mi faucibus, viverra nibh. Nullam sagittis, sem in viverra blandit, nulla felis sollicitudin arcu, eu maximus ligula justo non tortor. Mauris sollicitudin scelerisque sapien tempor maximus. Sed in cursus magna. Suspendisse potenti. Nulla dolor nisl, tristique sit amet bibendum nec, auctor nec risus. Aenean tincidunt mi purus, at mollis quam faucibus in. Sed dictum erat arcu, vitae feugiat justo gravida ut.';
-
-	// TODO: Integrar comentários com o banco de dados
-	let comentarios = [
-		{
-			nome: 'Vinícius Pessoa',
-			texto:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus.',
-			data: '06/12/1999'
-		},
-		{
-			nome: 'Lorena Simpson',
-			texto:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus.',
-			data: '06/12/1999'
-		}
-	];
-
 	let id;
 	let idAtividade;
 	let idEtapa;
 	let arquivos = [];
 	let arquivo = 'teste';
 
-	$: perfil = $page.params.perfil;
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
 	$: idEtapa = $page.params.idEtapa;
@@ -66,8 +43,6 @@
 	const onClick = (idEntrega) => {
 		goto(`/professor/turmas/${id}/atividades/${idAtividade}/${idEtapa}/${idEntrega}`);
 	};
-
-	console.debug(data.etapa);
 </script>
 
 <div class="content-etapa">

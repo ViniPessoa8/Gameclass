@@ -6,6 +6,7 @@ export async function load({ cookies }) {
 	const session_raw = cookies.get("session");
 	if (!session_raw) {
 		console.log("Usuário não autenticado")
+		cookies.set("toast", 'sessao_expirada', { path: '/' });
 		redirect(300, "/")
 	}
 	const perfil_raw = cookies.get("perfil");

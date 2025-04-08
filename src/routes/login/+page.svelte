@@ -8,14 +8,16 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { onMount } from 'svelte';
 
-	console.debug('[LOGIN PAGE]');
-
 	/** @type {import('./$types').ActionData} */
 	export let data;
 
 	onMount(async () => {
 		if (data.toast === 'cadastro') {
 			toast.success('Cadastro realizado com sucesso');
+		}
+
+		if (data.toast === 'sessao_expirada') {
+			toast.success('Sessão expirada, realize o login novamente.');
 		}
 	});
 
@@ -35,16 +37,13 @@
 	}
 
 	function checkInputs() {
-		console.log('checkinputs');
 		let ok = true;
 		if (!userLogin) {
-			console.log('!userLogin');
 			loginErrorVisibility = true;
 			ok = false;
 		}
 
 		if (!userPassword) {
-			console.log('!userPassword');
 			passwordErrorVisibility = true;
 			ok = false;
 		}
