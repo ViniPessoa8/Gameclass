@@ -184,7 +184,6 @@
 				class="cria-etapa-form"
 				method="post"
 				use:enhance={({ formData, cancel }) => {
-					console.debug('postou:', formData);
 					let res;
 					try {
 						res = onSubmit(formData);
@@ -197,12 +196,7 @@
 						cancel();
 					}
 
-					console.debug(JSON.parse(formData.get('etapas')));
-					// formData.delete('media_simples');
-					// formData.set('tags', JSON.stringify(tagsColors));
-
 					return async ({ result, update }) => {
-						console.debug('post result:', result);
 						await update();
 					};
 				}}

@@ -1,5 +1,6 @@
 <script>
-	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 
 	export let entrega;
 	export let onClick;
@@ -15,17 +16,22 @@
 	});
 
 	let corCard;
-	console.debug(entrega.avaliada);
-	if (entrega.avaliada) {
-		corCard = 'green';
-	} else {
-		corCard = '#0b2a71';
-	}
+
+	onMount(() => {
+		if (entrega.avaliada) {
+			corCard = 'green';
+		} else {
+			corCard = '#0b2a71';
+		}
+	});
 </script>
 
 {#if entrega.data_entrega}
 	<div class="card" style="background-color: {corCard}">
 		<p class="nome">{entrega.nome}</p>
+		{#if entrega.avaliada}
+			<p class="status">(corrigida)</p>
+		{/if}
 		<p class="data">{formatter.format(entrega.data_entrega)}</p>
 		<button on:click={onClick} class="botao">Visualizar</button>
 	</div>

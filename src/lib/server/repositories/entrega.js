@@ -20,36 +20,27 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 
 		const res = await dbConn.query(query)
 
-		console.debug("entries", res.rows)
-		res.rows.forEach(async (entrega, index) => {
-			const query_avaliacao = {
-				text: `	SELECT 
-							ra.*
-						FROM 
-							${DB_INFO.tables.realizar_avaliacao} ra,
-							${DB_INFO.tables.entrega} ent
-						WHERE 
-							ra.id_entrega = ent.id
-							AND ent.id = $1;`,
-				values: [entrega.id]
-			}
+		const rowsComAvaliacao = await Promise.all(
+			res.rows.map(async (entrega) => {
+				const query_avaliacao = {
+					text: `SELECT 
+								ra.*
+							FROM 
+								${DB_INFO.tables.realizar_avaliacao} ra
+							WHERE 
+								ra.id_entrega = $1;`,
+					values: [entrega.id]
+				};
 
-			const avaliacao = await dbConn.query(query_avaliacao)
-			if (avaliacao.rows.length > 0) {
-				res.rows[index]['avaliada'] = true
-			} else {
-				res.rows[index]['avaliada'] = false
-			}
-			console.debug(index)
-			console.debug(res.rows[index])
-		})
-		// for (const [entrega, index] of res.rows) {
-		// console.debug("AVALIACAO RES", avaliacao)
-		// console.debug("ENTREGA BD", entrega, index)
+				const avaliacao = await dbConn.query(query_avaliacao);
+				return {
+					...entrega,
+					avaliada: avaliacao.rows.length > 0
+				};
+			})
+		);
 
-		// }
-
-		return res
+		return { rows: rowsComAvaliacao };
 	} catch (e) {
 		throw (`Erro ao listar entregas por por id do item atividade (${idItemAtividade}): ${e}`)
 	}
