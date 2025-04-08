@@ -9,20 +9,22 @@
 
 	export let data;
 	let previousPage;
+	let voltarPara;
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
+
+	$: voltarPara = $page.data.voltarPara;
 
 	onMount(() => {
 		console.log('onMount() $page.url.pathname:', $page.url.pathname);
 	});
 
-	afterNavigate(({ from }) => {
-		previousPage = from?.url.pathname || previousPage;
-	});
-
 	function onBack() {
-		console.log('onBack() previousPage:', previousPage);
-		if (previousPage) {
-			goto(previousPage);
+		if (voltarPara) {
+			goto(voltarPara);
+		} else {
+			const partes = $page.url.pathname.split('/');
+			partes.pop();
+			goto(partes.join('/'));
 		}
 	}
 </script>
