@@ -12,15 +12,21 @@
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
 	import { onMount } from 'svelte';
 	import { Toaster, toast } from 'svelte-sonner';
-	import InputNumber from '$lib/components/InputNumber.svelte';
-
-	// export let data;
 
 	let novoCriterioTitulo = '';
 	let novoCriterioNota = '';
 	let novoCriterioDescricao = '';
 	let oldCriterioNota = '';
 	let erroNotaCriterio = false;
+
+	function showISOAsGMT4(isoUTC) {
+		const offsetMinutes = -4 * 60; // GMT-4
+		const utcDate = new Date(isoUTC);
+		const localDate = new Date(utcDate.getTime() + offsetMinutes * 60000);
+		const datetimeLocal = localDate.toISOString().slice(0, 16);
+
+		return datetimeLocal;
+	}
 
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
@@ -33,8 +39,7 @@
 	];
 
 	let dateNow = new Date();
-	let dateNowString = dateNow.toISOString();
-	let dateNowFormated = dateNowString.slice(0, dateNowString.indexOf(':', 16));
+	let dateNowFormated = showISOAsGMT4(dateNow);
 
 	let etapas = [
 		{
@@ -229,6 +234,7 @@
 								borded
 								bind:value={etapas[$selectedEtapa].dtEntregaMin}
 								name="dtEntregaMin"
+								min={etapas[$selectedEtapa].dtEntregaMin}
 							/>
 						</div>
 						<div class="row">
@@ -237,6 +243,7 @@
 								borded
 								bind:value={etapas[$selectedEtapa].dtEntregaMax}
 								name="dtEntregaMax"
+								min={etapas[$selectedEtapa].dtEntregaMin}
 							/>
 						</div>
 						<div class="row">

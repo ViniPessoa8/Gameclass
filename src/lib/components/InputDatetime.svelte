@@ -15,6 +15,7 @@
 			bind:value
 			on:change={inputHandler}
 			{name}
+			{...$$restProps}
 		/>
 	</div>
 {:else}
@@ -25,6 +26,7 @@
 		bind:value
 		on:change={inputHandler}
 		{name}
+		{...$$restProps}
 	/>
 {/if}
 
