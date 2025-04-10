@@ -1,5 +1,7 @@
 <script>
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { Toaster, toast } from 'svelte-sonner';
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import AtividadeTurma from '$lib/components/AtividadeTurma.svelte';
 	import ButtonRedirect from '$lib/components/ButtonRedirect.svelte';
@@ -12,8 +14,19 @@
 	$: atividades = data.atividades;
 	$: id = $page.params.id;
 	$: url = `/${data.perfil}/turmas/${id}/atividades/create`;
+
+	onMount(async () => {
+		if (data.toast === 'atividade_criada') {
+			toast.success('Atividade criada com sucesso');
+		}
+
+		if (data.toast === 'etapas_criadas') {
+			toast.success('Etapa(s) definida(s) com sucesso.');
+		}
+	});
 </script>
 
+<Toaster richColors position="top-center" closeButton />
 <TurmaTabBar />
 <div class="content-turma">
 	<h1>Atividades</h1>

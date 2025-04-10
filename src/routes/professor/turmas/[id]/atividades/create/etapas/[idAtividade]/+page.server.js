@@ -66,7 +66,10 @@ export let actions = {
 				}
 			}
 
-			cookies.set("toast", 'etapas_criadas', { path: "/" })
+			if (!cookies.get("toast") == "atividade_criada") {
+				cookies.set("toast", 'etapas_criadas', { path: "/" })
+			}
+
 			redirect(300, `/professor/turmas/${params.id}/atividades/`)
 
 		}
