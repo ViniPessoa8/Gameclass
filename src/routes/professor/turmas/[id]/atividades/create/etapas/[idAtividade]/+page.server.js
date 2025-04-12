@@ -66,7 +66,7 @@ export let actions = {
 				}
 			}
 
-			if (!cookies.get("toast") == "atividade_criada") {
+			if (cookies.get("toast") != "atividade_criada") {
 				cookies.set("toast", 'etapas_criadas', { path: "/" })
 			}
 
