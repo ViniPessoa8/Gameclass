@@ -106,7 +106,6 @@
 						id: etapas[etapas.length - 1].id + 1,
 						titulo: '',
 						dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
-						dtEntregaMax: '1999-12-06T16:20',
 						realizacaoGroup: 'Individual',
 						atribuicaoNotasGroup: 'Média Simples',
 						receberAposPrazo: true,
