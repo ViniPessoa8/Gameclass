@@ -3,9 +3,10 @@
 		alt,
 		text = '';
 	export let underline = false;
+	export let onClick;
 </script>
 
-<div class="tab">
+<button class="tab" on:click={onClick}>
 	<div class="tab-content">
 		<img src={icon} {alt} />
 		<h2>{text}</h2>
@@ -13,10 +14,14 @@
 	{#if underline}
 		<div class="underline perfil"></div>
 	{/if}
-</div>
+</button>
 
 <style>
 	.tab {
+		padding: 4px;
+		background: none;
+		border: none;
+		cursor: pointer;
 		display: flex;
 		flex-direction: column;
 		margin-left: 22px;

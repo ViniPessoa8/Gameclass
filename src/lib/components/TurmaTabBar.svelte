@@ -5,7 +5,7 @@
 	import icon_membros from '$lib/assets/icon_membros.png';
 	import TurmaTabBarItem from './TurmaTabBarItem.svelte';
 
-	export let underline_tab = 1;
+	export let selectedItem = 1;
 
 	const tabs = [
 		{
@@ -29,14 +29,31 @@
 			alt: 'Ícone de membros'
 		}
 	];
+
+	function onClick(index) {
+		console.debug('selecionou:', index);
+		// TODO: Redirecionar para a pagina selecionada
+		selectedItem = index;
+	}
 </script>
 
 <div class="tab-bar">
 	{#each tabs as tab, index}
-		{#if index === underline_tab}
-			<TurmaTabBarItem text={tab.text} icon={tab.icon} alt={tab.alt} underline="true" />
+		{#if index === selectedItem}
+			<TurmaTabBarItem
+				text={tab.text}
+				icon={tab.icon}
+				alt={tab.alt}
+				underline="true"
+				onClick={() => onClick(index)}
+			/>
 		{:else}
-			<TurmaTabBarItem text={tab.text} icon={tab.icon} alt={tab.alt} />
+			<TurmaTabBarItem
+				text={tab.text}
+				icon={tab.icon}
+				alt={tab.alt}
+				onClick={() => onClick(index)}
+			/>
 		{/if}
 	{/each}
 </div>
