@@ -78,10 +78,14 @@
 		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
 			throw new Error('Nota total passa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos');
 
-		let dataInicial = etapas[$selectedEtapa].dtEntregaMin;
-		let dataFinal = etapas[$selectedEtapa].dtEntregaMax;
-		if (!isValidDate(dataInicial)) throw new Error('Data inicial inválida');
-		if (!isValidDate(dataFinal)) throw new Error('Data final inválida');
+		for (const etapa of etapas) {
+			let dataInicial = etapa.dtEntregaMin;
+			let dataFinal = etapa.dtEntregaMax;
+			let tituloEtapa = etapa.titulo;
+			if (!isValidDate(dataInicial))
+				throw new Error(`Data inicial inválida (Etapa "${tituloEtapa}")`);
+			if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa "${tituloEtapa}")`);
+		}
 
 		// TODO: Formatar dados para que envie todas as etapas ao mesmo tempo
 
