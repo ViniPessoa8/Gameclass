@@ -5,8 +5,7 @@
 	import icon_membros from '$lib/assets/icon_membros.png';
 	import TurmaTabBarItem from './TurmaTabBarItem.svelte';
 	import { goto } from '$app/navigation';
-
-	export let selectedItem = 1;
+	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
 	const tabs = [
 		{
@@ -39,16 +38,15 @@
 		console.debug('selecionou:', index);
 		// TODO: Redirecionar para a pagina selecionada
 
-		console.debug('tabs[selectedItem]', tabs[selectedItem].text);
 		// goto(tabs[selectedItem]);
-		selectedItem = index;
-		goto(tabs[selectedItem].page);
+		$selectedTurmaTabBar = index;
+		goto(tabs[$selectedTurmaTabBar].page);
 	}
 </script>
 
 <div class="tab-bar">
 	{#each tabs as tab, index}
-		{#if index === selectedItem}
+		{#if index === $selectedTurmaTabBar}
 			<TurmaTabBarItem
 				text={tab.text}
 				icon={tab.icon}

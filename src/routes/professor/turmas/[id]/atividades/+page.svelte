@@ -5,6 +5,7 @@
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import AtividadeTurma from '$lib/components/AtividadeTurma.svelte';
 	import ButtonRedirect from '$lib/components/ButtonRedirect.svelte';
+	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
 	export let data;
 	let atividades;
@@ -14,6 +15,8 @@
 	$: atividades = data.atividades;
 	$: id = $page.params.id;
 	$: url = `/${data.perfil}/turmas/${id}/atividades/create`;
+
+	$selectedTurmaTabBar = 1;
 
 	onMount(async () => {
 		if (data.toast === 'atividade_criada') {
