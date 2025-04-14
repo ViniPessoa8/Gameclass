@@ -4,6 +4,7 @@
 	import icon_pontuacao from '$lib/assets/icon_pontuacao.png';
 	import icon_membros from '$lib/assets/icon_membros.png';
 	import TurmaTabBarItem from './TurmaTabBarItem.svelte';
+	import { goto } from '$app/navigation';
 
 	export let selectedItem = 1;
 
@@ -11,29 +12,37 @@
 		{
 			text: 'Mural da Turma',
 			icon: icon_mural_da_turma,
-			alt: 'Ícone do mural da turma'
+			alt: 'Ícone do mural da turma',
+			page: 'mural'
 		},
 		{
 			text: 'Atividades',
 			icon: icon_atividades,
-			alt: 'Ícone de atividades'
+			alt: 'Ícone de atividades',
+			page: 'atividades'
 		},
 		{
 			text: 'Pontuação',
 			icon: icon_pontuacao,
-			alt: 'Ícone de potuação'
+			alt: 'Ícone de Potuação',
+			page: 'pontuacao'
 		},
 		{
 			text: 'Membros',
 			icon: icon_membros,
-			alt: 'Ícone de membros'
+			alt: 'Ícone de membros',
+			page: 'membros'
 		}
 	];
 
 	function onClick(index) {
 		console.debug('selecionou:', index);
 		// TODO: Redirecionar para a pagina selecionada
+
+		console.debug('tabs[selectedItem]', tabs[selectedItem].text);
+		// goto(tabs[selectedItem]);
 		selectedItem = index;
+		goto(tabs[selectedItem].page);
 	}
 </script>
 
