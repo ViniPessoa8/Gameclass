@@ -5,10 +5,11 @@
 	export let name;
 	export let width;
 	export let borded = false;
+	export let backgroundColor = 'var(--cor-primaria)';
 </script>
 
 {#if borded}
-	<div class="board" style="width: {width};">
+	<div class="board" style="width: {width}; background-color: {backgroundColor}">
 		<input
 			class="borded"
 			type="text"
@@ -16,19 +17,23 @@
 			{placeholder}
 			bind:value
 			on:input={inputHandler}
-			style="width: {width};"
+			style="width: {width};background-color: {backgroundColor}"
+			{...$$restProps}
 		/>
 	</div>
 {:else}
-	<input
-		class="unborded"
-		type="text"
-		{name}
-		{placeholder}
-		bind:value
-		on:input={inputHandler}
-		style="width: {width};"
-	/>
+	<div class="unboard" style="width: {width}; ">
+		<input
+			class="unborded"
+			type="text"
+			{name}
+			{placeholder}
+			bind:value
+			on:input={inputHandler}
+			style="width: {width};"
+			{...$$restProps}
+		/>
+	</div>
 {/if}
 
 <style>
@@ -43,14 +48,12 @@
 
 	.board {
 		width: 100%;
-		background-color: var(--cor-primaria);
 		padding: 14px;
 		border-radius: 12px;
 	}
 
 	.borded {
 		border-color: #cfd2d5;
-		background-color: var(--cor-primaria);
 	}
 
 	.borded:focus {
