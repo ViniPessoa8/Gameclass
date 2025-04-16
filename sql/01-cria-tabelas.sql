@@ -113,12 +113,22 @@ CREATE TABLE grupo_de_alunos (
 	PRIMARY KEY ("id")
 );
 
+CREATE TABLE anexo (
+	"id" BIGSERIAL UNIQUE,
+	"titulo" VARCHAR(255) NOT NULL,
+	"conteudo_texto" TEXT, -- Coluna para armazenar arquivos de texto
+	"conteudo_binario" BYTEA, -- Coluna para armazenar arquivos binários
+	"data_upload" TIMESTAMP NOT NULL DEFAULT NOW(),
+	PRIMARY KEY ("id")
+);
+
 CREATE TABLE entrega (
 	"id" BIGSERIAL UNIQUE,
 	"data_entrega" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_grupo_de_alunos" BIGINT REFERENCES grupo_de_alunos(id) NULL,
 	"id_estudante" BIGINT REFERENCES estudante(id) NULL,
 	"id_item_atividade" BIGSERIAL REFERENCES item_atividade(id),
+	"id_anexo" BIGINT REFERENCES anexo(id) NULL,
 	PRIMARY KEY ("id")
 );
 
@@ -144,28 +154,13 @@ CREATE TABLE integrante_grupo_de_alunos (
 	PRIMARY KEY ("id")
 );
 
-
 CREATE TABLE publicacao_mural (
 	"id" BIGSERIAL UNIQUE,
 	"conteudo" VARCHAR(255) NOT NULL,
 	"data_publicacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_turma" BIGSERIAL REFERENCES turma(id) NOT NULL,
 	"id_usuario" BIGSERIAL REFERENCES usuario(id) NOT NULL,
-	PRIMARY KEY ("id")
-);
-
-CREATE TABLE anexo (
-	"id" BIGSERIAL UNIQUE,
-	"titulo" VARCHAR(255) NOT NULL,
-	"conteudo_texto" TEXT, -- Coluna para armazenar arquivos de texto
-	"conteudo_binario" BYTEA, -- Coluna para armazenar arquivos binários
-	"data_upload" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"id_entrega" INT REFERENCES entrega(id),
-	"id_publicacao_mural" INT REFERENCES publicacao_mural(id),
-	CHECK (
-        id_entrega IS NOT NULL 
-        OR id_publicacao_mural IS NOT NULL 
-    ),
+	"id_anexo" BIGINT REFERENCES anexo(id) NULL,
 	PRIMARY KEY ("id")
 );
 
