@@ -4,6 +4,7 @@
 	export let inputHandler;
 	export let name;
 	export let width;
+	export let fontSize;
 	export let borded = false;
 	export let backgroundColor = 'var(--cor-primaria)';
 </script>
@@ -17,7 +18,7 @@
 			{placeholder}
 			bind:value
 			on:input={inputHandler}
-			style="width: {width};background-color: {backgroundColor}"
+			style="width: {width};background-color: {backgroundColor}; font-size:{fontSize}"
 			{...$$restProps}
 		/>
 	</div>
@@ -30,7 +31,7 @@
 			{placeholder}
 			bind:value
 			on:input={inputHandler}
-			style="width: {width};"
+			style="width: {width}; font-size:{fontSize}"
 			{...$$restProps}
 		/>
 	</div>

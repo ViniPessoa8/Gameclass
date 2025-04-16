@@ -7,6 +7,7 @@
 		borded = false,
 		width,
 		height,
+		fontSize,
 		placeholder = '';
 
 	if (borded) {
@@ -33,6 +34,7 @@
 			heigth: {height};
 			color: {textColor};
 			background-color: {backgroundColor};
+			font-size:{fontSize}
 		"
 	/>
 </div>
