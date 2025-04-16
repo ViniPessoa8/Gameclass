@@ -14,11 +14,33 @@
 	const nomeUsuario = data.nomeUsuario;
 	const corUsuario = data.corUsuario;
 
+	const dateOptions = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		timezone: 'America/Manaus'
+	};
+
+	const dataAtual = new Date();
+	const dataPublicacaoTeste = new Date();
+	const dataComentarioPublicacaoTeste = new Date();
+
+	dataPublicacaoTeste.setDate(dataAtual.getDate() - 5);
+	dataComentarioPublicacaoTeste.setDate(dataAtual.getDate() - 2);
 	const publicacoes = [
 		{
 			autor: 'Roberto Guedes',
 			conteudo: 'Alguém sem grupo?',
-			data: new Date()
+			data: dataPublicacaoTeste.toLocaleString('pt-BR', dateOptions),
+			comentarios: [
+				{
+					autor: 'Santa Monica',
+					conteudo: 'Eu! :3',
+					data: dataComentarioPublicacaoTeste.toLocaleString('pt-BR', dateOptions)
+				}
+			]
 		}
 	];
 
@@ -34,7 +56,12 @@
 			<CircularIcon size="80" backgroundColor="red" />
 		</div>
 		<div class="input-content">
-			<InputTextArea borded width="600px" />
+			<InputTextArea
+				placeholder="Escreva uma publicação para a sua turma..."
+				borded
+				fontSize="20px"
+				width="600px"
+			/>
 			<div class="btn">
 				<Button>Publicar</Button>
 			</div>
@@ -45,14 +72,34 @@
 			<div class="publicacao-container">
 				<div class="publicacao-icon">
 					<CircularIcon backgroundColor="yellow" />
-					<p>{publicacao.autor}</p>
 				</div>
 
 				<div class="publicacao-content">
-					<p class="data-publicacao">{publicacao.data}</p>
+					<div class="row">
+						<p><b>{publicacao.autor}<b></b></b></p>
+						<p class="data-publicacao">{publicacao.data}</p>
+					</div>
 					<p class="conteudo-publicacao">{publicacao.conteudo}</p>
+					<details class="comentario-details">
+						<summary>Comentários ({publicacao.comentarios.length})</summary>
+						{#each publicacao.comentarios as comentario}
+							<div class="comentario-container">
+								<div class="comentario-icon">
+									<CircularIcon size="40" backgroundColor="yellow" />
+								</div>
+
+								<div class="comentario-content">
+									<div class="row">
+										<p><b>{comentario.autor}<b></b></b></p>
+										<p class="data-comentario">{comentario.data}</p>
+									</div>
+									<p class="conteudo-comentario">{comentario.conteudo}</p>
+								</div>
+							</div>
+						{/each}
+					</details>
 					<div class="input-comentario">
-						<InputText borded backgroundColor="var(--cor-secundaria)" />
+						<InputText fontSize="18px" borded backgroundColor="var(--cor-secundaria)" />
 						<Button>Comentar</Button>
 					</div>
 					<div class="anexos"></div>
@@ -99,7 +146,8 @@
 		width: 100%;
 	}
 
-	.publicacao-container {
+	.publicacao-container,
+	.comentario-container {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
@@ -108,32 +156,41 @@
 		padding: 12px 12px 12px 0px;
 	}
 
-	.publicacao-icon {
+	.publicacao-icon,
+	.comentario-icon {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 		text-align: center;
 		padding: 12px;
 	}
 
-	.publicacao-icon p {
-		padding-top: 4px;
+	.comentario-icon {
+		padding: 4px 8px;
 	}
 
-	.publicacao-content {
+	.publicacao-content,
+	.comentario-content {
 		width: 100%;
 	}
 
-	.data-publicacao {
-		font-size: 14px;
+	.data-publicacao,
+	.data-comentario {
+		font-size: 16px;
 		color: var(--cor-secundaria);
 	}
 
-	.conteudo-publicacao {
+	.conteudo-publicacao,
+	.conteudo-comentario {
 		width: 100%;
 		padding-top: 4px;
 		min-height: 80px;
+		font-size: 18px;
+	}
+
+	.conteudo-comentario {
+		min-height: 0px;
 	}
 
 	.input-comentario {
@@ -142,5 +199,15 @@
 		align-items: center;
 		justify-content: end;
 		gap: 8px;
+	}
+
+	.comentario-details {
+		padding: 8px 4px;
+	}
+
+	.row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 </style>
