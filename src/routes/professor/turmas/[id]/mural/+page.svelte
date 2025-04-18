@@ -169,7 +169,7 @@
 		align-items: center;
 		justify-content: start;
 		text-align: center;
-		padding: 12px;
+		padding: 0px 12px 12px 12px;
 	}
 
 	.comentario-icon {
@@ -211,6 +211,10 @@
 		padding: 8px 4px;
 	}
 
+	.comentario-details summary {
+		color: darkgrey;
+		cursor: pointer;
+	}
 	.row {
 		display: flex;
 		flex-direction: row;
