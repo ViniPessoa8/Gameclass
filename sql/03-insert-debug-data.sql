@@ -67,18 +67,19 @@ VALUES
 ('2024-03-04 09:00:00', NULL, 9, 1, null),
 ('2024-03-05 16:20:00', NULL, 10, 1, null);
 
+INSERT INTO publicacao_mural ("id", "conteudo", "data_publicacao", "id_turma", "id_usuario", "id_anexo") 
+VALUES 
+(1, 'Alguém sem grupo pro trabalho?', (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00',1, 5, null),
+(2, 'Sem aula hoje, turma', (CURRENT_DATE - INTERVAL '10 days') + TIME '23:30:00', 1, 1, null);
+
 INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "tipo", "id_publicacao_mural", "data_criacao") 
 VALUES 
 ('Prof, meu cachorro comeu meu dever', 3, 6, 1, null, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00'),
 ('te vira', 3, 1, 1, null, (CURRENT_DATE - INTERVAL '4 days') + TIME '08:00:00'),
-('Prof, meu cachorro comeu meu dever', 3, 6, 1, null, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00');
+('eu :)', null, 6, 2, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00');
 
 INSERT INTO criterio ("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") 
 VALUES 
 ('Critério 1', 'Descrição do critério 1', 5, 1, 1),
 ('Critério 2', 'Descrição do critério 2', 5, 1, 1);
 
-INSERT INTO publicacao_mural ("id", "conteudo", "data_publicacao", "id_turma", "id_usuario", "id_anexo") 
-VALUES 
-(1, 'Alguém sem grupo pro trabalho?', (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00',1, 5, null),
-(2, 'Sem aula hoje, turma', (CURRENT_DATE - INTERVAL '10 days') + TIME '23:30:00', 1, 1, null)
