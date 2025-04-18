@@ -1,6 +1,7 @@
 <script>
 	export let type = '';
 	export let width = '';
+	export let height = '';
 	export let color = '';
 	export let backgroundColor = '';
 	export let marginTop = '';
@@ -10,7 +11,7 @@
 <button
 	{type}
 	class="button"
-	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}; width: {width}"
+	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}; width: {width}; height: {height}"
 	on:click
 	{...$$restProps}
 >
