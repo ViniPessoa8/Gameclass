@@ -44,7 +44,7 @@
 	<h1>Mural de publicações</h1>
 	<div class="input-publicacao-container">
 		<div class="input-icon">
-			<CircularIcon size="80" backgroundColor="red" />
+			<CircularTextIcon size="70" backgroundColor="#{data.cor}">{data.nome[0]}</CircularTextIcon>
 		</div>
 		<div class="input-content">
 			<InputTextArea
