@@ -7,10 +7,11 @@
 	export let fontSize;
 	export let borded = false;
 	export let backgroundColor = 'var(--cor-primaria)';
+	export let padding = '14px';
 </script>
 
 {#if borded}
-	<div class="board" style="width: {width}; background-color: {backgroundColor}">
+	<div class="board" style="width: {width}; background-color: {backgroundColor}; padding:{padding}">
 		<input
 			class="borded"
 			type="text"
@@ -49,7 +50,6 @@
 
 	.board {
 		width: 100%;
-		padding: 14px;
 		border-radius: 12px;
 	}
 
