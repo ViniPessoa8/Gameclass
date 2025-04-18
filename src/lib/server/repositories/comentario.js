@@ -24,6 +24,29 @@ export async function listaComentariosPorIdEntregaBD(idEntrega) {
 	}
 }
 
+export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
+	const query = {
+		text: `	SELECT 
+					c.*, u.nome, u.cor
+ 				FROM 
+					${DB_INFO.tables.mural} m,
+					${DB_INFO.tables.comentario} c,
+					${DB_INFO.tables.usuario} u
+				WHERE 
+					m.id = $1
+					AND c.id_publicacao_mural = m.id
+					AND c.id_usuario = u.id;`,
+		values: [parseInt(idPublicacao)]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao listar comentarios por id da publicação no mural (${idPublicacao}): ${e}`)
+	}
+}
+
 export async function comentarBD(idUsuario, idEntrega, texto, data, tipo) {
 	const query = {
 		text: `	INSERT INTO  

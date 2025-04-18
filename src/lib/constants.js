@@ -29,7 +29,8 @@ export const DB_INFO = {
 		comentario: "comentario",
 		anexo: "anexo",
 		realizar_avaliacao: "realizar_avaliacao",
-		avaliacao_criterio: "avaliacao_criterio"
+		avaliacao_criterio: "avaliacao_criterio",
+		mural: "publicacao_mural"
 	}
 }
 

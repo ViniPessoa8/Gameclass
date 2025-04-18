@@ -6,13 +6,16 @@
 	import InputTextArea from '$lib/components/InputTextArea.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
+	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Page from '../atividades/+page.svelte';
+	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
 	export let data;
 
-	const nomeUsuario = data.nomeUsuario;
-	const corUsuario = data.corUsuario;
+	if (!$selectedTurmaTabBar) {
+		$selectedTurmaTabBar = 0;
+	}
 
 	const dateOptions = {
 		day: '2-digit',
@@ -29,20 +32,8 @@
 
 	dataPublicacaoTeste.setDate(dataAtual.getDate() - 5);
 	dataComentarioPublicacaoTeste.setDate(dataAtual.getDate() - 2);
-	const publicacoes = [
-		{
-			autor: 'Roberto Guedes',
-			conteudo: 'Alguém sem grupo?',
-			data: dataPublicacaoTeste.toLocaleString('pt-BR', dateOptions),
-			comentarios: [
-				{
-					autor: 'Santa Monica',
-					conteudo: 'Eu! :3',
-					data: dataComentarioPublicacaoTeste.toLocaleString('pt-BR', dateOptions)
-				}
-			]
-		}
-	];
+
+	const publicacoes = data.publicacoes;
 
 	onMount(async () => {});
 </script>
@@ -71,13 +62,17 @@
 		{#each publicacoes as publicacao}
 			<div class="publicacao-container">
 				<div class="publicacao-icon">
-					<CircularIcon backgroundColor="yellow" />
+					<CircularTextIcon backgroundColor="#{publicacao.cor_autor}"
+						>{publicacao.autor[0]}</CircularTextIcon
+					>
 				</div>
 
 				<div class="publicacao-content">
 					<div class="row">
 						<p><b>{publicacao.autor}<b></b></b></p>
-						<p class="data-publicacao">{publicacao.data}</p>
+						<p class="data-publicacao">
+							{publicacao.data_publicacao.toLocaleString('pt-BR', dateOptions)}
+						</p>
 					</div>
 					<p class="conteudo-publicacao">{publicacao.conteudo}</p>
 					<details class="comentario-details">
@@ -85,22 +80,29 @@
 						{#each publicacao.comentarios as comentario}
 							<div class="comentario-container">
 								<div class="comentario-icon">
-									<CircularIcon size="40" backgroundColor="yellow" />
+									<CircularIcon size="40" backgroundColor="#{comentario.cor}" />
 								</div>
 
 								<div class="comentario-content">
 									<div class="row">
-										<p><b>{comentario.autor}<b></b></b></p>
-										<p class="data-comentario">{comentario.data}</p>
+										<p><b>{comentario.nome}<b></b></b></p>
+										<p class="data-comentario">
+											{comentario.data_criacao.toLocaleString('pt-BR', dateOptions)}
+										</p>
 									</div>
-									<p class="conteudo-comentario">{comentario.conteudo}</p>
+									<p class="conteudo-comentario">{comentario.texto}</p>
 								</div>
 							</div>
 						{/each}
 					</details>
 					<div class="input-comentario">
-						<InputText fontSize="18px" borded backgroundColor="var(--cor-secundaria)" />
-						<Button>Comentar</Button>
+						<InputText
+							fontSize="18px"
+							borded
+							backgroundColor="var(--cor-secundaria)"
+							padding="8px"
+						/>
+						<Button height="40px" fontSize="18px">Comentar</Button>
 					</div>
 					<div class="anexos"></div>
 				</div>
@@ -142,8 +144,12 @@
 	}
 
 	.publicacoes-container {
+		margin-top: 48px;
+		display: flex;
+		flex-direction: column;
 		color: white;
 		width: 100%;
+		gap: 24px;
 	}
 
 	.publicacao-container,
@@ -185,7 +191,7 @@
 	.conteudo-comentario {
 		width: 100%;
 		padding-top: 4px;
-		min-height: 80px;
+		min-height: 40px;
 		font-size: 18px;
 	}
 

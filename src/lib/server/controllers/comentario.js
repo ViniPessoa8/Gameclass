@@ -1,8 +1,13 @@
 
-import { listaComentariosPorIdEntregaBD, comentarBD } from "../repositories/comentario"
+import { listaComentariosPorIdEntregaBD, comentarBD, listaComentariosPorIdPublicacaoMuralBD } from "../repositories/comentario"
 
 export async function listaComentariosPorIdEntrega(idEntrega) {
 	let res = await listaComentariosPorIdEntregaBD(idEntrega)
+	return res.rows
+}
+
+export async function listaComentariosPorIdPublicacaoMural(idPublicacao) {
+	let res = await listaComentariosPorIdPublicacaoMuralBD(idPublicacao)
 	return res.rows
 }
 
