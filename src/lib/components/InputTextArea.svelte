@@ -30,7 +30,7 @@
 		bind:value
 		on:input={inputHandler}
 		style="
-			width: {width};
+			width: 100%;
 			heigth: {height};
 			color: {textColor};
 			background-color: {backgroundColor};
@@ -45,7 +45,6 @@
 		font-family: var(--font);
 		font-size: 24px;
 		height: 100%;
-		max-width: 400px;
 		max-height: 100px;
 		resize: none;
 	}
