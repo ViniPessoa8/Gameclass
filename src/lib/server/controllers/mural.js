@@ -1,6 +1,11 @@
-import { getPublicacoesByIdTurmaBD } from "../repositories/mural"
+import { criaPublicacaoBD, getPublicacoesByIdTurmaBD } from "../repositories/mural"
 
-export async function getPublicacoesByIdTurma(id_turma) {
-	let res = await getPublicacoesByIdTurmaBD(id_turma)
+export async function getPublicacoesByIdTurma(idTurma) {
+	let res = await getPublicacoesByIdTurmaBD(idTurma)
+	return res.rows
+}
+
+export async function criaPublicacao(idTurma, idUsuario, textoPublicacao) {
+	let res = await criaPublicacaoBD(idTurma, idUsuario, textoPublicacao)
 	return res.rows
 }

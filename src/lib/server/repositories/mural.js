@@ -11,6 +11,8 @@ export async function getPublicacoesByIdTurmaBD(idTurma) {
 				WHERE 
 					id_turma = $1
 					AND m.id_usuario = u.id
+				ORDER BY
+					m.data_publicacao DESC
 				`,
 		values: [idTurma]
 	}
@@ -26,3 +28,24 @@ export async function getPublicacoesByIdTurmaBD(idTurma) {
 	}
 }
 
+export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao) {
+	const query = {
+		text: `	INSERT INTO
+ 					${DB_INFO.tables.mural}(id_turma, id_usuario, conteudo, data_publicacao)
+				VALUES(
+					$1, $2, $3, NOW()
+				)
+				`,
+		values: [idTurma, idUsuario, textoPublicacao]
+	}
+
+	try {
+		const res = await dbConn.query(query)
+		if (!res) {
+			throw (`Não foi possível criar publicação na turma`)
+		}
+		return res
+	} catch (e) {
+		throw (`Erro ao criar publicação: ${e}`)
+	}
+}

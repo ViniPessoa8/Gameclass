@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
+	import { invalidate } from '$app/navigation';
 	import { Toaster, toast } from 'svelte-sonner';
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import InputTextArea from '$lib/components/InputTextArea.svelte';
@@ -11,7 +13,9 @@
 	import Page from '../atividades/+page.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
+	let textoPublicacao = '';
 	export let data;
+	// console.debug(data);
 
 	if (!$selectedTurmaTabBar) {
 		$selectedTurmaTabBar = 0;
@@ -26,6 +30,7 @@
 		timezone: 'America/Manaus'
 	};
 
+	$: publicacoes = data.publicacoes;
 	const dataAtual = new Date();
 	const dataPublicacaoTeste = new Date();
 	const dataComentarioPublicacaoTeste = new Date();
@@ -33,7 +38,16 @@
 	dataPublicacaoTeste.setDate(dataAtual.getDate() - 5);
 	dataComentarioPublicacaoTeste.setDate(dataAtual.getDate() - 2);
 
-	const publicacoes = data.publicacoes;
+	function onSubmit() {
+		console.debug('/mural onSubmit()');
+		console.debug('textoPublicacao: ', textoPublicacao);
+
+		if (!textoPublicacao || textoPublicacao == '') {
+			return false;
+		}
+
+		return true;
+	}
 
 	onMount(async () => {});
 </script>
@@ -42,22 +56,46 @@
 <TurmaTabBar />
 <div class="content-mural">
 	<h1>Mural de publicações</h1>
-	<div class="input-publicacao-container">
+	<form
+		class="input-publicacao-container"
+		method="post"
+		action="?/novaPublicacao"
+		use:enhance={({ cancel }) => {
+			if (onSubmit()) {
+				console.debug('passou');
+			} else {
+				cancel();
+			}
+
+			return async ({ result, update }) => {
+				console.debug('result:', result);
+				if (result.data) {
+					// await goto(location.pathname, { invalidateAll: true });
+					await invalidate();
+				}
+				await update();
+			};
+		}}
+	>
+		<!-- <div class="input-publicacao-container"> -->
 		<div class="input-icon">
 			<CircularTextIcon size="70" backgroundColor="#{data.cor}">{data.nome[0]}</CircularTextIcon>
 		</div>
 		<div class="input-content">
 			<InputTextArea
+				name="textoPublicacao"
 				placeholder="Escreva uma publicação para a sua turma..."
 				borded
 				fontSize="20px"
 				width="600px"
+				bind:value={textoPublicacao}
 			/>
 			<div class="btn">
-				<Button>Publicar</Button>
+				<Button type="submit">Publicar</Button>
 			</div>
 		</div>
-	</div>
+		<!-- </div> -->
+	</form>
 	<div class="publicacoes-container">
 		{#each publicacoes as publicacao}
 			<div class="publicacao-container">
@@ -102,7 +140,13 @@
 							backgroundColor="var(--cor-secundaria)"
 							padding="8px"
 						/>
-						<Button height="40px" fontSize="18px">Comentar</Button>
+						<Button
+							height="40px"
+							fontSize="18px"
+							onclick={() => {
+								adicionarPublicacao();
+							}}>Comentar</Button
+						>
 					</div>
 					<div class="anexos"></div>
 				</div>
