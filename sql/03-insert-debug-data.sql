@@ -72,11 +72,11 @@ VALUES
 INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") 
 VALUES ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 5, null);
 
-INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "tipo", "id_publicacao_mural", "data_criacao") 
+INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "id_publicacao_mural", "data_criacao") 
 VALUES 
-('Prof, meu cachorro comeu meu dever', 3, 6, 1, null, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00'),
-('te vira', 3, 1, 1, null, (CURRENT_DATE - INTERVAL '4 days') + TIME '08:00:00'),
-('eu :)', null, 6, 2, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00');
+('Prof, meu cachorro comeu meu dever', 3, 6, null, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00'),
+('te vira', 3, 1, null, (CURRENT_DATE - INTERVAL '4 days') + TIME '08:00:00'),
+('eu :)', null, 6, 2, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00');
 
 INSERT INTO criterio ("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") 
 VALUES 
