@@ -15,7 +15,6 @@
 
 	let textoPublicacao = '';
 	export let data;
-	// console.debug(data);
 
 	if (!$selectedTurmaTabBar) {
 		$selectedTurmaTabBar = 0;
@@ -38,17 +37,6 @@
 	dataPublicacaoTeste.setDate(dataAtual.getDate() - 5);
 	dataComentarioPublicacaoTeste.setDate(dataAtual.getDate() - 2);
 
-	function onSubmit() {
-		console.debug('/mural onSubmit()');
-		console.debug('textoPublicacao: ', textoPublicacao);
-
-		if (!textoPublicacao || textoPublicacao == '') {
-			return false;
-		}
-
-		return true;
-	}
-
 	onMount(async () => {});
 </script>
 
@@ -60,24 +48,15 @@
 		class="input-publicacao-container"
 		method="post"
 		action="?/novaPublicacao"
-		use:enhance={({ cancel }) => {
-			if (onSubmit()) {
-				console.debug('passou');
-			} else {
-				cancel();
-			}
-
+		use:enhance={() => {
 			return async ({ result, update }) => {
-				console.debug('result:', result);
 				if (result.data) {
-					// await goto(location.pathname, { invalidateAll: true });
 					await invalidate();
 				}
 				await update();
 			};
 		}}
 	>
-		<!-- <div class="input-publicacao-container"> -->
 		<div class="input-icon">
 			<CircularTextIcon size="70" backgroundColor="#{data.cor}">{data.nome[0]}</CircularTextIcon>
 		</div>
@@ -94,7 +73,6 @@
 				<Button type="submit">Publicar</Button>
 			</div>
 		</div>
-		<!-- </div> -->
 	</form>
 	<div class="publicacoes-container">
 		{#each publicacoes as publicacao}
@@ -133,21 +111,32 @@
 							</div>
 						{/each}
 					</details>
-					<div class="input-comentario">
+					<form
+						class="input-comentario"
+						method="post"
+						action="?/novoComentario"
+						use:enhance={() => {
+							return async ({ result, update }) => {
+								if (result.type == 'failure') {
+									toast.error(result.data);
+								} else if (result.data) {
+									await invalidate();
+									toast.success('Comentário criado com sucesso');
+								}
+								await update();
+							};
+						}}
+					>
+						<input type="hidden" name="idPublicacao" value={publicacao.id} />
 						<InputText
+							name="textoComentario"
 							fontSize="18px"
 							borded
 							backgroundColor="var(--cor-secundaria)"
 							padding="8px"
 						/>
-						<Button
-							height="40px"
-							fontSize="18px"
-							onclick={() => {
-								adicionarPublicacao();
-							}}>Comentar</Button
-						>
-					</div>
+						<Button type="submit" height="40px" fontSize="18px">Comentar</Button>
+					</form>
 					<div class="anexos"></div>
 				</div>
 			</div>

@@ -47,14 +47,25 @@ export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
 	}
 }
 
-export async function comentarBD(idUsuario, idEntrega, texto, data, tipo) {
+export async function comentarBD(idUsuario, idEntrega, idPublicacao, idItemAvaliacao, idAvaliacao, texto) {
+	if (idEntrega == null && idPublicacao == null && idItemAvaliacao == null && idAvaliacao == null) {
+		throw (`Comentário sem referência`)
+	}
+
 	const query = {
 		text: `	INSERT INTO  
-					${DB_INFO.tables.comentario}("id_usuario", "id_entrega", "texto", "data_criacao", "tipo")
+					${DB_INFO.tables.comentario}("id_usuario", "id_entrega", "id_publicacao_mural", "id_item_atividade", "id_realizar_avaliacao", "texto", "data_criacao")
 				VALUES
-					($1, $2, $3, $4, $5); `,
-		values: [parseInt(idUsuario), parseInt(idEntrega), texto, data, parseInt(tipo)]
+					($1, $2, $3, $4, $5, $6, NOW()); `,
+		values: [
+			parseInt(idUsuario),
+			idEntrega ? parseInt(idEntrega) : null,
+			idPublicacao ? parseInt(idPublicacao) : null,
+			idItemAvaliacao ? parseInt(idItemAvaliacao) : null,
+			idAvaliacao ? parseInt(idAvaliacao) : null,
+			texto]
 	}
+	console.debug("QUERY:", query)
 
 	try {
 		const res = await dbConn.query(query)
@@ -62,4 +73,5 @@ export async function comentarBD(idUsuario, idEntrega, texto, data, tipo) {
 	} catch (e) {
 		throw (`Erro ao criar comentario no banco de dados: ${e}`)
 	}
+
 }

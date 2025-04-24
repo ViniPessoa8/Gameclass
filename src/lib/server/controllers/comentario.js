@@ -11,6 +11,18 @@ export async function listaComentariosPorIdPublicacaoMural(idPublicacao) {
 	return res.rows
 }
 
-export async function comentar(idUsuario, idEntrega = null, textoComentario, dataCriacao, tipo) {
-	await comentarBD(idUsuario, idEntrega, textoComentario, dataCriacao, tipo)
+export async function comentarEntrega(idUsuario, idEntrega = null, textoComentario) {
+	await comentarBD(idUsuario, idEntrega, null, null, null, textoComentario)
+}
+
+export async function comentarPublicacao(idUsuario, idPublicacao = null, textoComentario) {
+	await comentarBD(idUsuario, null, idPublicacao, null, null, textoComentario)
+}
+
+export async function comentarItemAtividade(idUsuario, idItemAtividade = null, textoComentario) {
+	await comentarBD(idUsuario, null, null, idItemAtividade, null, textoComentario)
+}
+
+export async function comentarAvaliacao(idUsuario, idAvaliacao = null, textoComentario) {
+	await comentarBD(idUsuario, null, null, null, idAvaliacao, textoComentario)
 }
