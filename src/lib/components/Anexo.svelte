@@ -1,6 +1,10 @@
 <script>
 	export let arquivo = '';
 	export let nomeArquivo = '';
+	export let width = 'fit-content';
+	export let height = '48px';
+	export let textSize = '20px';
+	export let maxWidth = '400px';
 
 	let tipoDoArquivo = nomeArquivo.split('.').pop().toLowerCase(); // Extrai a extensão do arquivo
 
@@ -74,32 +78,32 @@
 	}
 </script>
 
-<button class="anexo-container" on:click={handleDownload}>
+<button
+	class="anexo-container"
+	on:click={handleDownload}
+	style="width: {width}; height: {height}; max-width: {maxWidth}"
+>
 	<p class="tipo">{tipoDoArquivo}</p>
-	<p class="nome">{nomeArquivo}</p>
+	<p class="nome" style="text-size: {textSize}">{nomeArquivo}</p>
 </button>
 
 <style scoped>
 	.anexo-container {
+		padding: 12px;
 		display: flex;
 		flex-direction: row;
-		width: 100%;
 		background-color: white;
 		align-items: center;
 		border-radius: 10px;
 		cursor: pointer;
 	}
 
-	.tipo {
-		padding: 14px 24px;
-	}
-
 	.nome {
 		align-self: center;
 		margin-left: 12px;
-		font-size: 20px;
 		text-wrap: nowrap;
 		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 </style>
-

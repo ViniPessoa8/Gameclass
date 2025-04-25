@@ -10,10 +10,12 @@
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Anexo from '$lib/components/Anexo.svelte';
 	import Page from '../atividades/+page.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
 	let textoPublicacao = '';
+	let arquivos = [];
 	export let data;
 
 	if (!$selectedTurmaTabBar) {
@@ -69,8 +71,27 @@
 				width="600px"
 				bind:value={textoPublicacao}
 			/>
-			<div class="btn">
-				<Button type="submit">Publicar</Button>
+			<div class="row">
+				<div class="input-anexos">
+					{#each arquivos as arquivo}
+						<Anexo arquivo nomeArquivo={arquivo.name} />
+					{/each}
+				</div>
+
+				<div class="btn anexo-container">
+					<label title="Anexar arquivo" for="inputFiles" class="btn-anexo">+</label>
+					<input
+						id="inputFiles"
+						bind:files={arquivos}
+						type="file"
+						accept="image/*"
+						style="display: none;"
+						multiple
+					/>
+				</div>
+				<div class="btn">
+					<Button type="submit">Publicar</Button>
+				</div>
 			</div>
 		</div>
 	</form>
@@ -144,7 +165,7 @@
 	</div>
 </div>
 
-<style>
+<style scoped>
 	.content-mural {
 		display: flex;
 		flex-direction: column;
@@ -166,9 +187,10 @@
 	}
 
 	.input-content {
-		padding: 12px;
 		display: flex;
 		flex-direction: column;
+		width: 100%;
+		padding: 12px;
 		align-items: end;
 	}
 
@@ -252,5 +274,31 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+	}
+
+	.btn {
+		display: flex;
+		align-items: center;
+		width: fit-content;
+	}
+
+	.btn-anexo {
+		border: none;
+		align-self: center;
+		font-family: var(--font);
+		font-weight: bold;
+		color: var(--cor-primaria);
+		background-color: var(--cor-secundaria);
+		border-radius: 15px;
+		padding: 10px 15px;
+		cursor: pointer;
+	}
+
+	.input-anexos {
+		max-width: 400px;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		padding: 12px;
 	}
 </style>
