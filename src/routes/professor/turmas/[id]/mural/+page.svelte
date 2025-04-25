@@ -50,6 +50,7 @@
 		class="input-publicacao-container"
 		method="post"
 		action="?/novaPublicacao"
+		enctype="multipart/form-data"
 		use:enhance={() => {
 			return async ({ result, update }) => {
 				if (result.data) {
@@ -82,9 +83,10 @@
 					<label title="Anexar arquivo" for="inputFiles" class="btn-anexo">+</label>
 					<input
 						id="inputFiles"
+						name="inputFiles"
 						bind:files={arquivos}
+						accept="image/*, .pdf, .doc, .docx, .py, .c, cpp, .js, .html, .css"
 						type="file"
-						accept="image/*"
 						style="display: none;"
 						multiple
 					/>
@@ -292,6 +294,9 @@
 		border-radius: 15px;
 		padding: 10px 15px;
 		cursor: pointer;
+	}
+
+	.anexo-container {
 	}
 
 	.input-anexos {

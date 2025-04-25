@@ -28,23 +28,43 @@ export async function getPublicacoesByIdTurmaBD(idTurma) {
 	}
 }
 
-export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao) {
-	const query = {
-		text: `	INSERT INTO
- 					${DB_INFO.tables.mural}(id_turma, id_usuario, conteudo, data_publicacao)
-				VALUES(
-					$1, $2, $3, NOW()
-				)
-				`,
-		values: [idTurma, idUsuario, textoPublicacao]
-	}
-
+export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao, anexosData) {
 	try {
-		const res = await dbConn.query(query)
-		if (!res) {
+		const query = {
+			text: `	INSERT INTO
+						${DB_INFO.tables.mural}(id_turma, id_usuario, conteudo, data_publicacao)
+					VALUES(
+						$1, $2, $3, NOW()
+					)
+					RETURNING
+						id
+					`,
+			values: [idTurma, idUsuario, textoPublicacao]
+		}
+
+		const resPubli = await dbConn.query(query)
+		if (!resPubli) {
 			throw (`Não foi possível criar publicação na turma`)
 		}
-		return res
+
+		for (const anexo of anexosData) {
+			const idPublicacao = resPubli.rows[0].id
+			const tipoConteudo = anexo.nome.includes(".txt") ? "conteudo_texto" : "conteudo_binario"
+			const query = {
+				text: `INSERT INTO 
+					${DB_INFO.tables.anexo} (titulo, ${tipoConteudo}, data_upload, id_entrega, id_publicacao_mural) 
+				VALUES (
+					$1, $2, NOW(), null, $3
+				);`,
+				values: [anexo.nome, anexo.conteudo, idPublicacao]
+			}
+
+			const resAnexo = await dbConn.query(query)
+			if (!resAnexo) {
+				throw (`Não foi possível salvar anexos da publicação`)
+			}
+		}
+
 	} catch (e) {
 		throw (`Erro ao criar publicação: ${e}`)
 	}
