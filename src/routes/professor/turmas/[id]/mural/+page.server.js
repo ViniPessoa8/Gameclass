@@ -14,7 +14,6 @@ export const actions = {
 
 		let idPublicacao;
 		idPublicacao = await criaPublicacao(idTurma, idUsuario, textPublicacao, anexos)
-		console.debug(idPublicacao)
 
 		cookies.set("toast", 'publicacao_criada', { path: "/" })
 		return true
@@ -34,8 +33,6 @@ export const actions = {
 			year: 'numeric'
 		});
 		const dataFormatada = formatter.format(dataAtual);
-
-		console.debug(idUsuario, idPublicacao, textoComentario, dataFormatada)
 
 		try {
 			await comentarPublicacao(idUsuario, idPublicacao, textoComentario, dataFormatada)

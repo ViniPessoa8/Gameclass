@@ -54,6 +54,7 @@
 		use:enhance={() => {
 			return async ({ result, update }) => {
 				if (result.data) {
+					arquivos = [];
 					await invalidate();
 				}
 				await update();
@@ -113,7 +114,14 @@
 							{publicacao.data_publicacao.toLocaleString('pt-BR', dateOptions)}
 						</p>
 					</div>
-					<p class="conteudo-publicacao">{publicacao.conteudo}</p>
+					<div class="row">
+						<p class="conteudo-publicacao">{publicacao.conteudo}</p>
+					</div>
+					<div class="input-anexos">
+						{#each publicacao.anexos as anexo}
+							<Anexo arquivo={anexo} nomeArquivo={anexo.titulo} />
+						{/each}
+					</div>
 					<details class="comentario-details">
 						<summary>Comentários ({publicacao.comentarios.length})</summary>
 						{#each publicacao.comentarios as comentario}

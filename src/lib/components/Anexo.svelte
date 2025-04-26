@@ -11,14 +11,14 @@
 	// Função para download de arquivos
 	function downloadFile(buffer, filename, mimeType) {
 		console.debug(`downloadFile(${buffer}, ${filename}, ${mimeType})`);
-		if (
-			!buffer ||
-			(!(typeof buffer === 'string') &&
-				!(buffer instanceof Uint8Array) &&
-				!(buffer instanceof ArrayBuffer))
-		) {
+		if (!buffer) {
 			console.error('Buffer inválido:', buffer);
 			return;
+		}
+
+		// Se for o objeto { type: "Buffer", data: [...] }
+		if (buffer.type === 'Buffer' && Array.isArray(buffer.data)) {
+			buffer = new Uint8Array(buffer.data);
 		}
 
 		// Se o buffer for um ArrayBuffer, converte para Uint8Array

@@ -30,6 +30,7 @@ export async function getPublicacoesByIdTurmaBD(idTurma) {
 
 export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao, anexosData) {
 	try {
+		await dbConn.query('BEGIN');
 		const query = {
 			text: `	INSERT INTO
 						${DB_INFO.tables.mural}(id_turma, id_usuario, conteudo, data_publicacao)
@@ -65,7 +66,10 @@ export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao, anex
 			}
 		}
 
+		await dbConn.query('COMMIT');
+
 	} catch (e) {
+		await dbConn.query('ROLLBACK');
 		throw (`Erro ao criar publicação: ${e}`)
 	}
 }
