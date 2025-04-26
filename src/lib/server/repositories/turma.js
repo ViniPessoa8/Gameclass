@@ -75,7 +75,7 @@ export async function getTurmaByIdBD(id) {
 export async function listAlunosByTurmaIdBD(idTurma) {
 	const query = {
 		text: `	SELECT 
-					e.*, u.*
+					e.*, u.*, et.pontos
  				FROM 
 					${DB_INFO.tables.turma} t,
 					${DB_INFO.tables.estudante_turma} et,
@@ -85,7 +85,11 @@ export async function listAlunosByTurmaIdBD(idTurma) {
 					t.id = $1
 					AND et.id_turma = t.id
 					AND e.id_usuario = u.id
-					AND et.id_estudante = e.id;`,
+					AND et.id_estudante = e.id
+				ORDER BY 
+					u.nome ASC
+;`,
+
 		values: [idTurma]
 	}
 
