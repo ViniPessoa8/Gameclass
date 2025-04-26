@@ -3,10 +3,14 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
+	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
 	export let data;
 
 	$: estudantes = data.estudantes;
+	if (!$selectedTurmaTabBar) {
+		$selectedTurmaTabBar = 3;
+	}
 
 	function abrePerfilDoUsuario(estudante) {
 		console.debug('Abre perfil de ', estudante.nome);
