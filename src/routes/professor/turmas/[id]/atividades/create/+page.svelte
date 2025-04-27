@@ -24,6 +24,18 @@
 	let tagsColors = {};
 	let tituloEmpty, descricaoEmpty, prazoEmpty;
 
+	function showISOAsGMT4(isoUTC) {
+		const offsetMinutes = -4 * 60; // GMT-4
+		const utcDate = new Date(isoUTC);
+		const localDate = new Date(utcDate.getTime() + offsetMinutes * 60000);
+		const datetimeLocal = localDate.toISOString().slice(0, 16);
+
+		return datetimeLocal;
+	}
+
+	let dateNow = new Date();
+	let dateNowFormated = showISOAsGMT4(dateNow);
+
 	function validaPrazo() {
 		let prazoDate = new Date(prazo).getTime();
 		let hoje = new Date().getTime();
@@ -186,6 +198,7 @@
 				borded="true"
 				bind:value={prazo}
 				inputHandler={prazoInputHandler}
+				min={dateNowFormated}
 			/>
 		</div>
 		{#if prazoEmpty}
