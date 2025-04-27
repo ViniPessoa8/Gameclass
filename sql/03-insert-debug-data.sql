@@ -67,7 +67,7 @@ ALTER SEQUENCE entrega_id_seq RESTART WITH 6;
 
 INSERT INTO publicacao_mural ("id", "conteudo", "data_publicacao", "id_turma", "id_usuario") 
 VALUES 
-(1, 'Alguém sem grupo pro trabalho?', (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00',1, 5),
+(1, 'Alguém sem grupo pro trabalho?', (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00',1, 4),
 (2, 'Sem aula hoje, turma', (CURRENT_DATE - INTERVAL '10 days') + TIME '23:30:00', 1, 1);
 ALTER SEQUENCE publicacao_mural_id_seq RESTART WITH 3;
 
@@ -79,7 +79,9 @@ INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "id_publicacao_mura
 VALUES 
 ('Prof, meu cachorro comeu meu dever', 3, 6, null, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00'),
 ('te vira', 3, 1, null, (CURRENT_DATE - INTERVAL '4 days') + TIME '08:00:00'),
-('eu :)', null, 6, 2, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:00:00');
+('eu :)', null, 6, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:10:00'),
+('eu também', null, 7, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:13:00'),
+('então fechou', null, 4, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:20:00');
 ALTER SEQUENCE comentario_id_seq RESTART WITH 4;
 
 INSERT INTO criterio ("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") 
