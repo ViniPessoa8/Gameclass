@@ -127,7 +127,9 @@
 						{#each publicacao.comentarios as comentario}
 							<div class="comentario-container">
 								<div class="comentario-icon">
-									<CircularIcon size="40" backgroundColor="#{comentario.cor}" />
+									<CircularTextIcon size="40" fontSize="25" backgroundColor="#{comentario.cor}">
+										{comentario.nome[0]}
+									</CircularTextIcon>
 								</div>
 
 								<div class="comentario-content">
