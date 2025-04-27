@@ -82,6 +82,7 @@
 	onMount(async () => {
 		await fetchComentarios(data.entrega.id);
 		await calculaStatusEntrega();
+		console.debug(data.entrega);
 	});
 </script>
 
@@ -125,10 +126,15 @@
 					{/if}
 					<p class="status-resposta" style="color:{corStatus}">({status})</p>
 				</div>
-				<!-- TODO: icone do tipo de arquivo -->
 				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
 					{#each data.entrega.anexos as arquivo}
-						<Anexo {arquivo} tipoDoArquivo={TIPO_ARQUIVO.PDF} nomeArquivo={arquivo.titulo} />
+						<Anexo
+							fontSize="20px"
+							width="100%"
+							{arquivo}
+							tipoDoArquivo={TIPO_ARQUIVO.PDF}
+							nomeArquivo={arquivo.titulo}
+						/>
 					{/each}
 				{/if}
 				{#if data.usuario.perfil == 'estudante'}

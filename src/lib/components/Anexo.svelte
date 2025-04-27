@@ -3,7 +3,7 @@
 	export let nomeArquivo = '';
 	export let width = 'fit-content';
 	export let height = '48px';
-	export let textSize = '20px';
+	export let fontSize = '20px';
 	export let maxWidth = '400px';
 
 	let tipoDoArquivo = nomeArquivo.split('.').pop().toLowerCase(); // Extrai a extensão do arquivo
@@ -84,7 +84,7 @@
 	style="width: {width}; height: {height}; max-width: {maxWidth}"
 >
 	<p class="tipo">{tipoDoArquivo}</p>
-	<p class="nome" style="text-size: {textSize}">{nomeArquivo}</p>
+	<p class="nome" style="font-size: {fontSize}">{nomeArquivo}</p>
 </button>
 
 <style scoped>

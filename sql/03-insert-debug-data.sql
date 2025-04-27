@@ -72,7 +72,7 @@ VALUES
 ALTER SEQUENCE publicacao_mural_id_seq RESTART WITH 3;
 
 INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") 
-VALUES ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 5, null);
+VALUES ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 4, null);
 ALTER SEQUENCE anexo_id_seq RESTART WITH 2;
 
 INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "id_publicacao_mural", "data_criacao") 
