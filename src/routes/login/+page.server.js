@@ -3,6 +3,13 @@ import { loginUser } from "$controllers/auth";
 import { getInstituicaoById } from "$controllers/instituicao";
 
 export function load({ cookies }) {
+	const session = cookies.get("session");
+	const perfil = cookies.get("perfil");
+
+	if (session) {
+		redirect(302, `/${perfil}/turmas`)
+	}
+
 	const message = cookies.get("toast");
 	if (message === 'cadastro') {
 		cookies.set("toast", "", { path: '/' });
