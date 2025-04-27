@@ -65,13 +65,12 @@ export let actions = {
 					fail(401, e.message)
 				}
 			}
-
-			if (cookies.get("toast") != "atividade_criada") {
-				cookies.set("toast", 'etapas_criadas', { path: "/" })
-			}
-
-			redirect(300, `/professor/turmas/${params.id}/atividades/`)
-
 		}
+
+		if (cookies.get("toast") != "atividade_criada") {
+			cookies.set("toast", 'etapas_criadas', { path: "/" })
+		}
+
+		redirect(300, `/professor/turmas/${params.id}/atividades/`)
 	}
 }
