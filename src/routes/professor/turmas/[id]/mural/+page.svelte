@@ -32,12 +32,6 @@
 	};
 
 	$: publicacoes = data.publicacoes;
-	const dataAtual = new Date();
-	const dataPublicacaoTeste = new Date();
-	const dataComentarioPublicacaoTeste = new Date();
-
-	dataPublicacaoTeste.setDate(dataAtual.getDate() - 5);
-	dataComentarioPublicacaoTeste.setDate(dataAtual.getDate() - 2);
 
 	onMount(async () => {});
 </script>
@@ -111,7 +105,7 @@
 					<div class="row">
 						<p><b>{publicacao.autor}<b></b></b></p>
 						<p class="data-publicacao">
-							{publicacao.data_publicacao.toLocaleString('pt-BR', dateOptions)}
+							{new Date(publicacao.data_publicacao).toLocaleString('pt-BR', dateOptions)}
 						</p>
 					</div>
 					<div class="row">
@@ -136,7 +130,7 @@
 									<div class="row">
 										<p><b>{comentario.nome}<b></b></b></p>
 										<p class="data-comentario">
-											{comentario.data_criacao.toLocaleString('pt-BR', dateOptions)}
+											{new Date(comentario.data_criacao).toLocaleString('pt-BR', dateOptions)}
 										</p>
 									</div>
 									<p class="conteudo-comentario">{comentario.texto}</p>
