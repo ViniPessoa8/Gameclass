@@ -220,11 +220,17 @@
 						<h1>Informações</h1>
 						<div class="row">
 							<h2>Título da etapa:</h2>
-							<InputText borded bind:value={etapas[$selectedEtapa].titulo} name="titulo" />
+							<InputText
+								id="inputTituloEtapa"
+								borded
+								bind:value={etapas[$selectedEtapa].titulo}
+								name="titulo"
+							/>
 						</div>
 						<div class="row">
 							<h2>Descrição:</h2>
 							<InputTextArea
+								id="inputDescricaoEtapa"
 								borded
 								bind:value={etapas[$selectedEtapa].descricao}
 								name="descricao"
@@ -235,6 +241,7 @@
 						<div class="row">
 							<h2>Data de início:</h2>
 							<InputDatetime
+								id="inputDtInicioEtapa"
 								borded
 								bind:value={etapas[$selectedEtapa].dtEntregaMin}
 								name="dtEntregaMin"
@@ -244,6 +251,7 @@
 						<div class="row">
 							<h2>Data máxima de entrega:</h2>
 							<InputDatetime
+								id="inputDtFimEtapa"
 								borded
 								bind:value={etapas[$selectedEtapa].dtEntregaMax}
 								name="dtEntregaMax"
@@ -253,6 +261,7 @@
 						<div class="row">
 							<h2>Realização:</h2>
 							<InputRadio
+								id="inputRealizacaoEtapa"
 								borded
 								name="realizacao"
 								bind:group={etapas[$selectedEtapa].realizacaoGroup}
@@ -262,6 +271,7 @@
 						<div class="row">
 							<h2>Atribuição de Notas:</h2>
 							<InputRadio
+								id="inputAtribuicaoNotasEtapa"
 								borded
 								name="atribuicao_notas"
 								bind:group={etapas[$selectedEtapa].atribuicaoNotasGroup}
@@ -270,6 +280,7 @@
 						</div>
 						<div class="row">
 							<InputCheckbox
+								id="inputReceberAposPrazoEtapa"
 								bind:checked={etapas[$selectedEtapa].receberAposPrazo}
 								text="Receber após o prazo"
 							/>
@@ -284,12 +295,14 @@
 								<div class="column">
 									<div class="row">
 										<InputText
+											id="inputTituloCriterio"
 											borded
 											name="titulo-criterio"
 											placeholder="Título"
 											bind:value={novoCriterioTitulo}
 										/>
 										<InputText
+											id="inputNotaMaxCriterio"
 											borded
 											name="nota-max-criterio"
 											width="150px"
@@ -300,6 +313,7 @@
 									</div>
 									<div class="row">
 										<InputText
+											id="inputDescricaoCriterio"
 											borded
 											name="descricao-criterio"
 											placeholder="Descrição"

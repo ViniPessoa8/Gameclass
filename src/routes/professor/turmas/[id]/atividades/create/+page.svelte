@@ -160,6 +160,7 @@
 			<h3>Titulo da atividade:</h3>
 			<InputText
 				name="titulo"
+				id="inputTitulo"
 				borded="true"
 				bind:value={titulo}
 				inputHandler={tituloInputHandler}
@@ -177,6 +178,7 @@
 			<h3>Descrição:</h3>
 			<InputTextArea
 				name="descricao"
+				id="inputDescricao"
 				borded="true"
 				bind:value={descricao}
 				inputHandler={descricaoInputHandler}
@@ -195,6 +197,7 @@
 			<h3>Prazo:</h3>
 			<InputDatetime
 				name="prazo"
+				id="inputPrazo"
 				borded="true"
 				bind:value={prazo}
 				inputHandler={prazoInputHandler}

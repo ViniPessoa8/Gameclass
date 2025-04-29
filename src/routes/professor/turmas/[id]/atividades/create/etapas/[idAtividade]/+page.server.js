@@ -1,9 +1,10 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { cadastraItemAtividade } from '$controllers/itemAtividade.js';
 import { ATRIBUICAO, REALIZACAO } from "$lib/constants";
+import { page } from '$app/state';
 
 export let actions = {
-	default: async ({ cookies, params, request }) => {
+	default: async ({ cookies, params, request, url }) => {
 		let idUsuario = JSON.parse(await cookies.get("session"));
 		idUsuario = idUsuario.id
 		let data = await request.formData();
@@ -71,6 +72,6 @@ export let actions = {
 			cookies.set("toast", 'etapas_criadas', { path: "/" })
 		}
 
-		redirect(300, `/professor/turmas/${params.id}/atividades/`)
+		redirect(300, `${url.pathname}/resumo/`)
 	}
 }

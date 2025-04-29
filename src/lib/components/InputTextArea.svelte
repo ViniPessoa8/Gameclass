@@ -36,6 +36,7 @@
 			background-color: {backgroundColor};
 			font-size:{fontSize}
 		"
+		{...$$restProps}
 	/>
 </div>
 
