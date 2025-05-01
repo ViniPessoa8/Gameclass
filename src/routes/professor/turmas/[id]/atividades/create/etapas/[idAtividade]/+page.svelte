@@ -60,6 +60,17 @@
 	}
 
 	function onSubmit(formData) {
+		if (validaFormulario()) {
+			formData.set('etapas', JSON.stringify(etapas));
+			sessionStorage.setItem('etapasData', JSON.stringify(etapas));
+
+			return true;
+		}
+
+		return false;
+	}
+
+	function validaFormulario() {
 		let titulo = etapas[$selectedEtapa].titulo;
 		if (titulo === '') throw new Error('Título vazio');
 
@@ -86,10 +97,6 @@
 				throw new Error(`Data inicial inválida (Etapa "${tituloEtapa}")`);
 			if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa "${tituloEtapa}")`);
 		}
-
-		// TODO: Formatar dados para que envie todas as etapas ao mesmo tempo
-
-		formData.set('etapas', JSON.stringify(etapas));
 
 		return true;
 	}
