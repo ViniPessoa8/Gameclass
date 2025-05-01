@@ -1,7 +1,6 @@
 <script>
 	import { onMount, beforeUpdate } from 'svelte';
 
-	export let data;
 	let etapas;
 
 	beforeUpdate(() => {
@@ -38,26 +37,14 @@
 						<p class="nota-criterio">{criterio.nota_max}</p>
 					</div>
 				{/each}
+				<p class="nota-total">
+					Nota total: {etapa.criterios.reduce((previous, current) => {
+						return previous + parseFloat(current.nota_max);
+					}, 0)}
+				</p>
 			</div>
 		{/each}
 	</div>
-	<!-- <h2>Etapa: {data.etapa.titulo}</h2> -->
-	<!-- <p>{data.etapa.descricao}</p> -->
-	<!-- <AtividadeInfo -->
-	<!-- 	realizacao={data.etapa.em_grupos ? 'Em Grupos' : 'Individual'} -->
-	<!-- 	prazo={formatter.format(data.atividade.data_entrega_final)} -->
-	<!-- 	avaliacao={data.etapa.em_grupos ? 'Em Grupos' : 'Individual'} -->
-	<!-- /> -->
-	<!-- <div class="container-entregas"> -->
-	<!-- 	<div class="entregas-header"> -->
-	<!-- 		<p>Entregas:</p> -->
-	<!-- 	</div> -->
-	<!-- 	<div class="entregas"> -->
-	<!-- 		{#each entregas_por_estudante as entrega} -->
-	<!-- 			<EnvioEstudante {entrega} onClick={() => onClick(entrega.id)} /> -->
-	<!-- 		{/each} -->
-	<!-- 	</div> -->
-	<!-- </div> -->
 </div>
 
 <style scoped>
@@ -101,28 +88,14 @@
 		gap: 24px;
 		font-size: 20px;
 		margin-left: 12px;
-		padding: 4px 0px;
+		padding: 6px 0px;
 		border-bottom: 1px solid black;
 	}
 
-	.criterio-container > p {
-	}
-
-	.content-etapa > p {
-		margin-bottom: 24px;
-	}
-
-	.entregas-header {
-		padding-left: 48px;
-		font-size: 24px;
-		text-align: left;
-	}
-
-	.entregas {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 24px;
-		justify-content: center;
+	.nota-total {
+		margin-top: 6px;
+		font-size: 20px;
+		font-weight: 600;
+		text-align: right;
 	}
 </style>
