@@ -48,6 +48,7 @@ export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao, anex
 			throw (`Não foi possível criar publicação na turma`)
 		}
 
+		if (anexosData) {
 		for (const anexo of anexosData) {
 			const idPublicacao = resPubli.rows[0].id
 			const tipoConteudo = anexo.nome.includes(".txt") ? "conteudo_texto" : "conteudo_binario"
@@ -67,7 +68,7 @@ export async function criaPublicacaoBD(idTurma, idUsuario, textoPublicacao, anex
 		}
 
 		await dbConn.query('COMMIT');
-
+		}
 	} catch (e) {
 		await dbConn.query('ROLLBACK');
 		throw (`Erro ao criar publicação: ${e}`)
