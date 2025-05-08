@@ -10,7 +10,8 @@ export const actions = {
 		const idUsuario = cookiesDict.id;
 		const idTurma = params.id
 		const textPublicacao = data.get('textoPublicacao')
-		const anexos = data.getAll("inputFiles")
+		let anexos = data.getAll("inputFiles")
+		if (anexos && anexos[0].size == 0) anexos = []
 
 		let idPublicacao;
 		idPublicacao = await criaPublicacao(idTurma, idUsuario, textPublicacao, anexos)
