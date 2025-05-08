@@ -1,6 +1,8 @@
 <script>
 	import { beforeUpdate } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	export let data;
 	let etapas;
@@ -47,7 +49,12 @@
 		{/if}
 	</div>
 	<div class="botoes">
-		<Button>Voltar</Button>
+		<Button
+			on:click={() => {
+				const novaUrl = $page.url.href.replace(/\/[^\/]*$/, '');
+				goto(novaUrl);
+			}}>Voltar</Button
+		>
 		<Button backgroundColor="var(--cor-primaria)" color="white">Salvar etapas</Button>
 	</div>
 </div>
