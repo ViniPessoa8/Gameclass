@@ -82,7 +82,7 @@ VALUES
 ('eu :)', null, 6, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:10:00'),
 ('eu também', null, 7, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:13:00'),
 ('então fechou', null, 4, 1, (CURRENT_DATE - INTERVAL '5 days') + TIME '08:20:00');
-ALTER SEQUENCE comentario_id_seq RESTART WITH 4;
+ALTER SEQUENCE comentario_id_seq RESTART WITH 6;
 
 INSERT INTO criterio ("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") 
 VALUES 
