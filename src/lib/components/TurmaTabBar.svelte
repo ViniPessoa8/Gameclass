@@ -35,10 +35,6 @@
 	];
 
 	function onClick(index) {
-		console.debug('selecionou:', index);
-		// TODO: Redirecionar para a pagina selecionada
-
-		// goto(tabs[selectedItem]);
 		$selectedTurmaTabBar = index;
 		goto(tabs[$selectedTurmaTabBar].page);
 	}

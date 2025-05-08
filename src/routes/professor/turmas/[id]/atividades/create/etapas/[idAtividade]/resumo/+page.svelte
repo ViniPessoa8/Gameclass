@@ -1,49 +1,54 @@
 <script>
-	import { onMount, beforeUpdate } from 'svelte';
+	import { beforeUpdate } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 
+	export let data;
 	let etapas;
 
 	beforeUpdate(() => {
 		etapas = JSON.parse(sessionStorage.getItem('etapasData'));
 	});
-
-	onMount(() => {});
 </script>
 
 <div class="content-etapa">
 	<h1><u>Resumo de critérios para avaliação da atividade</u></h1>
-	<h2>[tituloAtividade]</h2>
-	<div class="info-container">
-		<p>Forma de avaliação dos critérios:</p>
-		<div class="forma-avaliacao-container">
-			<div class="forma-avaliacao"></div>
-			<div class="info-button"></div>
-		</div>
-	</div>
+	<h2>{data.atividade.titulo}</h2>
+	<div class="info-container"></div>
 	<h2>Critérios</h2>
 	<div class="container-etapas">
-		{#each etapas as etapa}
-			<div class="container-etapa">
-				<h3 class="titulo-etapa">{etapa.titulo}</h3>
-				<div class="criterio-container">
-					<p class="titulo-criterio"><b>Título</b></p>
-					<p class="descricao-criterio"><b>Descrição</b></p>
-					<p class="nota-criterio"><b>Nota</b></p>
-				</div>
-				{#each etapa.criterios as criterio}
-					<div class="criterio-container">
-						<p class="titulo-criterio">{criterio.titulo}</p>
-						<p class="descricao-criterio">{criterio.descricao}</p>
-						<p class="nota-criterio">{criterio.nota_max}</p>
+		{#if etapas}
+			{#each etapas as etapa}
+				<div class="container-etapa">
+					<div class="header-etapa">
+						<h3 class="titulo-etapa">{etapa.titulo}</h3>
+						<h3 class="realizacao-etapa">(Avaliação: {etapa.realizacaoGroup})</h3>
 					</div>
-				{/each}
-				<p class="nota-total">
-					Nota total: {etapa.criterios.reduce((previous, current) => {
-						return previous + parseFloat(current.nota_max);
-					}, 0)}
-				</p>
-			</div>
-		{/each}
+					<div class="criterio-container">
+						<p class="titulo-criterio"><b>Título</b></p>
+						<p class="descricao-criterio"><b>Descrição</b></p>
+						<p class="nota-criterio"><b>Nota</b></p>
+					</div>
+					{#each etapa.criterios as criterio}
+						<div class="criterio-container">
+							<p class="titulo-criterio">{criterio.titulo}</p>
+							<p class="descricao-criterio">{criterio.descricao}</p>
+							<p class="nota-criterio">{criterio.nota_max}</p>
+						</div>
+					{/each}
+					<p class="nota-total">
+						Nota total: {etapa.criterios.reduce((previous, current) => {
+							return previous + parseFloat(current.nota_max);
+						}, 0)}
+					</p>
+				</div>
+			{/each}
+		{:else}
+			<p>Sem etapas a serem mostradas</p>
+		{/if}
+	</div>
+	<div class="botoes">
+		<Button>Voltar</Button>
+		<Button backgroundColor="var(--cor-primaria)" color="white">Salvar etapas</Button>
 	</div>
 </div>
 
@@ -77,9 +82,19 @@
 		margin-bottom: 16px;
 	}
 
+	.header-etapa {
+		margin-bottom: 12px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
 	.titulo-etapa {
 		font-size: 28px;
-		margin-bottom: 12px;
+	}
+
+	.realizacao-etapa {
+		margin-left: 12px;
 	}
 
 	.criterio-container {
@@ -97,5 +112,12 @@
 		font-size: 20px;
 		font-weight: 600;
 		text-align: right;
+	}
+
+	.botoes {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		gap: 24px;
 	}
 </style>

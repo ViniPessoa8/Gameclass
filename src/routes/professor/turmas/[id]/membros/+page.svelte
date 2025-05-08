@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { Toaster, toast } from 'svelte-sonner';
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
@@ -15,10 +14,6 @@
 	function abrePerfilDoUsuario(estudante) {
 		console.debug('Abre perfil de ', estudante.nome);
 	}
-
-	onMount(async () => {
-		console.debug('estudantes: ', estudantes);
-	});
 </script>
 
 <Toaster richColors position="top-center" closeButton />
