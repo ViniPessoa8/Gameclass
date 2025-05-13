@@ -3,21 +3,25 @@
 	import Button from '$lib/components/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
 
 	export let data;
 
 	let etapasSessionStorage;
+	let etapasString;
 
 	beforeUpdate(() => {
 		console.debug('beforeUpdate()');
 		etapasSessionStorage = JSON.parse(sessionStorage.getItem('etapas'));
 		if (etapasSessionStorage) {
 			data.etapas = etapasSessionStorage;
+			etapasString = JSON.stringify(data.etapas);
 		}
 	});
 </script>
 
-<div class="content-etapa">
+<form class="content-etapa" method="POST" use:enhance>
+	<input name="etapas" bind:value={etapasString} type="hidden" />
 	<h1><u>Resumo de critérios para avaliação da atividade</u></h1>
 	<h2>{data.atividade.titulo}</h2>
 	<div class="info-container"></div>
@@ -60,9 +64,9 @@
 				goto(novaUrl);
 			}}>Voltar</Button
 		>
-		<Button backgroundColor="var(--cor-primaria)" color="white">Salvar etapas</Button>
+		<Button backgroundColor="var(--cor-primaria)" color="white" type="submit">Salvar etapas</Button>
 	</div>
-</div>
+</form>
 
 <style scoped>
 	.content-etapa {
