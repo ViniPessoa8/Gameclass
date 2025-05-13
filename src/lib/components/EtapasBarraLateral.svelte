@@ -9,7 +9,6 @@
 	// TODO: Fazer o input do título da etapa atualizar em tempo real o titulo da etapa na barra lateral
 	export let etapas;
 	export let selectedEtapa;
-	console.assert(etapas != null, '[EtapasBarraLateral] etapas vazia');
 
 	let backgroundColor = 'var(--cor-secundaria)';
 	let textColor = 'white';
@@ -29,14 +28,15 @@
 			<p>Etapas da Atividade</p>
 			<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 		</div>
-		{#each etapas as etapa, index}
-			<div
-				class="etapa"
-				aria-hidden="true"
-				style="
+		{#if etapas}
+			{#each etapas as etapa, index}
+				<div
+					class="etapa"
+					aria-hidden="true"
+					style="
 				background-color: {etapas[selectedEtapa].id === etapa.id
-					? selectedBackgroundColor
-					: backgroundColor};
+						? selectedBackgroundColor
+						: backgroundColor};
 				color: {etapas[selectedEtapa].id === etapa.id ? selectedTextColor : textColor};
 				border: {etapas[selectedEtapa].id === etapa.id ? 'none' : '1px solid var(--cor-primaria)'};	
 				font-weight: {etapas[selectedEtapa].id === etapa.id ? '700' : '500'};
@@ -45,80 +45,79 @@
 				min-height: 48px;
 				min-width: 200px;
 				"
-				on:click={() => {
-					if (etapasContainer) {
-						for (var i = 0, len = Array.from(etapasContainer.children).length; i < len; i++) {
-							(function (index) {
-								etapasContainer.children[i].onclick = function () {
-									selectedEtapa = index - 1;
-								};
-							})(i);
+					on:click={() => {
+						if (etapasContainer) {
+							for (var i = 0, len = Array.from(etapasContainer.children).length; i < len; i++) {
+								(function (index) {
+									etapasContainer.children[i].onclick = function () {
+										selectedEtapa = index - 1;
+									};
+								})(i);
+							}
 						}
-					}
-					console.debug('selectedEtapa: ', selectedEtapa);
-				}}
-			>
-				<div class="info">
-					{#if etapa.titulo === ''}
-						<p style="color: rgba(200,200,150,0.4); font-weight=100; text-align: center;">
-							{index + 1}. (Título)
-						</p>
-					{:else}
-						<div style="display: flex; flex-direction: row; gap: 8px">
+					}}
+				>
+					<div class="info">
+						{#if etapa.titulo === ''}
 							<p style="color: rgba(200,200,150,0.4); font-weight=100; text-align: center;">
-								{index + 1}.
+								{index + 1}. (Título)
 							</p>
-							<p>{etapa.titulo}</p>
-						</div>
+						{:else}
+							<div style="display: flex; flex-direction: row; gap: 8px">
+								<p style="color: rgba(200,200,150,0.4); font-weight=100; text-align: center;">
+									{index + 1}.
+								</p>
+								<p>{etapa.titulo}</p>
+							</div>
+						{/if}
+					</div>
+					{#if index !== 0}
+						<Button
+							color="var(--cor primaria)"
+							type="button"
+							on:click={() => {
+								onRemoveEtapa(etapa);
+							}}>X</Button
+						>
 					{/if}
 				</div>
-				{#if index !== 0}
-					<Button
-						color="var(--cor primaria)"
-						type="button"
-						on:click={() => {
-							onRemoveEtapa(etapa);
-						}}>X</Button
-					>
-				{/if}
-			</div>
-		{/each}
-		{#if etapas.length < LIMITE_NUMERO_DE_ETAPAS}
-			<Button
-				marginTop="48px"
-				color="var(--cor-secundaria)"
-				backgroundColor="white"
-				on:click={() => {
-					console.debug(etapas[etapas.length - 1]);
-					erroEtapa = [false, ''];
+			{/each}
+			{#if etapas.length < LIMITE_NUMERO_DE_ETAPAS}
+				<Button
+					marginTop="48px"
+					color="var(--cor-secundaria)"
+					backgroundColor="white"
+					on:click={() => {
+						erroEtapa = [false, ''];
 
-					if (etapas.length > LIMITE_NUMERO_DE_ETAPAS) {
-						erroEtapa = [true, 'Limite de etapas atingido'];
-						return;
-					}
+						if (etapas.length > LIMITE_NUMERO_DE_ETAPAS) {
+							erroEtapa = [true, 'Limite de etapas atingido'];
+							return;
+						}
 
-					if (etapas[selectedEtapa].titulo == '') {
-						erroEtapa = [true, 'Etapa deve ter um título'];
-						return;
-					}
+						if (etapas[selectedEtapa].titulo == '') {
+							erroEtapa = [true, 'Etapa deve ter um título'];
+							return;
+						}
 
-					etapas.push({
-						id: etapas[etapas.length - 1].id + 1,
-						titulo: '',
-						dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
-						realizacaoGroup: 'Individual',
-						atribuicaoNotasGroup: 'Média Simples',
-						receberAposPrazo: true,
-						criterios: []
-					});
-					selectedEtapa = selectedEtapa + 1;
-				}}>+ Nova Etapa</Button
-			>
-		{/if}
-		{#if erroEtapa[0]}
-			<p style="color:red">{erroEtapa[1]}</p>
-		{:else}
-			<p style="color:red; visibility: hidden;">{erroEtapa[1]}</p>
+						etapas.push({
+							id: etapas[etapas.length - 1].id + 1,
+							titulo: '',
+							dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
+							realizacaoGroup: 'Individual',
+							atribuicaoNotasGroup: 'Média Simples',
+							receberAposPrazo: true,
+							criterios: []
+						});
+						selectedEtapa = selectedEtapa + 1;
+					}}>+ Nova Etapa</Button
+				>
+			{/if}
+			{#if erroEtapa[0]}
+				<p style="color:red">{erroEtapa[1]}</p>
+			{:else}
+				<p style="color:red; visibility: hidden;">{erroEtapa[1]}</p>
+			{/if}
 		{/if}
 	</div>
 </div>

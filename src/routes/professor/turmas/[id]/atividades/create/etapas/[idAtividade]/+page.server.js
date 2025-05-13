@@ -5,11 +5,12 @@ import { page } from '$app/state';
 
 export let actions = {
 	default: async ({ cookies, params, request, url }) => {
+		redirect(300, `${url.pathname}/resumo/`)
 		let idUsuario = JSON.parse(await cookies.get("session"));
 		idUsuario = idUsuario.id
 		let data = await request.formData();
 		let etapasData = data.get('etapas')
-		let etapas = JSON.parse(etapasData)
+		const etapas = JSON.parse(etapasData)
 
 		let criterios
 		let titulo

@@ -5,10 +5,15 @@
 	import { page } from '$app/stores';
 
 	export let data;
-	let etapas;
+
+	let etapasSessionStorage;
 
 	beforeUpdate(() => {
-		etapas = JSON.parse(sessionStorage.getItem('etapasData'));
+		console.debug('beforeUpdate()');
+		etapasSessionStorage = JSON.parse(sessionStorage.getItem('etapas'));
+		if (etapasSessionStorage) {
+			data.etapas = etapasSessionStorage;
+		}
 	});
 </script>
 
@@ -18,8 +23,8 @@
 	<div class="info-container"></div>
 	<h2>Critérios</h2>
 	<div class="container-etapas">
-		{#if etapas}
-			{#each etapas as etapa}
+		{#if data.etapas}
+			{#each data.etapas as etapa}
 				<div class="container-etapa">
 					<div class="header-etapa">
 						<h3 class="titulo-etapa">{etapa.titulo}</h3>

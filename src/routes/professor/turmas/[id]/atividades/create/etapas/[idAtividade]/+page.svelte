@@ -10,6 +10,7 @@
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
+	import { etapas } from '$src/stores/etapas';
 	import { onMount } from 'svelte';
 	import { Toaster, toast } from 'svelte-sonner';
 
@@ -18,15 +19,8 @@
 	let novoCriterioDescricao = '';
 	let oldCriterioNota = '';
 	let erroNotaCriterio = false;
-
-	function showISOAsGMT4(isoUTC) {
-		const offsetMinutes = -4 * 60; // GMT-4
-		const utcDate = new Date(isoUTC);
-		const localDate = new Date(utcDate.getTime() + offsetMinutes * 60000);
-		const datetimeLocal = localDate.toISOString().slice(0, 16);
-
-		return datetimeLocal;
-	}
+	let etapasData = [];
+	let carregando = true;
 
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
@@ -38,31 +32,24 @@
 		{ name: 'media_ponderada', text: 'Média Ponderada' }
 	];
 
-	let dateNow = new Date();
-	let dateNowFormated = showISOAsGMT4(dateNow);
-
-	let etapas = [
-		{
-			id: 1,
-			titulo: '',
-			descricao: '',
-			dtEntregaMin: dateNowFormated,
-			dtEntregaMax: '', // TODO: Validar campo
-			realizacaoGroup: 'Individual',
-			atribuicaoNotasGroup: 'Média Simples',
-			receberAposPrazo: true,
-			criterios: []
-		}
-	];
-
 	if (!$selectedEtapa) {
 		$selectedEtapa = 0;
 	}
 
+	function showISOAsGMT4(isoUTC) {
+		const offsetMinutes = -4 * 60; // GMT-4
+		const utcDate = new Date(isoUTC);
+		const localDate = new Date(utcDate.getTime() + offsetMinutes * 60000);
+		const datetimeLocal = localDate.toISOString().slice(0, 16);
+
+		return datetimeLocal;
+	}
+
 	function onSubmit(formData) {
 		if (validaFormulario()) {
-			formData.set('etapas', JSON.stringify(etapas));
-			sessionStorage.setItem('etapasData', JSON.stringify(etapas));
+			formData.set('etapas', JSON.stringify(etapasData));
+			$etapas = etapasData;
+			sessionStorage.setItem('etapasData', JSON.stringify(etapasData));
 
 			return true;
 		}
@@ -71,25 +58,25 @@
 	}
 
 	function validaFormulario() {
-		let titulo = etapas[$selectedEtapa].titulo;
+		let titulo = etapasData[$selectedEtapa].titulo;
 		if (titulo === '') throw new Error('Título vazio');
 
-		let realizacao = etapas[$selectedEtapa].realizacaoGroup;
-		let atribuicaoNotas = etapas[$selectedEtapa].atribuicaoNotasGroup;
+		let realizacao = etapasData[$selectedEtapa].realizacaoGroup;
+		let atribuicaoNotas = etapasData[$selectedEtapa].atribuicaoNotasGroup;
 		realizacao = realizacao === 'Individual' ? REALIZACAO.individual : REALIZACAO.grupos;
 		atribuicaoNotas =
 			atribuicaoNotas === 'Média Simples' ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada;
 
-		let criterios = etapas[$selectedEtapa].criterios;
+		let criterios = etapasData[$selectedEtapa].criterios;
 		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
 
-		let notaMax = etapas[$selectedEtapa].criterios
+		let notaMax = etapasData[$selectedEtapa].criterios
 			.map((criterio) => parseFloat(criterio.nota_max))
 			.reduce((item, acc) => item + acc);
 		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
 			throw new Error('Nota total passa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos');
 
-		for (const etapa of etapas) {
+		for (const etapa of etapasData) {
 			let dataInicial = etapa.dtEntregaMin;
 			let dataFinal = etapa.dtEntregaMax;
 			let tituloEtapa = etapa.titulo;
@@ -121,8 +108,8 @@
 		};
 
 		let totalPontos;
-		if (etapas[$selectedEtapa].criterios.length !== 0) {
-			totalPontos = etapas[$selectedEtapa].criterios
+		if (etapasData[$selectedEtapa].criterios.length !== 0) {
+			totalPontos = etapasData[$selectedEtapa].criterios
 				.map((elem) => elem.nota_max)
 				.reduce((i, acc) => acc + i);
 		} else {
@@ -139,10 +126,13 @@
 			erroNotaCriterio = [false, ''];
 		}
 
-		if (etapas[$selectedEtapa].criterios.length !== 0) {
-			etapas[$selectedEtapa].criterios = [...etapas[$selectedEtapa].criterios, novoCriterio];
+		if (etapasData[$selectedEtapa].criterios.length !== 0) {
+			etapasData[$selectedEtapa].criterios = [
+				...etapasData[$selectedEtapa].criterios,
+				novoCriterio
+			];
 		} else {
-			etapas[$selectedEtapa].criterios = [novoCriterio];
+			etapasData[$selectedEtapa].criterios = [novoCriterio];
 		}
 
 		novoCriterioTitulo = '';
@@ -151,7 +141,7 @@
 	}
 
 	function onRemoveCriterio(criterio) {
-		etapas[$selectedEtapa].criterios = etapas[$selectedEtapa].criterios.filter((elem) => {
+		etapasData[$selectedEtapa].criterios = etapasData[$selectedEtapa].criterios.filter((elem) => {
 			return elem !== criterio;
 		});
 	}
@@ -191,207 +181,235 @@
 			{ name: 'media_simples', text: 'Média Simples' },
 			{ name: 'media_ponderada', text: 'Média Ponderada' }
 		];
+
+		const unsubscribe = etapas.subscribe((valor) => {
+			if (valor.length > 0) {
+				etapasData = valor;
+			} else {
+				const dateNow = new Date();
+				const dateNowFormated = showISOAsGMT4(dateNow);
+				etapasData = [
+					{
+						id: 1,
+						titulo: '',
+						descricao: '',
+						dtEntregaMin: dateNowFormated,
+						dtEntregaMax: '', // TODO: Validar campo
+						realizacaoGroup: 'Individual',
+						atribuicaoNotasGroup: 'Média Simples',
+						receberAposPrazo: true,
+						criterios: []
+					}
+				];
+			}
+			carregando = false;
+
+		});
+
+		return unsubscribe; // limpa quando sair da página
 	});
 </script>
 
 <Toaster richColors expand position="top-center" closeButton />
-<div class="page-container">
-	<EtapasBarraLateral bind:etapas bind:selectedEtapa={$selectedEtapa} />
-	<div class="content-container">
-		<h1>Calculados</h1>
-		<h2>Definição das etapas da atividade</h2>
-		<div class="form-container">
-			<form
-				class="cria-etapa-form"
-				method="post"
-				use:enhance={({ formData, cancel }) => {
-					let res;
-					try {
-						res = onSubmit(formData);
-					} catch (e) {
-						toast.error(`${e.message}`);
-						cancel();
-					}
+{#if !carregando}
+	<div class="page-container">
+		<EtapasBarraLateral bind:etapas={etapasData} bind:selectedEtapa={$selectedEtapa} />
+		<div class="content-container">
+			<h1>Calculados</h1>
+			<h2>Definição das etapas da atividade</h2>
+			<div class="form-container">
+				<form
+					class="cria-etapa-form"
+					method="post"
+					use:enhance={({ formData, cancel }) => {
+						let res;
+						try {
+							res = onSubmit(formData);
+						} catch (e) {
+							toast.error(`${e.message}`);
+							cancel();
+						}
 
-					if (!res /* || form?.already_registered */) {
-						cancel();
-					}
+						if (!res /* || form?.already_registered */) {
+							cancel();
+						}
 
-					return async ({ result, update }) => {
-						await update();
-					};
-				}}
-			>
-				<div class="form-content">
-					<div class="info-container">
-						<h1>Informações</h1>
-						<div class="row">
-							<h2>Título da etapa:</h2>
-							<InputText
-								id="inputTituloEtapa"
-								borded
-								bind:value={etapas[$selectedEtapa].titulo}
-								name="titulo"
-							/>
+						return async ({ result, update }) => {
+							await update();
+						};
+					}}
+				>
+					<div class="form-content">
+						<div class="info-container">
+							<h1>Informações</h1>
+							<div class="row">
+								<h2>Título da etapa:</h2>
+								<InputText
+									id="inputTituloEtapa"
+									borded
+									bind:value={etapasData[$selectedEtapa].titulo}
+									name="titulo"
+								/>
+							</div>
+							<div class="row">
+								<h2>Descrição:</h2>
+								<InputTextArea
+									id="inputDescricaoEtapa"
+									borded
+									bind:value={etapasData[$selectedEtapa].descricao}
+									name="descricao"
+									width="400px"
+									height="150px"
+								/>
+							</div>
+							<div class="row">
+								<h2>Data de início:</h2>
+								<InputDatetime
+									id="inputDtInicioEtapa"
+									borded
+									bind:value={etapasData[$selectedEtapa].dtEntregaMin}
+									name="dtEntregaMin"
+									min={etapasData[$selectedEtapa].dtEntregaMin}
+								/>
+							</div>
+							<div class="row">
+								<h2>Data máxima de entrega:</h2>
+								<InputDatetime
+									id="inputDtFimEtapa"
+									borded
+									bind:value={etapasData[$selectedEtapa].dtEntregaMax}
+									name="dtEntregaMax"
+									min={etapasData[$selectedEtapa].dtEntregaMin}
+								/>
+							</div>
+							<div class="row">
+								<h2>Realização:</h2>
+								<InputRadio
+									id="inputRealizacaoEtapa"
+									borded
+									name="realizacao"
+									bind:group={etapasData[$selectedEtapa].realizacaoGroup}
+									bind:options={realizacaoOpcoes}
+								/>
+							</div>
+							<div class="row">
+								<h2>Atribuição de Notas:</h2>
+								<InputRadio
+									id="inputAtribuicaoNotasEtapa"
+									borded
+									name="atribuicao_notas"
+									bind:group={etapasData[$selectedEtapa].atribuicaoNotasGroup}
+									options={atribuicaoOpcoes}
+								/>
+							</div>
+							<div class="row">
+								<InputCheckbox
+									id="inputReceberAposPrazoEtapa"
+									bind:checked={etapasData[$selectedEtapa].receberAposPrazo}
+									text="Receber após o prazo"
+								/>
+								<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
+							</div>
 						</div>
-						<div class="row">
-							<h2>Descrição:</h2>
-							<InputTextArea
-								id="inputDescricaoEtapa"
-								borded
-								bind:value={etapas[$selectedEtapa].descricao}
-								name="descricao"
-								width="400px"
-								height="150px"
-							/>
-						</div>
-						<div class="row">
-							<h2>Data de início:</h2>
-							<InputDatetime
-								id="inputDtInicioEtapa"
-								borded
-								bind:value={etapas[$selectedEtapa].dtEntregaMin}
-								name="dtEntregaMin"
-								min={etapas[$selectedEtapa].dtEntregaMin}
-							/>
-						</div>
-						<div class="row">
-							<h2>Data máxima de entrega:</h2>
-							<InputDatetime
-								id="inputDtFimEtapa"
-								borded
-								bind:value={etapas[$selectedEtapa].dtEntregaMax}
-								name="dtEntregaMax"
-								min={etapas[$selectedEtapa].dtEntregaMin}
-							/>
-						</div>
-						<div class="row">
-							<h2>Realização:</h2>
-							<InputRadio
-								id="inputRealizacaoEtapa"
-								borded
-								name="realizacao"
-								bind:group={etapas[$selectedEtapa].realizacaoGroup}
-								bind:options={realizacaoOpcoes}
-							/>
-						</div>
-						<div class="row">
-							<h2>Atribuição de Notas:</h2>
-							<InputRadio
-								id="inputAtribuicaoNotasEtapa"
-								borded
-								name="atribuicao_notas"
-								bind:group={etapas[$selectedEtapa].atribuicaoNotasGroup}
-								options={atribuicaoOpcoes}
-							/>
-						</div>
-						<div class="row">
-							<InputCheckbox
-								id="inputReceberAposPrazoEtapa"
-								bind:checked={etapas[$selectedEtapa].receberAposPrazo}
-								text="Receber após o prazo"
-							/>
-							<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
-						</div>
-					</div>
-					<div class="criterios-container">
-						<h1>Critérios</h1>
-						<form name="form-criterio">
-							<div class="column">
-								<!-- TODO: Limitar input de dados com mascaras  -->
+						<div class="criterios-container">
+							<h1>Critérios</h1>
+							<form name="form-criterio">
 								<div class="column">
-									<div class="row">
-										<InputText
-											id="inputTituloCriterio"
-											borded
-											name="titulo-criterio"
-											placeholder="Título"
-											bind:value={novoCriterioTitulo}
-										/>
-										<InputText
-											id="inputNotaMaxCriterio"
-											borded
-											name="nota-max-criterio"
-											width="150px"
-											placeholder="Nota max."
-											inputHandler={onChangeCriterioNota}
-											bind:value={novoCriterioNota}
-										/>
+									<!-- TODO: Limitar input de dados com mascaras  -->
+									<div class="column">
+										<div class="row">
+											<InputText
+												id="inputTituloCriterio"
+												borded
+												name="titulo-criterio"
+												placeholder="Título"
+												bind:value={novoCriterioTitulo}
+											/>
+											<InputText
+												id="inputNotaMaxCriterio"
+												borded
+												name="nota-max-criterio"
+												width="150px"
+												placeholder="Nota max."
+												inputHandler={onChangeCriterioNota}
+												bind:value={novoCriterioNota}
+											/>
+										</div>
+										<div class="row">
+											<InputText
+												id="inputDescricaoCriterio"
+												borded
+												name="descricao-criterio"
+												placeholder="Descrição"
+												bind:value={novoCriterioDescricao}
+											/>
+										</div>
+										<div class="btn-add-criterio">
+											<Button
+												borded
+												color="var(--cor primaria)"
+												backgroundColor="var(--cor-secundaria)"
+												type="button"
+												on:click={onAdicionaCriterio}>Adicionar Critério</Button
+											>
+										</div>
 									</div>
-									<div class="row">
-										<InputText
-											id="inputDescricaoCriterio"
-											borded
-											name="descricao-criterio"
-											placeholder="Descrição"
-											bind:value={novoCriterioDescricao}
-										/>
-									</div>
-									<div class="btn-add-criterio">
+									{#if erroNotaCriterio[0]}
+										<p class="erro-criterio">{erroNotaCriterio[1]}</p>
+									{:else}
+										<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
+									{/if}
+								</div>
+							</form>
+							<div class="criterios-definidos">
+								<hr />
+								{#each etapasData[$selectedEtapa].criterios as criterio}
+									<div class="criterio-container">
+										<div class="titulo-criterio">
+											<h2>{criterio.titulo}</h2>
+											<IconeInformacao text={criterio.descricao} />
+										</div>
+										<h2>{parseFloat(criterio.nota_max).toFixed(2)}</h2>
 										<Button
-											borded
 											color="var(--cor primaria)"
-											backgroundColor="var(--cor-secundaria)"
 											type="button"
-											on:click={onAdicionaCriterio}>Adicionar Critério</Button
+											on:click={() => {
+												onRemoveCriterio(criterio);
+											}}>X</Button
 										>
 									</div>
-								</div>
-								{#if erroNotaCriterio[0]}
-									<p class="erro-criterio">{erroNotaCriterio[1]}</p>
-								{:else}
-									<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
-								{/if}
+									<hr />
+								{/each}
+								<h2 class="total-de-pontos">
+									Total de pontos:&emsp;
+									{#if etapasData[$selectedEtapa].criterios.length === 0}
+										0.00
+									{:else}
+										{parseFloat(
+											etapasData[$selectedEtapa].criterios
+												.map((x) => parseFloat(x.nota_max))
+												.reduce((a, b) => a + b)
+										).toFixed(2)}
+									{/if}
+									pts
+								</h2>
 							</div>
-						</form>
-						<div class="criterios-definidos">
-							<hr />
-							{#each etapas[$selectedEtapa].criterios as criterio}
-								<div class="criterio-container">
-									<div class="titulo-criterio">
-										<h2>{criterio.titulo}</h2>
-										<IconeInformacao text={criterio.descricao} />
-									</div>
-									<h2>{parseFloat(criterio.nota_max).toFixed(2)}</h2>
-									<Button
-										color="var(--cor primaria)"
-										type="button"
-										on:click={() => {
-											onRemoveCriterio(criterio);
-										}}>X</Button
-									>
-								</div>
-								<hr />
-							{/each}
-							<h2 class="total-de-pontos">
-								Total de pontos:&emsp;
-								{#if etapas[$selectedEtapa].criterios.length === 0}
-									0.00
-								{:else}
-									{parseFloat(
-										etapas[$selectedEtapa].criterios
-											.map((x) => parseFloat(x.nota_max))
-											.reduce((a, b) => a + b)
-									).toFixed(2)}
-								{/if}
-								pts
-							</h2>
 						</div>
 					</div>
-				</div>
-				{#if etapas[$selectedEtapa].realizacaoGroup === 'Individual'}
-					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-						>Próximo</Button
-					>
-				{:else}
-					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-						>Definir formação de grupos</Button
-					>
-				{/if}
-			</form>
+					{#if etapasData[$selectedEtapa].realizacaoGroup === 'Individual'}
+						<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
+							>Próximo</Button
+						>
+					{:else}
+						<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
+							>Definir formação de grupos</Button
+						>
+					{/if}
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 <style scoped>
 	.page-container {
