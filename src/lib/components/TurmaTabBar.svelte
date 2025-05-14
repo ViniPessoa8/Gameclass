@@ -3,6 +3,7 @@
 	import icon_atividades from '$lib/assets/icon_atividades.png';
 	import icon_pontuacao from '$lib/assets/icon_pontuacao.png';
 	import icon_membros from '$lib/assets/icon_membros.png';
+	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 	import TurmaTabBarItem from './TurmaTabBarItem.svelte';
 	import { goto } from '$app/navigation';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
@@ -31,6 +32,12 @@
 			icon: icon_membros,
 			alt: 'Ícone de membros',
 			page: 'membros'
+		},
+		{
+			text: 'Relatório',
+			icon: icon_relatorio,
+			alt: 'Ícone de relatório da turma',
+			page: 'relatorio'
 		}
 	];
 
