@@ -11,16 +11,26 @@
 	let etapasString;
 
 	beforeUpdate(() => {
-		console.debug('beforeUpdate()');
 		etapasSessionStorage = JSON.parse(sessionStorage.getItem('etapas'));
 		if (etapasSessionStorage) {
 			data.etapas = etapasSessionStorage;
 			etapasString = JSON.stringify(data.etapas);
+		} else {
+			goto(`/professor/turmas/${$page.params.id}/atividades`);
 		}
 	});
 </script>
 
-<form class="content-etapa" method="POST" use:enhance>
+<form
+	class="content-etapa"
+	method="POST"
+	use:enhance={() => {
+		return async ({ update }) => {
+			sessionStorage.removeItem('etapas');
+			update();
+		};
+	}}
+>
 	<input name="etapas" bind:value={etapasString} type="hidden" />
 	<h1><u>Resumo de critérios para avaliação da atividade</u></h1>
 	<h2>{data.atividade.titulo}</h2>
