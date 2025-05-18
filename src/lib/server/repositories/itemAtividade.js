@@ -96,3 +96,23 @@ export async function removeItemAtividadePorIdBD(idItemAtividade) {
 	}
 }
 
+// listaNotasDeCriteriosPorIdItemAtividadeBD
+export async function listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade) {
+	try {
+		let query = {
+			text: `	c.*
+					FROM 
+						${DB_INFO.tables.criterio} c
+					WHERE 
+						AND c.id_item_atividade = $1
+					;`,
+			values: [idItemAtividade]
+		}
+
+		let res = await dbConn.query(query)
+		return res.rows
+
+	} catch (e) {
+		throw (`Erro ao listar notas de criteoriso por id do item da atividade (${idItemAtividade}): ${e}`)
+	}
+}

@@ -141,3 +141,28 @@ export async function buscaAvaliacaoEntregaBD(idEntrega) {
 }
 
 
+export async function listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega) {
+	try {
+		let query = {
+			text: `	SELECT ac.*, ra.*, c.titulo, c.pontuacao_max, c.peso
+					FROM 
+						${DB_INFO.tables.realizar_avaliacao} ra,
+						${DB_INFO.tables.avaliacao_criterio} ac,
+						${DB_INFO.tables.criterio} c
+					WHERE 
+						ra.id_entrega = $1
+						AND ac.id_realizar_avaliacao = ra.id
+						AND ac.id_criterio = c.id
+					;`,
+			values: [idEntrega]
+		}
+
+		let res = await dbConn.query(query)
+		return res.rows
+
+	} catch (e) {
+		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
+	}
+}
+
+

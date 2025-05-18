@@ -1,4 +1,4 @@
-import { buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, listaCriteriosPorIdItemAtividadeBD } from "../repositories/itemAtividade";
+import { buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, listaCriteriosPorIdItemAtividadeBD, listaNotasDeCriteriosPorIdItemAtividadeBD } from "../repositories/itemAtividade";
 import { cadastraCriterioBD } from "../repositories/criterio";
 import { removeCriterioPorIdItemAtividade } from "./criterio";
 import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
@@ -112,6 +112,16 @@ export async function listaCriteriosPorIdItemAtividade(idItemAtividade) {
 	}
 
 	let res = await listaCriteriosPorIdItemAtividadeBD(idItemAtividade);
+	return res
+}
+
+export async function listaNotasDeCriteriosPorIdItemAtividade(idItemAtividade) {
+	console.debug(`listaNotasDeCriteriosPorIdItemAtividade(${idItemAtividade})`)
+	if (!idItemAtividade) {
+		throw ("Dados obrigatórios não foram preenchidos. (listaNotasDeCriteriosPorIdItemAtividade)")
+	}
+
+	let res = await listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade);
 	return res
 }
 

@@ -3,10 +3,22 @@
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
+	import icon_calendario from '$lib/assets/icon_calendario.png';
+	import icon_mais from '$lib/assets/icon_mais.png';
+	import icon_menos from '$lib/assets/icon_menos.png';
+	import { slide } from 'svelte/transition';
 
 	export let data;
-
-	data.data_criacao = 'teste';
+	console.debug(data);
+	let mostraAtividades = data.atividades.map(() => false);
+	const dateOptions = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		timezone: 'America/Manaus'
+	};
 
 	if (!$selectedTurmaTabBar) {
 		$selectedTurmaTabBar = 4;
@@ -22,27 +34,86 @@
 			<h2>Visão Geral</h2>
 			<div class="grid-item-flex">
 				<div class="card">
-					<p>Criada em: {data.data_criacao}</p>
+					<div class="info">
+						<img src={icon_calendario} alt="ícone de calendário" />
+						<p>Criada em:</p>
+						<h3>{data.turma.data_criacao.toLocaleString('pt-BR', dateOptions)}</h3>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="alunos">
-			<h2>Alunos</h2>
-			<div class="grid-item-flex">
-				<div class="card">
-					<p>Criada em: {data.data_criacao}</p>
+			<h2>Alunos ({data.estudantes.length})</h2>
+			<div class="grid-item-flex" style="flex-direction: column;">
+				<div class="card" style="display: flex; flex-direction: column;">
+					<div class="info">
+						<p>Média da turma:</p>
+						<h3>{data.mediaTurma.toFixed(1)}</h3>
+					</div>
+					<div class="info">
+						<p>Menor nota da turma:</p>
+						<h3>
+							{data.menorNota.toFixed(1)}
+						</h3>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="atividades">
-			<h2>Atividades</h2>
-			<div class="grid-item-flex">
-				<div class="card">
-					<p>Criada em: {data.data_criacao}</p>
-				</div>
-				<div class="card">
-					<p>Criada em: {data.data_criacao}</p>
-				</div>
+			<h2>Atividades ({data.atividades.length})</h2>
+			<div class="grid-item-flex" style="flex-direction: column;">
+				{#each data.atividades as atividade, index}
+					<div class="card" style="display: flex; flex-direction: column;">
+						<button
+							class="titulo-atividade"
+							style=""
+							on:click={() => (mostraAtividades[index] = !mostraAtividades[index])}
+						>
+							<div class="titulo-atividade-content">
+								<h3>{atividade.titulo}</h3>
+								<p>({atividade.itensAtividade.length} etapas)</p>
+							</div>
+							{#if mostraAtividades[index] != false}
+								<img src={icon_menos} alt="icone de soma" />
+							{:else}
+								<img src={icon_mais} alt="icone de subtração" />
+							{/if}
+						</button>
+						<hr />
+
+						{#if mostraAtividades[index] != false}
+							<div class="atividade-content" transition:slide={{ duration: 400 }}>
+								<p>Prazo: <b>{atividade.prazo.toLocaleString('pt-BR', dateOptions)}</b></p>
+								<p>Nota Máxima: <b>{atividade.notaMax.toFixed(1)}</b></p>
+								<p>Média de notas: <b>{atividade.mediaNotas.toFixed(1)}</b></p>
+								<p>Nota Máxima Obtida: <b>{atividade.notaMaxObtida.toFixed(1)}</b></p>
+								<p>Nota Mínima Obtida: <b>{atividade.notaMinObtida.toFixed(1)}</b></p>
+								<p>
+									Entregas: <b>{atividade.totalEntregasRealizadas} / {atividade.totalEntregas}</b>
+								</p>
+								{#each atividade.itensAtividade as itemAtividade, indexIA}
+									<h3>{indexIA + 1}) {itemAtividade.titulo}</h3>
+									<div class="item-atividade-content">
+										<p>
+											Prazo: <b
+												>{itemAtividade.data_entrega_final.toLocaleString('pt-BR', dateOptions)}</b
+											>
+										</p>
+										<p>Nota Máxima: <b>{itemAtividade.notaMax.toFixed(1)}</b></p>
+										<p>Média de notas: <b>{itemAtividade.mediaNotas.toFixed(1)}</b></p>
+										<p>Nota Máxima Obtida: <b>{itemAtividade.notaMaxObtida.toFixed(1)}</b></p>
+										<p>Nota Mínima Obtida: <b>{itemAtividade.notaMinObtida.toFixed(1)}</b></p>
+										<p>
+											Entregas: <b
+												>{itemAtividade.totalEntregasRealizadas} / {itemAtividade.totalEntregas}</b
+											>
+										</p>
+									</div>
+								{/each}
+							</div>
+						{/if}
+					</div>
+				{/each}
 			</div>
 		</div>
 	</div>
@@ -79,18 +150,61 @@
 	}
 
 	.card {
+		display: flex;
+		flex-direction: row;
 		border: 1px solid grey;
 		border-radius: 4px;
 		background-color: #e8f1f9;
 		width: fit-content;
-		padding: 4px;
+		padding: 8px;
 		font-weight: 600;
 		font-size: 18px;
+		gap: 8px;
 	}
 
 	.grid-item-flex {
 		display: flex;
 		flex-direction: row;
 		gap: 12px;
+	}
+
+	.info {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.titulo-atividade {
+		display: flex;
+		width: 400px;
+		flex-direction: row;
+		justify-content: space-between;
+		border: none;
+		background-color: #e8f1f9;
+		font-size: 18px;
+		color: var(--cor-primaria);
+		font-family: var(--fonte);
+		cursor: pointer;
+	}
+
+	.titulo-atividade-content {
+		display: flex;
+		flex-direction: row;
+		gap: 8px;
+	}
+
+	.atividade-content {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.item-atividade-content {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding-left: 12px;
+		margin-bottom: 12px;
 	}
 </style>

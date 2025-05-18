@@ -48,6 +48,7 @@ CREATE TABLE turma (
 	"descricao" VARCHAR(255),
 	"local" VARCHAR(255),
 	"numero_alunos" SMALLINT NOT NULL,
+	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_instituicao" BIGINT REFERENCES instituicao(id),
 	"id_professor" BIGINT REFERENCES usuario(id),
 	PRIMARY KEY ("codigo", "id_instituicao")

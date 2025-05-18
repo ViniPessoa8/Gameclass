@@ -1,4 +1,4 @@
-import { listaEntregasPorItemAtividadeIdBD, buscaEntregaPorIdBD, avaliaEntregaBD, buscaAvaliacaoEntregaBD } from "../repositories/entrega"
+import { listaEntregasPorItemAtividadeIdBD, buscaEntregaPorIdBD, avaliaEntregaBD, buscaAvaliacaoEntregaBD, listaNotasDeCriteriosPorIdEntregaBD, listaNotasObtidasDeCriteriosPorIdEntregaBD } from "../repositories/entrega"
 
 export async function listaEntregasPorItemAtividadeId(idItemAtividade) {
 	let res = await listaEntregasPorItemAtividadeIdBD(idItemAtividade)
@@ -23,3 +23,16 @@ export async function buscaAvaliacaoEntrega(idEntrega) {
 
 	return res
 }
+
+export async function listaNotasDeCriteriosPorIdEntrega(idEntrega) {
+	let res = await listaNotasDeCriteriosPorIdEntregaBD(idEntrega)
+
+	return res
+}
+
+export async function listaNotasObtidasDeCriteriosPorIdEntrega(idEntrega) {
+	let res = await listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega)
+
+	return res
+}
+

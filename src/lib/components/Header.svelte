@@ -1,8 +1,6 @@
 <script>
 	import CircularIcon from './CircularIcon.svelte';
 	export let session;
-
-	console.debug(session);
 </script>
 
 <div class="header">

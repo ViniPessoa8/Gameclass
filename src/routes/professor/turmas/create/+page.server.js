@@ -12,7 +12,6 @@ export const actions = {
 		const data = await request.formData();
 		const perfil = cookies.get("perfil")
 		const sessionRaw = cookies.get('session')
-		console.log(sessionRaw)
 
 		if (!sessionRaw) {
 			console.log("Usuário não autenticado")
@@ -35,7 +34,6 @@ export const actions = {
 				data.get('instituicao'),
 				professorId,
 			)
-			console.log(res)
 
 		} catch (e) {
 			console.log(e)

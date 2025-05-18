@@ -82,7 +82,6 @@
 	onMount(async () => {
 		await fetchComentarios(data.entrega.id);
 		await calculaStatusEntrega();
-		console.debug(data.entrega);
 	});
 </script>
 

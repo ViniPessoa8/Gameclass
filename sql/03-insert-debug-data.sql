@@ -71,9 +71,13 @@ VALUES
 (2, 'Sem aula hoje, turma', (CURRENT_DATE - INTERVAL '10 days') + TIME '23:30:00', 1, 1);
 ALTER SEQUENCE publicacao_mural_id_seq RESTART WITH 3;
 
-INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") 
-VALUES ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 4, null);
-ALTER SEQUENCE anexo_id_seq RESTART WITH 2;
+INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") VALUES
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 1, null),
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 2, null),
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 3, null),
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 4, null),
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 5, null);
+ALTER SEQUENCE anexo_id_seq RESTART WITH 6;
 
 INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "id_publicacao_mural", "data_criacao") 
 VALUES 
@@ -90,3 +94,20 @@ VALUES
 ('Critério 2', 'Descrição do critério 2', 5, 1, 1);
 ALTER SEQUENCE criterio_id_seq RESTART WITH 3;
 
+INSERT INTO realizar_avaliacao(data_avaliacao, id_entrega) VALUES
+(now(), 1),
+(now(), 2),
+(now(), 3),
+(now(), 5);
+ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 5;
+
+INSERT INTO avaliacao_criterio (nota_atribuida, id_realizar_avaliacao, id_criterio) VALUES
+(4.5, 1, 1),
+(4.5, 1, 2),
+(2.0, 2, 1),
+(2.0, 2, 2),
+(3.0, 3, 1),
+(3.0, 3, 2),
+(4.9, 4, 1),
+(4.9, 4, 2);
+ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 9;

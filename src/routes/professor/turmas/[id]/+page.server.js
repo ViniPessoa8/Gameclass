@@ -2,8 +2,6 @@ import { redirect } from "@sveltejs/kit"
 import { findUserByLogin } from "$lib/server/repositories/auth"
 
 export async function load({ cookies, params }) {
-	console.log('load turmas/id')
-	console.log(params.id)
 	const session_raw = cookies.get("session");
 	const session = JSON.parse(session_raw);
 
@@ -16,6 +14,5 @@ export async function load({ cookies, params }) {
 
 export const actions = {
 	default: async () => {
-		console.log("get turma by id")
 	}
 }
