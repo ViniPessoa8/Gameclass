@@ -1,12 +1,10 @@
 import { redirect } from "@sveltejs/kit";
-import { buscaEntregaPorId } from '$controllers/entrega.js';
+import { buscaEntregaPorId, avaliaEntrega, listaNotasObtidasDeCriteriosPorIdEntrega } from '$controllers/entrega.js';
 import { getAtividadeById } from '$controllers/atividade.js';
-import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
+import { buscaItemAtividadePorId, listaCriteriosPorIdItemAtividade } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
-import { findUserByLogin } from "$lib/server/repositories/auth";
-import { listaAnexosPorIdEntrega } from "$lib/server/controllers/anexo";
-import { listaCriteriosPorIdItemAtividade } from "$lib/server/controllers/itemAtividade";
-import { avaliaEntrega } from "$lib/server/controllers/entrega";
+import { findUserByLogin } from "$repositories/auth";
+import { listaAnexosPorIdEntrega } from "$controllers/anexo";
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -24,11 +22,13 @@ export async function load({ cookies, params }) {
 	const usuario = await findUserByLogin(data.login)
 	const anexos = await listaAnexosPorIdEntrega(idEntrega)
 	const criterios = await listaCriteriosPorIdItemAtividade(idEtapa)
+	const notas = await listaNotasObtidasDeCriteriosPorIdEntrega(idEntrega)
 
 	// entrega["comentarios"] = comentarios_entrega
 	entrega["anexos"] = anexos
 	usuario["cor"] = usuario.cor
 	etapa["criterios"] = criterios
+	entrega["notas"] = notas
 
 	return { "usuario": data, "entrega": entrega, "atividade": atividade, "etapa": etapa, "nomeEstudante": estudante.nome }
 }
