@@ -96,7 +96,6 @@ export async function removeItemAtividadePorIdBD(idItemAtividade) {
 	}
 }
 
-// listaNotasDeCriteriosPorIdItemAtividadeBD
 export async function listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade) {
 	try {
 		let query = {

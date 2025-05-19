@@ -33,6 +33,15 @@
 
 	$: publicacoes = data.publicacoes;
 
+	function validaFormPublicacao() {
+		if (!textoPublicacao || textoPublicacao == '') {
+			toast.error('Texto da publicação não pode ser vazio.');
+			return false;
+		}
+
+		return true;
+	}
+
 	onMount(async () => {});
 </script>
 
@@ -45,11 +54,16 @@
 		method="post"
 		action="?/novaPublicacao"
 		enctype="multipart/form-data"
-		use:enhance={() => {
+		use:enhance={(cancel) => {
+			if (!validaFormPublicacao()) {
+				cancel();
+			}
+
 			return async ({ result, update }) => {
 				if (result.data) {
 					arquivos = [];
 					await invalidate();
+					toast.success('Publicação criada com sucesso!');
 				}
 				await update();
 			};
