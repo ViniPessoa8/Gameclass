@@ -7,7 +7,9 @@
 
 	export let data;
 
-	let notas = Array(data.etapa.criterios.length).fill('');
+	const notas = data.entrega.notas
+		? data.entrega.notas.map((notas) => notas.nota_atribuida.toFixed(1))
+		: Array(data.etapa.criterios.length).fill('');
 
 	function validarNotas() {
 		const inputs = document.querySelectorAll('.input-container input');
@@ -111,14 +113,14 @@
 					/>
 				</div>
 				<div class="nota-max">
-					<p>{criterio.pontuacao_max}</p>
+					<p>{criterio.pontuacao_max.toFixed(1)}</p>
 				</div>
 			</div>
 		{/each}
 
 		<div class="btn-finalizar">
 			<Button on:click={finalizarAvaliacao} backgroundColor="var(--cor-primaria)" color="white"
-				>Finalizar Avaliação</Button
+				>{!data.entrega.notas ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 			>
 		</div>
 	</form>
