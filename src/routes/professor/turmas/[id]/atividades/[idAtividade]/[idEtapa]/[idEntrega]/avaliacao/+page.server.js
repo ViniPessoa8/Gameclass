@@ -1,5 +1,5 @@
 import { redirect } from "@sveltejs/kit";
-import { buscaEntregaPorId, avaliaEntrega, listaNotasObtidasDeCriteriosPorIdEntrega } from '$controllers/entrega.js';
+import { buscaEntregaPorId, avaliaEntrega, listaNotasObtidasDeCriteriosPorIdEntrega, alteraAvaliacaoEntrega } from '$controllers/entrega.js';
 import { getAtividadeById } from '$controllers/atividade.js';
 import { buscaItemAtividadePorId, listaCriteriosPorIdItemAtividade } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
@@ -18,13 +18,11 @@ export async function load({ cookies, params }) {
 	const atividade = await getAtividadeById(etapa.id_atividade)
 	const entrega = await buscaEntregaPorId(idEntrega)
 	const estudante = await buscaEstudantePorId(parseInt(entrega.id_estudante))
-	// const comentarios_entrega = await listaComentariosPorIdEntrega(parseInt(entrega.id))
 	const usuario = await findUserByLogin(data.login)
 	const anexos = await listaAnexosPorIdEntrega(idEntrega)
 	const criterios = await listaCriteriosPorIdItemAtividade(idEtapa)
 	const notas = await listaNotasObtidasDeCriteriosPorIdEntrega(idEntrega)
 
-	// entrega["comentarios"] = comentarios_entrega
 	entrega["anexos"] = anexos
 	usuario["cor"] = usuario.cor
 	etapa["criterios"] = criterios
@@ -34,7 +32,7 @@ export async function load({ cookies, params }) {
 }
 
 export const actions = {
-	default: async ({ request, cookies, params }) => {
+	criar: async ({ request, cookies, params }) => {
 		let res;
 
 		const notas = await request.formData();
@@ -45,15 +43,30 @@ export const actions = {
 			res = await avaliaEntrega(idEntrega, notas)
 
 		} catch (e) {
-			console.log(e)
+			console.error(e)
 			if (e.body.already_registered) {
 				return fail("Turma já registrada", { already_registered: true })
 			}
 		}
 		if (res) {
-			cookies.set("toast", 'entrega_avaliada', { path: "/" })
-			const novaUrl = request.url.replace(/\/[^\/]*$/, "");
-			redirect(300, novaUrl)
+			cookies.set("toast", 'avaliacao_realizada', { path: "/" })
+			const novaUrl = request.url.replace("avaliacao", "");
+			redirect(301, novaUrl)
+		}
+	},
+
+	alterar: async ({ request, cookies, params }) => {
+		let res;
+
+		const notas = await request.formData();
+		const idEntrega = params.idEntrega;
+
+		res = await alteraAvaliacaoEntrega(idEntrega, notas)
+
+		if (res) {
+			cookies.set("toast", 'avaliacao_atualizada', { path: "/" })
+			const novaUrl = request.url.replace("avaliacao", "");
+			redirect(301, novaUrl)
 		}
 	}
 }

@@ -122,6 +122,61 @@ export async function avaliaEntregaBD(idEntrega, notas) {
 	return true
 }
 
+
+export async function alteraAvaliacaoEntregaBD(idEntrega, notas) {
+	try {
+		const entregaResult = await buscaEntregaPorIdBD(idEntrega)
+		let query
+
+		if (!entregaResult.rows.length) {
+			console.error(`Entrega ${idEntrega} não encontrada`)
+			return false
+		}
+
+		const entrega = entregaResult.rows[0]
+		// TODO: buscar 'realizar_avaliacao' por id da entrega
+		const realizarAvaliacao = await buscaAvaliacaoEntregaBD(idEntrega)
+		const idRealizarAvaliacao = realizarAvaliacao[0].id
+
+		for (const avaliacao of notas) {
+			const [tituloCriterio, nota] = avaliacao
+
+			query = {
+				text: `	SELECT id
+						FROM ${DB_INFO.tables.criterio} 
+						WHERE titulo = $1
+						AND id_item_atividade = $2;`,
+				values: [tituloCriterio, entrega.id_item_atividade]
+			}
+
+			const criterioRes = await dbConn.query(query)
+			if (!criterioRes.rows.length) {
+				continue
+			}
+			const idCriterio = criterioRes.rows[0].id
+
+			query = {
+				text: `	UPDATE 
+									${DB_INFO.tables.avaliacao_criterio} 
+								SET 
+									nota_atribuida = $1
+								WHERE
+									id_criterio = $2
+									AND id_realizar_avaliacao = $3;
+						`,
+				values: [nota, idCriterio, idRealizarAvaliacao]
+			}
+
+			await dbConn.query(query)
+		}
+
+	} catch (e) {
+		throw (`Erro ao atualizar avaliacao da entrega (${idEntrega}): ${e}`)
+	}
+
+	return true
+}
+
 export async function buscaAvaliacaoEntregaBD(idEntrega) {
 	try {
 		let query = {

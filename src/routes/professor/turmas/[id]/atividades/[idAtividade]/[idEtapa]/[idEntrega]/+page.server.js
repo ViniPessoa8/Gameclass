@@ -29,5 +29,13 @@ export async function load({ cookies, params }) {
 	entrega["avaliada"] = entregaAvaliada.length > 0 ? true : false
 	usuario["cor"] = usuario.cor
 
-	return { "usuario": data, "entrega": entrega, "atividade": atividade, "etapa": etapa, "nomeEstudante": estudante.nome }
+	let toast = ''
+	const message = cookies.get("toast");
+
+	if (message !== '') {
+		cookies.set("toast", "", { path: '/' });
+		toast = message
+	}
+
+	return { "usuario": data, "entrega": entrega, "atividade": atividade, "etapa": etapa, "nomeEstudante": estudante.nome, "toast": toast }
 }

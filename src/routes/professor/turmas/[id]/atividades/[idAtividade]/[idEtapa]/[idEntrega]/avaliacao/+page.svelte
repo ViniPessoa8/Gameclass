@@ -1,15 +1,16 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
-	import InputNumber from '$lib/components/InputNumber.svelte';
+	import InputText from '$lib/components/InputText.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 
 	export let data;
 
-	const notas = data.entrega.notas
-		? data.entrega.notas.map((notas) => notas.nota_atribuida.toFixed(1))
-		: Array(data.etapa.criterios.length).fill('');
+	const notas =
+		data.entrega.notas.length != 0
+			? data.entrega.notas.map((notas) => notas.nota_atribuida.toFixed(1))
+			: Array(data.etapa.criterios.length).fill('');
 
 	function validarNotas() {
 		const inputs = document.querySelectorAll('.input-container input');
@@ -61,7 +62,6 @@
 
 	function finalizarAvaliacao() {
 		if (validarNotas()) {
-			console.log('Notas válidas:', notas);
 		}
 	}
 </script>
@@ -75,6 +75,7 @@
 	<form
 		class="criterios-grid"
 		method="POST"
+		action={data.entrega.notas.length != 0 ? '?/alterar' : '?/criar'}
 		use:enhance={({ cancel }) => {
 			if (!validarNotas()) {
 				cancel();
@@ -99,13 +100,13 @@
 					<IconeInformacao text={criterio.descricao} />
 				</div>
 				<div class="input-container">
-					<InputNumber
+					<InputText
 						borded
 						name={criterio.titulo}
 						placeholder="Nota"
 						width="80px"
 						bind:value={notas[index]}
-						on:input={(e) => formatarNota(notas[index], index, e)}
+						inputHandler={(e) => formatarNota(notas[index], index, e)}
 						on:blur={() => formatarNotaFinal(index, criterio.pontuacao_max)}
 						step="0.1"
 						min="0"
@@ -120,7 +121,7 @@
 
 		<div class="btn-finalizar">
 			<Button on:click={finalizarAvaliacao} backgroundColor="var(--cor-primaria)" color="white"
-				>{!data.entrega.notas ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
+				>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 			>
 		</div>
 	</form>

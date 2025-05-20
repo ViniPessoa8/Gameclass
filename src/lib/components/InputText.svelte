@@ -19,6 +19,7 @@
 			{placeholder}
 			bind:value
 			on:input={inputHandler}
+			on:blur
 			style="width: {width};background-color: {backgroundColor}; font-size:{fontSize}"
 			{...$$restProps}
 		/>
@@ -32,6 +33,7 @@
 			{placeholder}
 			bind:value
 			on:input={inputHandler}
+			on:blur
 			style="width: {width}; font-size:{fontSize}"
 			{...$$restProps}
 		/>
