@@ -7,6 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
+	import Tags from 'svelte-tags-input';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
@@ -17,10 +18,14 @@
 	let novoCriterioTitulo = '';
 	let novoCriterioNota = '';
 	let novoCriterioDescricao = '';
+	let novoCriterioPeso = '';
 	let oldCriterioNota = '';
 	let erroNotaCriterio = false;
 	let etapasData = [];
 	let carregando = true;
+	let tags = [];
+	let tagsAutocomplete = [];
+	let tagsColors = {};
 
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
@@ -167,6 +172,20 @@
 		}
 	}
 
+	function onTagAdicionada(tag, index) {
+		tagsColors[tag] = 'black';
+	}
+
+	function onTagRemovida() {
+		// remove a cor correspondente no dicionario de cores
+		let tagsColorsKeys = Object.keys(tagsColors);
+		tagsColorsKeys.forEach((tagKey) => {
+			if (!tags.includes(tagKey)) {
+				delete tagsColors[tagKey];
+			}
+		});
+	}
+
 	onMount(() => {
 		if (!$selectedEtapa) {
 			$selectedEtapa = 0;
@@ -203,7 +222,6 @@
 				];
 			}
 			carregando = false;
-
 		});
 
 		return unsubscribe; // limpa quando sair da página
@@ -310,6 +328,20 @@
 								/>
 								<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
 							</div>
+							<!-- Tags -->
+							<!-- <div class="row"> -->
+							<!-- 	<h3>Tags:</h3> -->
+							<!-- 	<!-- TODO Make Tag style editable (https://svelte-tags-input.vercel.app/#:~:text=How%20to%20override%20default%20styles%3F) -->
+							<!-- -->
+							<!-- 	<!-- TODO Generate random colors -->
+							<!-- 	<Tags -->
+							<!-- 		bind:tags -->
+							<!-- 		maxTags={5} -->
+							<!-- 		onlyUnique={true} -->
+							<!-- 		onTagAdded={onTagAdicionada} -->
+							<!-- 		onTagRemoved={onTagRemovida} -->
+							<!-- 	/> -->
+							<!-- </div> -->
 						</div>
 						<div class="criterios-container">
 							<h1>Critérios</h1>
@@ -334,6 +366,17 @@
 												inputHandler={onChangeCriterioNota}
 												bind:value={novoCriterioNota}
 											/>
+											{#if true}
+												<InputText
+													id="inputPesoCriterio"
+													borded
+													name="peso-criterio"
+													width="150px"
+													placeholder="Peso"
+													inputHandler={onChangeCriterioNota}
+													bind:value={novoCriterioPeso}
+												/>
+											{/if}
 										</div>
 										<div class="row">
 											<InputText
