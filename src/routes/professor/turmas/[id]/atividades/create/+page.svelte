@@ -210,64 +210,6 @@
 			<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
 		{/if}
 	</div>
-	<!-- Tags -->
-	<div class="row">
-		<h3>Tags:</h3>
-		<!-- TODO: Make Tag style editable (https://svelte-tags-input.vercel.app/#:~:text=How%20to%20override%20default%20styles%3F) -->
-		<!-- TODO: Generate random colors -->
-		<Tags
-			bind:tags
-			maxTags={5}
-			onlyUnique={true}
-			onTagAdded={onTagAdicionada}
-			onTagRemoved={onTagRemovida}
-		/>
-	</div>
-	<!-- Atribuição de Notas -->
-	<div class="row">
-		<h3>Atribuição de notas:</h3>
-		<div class="column">
-			<InputRadio
-				bind:group={atribuicaoDeNotas}
-				options={[
-					{
-						name: 'media_simples',
-						text: 'Média Simples'
-					},
-					{
-						name: 'media_ponderada',
-						text: 'Média Ponderada'
-					}
-				]}
-			/>
-		</div>
-		<IconeInformacao text="Método de cálculo das notas dos alunos." />
-	</div>
-	<!-- Realização -->
-	<div class="row">
-		<h3>Realização:</h3>
-		<div class="column">
-			<InputRadio
-				bind:group={realizacao}
-				options={[
-					{
-						name: 'individual',
-						text: 'Individual'
-					},
-					{
-						name: 'grupos',
-						text: 'Em Grupos'
-					}
-				]}
-			/>
-		</div>
-		<IconeInformacao text="Forma em que os alunos irão realizar atividade." />
-	</div>
-	<!-- Receber após o prazo -->
-	<div class="row">
-		<InputCheckbox bind:checked={receberAposPrazo} text="Receber após o prazo" />
-		<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
-	</div>
 	<div class="row">
 		<Button type="submit" backgroundColor="var(--cor-primaria)" color="white">Próximo</Button>
 	</div>
