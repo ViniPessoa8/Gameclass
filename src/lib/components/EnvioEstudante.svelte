@@ -48,6 +48,7 @@
 		border-radius: 10px;
 		text-align: center;
 		width: 150px;
+		min-height: 120px;
 	}
 
 	.off {

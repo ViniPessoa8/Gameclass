@@ -132,6 +132,8 @@
 
 	.tab {
 		display: flex;
+		position: sticky;
+		top: 80px;
 		width: 300px;
 		height: 100%;
 		background-color: var(--cor-secundaria);

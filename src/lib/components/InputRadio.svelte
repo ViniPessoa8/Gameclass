@@ -45,4 +45,8 @@
 		flex-direction: row;
 		gap: 8px;
 	}
+
+	label {
+		font-size: 20px;
+	}
 </style>
