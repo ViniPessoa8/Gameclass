@@ -22,9 +22,23 @@
 	{#each options as option, index}
 		<div class="row">
 			{#if index === 0}
-				<input name={option.name} bind:group id={option.name} type="radio" value={option.text} />
+				<input
+					name={option.name}
+					bind:group
+					id={option.name}
+					type="radio"
+					value={option.text}
+					on:change
+				/>
 			{:else}
-				<input name={option.name} bind:group id={option.name} type="radio" value={option.text} />
+				<input
+					name={option.name}
+					bind:group
+					id={option.name}
+					type="radio"
+					value={option.text}
+					on:change
+				/>
 			{/if}
 			<label for={option.name}>{option.text}</label>
 		</div>

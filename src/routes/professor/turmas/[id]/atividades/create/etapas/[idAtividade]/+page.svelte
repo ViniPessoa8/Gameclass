@@ -7,7 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
-	import Tags from 'svelte-tags-input';
+	// import Tags from 'svelte-tags-input';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
@@ -23,9 +23,10 @@
 	let erroNotaCriterio = false;
 	let etapasData = [];
 	let carregando = true;
-	let tags = [];
-	let tagsAutocomplete = [];
-	let tagsColors = {};
+	let realizacaoSelecionada = 0;
+	// let tags = [];
+	// let tagsAutocomplete = [];
+	// let tagsColors = {};
 
 	let realizacaoOpcoes = [
 		{ name: 'realizacao_individual', text: 'Individual' },
@@ -94,9 +95,17 @@
 	}
 
 	function onAdicionaCriterio() {
-		if (!novoCriterioTitulo || !novoCriterioNota) {
+		if (
+			!novoCriterioTitulo ||
+			!novoCriterioNota ||
+			(etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada' && !novoCriterioPeso)
+		) {
 			console.error('Definir critério: Dados incompletos');
-			erroNotaCriterio = [true, `*Digite o título e a nota`];
+			const textErro =
+				etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'
+					? '*Digite o título, a nota e o peso'
+					: '*Digite o título e a nota';
+			erroNotaCriterio = [true, textErro];
 			return;
 		}
 
@@ -106,10 +115,17 @@
 			return;
 		}
 
+		if (Number(novoCriterioPeso) === novoCriterioNota && Number(novoCriterioNota) <= 10.0) {
+			console.error('Definir critério: Nota no formato inválido');
+			erroNotaCriterio = [true, `*Formato inválido`];
+			return;
+		}
+
 		let novoCriterio = {
 			titulo: novoCriterioTitulo,
 			descricao: novoCriterioDescricao,
-			nota_max: novoCriterioNota
+			nota_max: novoCriterioNota,
+			peso: novoCriterioPeso
 		};
 
 		let totalPontos;
@@ -143,6 +159,7 @@
 		novoCriterioTitulo = '';
 		novoCriterioNota = '';
 		novoCriterioDescricao = '';
+		novoCriterioPeso = '';
 	}
 
 	function onRemoveCriterio(criterio) {
@@ -172,19 +189,19 @@
 		}
 	}
 
-	function onTagAdicionada(tag, index) {
-		tagsColors[tag] = 'black';
-	}
-
-	function onTagRemovida() {
-		// remove a cor correspondente no dicionario de cores
-		let tagsColorsKeys = Object.keys(tagsColors);
-		tagsColorsKeys.forEach((tagKey) => {
-			if (!tags.includes(tagKey)) {
-				delete tagsColors[tagKey];
-			}
-		});
-	}
+	// function onTagAdicionada(tag, index) {
+	// 	tagsColors[tag] = 'black';
+	// }
+	//
+	// function onTagRemovida() {
+	// 	// remove a cor correspondente no dicionario de cores
+	// 	let tagsColorsKeys = Object.keys(tagsColors);
+	// 	tagsColorsKeys.forEach((tagKey) => {
+	// 		if (!tags.includes(tagKey)) {
+	// 			delete tagsColors[tagKey];
+	// 		}
+	// 	});
+	// }
 
 	onMount(() => {
 		if (!$selectedEtapa) {
@@ -223,6 +240,11 @@
 			}
 			carregando = false;
 		});
+
+		console.debug(
+			'{etapasData[$selectedEtapa].realizacaoGroup}',
+			etapasData[$selectedEtapa].realizacaoGroup
+		);
 
 		return unsubscribe; // limpa quando sair da página
 	});
@@ -366,7 +388,7 @@
 												inputHandler={onChangeCriterioNota}
 												bind:value={novoCriterioNota}
 											/>
-											{#if true}
+											{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
 												<InputText
 													id="inputPesoCriterio"
 													borded
@@ -413,6 +435,9 @@
 											<IconeInformacao text={criterio.descricao} />
 										</div>
 										<h2>{parseFloat(criterio.nota_max).toFixed(2)}</h2>
+										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
+											<h2>{parseFloat(criterio.peso).toFixed(2)}</h2>
+										{/if}
 										<Button
 											color="var(--cor primaria)"
 											type="button"
@@ -436,6 +461,20 @@
 									{/if}
 									pts
 								</h2>
+								{#if etapasData[$selectedEtapa].realizacaoGroup === 'Individual'}
+									<h2 class="total-de-pesos">
+										Total de pesos:&emsp;
+										{#if etapasData[$selectedEtapa].criterios.length === 0}
+											0.00
+										{:else}
+											{parseFloat(
+												etapasData[$selectedEtapa].criterios
+													.map((x) => parseFloat(x.peso))
+													.reduce((a, b) => a + b)
+											).toFixed(2)}
+										{/if}
+									</h2>
+								{/if}
 							</div>
 						</div>
 					</div>
