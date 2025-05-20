@@ -28,6 +28,10 @@ export async function handle({ event, resolve }) {
 		throw redirect(302, '/');
 	}
 
+	if (event.url.pathname.startsWith('/.well-known/')) {
+		return new Response('Not Found', { status: 404 });
+	}
+
 	return await resolve(event);
 }
 
