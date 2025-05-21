@@ -20,6 +20,7 @@
 	let novoCriterioDescricao = '';
 	let novoCriterioPeso = '';
 	let oldCriterioNota = '';
+	let oldCriterioPeso = '';
 	let erroNotaCriterio = false;
 	let etapasData = [];
 	let carregando = true;
@@ -180,12 +181,25 @@
 			.replace(/(?<=^[0-9]{2})\.$/g, '')
 			.replace(/(?<=^[0-9])\.$/g, '')
 			.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
-			.replace(/^(1)(0)$/g, '$1.$2');
+			.replace(/^(1)(0)$/g, '$1.$2')
+			.replace(/[^\d.]/g, ''); // Remove tudo que não for número
 
 		if (parseFloat(novoCriterioNota) > 10.0) {
-			novoCriterioNota = oldCriterioNota;
+			novoCriterioNota = 10.0;
 		} else {
 			oldCriterioNota = novoCriterioNota;
+		}
+	}
+
+	function onChangeCriterioPeso() {
+		novoCriterioPeso = String(novoCriterioPeso)
+			.replace(/\D/g, '') // remove tudo que não for dígito
+			.replace(/^0+/, ''); // remove zeros à esquerda
+
+		if (parseFloat(novoCriterioPeso) > 10) {
+			novoCriterioPeso = 10;
+		} else {
+			oldCriterioPeso = novoCriterioPeso;
 		}
 	}
 
@@ -367,63 +381,63 @@
 						</div>
 						<div class="criterios-container">
 							<h1>Critérios</h1>
+							<div class="column">
+								<!-- TODO: Limitar input de dados com mascaras  -->
 								<div class="column">
-									<!-- TODO: Limitar input de dados com mascaras  -->
-									<div class="column">
-										<div class="row">
+									<div class="row">
+										<InputText
+											id="inputTituloCriterio"
+											borded
+											name="titulo-criterio"
+											placeholder="Título"
+											bind:value={novoCriterioTitulo}
+										/>
+										<InputText
+											id="inputNotaMaxCriterio"
+											borded
+											name="nota-max-criterio"
+											width="150px"
+											placeholder="Nota max."
+											inputHandler={onChangeCriterioNota}
+											bind:value={novoCriterioNota}
+										/>
+										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
 											<InputText
-												id="inputTituloCriterio"
+												id="inputPesoCriterio"
 												borded
-												name="titulo-criterio"
-												placeholder="Título"
-												bind:value={novoCriterioTitulo}
-											/>
-											<InputText
-												id="inputNotaMaxCriterio"
-												borded
-												name="nota-max-criterio"
+												name="peso-criterio"
 												width="150px"
-												placeholder="Nota max."
-												inputHandler={onChangeCriterioNota}
-												bind:value={novoCriterioNota}
+												placeholder="Peso"
+												inputHandler={onChangeCriterioPeso}
+												bind:value={novoCriterioPeso}
 											/>
-											{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
-												<InputText
-													id="inputPesoCriterio"
-													borded
-													name="peso-criterio"
-													width="150px"
-													placeholder="Peso"
-													inputHandler={onChangeCriterioNota}
-													bind:value={novoCriterioPeso}
-												/>
-											{/if}
-										</div>
-										<div class="row">
-											<InputText
-												id="inputDescricaoCriterio"
-												borded
-												name="descricao-criterio"
-												placeholder="Descrição"
-												bind:value={novoCriterioDescricao}
-											/>
-										</div>
-										<div class="btn-add-criterio">
-											<Button
-												borded
-												color="var(--cor primaria)"
-												backgroundColor="var(--cor-secundaria)"
-												type="button"
-												on:click={onAdicionaCriterio}>Adicionar Critério</Button
-											>
-										</div>
+										{/if}
 									</div>
-									{#if erroNotaCriterio[0]}
-										<p class="erro-criterio">{erroNotaCriterio[1]}</p>
-									{:else}
-										<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
-									{/if}
+									<div class="row">
+										<InputText
+											id="inputDescricaoCriterio"
+											borded
+											name="descricao-criterio"
+											placeholder="Descrição"
+											bind:value={novoCriterioDescricao}
+										/>
+									</div>
+									<div class="btn-add-criterio">
+										<Button
+											borded
+											color="var(--cor primaria)"
+											backgroundColor="var(--cor-secundaria)"
+											type="button"
+											on:click={onAdicionaCriterio}>Adicionar Critério</Button
+										>
+									</div>
 								</div>
+								{#if erroNotaCriterio[0]}
+									<p class="erro-criterio">{erroNotaCriterio[1]}</p>
+								{:else}
+									<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
+								{/if}
+							</div>
 							<div class="criterios-definidos">
 								<hr />
 								{#each etapasData[$selectedEtapa].criterios as criterio}
@@ -432,9 +446,9 @@
 											<h2>{criterio.titulo}</h2>
 											<IconeInformacao text={criterio.descricao} />
 										</div>
-										<h2>{parseFloat(criterio.nota_max).toFixed(2)}</h2>
+										<h2>{parseFloat(criterio.nota_max).toFixed(1)}</h2>
 										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
-											<h2>{parseFloat(criterio.peso).toFixed(2)}</h2>
+											<h2>{parseFloat(criterio.peso).toFixed(1)}</h2>
 										{/if}
 										<Button
 											color="var(--cor primaria)"
@@ -446,33 +460,38 @@
 									</div>
 									<hr />
 								{/each}
-								<h2 class="total-de-pontos">
-									Total de pontos:&emsp;
-									{#if etapasData[$selectedEtapa].criterios.length === 0}
-										0.00
-									{:else}
-										{parseFloat(
-											etapasData[$selectedEtapa].criterios
-												.map((x) => parseFloat(x.nota_max))
-												.reduce((a, b) => a + b)
-										).toFixed(2)}
+								<div class="pontuacao">
+									<div class="total-de-pontos">
+										<h2>Total de pontos:&emsp;</h2>
+										<h2>
+											{#if etapasData[$selectedEtapa].criterios.length === 0}
+												0.0
+											{:else}
+												{parseFloat(
+													etapasData[$selectedEtapa].criterios
+														.map((x) => parseFloat(x.nota_max))
+														.reduce((a, b) => a + b)
+												).toFixed(1)}
+											{/if}
+										</h2>
+									</div>
+									{#if etapasData[$selectedEtapa].atribuicaoNotasGroup === 'Média Ponderada'}
+										<div class="total-de-pesos">
+											<h2>Total de pesos:&emsp;</h2>
+											<h2>
+												{#if etapasData[$selectedEtapa].criterios.length === 0}
+													0.0
+												{:else}
+													{parseFloat(
+														etapasData[$selectedEtapa].criterios
+															.map((x) => parseFloat(x.peso))
+															.reduce((a, b) => a + b)
+													).toFixed(1)}
+												{/if}
+											</h2>
+										</div>
 									{/if}
-									pts
-								</h2>
-								{#if etapasData[$selectedEtapa].realizacaoGroup === 'Individual'}
-									<h2 class="total-de-pesos">
-										Total de pesos:&emsp;
-										{#if etapasData[$selectedEtapa].criterios.length === 0}
-											0.00
-										{:else}
-											{parseFloat(
-												etapasData[$selectedEtapa].criterios
-													.map((x) => parseFloat(x.peso))
-													.reduce((a, b) => a + b)
-											).toFixed(2)}
-										{/if}
-									</h2>
-								{/if}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -552,12 +571,6 @@
 		flex-direction: row;
 	}
 
-	.total-de-pontos {
-		margin-top: 12px;
-		margin-right: 8px;
-		text-align: end;
-	}
-
 	.criterio-container {
 		width: 400px;
 		padding: 10px 10px 10px 10px;
@@ -584,5 +597,18 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 8px;
+	}
+
+	.pontuacao {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.total-de-pontos,
+	.total-de-pesos {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-top: 6px;
 	}
 </style>
