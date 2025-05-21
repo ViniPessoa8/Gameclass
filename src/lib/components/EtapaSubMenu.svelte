@@ -3,22 +3,15 @@
 	import IconeInformacao from './IconeInformacao.svelte';
 	import CircularIcon from './CircularIcon.svelte';
 	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '$lib/constants.js';
+	import ItemAtividade from '$lib/models/ItemAtividade.js';
 
 	export let itemAtividade;
+	export let criterios;
 	export let idAtividade;
 	export let idTurma;
 
-	// Gambiarra pra mostrar a data no dia certo (diferença de timezone)
-	const prazoEtapa = new Date(itemAtividade.data_entrega_final.toISOString());
-	const dateOptions = {
-		day: '2-digit',
-		month: '2-digit',
-		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-		timezone: 'America/Manaus'
-	};
-	const prazoFinalStr = prazoEtapa.toLocaleString('pt-BR', dateOptions);
+	itemAtividade = new ItemAtividade(itemAtividade);
+	console.debug('itemAtividade:', itemAtividade);
 
 	function capitalizeFirstLetter(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
@@ -36,11 +29,11 @@
 	let iconText = titulo[0].toUpperCase();
 
 	const STATUS_ID = {
-		0: 'pendente',
-		1: 'agendado',
-		2: 'lancado',
-		3: 'aguardando_correcao',
-		4: 'corrigido'
+		Pendente: 'pendente',
+		Agendado: 'agendado',
+		Lançado: 'lancado',
+		'Aguardando Correção': 'aguardando_correcao',
+		Corrigido: 'corrigido'
 	};
 </script>
 
@@ -51,12 +44,12 @@
 		<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 	</div>
 	<div class="column info">
-		<span class="prazo">Prazo: {prazoFinalStr}</span>
+		<span class="prazo">Prazo: {itemAtividade.formataDataFinal()}</span>
 		<div class="status row">
 			<h3 class="status-text-{STATUS_ID[status]}">
-				{capitalizeFirstLetter(STATUS_ITEM_ATIVIDADE_PROFESSOR[status])}
+				{capitalizeFirstLetter(status)}
 			</h3>
-			<h3 class="status-grade-{STATUS_ID[status]}">{notaMax}</h3>
+			<!-- <h3 class="status-grade-{STATUS_ID[status]}">{notaMax}</h3> -->
 		</div>
 	</div>
 	<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}" color="white"

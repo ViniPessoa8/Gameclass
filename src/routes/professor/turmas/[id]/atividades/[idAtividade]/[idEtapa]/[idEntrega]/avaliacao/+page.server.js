@@ -1,10 +1,13 @@
 import { redirect } from "@sveltejs/kit";
 import { buscaEntregaPorId, avaliaEntrega, listaNotasObtidasDeCriteriosPorIdEntrega, alteraAvaliacaoEntrega } from '$controllers/entrega.js';
-import { getAtividadeById } from '$controllers/atividade.js';
-import { buscaItemAtividadePorId, listaCriteriosPorIdItemAtividade } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
 import { findUserByLogin } from "$repositories/auth";
 import { listaAnexosPorIdEntrega } from "$controllers/anexo";
+import AtividadeController from "$lib/server/controllers/atividade";
+import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
+
+const atividadeController = new AtividadeController()
+const itemAtividadeController = new ItemAtividadeController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -14,13 +17,13 @@ export async function load({ cookies, params }) {
 	const idEntrega = params.idEntrega
 	const idEtapa = params.idEtapa
 
-	const etapa = await buscaItemAtividadePorId(idEtapa)
-	const atividade = await getAtividadeById(etapa.id_atividade)
+	const etapa = (await itemAtividadeController.buscarItemAtividadePorId(idEtapa)).toObject()
+	const atividade = (await atividadeController.buscarPorId(etapa.id_atividade)).toObject()
 	const entrega = await buscaEntregaPorId(idEntrega)
 	const estudante = await buscaEstudantePorId(parseInt(entrega.id_estudante))
 	const usuario = await findUserByLogin(data.login)
 	const anexos = await listaAnexosPorIdEntrega(idEntrega)
-	const criterios = await listaCriteriosPorIdItemAtividade(idEtapa)
+	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
 	const notas = await listaNotasObtidasDeCriteriosPorIdEntrega(idEntrega)
 
 	entrega["anexos"] = anexos

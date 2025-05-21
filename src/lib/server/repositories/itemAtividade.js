@@ -33,7 +33,7 @@ export async function listaItensDaAtividadePorIdBD(idAtividadePai) {
 	}
 }
 
-export async function buscaItemAtividadePorIdBD(idItemAtividade) {
+export async function buscarItemAtividadePorIdBD(idItemAtividade) {
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id = $1 `,
 		values: [idItemAtividade]
@@ -47,7 +47,7 @@ export async function buscaItemAtividadePorIdBD(idItemAtividade) {
 	}
 }
 
-export async function buscaItemAtividadePorTituloBD(titulo, idAtividadePai) {
+export async function buscarItemAtividadePorTituloBD(titulo, idAtividadePai) {
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE titulo = $1 AND id_atividade = $2`,
 		values: [titulo, idAtividadePai]

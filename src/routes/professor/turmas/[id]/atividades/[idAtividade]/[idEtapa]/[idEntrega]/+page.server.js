@@ -1,11 +1,14 @@
 import { redirect } from "@sveltejs/kit";
 import { buscaEntregaPorId, buscaAvaliacaoEntrega } from '$controllers/entrega.js';
-import { getAtividadeById } from '$controllers/atividade.js';
-import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { buscaEstudantePorId } from '$controllers/estudante.js';
 import { listaComentariosPorIdEntrega } from "$lib/server/controllers/comentario";
 import { findUserByLogin } from "$lib/server/repositories/auth";
 import { listaAnexosPorIdEntrega } from "$lib/server/controllers/anexo";
+import AtividadeController from "$lib/server/controllers/atividade";
+import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
+
+const atividadeController = new AtividadeController()
+const itemAtividadeController = new ItemAtividadeController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -16,8 +19,8 @@ export async function load({ cookies, params }) {
 	const idEtapa = params.idEtapa
 
 	const usuario = await findUserByLogin(data.login)
-	const etapa = await buscaItemAtividadePorId(idEtapa)
-	const atividade = await getAtividadeById(etapa.id_atividade)
+	const etapa = (await itemAtividadeController.buscarItemAtividadePorId(idEtapa)).toObject()
+	const atividade = (await atividadeController.buscarPorId(etapa.id_atividade)).toObject()
 	const entrega = await buscaEntregaPorId(idEntrega)
 	const comentarios_entrega = await listaComentariosPorIdEntrega(parseInt(entrega.id))
 	const anexos = await listaAnexosPorIdEntrega(idEntrega)

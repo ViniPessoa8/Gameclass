@@ -1,58 +1,68 @@
-import { cadastraAtividadeBD, getAtividadeByIdBD, getAtividadesByIdTurmaBD, getAtividadeByTituloBD, removeAtividadeBD } from "../repositories/atividade"
-import { buscaItemAtividadePorId } from "../repositories/itemAtividade";
-import { listaItensDaAtividade, listaItensDaAtividadePorId, removeItemAtividadePorId } from "./itemAtividade";
+// src/lib/controllers/AtividadeController.js
+import {
+	cadastraAtividadeBD,
+	getAtividadeByIdBD,
+	getAtividadesByIdTurmaBD,
+	getAtividadeByTituloBD,
+	removeAtividadeBD
+} from "../repositories/atividade.js";
 
-// TODO: Add missing parameters
-export async function cadastraAtividade(titulo, descricao, prazo, id_turma) {
-	if (!titulo || !prazo || !id_turma) {
-		throw ("Dados obrigatórios não foram preenchidos. (Atividade)")
-	}
+import {
+	listaItensDaAtividadePorId,
+	removeItemAtividadePorId
+} from "./itemAtividade.js";
 
-	try {
-		let res = await cadastraAtividadeBD(titulo, descricao, prazo, id_turma);
+import Atividade from "$lib/models/Atividade.js";
 
-		if (res.rowCount > 0) {
-			return res.rows
+export default class AtividadeController {
+	async cadastrar(dados) {
+		const atividade = new Atividade(dados);
+
+		const existente = await (atividade.titulo, atividade.id_turma);
+		if (existente.rowCount > 0) {
+			throw new Error("Uma atividade com o mesmo nome já existe nessa turma");
 		}
-	} catch (e) {
-		if (e.message.includes("duplicate key value violates unique constraint")) {
-			throw new Error(`Uma atividade com o mesmo nome já existe nessa turma`)
+
+		const res = await cadastraAtividadeBD(
+			atividade.titulo,
+			atividade.descricao,
+			atividade.prazo,
+			atividade.id_turma
+		);
+
+		return res.rows[0]; // retorna o ID
+	}
+
+	async remover(titulo, id_turma) {
+		const res = await getAtividadeByTituloBD(titulo, id_turma);
+		const atividade = res.rows[0];
+		if (!atividade) return;
+
+		const itens = await listaItensDaAtividadePorId(atividade.id);
+		for (const item of itens) {
+			await removeItemAtividadePorId(item.id);
 		}
-		throw e;
+
+		await removeAtividadeBD(titulo, id_turma);
+	}
+
+	async buscarPorId(id) {
+		const res = await getAtividadeByIdBD(id);
+		if (res.rowCount === 0) {
+			throw new Error("Não foi encontrada atividade com esse id.");
+		}
+		return new Atividade(res.rows[0]);
+	}
+
+	async buscarPorTitulo(titulo, id_turma) {
+		const res = await getAtividadeByTituloBD(titulo, id_turma);
+		if (res.rowCount === 0) return null;
+		return new Atividade(res.rows[0]);
+	}
+
+	async listarPorIdTurma(id_turma) {
+		const res = await getAtividadesByIdTurmaBD(id_turma);
+		console.debug("res:", res.rows)
+		return res.rows.map((row) => new Atividade(row));
 	}
 }
-
-export async function removeAtividade(titulo, id_turma) {
-	// Verifica se atividade tem itens para serem excluidos
-	let atividade = await getAtividadeByTitulo(titulo, id_turma)
-	if (!atividade) return
-
-	let idAtividadePai = atividade.id
-	let listaItens = await listaItensDaAtividadePorId(idAtividadePai)
-	listaItens.forEach((item) => {
-		removeItemAtividadePorId(item.id)
-	})
-
-	await removeAtividadeBD(titulo, id_turma)
-}
-
-export async function getAtividadeById(id) {
-	let res = await getAtividadeByIdBD(id)
-	if (res.rowCount === 0) {
-		throw ("Não foi encontrada atividade com esse id.")
-	}
-	return res.rows[0]
-}
-
-export async function getAtividadesByIdTurma(id_turma) {
-	let res = await getAtividadesByIdTurmaBD(id_turma)
-	return res.rows
-
-}
-
-export async function getAtividadeByTitulo(titulo, id_turma) {
-	let res = await getAtividadeByTituloBD(titulo, id_turma)
-	return res.rows[0]
-
-}
-

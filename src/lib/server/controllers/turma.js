@@ -1,104 +1,106 @@
-import { error } from "@sveltejs/kit";
-import { deleteTurmaByCodigoBD, getTurmasByIdProfessorBD, getTurmaByCodigoBD, getTurmaByIdBD, isTurmaRegisteredDB, registraTurmaBD, listAlunosByTurmaIdBD } from "../repositories/turma";
-import { getInstituicaoByNome } from "./instituicao";
+import {
+	deleteTurmaByCodigoBD,
+	getTurmasByIdProfessorBD,
+	getTurmaByCodigoBD,
+	getTurmaByIdBD,
+	isTurmaRegisteredDB,
+	registraTurmaBD,
+	listAlunosByTurmaIdBD
+} from "../repositories/turma.js";
+
+import { getInstituicaoByNome } from "./instituicao.js";
+import Turma from "$lib/models/Turma.js";
 
 const CORES = [
-	"4682B4", // Azul aço
-	"6B8E23", // Verde oliva
-	"CD5C5C", // Vermelho indiano
-	"9370DB", // Roxo médio
-	"778899", // Cinza ardósia claro
-	"D2691E", // Marrom chocolate
-	"DA70D6", // Orquídea
-	"6495ED", // Azul centáurea
-	"4169E1", // Azul royal
-	"A0522D"  // Marrom sienna;
-]
+	"4682B4", "6B8E23", "CD5C5C", "9370DB", "778899",
+	"D2691E", "DA70D6", "6495ED", "4169E1", "A0522D"
+];
 
-function getRandomInt(max) {
-	return Math.floor(Math.random() * max);
+function getRandomCor() {
+	return CORES[Math.floor(Math.random() * CORES.length)];
 }
 
-export async function registraTurma(codigo, disciplina, nome, descricao, ano, periodo, local, instituicao, professorId, numero_alunos = 0, cor = "") {
-	// Verifica se turma ja existe
-	let isRegistered = await isTurmaRegistered(codigo, instituicao)
-	if (isRegistered) {
-		error(409, { already_registered: true })
+export default class TurmaController {
+	async registrar(dadosTurma) {
+		// Adiciona cor aleatória se não for informada
+		if (!dadosTurma.cor) {
+			dadosTurma.cor = getRandomCor();
+		}
+
+		// Busca ID da instituição
+		const instituicao = await getInstituicaoByNome(dadosTurma.instituicao);
+		dadosTurma.id_instituicao = instituicao.id;
+
+		// Verifica duplicidade
+		const existente = await this.isRegistrada(dadosTurma.codigo, dadosTurma.instituicao);
+		if (existente) {
+			throw new Error("Turma já registrada.");
+		}
+
+		const turma = new Turma({
+			...dadosTurma,
+			id_professor: dadosTurma.professorId
+		});
+		turma.validar();
+
+		const res = await registraTurmaBD(
+			turma.codigo,
+			turma.disciplina,
+			turma.nome,
+			turma.descricao,
+			turma.ano,
+			turma.periodo,
+			turma.local,
+			turma.id_instituicao,
+			turma.id_professor,
+			turma.numero_alunos,
+			turma.cor
+		);
+
+		if (res.rows.length > 0) {
+			return new Turma(res.rows[0]).toObject();
+		}
+
+		throw new Error("Erro na criação da turma.");
 	}
 
-	// Verifica se input está completo
-	if (!codigo | !disciplina | !nome | !descricao | !ano | !periodo | !local | !instituicao | !professorId) {
-		error(422, { message: "The request has missing data", missing_info: true })
+	async isRegistrada(codigo, nomeInstituicao) {
+		const instituicao = await getInstituicaoByNome(nomeInstituicao);
+		const res = await isTurmaRegisteredDB(codigo, instituicao.id);
+		return res.rows.length > 0;
 	}
 
-	if (cor === "") {
-		cor = CORES[getRandomInt(CORES.length)]
+	async buscarPorCodigo(codigo) {
+		const res = await getTurmaByCodigoBD(codigo);
+		if (res.rows.length > 0) {
+			return new Turma(res.rows[0]).toObject();
+		}
+		return null;
 	}
 
-	const instituicaoJson = await getInstituicaoByNome(instituicao)
-
-	let res = await registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoJson.id, professorId, numero_alunos, cor)
-
-	if (res.rows.length > 0) {
-		return res.rows[0]
+	async buscarPorId(id) {
+		const res = await getTurmaByIdBD(id);
+		if (res.rows.length > 0) {
+			return new Turma(res.rows[0]).toObject();
+		}
+		return null;
 	}
 
-	error(500, "Erro na criação da turma.")
-}
-
-export async function isTurmaRegistered(codigo, instituicao) {
-	const instituicaoId = (await getInstituicaoByNome(instituicao)).id;
-	const res = await isTurmaRegisteredDB(codigo, instituicaoId);
-
-	if (res.rows.length > 0) {
-		return res.rows[0]
+	async listarPorProfessor(idProfessor) {
+		const res = await getTurmasByIdProfessorBD(idProfessor);
+		return res.rows.map(row => new Turma(row).toObject());
 	}
 
-	return false
-}
-
-export async function getTurmaByCodigo(codigo) {
-	const turma = await getTurmaByCodigoBD(codigo);
-
-	if (turma.rows.length > 0) {
-		return turma.rows[0]
+	async listarAlunos(idTurma) {
+		const res = await listAlunosByTurmaIdBD(idTurma);
+		return res.rows;
 	}
 
-	return false
-}
-
-export async function getTurmaById(codigo) {
-	const turma = await getTurmaByIdBD(codigo);
-
-	if (turma.rows.length > 0) {
-		return turma.rows[0]
+	async removerPorCodigo(codigo) {
+		const res = await deleteTurmaByCodigoBD(codigo);
+		if (res.rows.length > 0) {
+			return new Turma(res.rows[0]).toObject();
+		}
+		return null;
 	}
-
-	return false
-}
-
-export async function getTurmasByIdProfessor(idProfessor) {
-	const turmas = await getTurmasByIdProfessorBD(idProfessor)
-
-	if (turmas.rows.length > 0) {
-		return turmas.rows
-	}
-
-	return false
-}
-
-export async function listAlunosByTurmaId(idTurma) {
-	const alunos = await listAlunosByTurmaIdBD(idTurma)
-
-	return alunos.rows
-}
-
-export async function deleteTurmaByCodigo(codigo) {
-	const turma = await deleteTurmaByCodigoBD(codigo);
-
-	if (turma.rows.length > 0) {
-		return turma.rows[0]
-	}
-
-	return false
 }

@@ -9,21 +9,16 @@
 	import { goto } from '$app/navigation';
 	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '../constants';
 
+	import Atividade from '$lib/models/Atividade.js';
+
 	export let atividade;
 	export let idTurma;
 	let width = 0;
 	let toggled = false;
 
-	const prazoEtapa = new Date(atividade.prazo.toISOString());
-	const dateOptions = {
-		day: '2-digit',
-		month: '2-digit',
-		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-		timezone: 'America/Manaus'
-	};
-	const prazoFinalStr = prazoEtapa.toLocaleString('pt-BR', dateOptions);
+	console.debug('atividade:', atividade);
+
+	const prazoFinalStr = new Atividade(atividade).formataPrazo();
 </script>
 
 <div
