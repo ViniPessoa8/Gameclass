@@ -51,7 +51,7 @@ INSERT INTO atividade("id", "titulo", "descricao", "prazo", "id_turma") VALUES(2
 ALTER SEQUENCE atividade_id_seq RESTART WITH 3;
 
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "em_grupos", "receber_apos_prazo", "n_integrantes_grupo", "n_max_grupos", "status", "id_atividade") VALUES(1, 'Etapa Exemplo 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4, '2025-01-20T20:00:00.000Z', '2025-01-30T20:00:00.000Z', 1, false, false, 0, 0, 1, 1);
-INSERT INTO item_atividade("id", "titulo","descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "em_grupos", "receber_apos_prazo", "n_integrantes_grupo", "n_max_grupos", "status", "id_atividade") VALUES(2, 'Etapa Exemplo 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4, '2025-02-20T20:00:00.000Z', '2025-02-28T20:00:00.000Z', 1, false, false, 0, 0, 2, 1);
+INSERT INTO item_atividade("id", "titulo","descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "em_grupos", "receber_apos_prazo", "n_integrantes_grupo", "n_max_grupos", "status", "id_atividade") VALUES(2, 'Etapa Exemplo 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4, '2025-02-20T20:00:00.000Z', '2025-02-28T20:00:00.000Z', 2, false, false, 0, 0, 2, 1);
 INSERT INTO item_atividade("id", "titulo","descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "em_grupos", "receber_apos_prazo", "n_integrantes_grupo", "n_max_grupos", "status", "id_atividade") VALUES(3, 'Etapa Exemplo 3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4, '2025-03-20T20:00:00.000Z', '2025-03-28T20:00:00.000Z', 1, false, false, 0, 0, 3, 1);
 INSERT INTO item_atividade("id", "titulo","descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "em_grupos", "receber_apos_prazo", "n_integrantes_grupo", "n_max_grupos", "status", "id_atividade") VALUES(4, 'Etapa Exemplo 4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4, '2025-04-20T20:00:00.000Z', '2025-04-28T20:00:00.000Z', 1, false, false, 0, 0, 4, 1);
 ALTER SEQUENCE item_atividade_id_seq RESTART WITH 5;
@@ -62,8 +62,10 @@ VALUES
 ('2024-03-02 10:15:00', NULL, 3, 1),
 ('2024-03-03 18:45:00', NULL, 5, 1),
 ('2024-03-04 09:00:00', NULL, 9, 1),
-('2024-03-05 16:20:00', NULL, 10, 1);
-ALTER SEQUENCE entrega_id_seq RESTART WITH 6;
+('2024-03-05 16:20:00', NULL, 10, 1),
+('2024-03-05 16:20:00', NULL, 1, 2),
+('2024-03-05 16:20:00', NULL, 2, 2);
+ALTER SEQUENCE entrega_id_seq RESTART WITH 8;
 
 INSERT INTO publicacao_mural ("id", "conteudo", "data_publicacao", "id_turma", "id_usuario") 
 VALUES 
@@ -76,8 +78,10 @@ INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_
 ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 2, null),
 ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 3, null),
 ('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 4, null),
-('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 5, null);
-ALTER SEQUENCE anexo_id_seq RESTART WITH 6;
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 5, null),
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 6, null),
+('teste.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2024-03-01 14:30:00', 7, null);
+ALTER SEQUENCE anexo_id_seq RESTART WITH 8;
 
 INSERT INTO comentario ("texto", "id_entrega", "id_usuario", "id_publicacao_mural", "data_criacao") 
 VALUES 
@@ -91,8 +95,10 @@ ALTER SEQUENCE comentario_id_seq RESTART WITH 6;
 INSERT INTO criterio ("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") 
 VALUES 
 ('Critério 1', 'Descrição do critério 1', 5, 1, 1),
-('Critério 2', 'Descrição do critério 2', 5, 1, 1);
-ALTER SEQUENCE criterio_id_seq RESTART WITH 3;
+('Critério 2', 'Descrição do critério 2', 5, 1, 1),
+('Critério 1', 'Descrição do critério 1', 10, 3, 2),
+('Critério 2', 'Descrição do critério 2', 5, 2, 2);
+ALTER SEQUENCE criterio_id_seq RESTART WITH 5;
 
 INSERT INTO realizar_avaliacao(data_avaliacao, id_entrega) VALUES
 (now(), 1),
