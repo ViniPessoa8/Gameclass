@@ -9,6 +9,7 @@
 	import { page } from '$app/stores';
 	import EnvioEstudante from '$lib/components/EnvioEstudante.svelte';
 	import { goto } from '$app/navigation';
+	import Entrega from '$lib/models/Entrega.js';
 
 	export let data;
 
@@ -26,9 +27,12 @@
 	const entregas_por_estudante = data.estudantes
 		.map((estudante) => {
 			const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id);
-			return entrega != undefined
-				? { ...estudante, ...entrega }
-				: { ...estudante, data_entrega: null };
+
+			if (entrega != undefined) {
+				return { ...estudante, ...entrega };
+			}
+
+			return { ...estudante, data_entrega: null };
 		})
 		.sort((a, b) => a.nome.localeCompare(b.nome));
 

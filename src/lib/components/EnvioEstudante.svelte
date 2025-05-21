@@ -1,16 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
+	import Entrega from '$lib/models/Entrega.js';
 
 	export let entrega;
 	export let onClick;
-
-	const formatter = new Intl.DateTimeFormat('pt-BR', {
-		day: '2-digit',
-		month: '2-digit',
-		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit'
-	});
 
 	let corCard;
 
@@ -29,7 +22,7 @@
 		{#if entrega.avaliada}
 			<p class="status">(corrigida)</p>
 		{/if}
-		<p class="data">{formatter.format(entrega.data_entrega)}</p>
+		<p class="data">{new Entrega(entrega).formataDataEntrega()}</p>
 		<button on:click={onClick} class="botao">Visualizar</button>
 	</div>
 {:else}

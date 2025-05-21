@@ -2,13 +2,12 @@ import { listaEntregasPorItemAtividadeId } from "$lib/server/controllers/entrega
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import AtividadeController from "$lib/server/controllers/atividade";
 import TurmaController from "$lib/server/controllers/turma";
+import EntregaController from "$lib/server/controllers/entrega";
 
 const itemAtividadeController = new ItemAtividadeController()
 const atividadeController = new AtividadeController()
 const turmaController = new TurmaController()
-
-console.debug("itemAtividadeController", itemAtividadeController)
-console.debug("AtividadeController", atividadeController)
+const entregaController = new EntregaController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -18,12 +17,11 @@ export async function load({ cookies, params }) {
 	const etapa = (await itemAtividadeController.buscarItemAtividadePorId(idEtapa)).toObject()
 	const atividade = (await atividadeController.buscarPorId(etapa.id_atividade)).toObject()
 	const estudantes = await turmaController.listarAlunos(atividade.id_turma)
-	const entregas = await listaEntregasPorItemAtividadeId(idEtapa)
+	const entregas = await entregaController.listarPorItemAtividade(idEtapa)
 	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
 
 	etapa.criterios = criterios
 
-	console.debug({ "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas })
 
 	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas }
 }
