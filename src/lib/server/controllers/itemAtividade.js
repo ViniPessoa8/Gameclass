@@ -1,6 +1,6 @@
 import { buscaItemAtividadePorIdBD, buscaItemAtividadePorTituloBD, cadastraItemAtividadeBD, listaItensDaAtividadePorIdBD, removeItemAtividadePorIdBD, listaCriteriosPorIdItemAtividadeBD, listaNotasDeCriteriosPorIdItemAtividadeBD } from "../repositories/itemAtividade";
 import { cadastraCriterioBD } from "../repositories/criterio";
-import { removeCriterioPorIdItemAtividade } from "./criterio";
+import { cadastraCriterio, removeCriterioPorIdItemAtividade } from "./criterio";
 import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
 
 export async function cadastraItemAtividade(titulo, descricao = '', notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, nIntegrantesGrupo = 0, nMaxGrupos = 0, idAtividadePai, criterios, status = 1) {
@@ -23,7 +23,7 @@ export async function cadastraItemAtividade(titulo, descricao = '', notaMax, dat
 
 	criterios.forEach(async (c) => {
 		try {
-			await cadastraCriterioBD(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade)
+			await cadastraCriterio(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade)
 		} catch (e) {
 			throw ("Erro ao cadastrar criterio: ", e)
 		}

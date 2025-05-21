@@ -1,12 +1,16 @@
 import { cadastraCriterioBD, removeCriterioPorIdItemAtividadeBD } from "../repositories/criterio";
 
-async function cadastraCriterio(titulo, notaMax, peso, idItemAtividade) {
-	if (!titulo || !notaMax || !peso || !idItemAtividade) {
+export async function cadastraCriterio(titulo, descricao = '', notaMax, peso, idItemAtividade) {
+	if (!titulo || !notaMax || !idItemAtividade) {
 		throw ("Dados obrigatórios não foram preenchidos. (Criterio)")
 	}
 
+	if (peso === '') {
+		peso = 1
+	}
+
 	try {
-		let res = await cadastraCriterioBD(titulo, notaMax, peso, idItemAtividade);
+		let res = await cadastraCriterioBD(titulo, descricao, notaMax, peso, idItemAtividade);
 
 		if (res.rowCount > 0) {
 			return res.rows

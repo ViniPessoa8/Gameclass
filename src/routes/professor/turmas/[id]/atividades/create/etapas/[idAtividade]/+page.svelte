@@ -367,7 +367,6 @@
 						</div>
 						<div class="criterios-container">
 							<h1>Critérios</h1>
-							<form name="form-criterio">
 								<div class="column">
 									<!-- TODO: Limitar input de dados com mascaras  -->
 									<div class="column">
@@ -425,7 +424,6 @@
 										<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
 									{/if}
 								</div>
-							</form>
 							<div class="criterios-definidos">
 								<hr />
 								{#each etapasData[$selectedEtapa].criterios as criterio}
