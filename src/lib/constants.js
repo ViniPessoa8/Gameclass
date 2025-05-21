@@ -41,8 +41,8 @@ export const ROLES = {
 }
 
 export const ATRIBUICAO = {
-	media_simples: 0,
-	media_ponderada: 1
+	media_simples: 1,
+	media_ponderada: 2
 }
 
 export const REALIZACAO = {

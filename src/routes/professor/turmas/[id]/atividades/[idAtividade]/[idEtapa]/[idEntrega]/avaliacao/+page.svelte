@@ -4,6 +4,7 @@
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
+	import { ATRIBUICAO } from '$lib/constants.js';
 
 	export let data;
 
@@ -64,6 +65,15 @@
 		if (validarNotas()) {
 		}
 	}
+
+	const grid_template_header =
+		data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada
+			? 'grid-template-columns: 0.9fr auto auto auto'
+			: 'grid-template-columns: 1fr auto auto';
+	const grid_template_body =
+		data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada
+			? 'grid-template-columns: 0.85fr auto auto auto'
+			: 'grid-template-columns: 1fr auto auto';
 </script>
 
 <Toaster richColors expand position="top-center" closeButton />
@@ -75,6 +85,7 @@
 	<form
 		class="criterios-grid"
 		method="POST"
+		style={grid_template_body}
 		action={data.entrega.notas.length != 0 ? '?/alterar' : '?/criar'}
 		use:enhance={({ cancel }) => {
 			if (!validarNotas()) {
@@ -87,10 +98,13 @@
 		}}
 	>
 		<h1>Critérios</h1>
-		<div class="grid-header">
+		<div class="grid-header" style={grid_template_header}>
 			<p class="header-titulo">Título</p>
 			<p class="header-nota">Nota Obtida</p>
 			<p class="header-max">Nota Max</p>
+			{#if data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada}
+				<p class="header-peso">Peso</p>
+			{/if}
 		</div>
 
 		{#each data.etapa.criterios as criterio, index}
@@ -116,6 +130,11 @@
 				<div class="nota-max">
 					<p>{criterio.pontuacao_max.toFixed(1)}</p>
 				</div>
+				{#if data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada}
+					<div class="peso">
+						<p>{criterio.peso.toFixed(1)}</p>
+					</div>
+				{/if}
 			</div>
 		{/each}
 
@@ -202,6 +221,7 @@
 		border-bottom: 1px solid #eee;
 		display: flex;
 		align-items: center;
+		text-align: center;
 	}
 
 	.criterio-titulo {
@@ -221,15 +241,16 @@
 	.input-container {
 		display: flex;
 		justify-content: center;
-		width: 100px; /* Mesma largura do header */
+		width: 150px; /* Mesma largura do header */
 		margin: 0 auto;
 	}
 
-	.nota-max {
+	.nota-max,
+	.peso {
 		justify-content: center;
 		font-weight: bold;
 		font-size: 24px;
-		width: 100px; /* Mesma largura do header */
+		width: 50px; /* Mesma largura do header */
 	}
 
 	.btn-finalizar {
