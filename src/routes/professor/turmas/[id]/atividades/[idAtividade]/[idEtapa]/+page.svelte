@@ -4,7 +4,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
-	import { TIPO_ARQUIVO } from '$lib/constants.js';
+	import { ATRIBUICAO } from '$lib/constants.js';
 	import AtividadeInfo from '$lib/components/AtividadeInfo.svelte';
 	import { page } from '$app/stores';
 	import EnvioEstudante from '$lib/components/EnvioEstudante.svelte';
@@ -43,17 +43,30 @@
 	const onClick = (idEntrega) => {
 		goto(`/professor/turmas/${id}/atividades/${idAtividade}/${idEtapa}/${idEntrega}`);
 	};
+
+	let somaPesos = 0;
+	let somaPonderada = 0;
+
+	data.etapa.criterios.forEach((c) => {
+		somaPesos += c.peso;
+		somaPonderada += c.pontuacao_max * c.peso;
+	});
+
+	const notaMaximaItemAtividade = somaPonderada / somaPesos;
+
+	const atividadeInfo = {
+		Realização: data.etapa.em_grupos ? 'Em Grupos' : 'Individual',
+		Prazo: formatter.format(data.atividade.data_entrega_final),
+		Média: data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples ? 'Simples' : 'Ponderada',
+		'Nota Máx.': notaMaximaItemAtividade
+	};
 </script>
 
 <div class="content-etapa">
 	<h1>{data.atividade.titulo}</h1>
 	<h2>Etapa: {data.etapa.titulo}</h2>
 	<p>{data.etapa.descricao}</p>
-	<AtividadeInfo
-		realizacao={data.etapa.em_grupos ? 'Em Grupos' : 'Individual'}
-		prazo={formatter.format(data.atividade.data_entrega_final)}
-		avaliacao={data.etapa.em_grupos ? 'Em Grupos' : 'Individual'}
-	/>
+	<AtividadeInfo data={atividadeInfo} />
 	<div class="container-entregas">
 		<div class="entregas-header">
 			<p>Entregas:</p>

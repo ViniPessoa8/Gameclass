@@ -4,6 +4,7 @@ import { buscaItemAtividadePorId } from '$controllers/itemAtividade.js';
 import { getAtividadeById } from "$controllers/atividade";
 import { listAlunosByTurmaId } from "$lib/server/controllers/turma";
 import { listaEntregasPorItemAtividadeId } from "$lib/server/controllers/entrega";
+import { listaCriteriosPorIdItemAtividade } from "$lib/server/controllers/itemAtividade";
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -14,6 +15,9 @@ export async function load({ cookies, params }) {
 	const atividade = await getAtividadeById(etapa.id_atividade)
 	const estudantes = await listAlunosByTurmaId(atividade.id_turma)
 	const entregas = await listaEntregasPorItemAtividadeId(idEtapa)
+	const criterios = await listaCriteriosPorIdItemAtividade(idEtapa)
+
+	etapa.criterios = criterios
 
 	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas }
 }

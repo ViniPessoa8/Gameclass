@@ -1,22 +1,17 @@
 <script>
-	export let realizacao;
-	export let prazo;
-	export let avaliacao;
+	export let data;
+
+	const keys = Object.keys(data);
+	const values = Object.values(data);
 </script>
 
 <div class="container">
-	<div class="col">
-		<span class="label">Realização</span>
-		<span class="value">{realizacao}</span>
-	</div>
-	<div class="col">
-		<span class="label">Prazo</span>
-		<span class="value">{prazo}</span>
-	</div>
-	<div class="col">
-		<span class="label">Avaliação</span>
-		<span class="value">{avaliacao}</span>
-	</div>
+	{#each keys as key, index}
+		<div class="col">
+			<span class="label">{key}</span>
+			<span class="value">{values[index]}</span>
+		</div>
+	{/each}
 </div>
 
 <style>

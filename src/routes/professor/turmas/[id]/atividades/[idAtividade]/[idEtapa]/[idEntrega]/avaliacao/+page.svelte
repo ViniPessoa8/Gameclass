@@ -66,10 +66,26 @@
 		}
 	}
 
+	let pontuacaoFinal = 0;
+	$: {
+		if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
+			pontuacaoFinal = notas.reduce((acc, n) => acc + (n ? parseFloat(n) : 0), 0) / notas.length;
+		} else {
+			const somaPesos = data.etapa.criterios.reduce((acc, c) => acc + c.peso, 0);
+			let somaNotasObtidas = 0;
+			data.etapa.criterios.map((c, i) => {
+				somaNotasObtidas += notas[i] * c.peso;
+			});
+
+			pontuacaoFinal = somaNotasObtidas / somaPesos;
+		}
+	}
+
 	const grid_template_header =
 		data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada
 			? 'grid-template-columns: 0.9fr auto auto auto'
 			: 'grid-template-columns: 1fr auto auto';
+
 	const grid_template_body =
 		data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada
 			? 'grid-template-columns: 0.85fr auto auto auto'
@@ -132,16 +148,21 @@
 				</div>
 				{#if data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada}
 					<div class="peso">
-						<p>{criterio.peso.toFixed(1)}</p>
+						<p>{criterio.peso.toFixed(0)}</p>
 					</div>
 				{/if}
 			</div>
 		{/each}
 
-		<div class="btn-finalizar">
-			<Button on:click={finalizarAvaliacao} backgroundColor="var(--cor-primaria)" color="white"
-				>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
-			>
+		<div class="btn-container">
+			<div class="pontuacao-final">
+				<h2>Média final: {pontuacaoFinal.toFixed(1)}</h2>
+			</div>
+			<div class="btn-finalizar">
+				<Button on:click={finalizarAvaliacao} backgroundColor="var(--cor-primaria)" color="white"
+					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
+				>
+			</div>
 		</div>
 	</form>
 </div>
@@ -253,10 +274,21 @@
 		width: 50px; /* Mesma largura do header */
 	}
 
-	.btn-finalizar {
+	.btn-container {
 		grid-column: 1 / -1;
 		margin-top: 40px;
+	}
+
+	.pontuacao-final {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.btn-finalizar {
 		display: flex;
 		justify-content: center;
+		margin-top: 12px;
 	}
 </style>
