@@ -1,7 +1,8 @@
 import { DB_INFO } from "../../constants";
-import { dbConn } from "$config/database.js"
+import { getPool } from "$config/database.js"
 
 export async function listaComentariosPorIdEntregaBD(idEntrega) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					c.*, u.nome, u.cor
@@ -17,7 +18,7 @@ export async function listaComentariosPorIdEntregaBD(idEntrega) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao listar comentarios por id da entrega (${idEntrega}): ${e}`)
@@ -25,6 +26,7 @@ export async function listaComentariosPorIdEntregaBD(idEntrega) {
 }
 
 export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					c.*, u.nome, u.cor
@@ -40,7 +42,7 @@ export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao listar comentarios por id da publicação no mural (${idPublicacao}): ${e}`)
@@ -48,6 +50,7 @@ export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
 }
 
 export async function comentarBD(idUsuario, idEntrega, idPublicacao, idItemAvaliacao, idAvaliacao, texto) {
+	const db = getPool()
 	if (idEntrega == null && idPublicacao == null && idItemAvaliacao == null && idAvaliacao == null) {
 		throw (`Comentário sem referência`)
 	}
@@ -68,7 +71,7 @@ export async function comentarBD(idUsuario, idEntrega, idPublicacao, idItemAvali
 	console.debug("QUERY:", query)
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao criar comentario no banco de dados: ${e}`)

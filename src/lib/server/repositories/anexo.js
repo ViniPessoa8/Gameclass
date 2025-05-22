@@ -1,7 +1,8 @@
 import { DB_INFO } from "../../constants";
-import { dbConn } from "$config/database.js"
+import { getPool } from "$config/database.js"
 
 export async function listaAnexosPorIdEntregaBD(idEntrega) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					*
@@ -13,7 +14,7 @@ export async function listaAnexosPorIdEntregaBD(idEntrega) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao listar anexos por ID da entrega (${idEntrega}): ${e}`)
@@ -22,6 +23,7 @@ export async function listaAnexosPorIdEntregaBD(idEntrega) {
 
 
 export async function listaAnexosPorIdPublicacaoMuralBD(idPublicacaoMural) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					*
@@ -33,7 +35,7 @@ export async function listaAnexosPorIdPublicacaoMuralBD(idPublicacaoMural) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao listar anexos por ID da publicação do mural (${idPublicacaoMural}): ${e}`)

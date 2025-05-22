@@ -1,8 +1,9 @@
 
 import { DB_INFO } from "../../constants";
-import { dbConn } from "$config/database.js"
+import { getPool } from "$config/database.js"
 
 export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
+	const db = getPool()
 	try {
 		const query = {
 			text: `	SELECT 
@@ -18,7 +19,7 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 			values: [idItemAtividade]
 		}
 
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		const rowsComAvaliacao = await Promise.all(
 			res.rows.map(async (entrega) => {
 				const query_avaliacao = {
@@ -31,7 +32,7 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 					values: [entrega.id]
 				};
 
-				const avaliacao = await dbConn.query(query_avaliacao);
+				const avaliacao = await db.query(query_avaliacao);
 				return {
 					...entrega,
 					avaliada: avaliacao.rows.length > 0
@@ -46,6 +47,7 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 }
 
 export async function buscaEntregaPorIdBD(idEntrega) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					*
@@ -57,7 +59,7 @@ export async function buscaEntregaPorIdBD(idEntrega) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao buscar entrega por id (${idEntrega}): ${e}`)
@@ -65,6 +67,7 @@ export async function buscaEntregaPorIdBD(idEntrega) {
 }
 
 export async function avaliaEntregaBD(idEntrega, notas) {
+	const db = getPool()
 	const entregaResult = await buscaEntregaPorIdBD(idEntrega)
 
 	if (!entregaResult.rows.length) {
@@ -83,7 +86,7 @@ export async function avaliaEntregaBD(idEntrega, notas) {
 		}
 
 
-		let res = await dbConn.query(query)
+		let res = await db.query(query)
 		const idRealizarAvaliacao = res.rows[0].id
 
 		for (const avaliacao of notas) {
@@ -96,7 +99,7 @@ export async function avaliaEntregaBD(idEntrega, notas) {
 				values: [tituloCriterio]
 			}
 
-			const criterioRes = await dbConn.query(query)
+			const criterioRes = await db.query(query)
 			if (!criterioRes.rows.length) {
 				console.warn(`Critério "${tituloCriterio}" não encontrado. Pulando.`)
 				continue
@@ -112,7 +115,7 @@ export async function avaliaEntregaBD(idEntrega, notas) {
 				values: [nota, idRealizarAvaliacao, idCriterio]
 			}
 
-			res = await dbConn.query(query)
+			res = await db.query(query)
 		}
 
 	} catch (e) {
@@ -124,6 +127,7 @@ export async function avaliaEntregaBD(idEntrega, notas) {
 
 
 export async function alteraAvaliacaoEntregaBD(idEntrega, notas) {
+	const db = getPool()
 	try {
 		const entregaResult = await buscaEntregaPorIdBD(idEntrega)
 		let query
@@ -149,7 +153,7 @@ export async function alteraAvaliacaoEntregaBD(idEntrega, notas) {
 				values: [tituloCriterio, entrega.id_item_atividade]
 			}
 
-			const criterioRes = await dbConn.query(query)
+			const criterioRes = await db.query(query)
 			if (!criterioRes.rows.length) {
 				continue
 			}
@@ -167,7 +171,7 @@ export async function alteraAvaliacaoEntregaBD(idEntrega, notas) {
 				values: [nota, idCriterio, idRealizarAvaliacao]
 			}
 
-			await dbConn.query(query)
+			await db.query(query)
 		}
 
 	} catch (e) {
@@ -178,6 +182,7 @@ export async function alteraAvaliacaoEntregaBD(idEntrega, notas) {
 }
 
 export async function buscaAvaliacaoEntregaBD(idEntrega) {
+	const db = getPool()
 	try {
 		let query = {
 			text: `	SELECT *
@@ -187,7 +192,7 @@ export async function buscaAvaliacaoEntregaBD(idEntrega) {
 			values: [idEntrega]
 		}
 
-		let res = await dbConn.query(query)
+		let res = await db.query(query)
 		return res.rows
 
 	} catch (e) {
@@ -197,6 +202,7 @@ export async function buscaAvaliacaoEntregaBD(idEntrega) {
 
 
 export async function listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega) {
+	const db = getPool()
 	try {
 		let query = {
 			text: `	SELECT ac.*, ra.*, c.titulo, c.pontuacao_max, c.peso
@@ -212,7 +218,7 @@ export async function listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega) {
 			values: [idEntrega]
 		}
 
-		let res = await dbConn.query(query)
+		let res = await db.query(query)
 		return res.rows
 
 	} catch (e) {

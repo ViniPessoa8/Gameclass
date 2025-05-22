@@ -1,7 +1,8 @@
 import { DB_INFO } from "../../constants";
-import { dbConn } from "$config/database.js"
+import { getPool } from "$config/database.js"
 
 export async function listaRankingPorIdTurmaBD(idTurma) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					u.*, e.*, et.pontos
@@ -21,7 +22,7 @@ export async function listaRankingPorIdTurmaBD(idTurma) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao listar ranking por ID da turma (${idTurma}): ${e}`)

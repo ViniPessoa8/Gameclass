@@ -1,8 +1,9 @@
 
 import { DB_INFO } from "../../constants";
-import { dbConn } from "$config/database.js"
+import { getPool } from "$config/database.js"
 
 export async function buscaEstudantePorIdBD(idEstudante) {
+	const db = getPool()
 	const query = {
 		text: `	SELECT 
 					e.*, u.*
@@ -16,7 +17,7 @@ export async function buscaEstudantePorIdBD(idEstudante) {
 	}
 
 	try {
-		const res = await dbConn.query(query)
+		const res = await db.query(query)
 		return res
 	} catch (e) {
 		throw (`Erro ao buscar estudante por id (${idEstudante}): ${e}`)
