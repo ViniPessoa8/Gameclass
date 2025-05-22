@@ -3,11 +3,13 @@ import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import AtividadeController from "$lib/server/controllers/atividade";
 import TurmaController from "$lib/server/controllers/turma";
 import EntregaController from "$lib/server/controllers/entrega";
+import AvaliacaoController from "$lib/server/controllers/avaliacao";
 
 const itemAtividadeController = new ItemAtividadeController()
 const atividadeController = new AtividadeController()
 const turmaController = new TurmaController()
 const entregaController = new EntregaController()
+const avaliacaoController = new AvaliacaoController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -20,8 +22,17 @@ export async function load({ cookies, params }) {
 	const entregas = await entregaController.listarPorItemAtividade(idEtapa)
 	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
 
+	let avaliacoes = []
+	for (const entrega of entregas) {
+		const avaliacao = await avaliacaoController.buscarAvaliacao(entrega.id)
+		if (avaliacao) {
+			entrega.avaliacao = avaliacao.toObject()
+		} else {
+			entrega.avaliacao = null
+		}
+	}
+
 	etapa.criterios = criterios
 
-
-	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas }
+	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas, "avaliacoes": avaliacoes }
 }

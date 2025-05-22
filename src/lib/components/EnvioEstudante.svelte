@@ -8,7 +8,7 @@
 	let corCard;
 
 	onMount(() => {
-		if (entrega.avaliada) {
+		if (entrega.avaliacao) {
 			corCard = 'green';
 		} else {
 			corCard = '#0b2a71';
@@ -19,7 +19,7 @@
 {#if entrega.data_entrega}
 	<div class="card" style="background-color: {corCard}">
 		<p class="nome">{entrega.nome}</p>
-		{#if entrega.avaliada}
+		{#if entrega.avaliacao}
 			<p class="status">(corrigida)</p>
 		{/if}
 		<p class="data">{new Entrega(entrega).formataDataEntrega()}</p>
