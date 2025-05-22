@@ -18,8 +18,8 @@ export default class AtividadeController {
 	async cadastrar(dados) {
 		const atividade = new Atividade(dados);
 
-		const existente = await (atividade.titulo, atividade.id_turma);
-		if (existente.rowCount > 0) {
+		const existente = await this.buscarPorTitulo(atividade.titulo, atividade.id_turma);
+		if (existente) {
 			throw new Error("Uma atividade com o mesmo nome já existe nessa turma");
 		}
 

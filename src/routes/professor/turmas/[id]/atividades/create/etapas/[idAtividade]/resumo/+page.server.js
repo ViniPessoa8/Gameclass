@@ -1,12 +1,15 @@
-import { getAtividadeById } from "$controllers/atividade";
 import { fail, redirect } from "@sveltejs/kit"
-import { cadastraItemAtividade } from '$controllers/itemAtividade.js';
 import { ATRIBUICAO, REALIZACAO } from "$lib/constants";
 import { page } from '$app/state';
+import AtividadeController from "$lib/server/controllers/atividade";
+import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
+
+const atividadeController = new AtividadeController()
+const itemAtividadeController = new ItemAtividadeController()
 
 export async function load({ cookies, params }) {
 	const idAtividade = params.id
-	const atividade = await getAtividadeById(idAtividade)
+	const atividade = (await atividadeController.buscarPorId(idAtividade)).toObject()
 
 	return { "atividade": atividade }
 }
@@ -51,7 +54,7 @@ export let actions = {
 			realizacao = realizacao === "Individual" ? REALIZACAO.individual : REALIZACAO.grupos
 
 			try {
-				await cadastraItemAtividade(
+				await itemAtividadeController.cadastrar(
 					titulo,
 					descricao,
 					notaMax,

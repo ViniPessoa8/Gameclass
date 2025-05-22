@@ -1,11 +1,14 @@
-import { getTurmaById } from "$lib/server/controllers/turma"
 import { cadastraTag } from "$lib/server/controllers/tag"
 import { error, fail, redirect } from "@sveltejs/kit"
-import { cadastraAtividade } from "$lib/server/controllers/atividade"
+import TurmaController from "$lib/server/controllers/turma"
+import AtividadeController from "$lib/server/controllers/atividade"
+
+const turmaController = new TurmaController()
+const atividadeController = new AtividadeController()
 
 export async function load({ params }) {
 	const turmaId = params.id
-	const turma = await getTurmaById(turmaId)
+	const turma = await turmaController.buscarPorId(turmaId)
 
 	console.assert(turma != null, `Turma ${turmaId} não encontrada.`)
 
@@ -13,11 +16,12 @@ export async function load({ params }) {
 }
 
 export const actions = {
-	default: async ({ cookies, request }) => {
+	default: async ({ cookies, request, params }) => {
 		const data = await request.formData();
 		const cookiesDict = JSON.parse(cookies.get("session"))
 
-		let idProfessor = cookiesDict.id;
+		const idProfessor = cookiesDict.id;
+		const idTurma = params.id
 
 		let tituloAtividade = data.get('titulo')
 		let descricaoAtividade = data.get('descricao')
@@ -42,8 +46,9 @@ export const actions = {
 		let idAtividade;
 		let erro;
 		try {
-			idAtividade = await cadastraAtividade(tituloAtividade, descricaoAtividade, prazoAtividade, idProfessor)
-			idAtividade = idAtividade[0].id
+			const idAtividadeRes = await atividadeController.cadastrar({ titulo: tituloAtividade, descricao: descricaoAtividade, prazo: prazoAtividade, id_turma: idTurma })
+
+			idAtividade = idAtividadeRes.id
 		} catch (e) {
 			erro = e
 		}

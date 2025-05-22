@@ -1,5 +1,7 @@
 import { registraTurma } from "$lib/server/controllers/turma";
-import { getTurmasByIdProfessor } from "$controllers/turma"
+import TurmaController from "$lib/server/controllers/turma";
+
+const turmaController = new TurmaController()
 
 export async function load({ cookies }) {
 	const message = cookies.get("toast");
@@ -8,7 +10,7 @@ export async function load({ cookies }) {
 	const idProfessor = session.id
 	let data = {};
 
-	let turmas = await getTurmasByIdProfessor(idProfessor)
+	let turmas = await turmaController.listarPorProfessor(idProfessor)
 	data.turmas = turmas
 
 	if (message === 'turma_criada') {
