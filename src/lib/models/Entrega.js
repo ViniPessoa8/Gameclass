@@ -1,3 +1,5 @@
+import { STATUS_ENTREGA } from '$lib/constants.js';
+
 export default class Entrega {
 	constructor({
 		id,
@@ -13,13 +15,6 @@ export default class Entrega {
 		this.id_estudante = id_estudante;
 	}
 
-	foiEntregue() {
-		return !!this.data_entrega;
-	}
-
-	estaAvaliada() {
-		return this.avaliado === true;
-	}
 
 	formataDataEntrega() {
 		const dateOptions = {

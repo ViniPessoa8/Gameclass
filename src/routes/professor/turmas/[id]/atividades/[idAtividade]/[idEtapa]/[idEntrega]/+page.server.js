@@ -5,10 +5,12 @@ import { listaAnexosPorIdEntrega } from "$lib/server/controllers/anexo";
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import EntregaController from "$lib/server/controllers/entrega";
+import AvaliacaoController from '$lib/server/controllers/avaliacao';
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
 const entregaController = new EntregaController()
+const avaliacaoController = new AvaliacaoController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -25,7 +27,7 @@ export async function load({ cookies, params }) {
 	const comentarios_entrega = await listaComentariosPorIdEntrega(parseInt(entrega.id))
 	const anexos = await listaAnexosPorIdEntrega(idEntrega)
 	const estudante = await buscaEstudantePorId(parseInt(entrega.id_estudante))
-	const entregaAvaliada = await entregaController.buscarAvaliacao(entrega.id)
+	const entregaAvaliada = await avaliacaoController.buscarAvaliacao(entrega.id)
 
 	entrega["comentarios"] = comentarios_entrega
 	entrega["anexos"] = anexos

@@ -5,10 +5,12 @@ import { listaAnexosPorIdEntrega } from "$controllers/anexo";
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import EntregaController from "$lib/server/controllers/entrega";
+import AvaliacaoController from "$lib/server/controllers/avaliacao";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
 const entregaController = new EntregaController()
+const avaliacaoController = new AvaliacaoController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -44,13 +46,10 @@ export const actions = {
 
 		try {
 
-			res = await entregaController.avaliar(idEntrega, notas)
+			res = await avaliacaoController.avaliar(idEntrega, notas)
 
 		} catch (e) {
 			console.error(e)
-			if (e.body.already_registered) {
-				return fail("Turma já registrada", { already_registered: true })
-			}
 		}
 		if (res) {
 			cookies.set("toast", 'avaliacao_realizada', { path: "/" })

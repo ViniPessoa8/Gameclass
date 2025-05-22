@@ -1,9 +1,6 @@
 import {
 	listaEntregasPorItemAtividadeIdBD,
 	buscaEntregaPorIdBD,
-	avaliaEntregaBD,
-	alteraAvaliacaoEntregaBD,
-	buscaAvaliacaoEntregaBD,
 	listaNotasDeCriteriosPorIdEntregaBD,
 	listaNotasObtidasDeCriteriosPorIdEntregaBD
 } from "../repositories/entrega.js";
@@ -20,21 +17,6 @@ export default class EntregaController {
 		const res = await buscaEntregaPorIdBD(idEntrega);
 		if (res.rowsCount == 0) return null;
 		return new Entrega(res.rows[0]);
-	}
-
-	async avaliar(idEntrega, notas) {
-		const res = await avaliaEntregaBD(idEntrega, notas);
-		return res;
-	}
-
-	async alterarAvaliacao(idEntrega, notas) {
-		const res = await alteraAvaliacaoEntregaBD(idEntrega, notas);
-		return res;
-	}
-
-	async buscarAvaliacao(idEntrega) {
-		const res = await buscaAvaliacaoEntregaBD(idEntrega);
-		return res.rows;
 	}
 
 	async listarNotasDeCriterios(idEntrega) {
