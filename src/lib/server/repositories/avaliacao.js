@@ -66,7 +66,7 @@ export async function alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados) {
 	}
 
 	const realizarAvaliacao = await buscaAvaliacaoEntregaBD(idEntrega);
-	const idRealizarAvaliacao = realizarAvaliacao[0]?.id;
+	const idRealizarAvaliacao = realizarAvaliacao[0]?.id_realizar_avaliacao;
 	if (!idRealizarAvaliacao) return false;
 
 	for (const criterio of criteriosAvaliados) {
@@ -75,14 +75,15 @@ export async function alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados) {
 				SELECT id FROM ${DB_INFO.tables.criterio}
 				WHERE titulo = $1 AND id_item_atividade = $2;
 			`,
-			values: [criterio.titulo, entrega.id_item_atividade]
+			values: [criterio[0], entrega.id_item_atividade]
 		});
+
 		if (!criterioRes.rows.length) continue;
 
 		const idCriterio = criterioRes.rows[0].id;
 
 		const model = new AvaliacaoCriterio({
-			nota_atribuida: criterio.nota,
+			nota_atribuida: criterio[1],
 			id_realizar_avaliacao: idRealizarAvaliacao,
 			id_criterio: idCriterio
 		});

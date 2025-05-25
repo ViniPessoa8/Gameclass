@@ -159,7 +159,11 @@
 				<h2>Média final: {pontuacaoFinal.toFixed(1)}</h2>
 			</div>
 			<div class="btn-finalizar">
-				<Button on:click={finalizarAvaliacao} backgroundColor="var(--cor-primaria)" color="white"
+				<Button
+					type="submit"
+					on:click={finalizarAvaliacao}
+					backgroundColor="var(--cor-primaria)"
+					color="white"
 					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 				>
 			</div>

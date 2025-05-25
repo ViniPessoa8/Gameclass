@@ -2,10 +2,6 @@
 	import { enhance } from '$app/forms';
 	import InputText from '$lib/components/InputText.svelte';
 	import InputTextArea from '$lib/components/InputTextArea.svelte';
-	import InputDate from '$lib/components/InputDate.svelte';
-	import InputRadio from '$lib/components/InputRadio.svelte';
-	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
-	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Tags from 'svelte-tags-input';
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
@@ -71,16 +67,6 @@
 	}
 
 	function onSubmit() {
-		console.debug('/atividades/create onSubmit()');
-		console.debug('titulo: ', titulo);
-		console.debug('descricao: ', descricao);
-		console.debug('prazo: ', prazo);
-		console.debug('tags: ', tags);
-		console.debug('tagsColors: ', tagsColors);
-		console.debug('atribuicaoDeNotas: ', atribuicaoDeNotas);
-		console.debug('realizacao: ', realizacao);
-		console.debug('receberAposPrazo: ', receberAposPrazo);
-
 		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
 
 		if (!validaInputs()) return false;
@@ -89,11 +75,7 @@
 	}
 
 	function onTagAdicionada(tag, index) {
-		console.log('onTagAdicionada() param.tag: ', tag);
-		console.log('onTagAdicionada() param.index: ', index);
 		tagsColors[tag] = 'black';
-		console.log('onTagAdicionada() tags: ', tags);
-		console.log('onTagAdicionada() tagsColors: ', tagsColors);
 	}
 
 	function onTagRemovida() {

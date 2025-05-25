@@ -62,9 +62,17 @@ export const actions = {
 		let res;
 
 		const notas = await request.formData();
+
+		let notasObj = [];
+		notas.forEach((valor, indice) => {
+			notasObj.push({
+				nota: valor,
+				id_item_atividade: indice
+			});
+		});
 		const idEntrega = params.idEntrega;
 
-		res = await entregaController.alteraAvaliacao(idEntrega, notas)
+		res = await avaliacaoController.alterarAvaliacao(idEntrega, notas)
 
 		if (res) {
 			cookies.set("toast", 'avaliacao_atualizada', { path: "/" })

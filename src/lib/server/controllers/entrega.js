@@ -26,6 +26,6 @@ export default class EntregaController {
 
 	async listarNotasObtidasDeCriterios(idEntrega) {
 		const res = await listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega);
-		return res.rows;
+		return res;
 	}
 }
