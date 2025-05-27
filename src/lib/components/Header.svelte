@@ -22,7 +22,7 @@
 		{#each $segments as s, i}
 			<a class="caminho-de-pao-link" href={s.href}>{s.label}</a>
 			{#if i < $segments.length - 1}
-				<span>/</span>
+				<span> > </span>
 			{/if}
 		{/each}
 	</nav>
@@ -71,6 +71,9 @@
 	}
 
 	.caminho-de-pao {
+		display: flex;
+		flex-direction: row;
+		gap: 8px;
 		color: white;
 	}
 
