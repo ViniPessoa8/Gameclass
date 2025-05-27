@@ -1,25 +1,40 @@
-import { getInstituicoesDB, getInstituicaoByNomeDB, getInstituicaoByIdDB } from "$repositories/instituicao"
+import { listarBD, buscarPorNomeBD, buscarPorIdBD } from "$repositories/instituicao"
+import Instituicao from "../../models/Instituicao";
 
-export async function getInstituicoes() {
-	let res = await getInstituicoesDB();
-	let dict = { "instituicoes": res.rows }
-	return dict
-}
+export default class InstituicaoController {
+	async listar() {
+		let res = await listarBD();
 
-export async function getInstituicaoByNome(nome) {
-	let res = await getInstituicaoByNomeDB(nome);
-	if (res.rows.length > 0) {
-		return res.rows[0]
+		if (res.rows.length > 0) {
+
+			const instituicoes = res.rows.map((reg) => new Instituicao({ ...reg }))
+			const dict = { "instituicoes": instituicoes }
+			return dict
+		} else {
+
+			const instituicoes = []
+			return instituicoes
+		}
+
 	}
 
-	return false
-}
+	async buscarPorNome(nome) {
+		let res = await buscarPorNomeBD(nome);
+		if (res.rows.length > 0) {
+			return new Instituicao({ ...res.rows[0] })
+		}
 
-export async function getInstituicaoById(id) {
-	let res = await getInstituicaoByIdDB(id);
-	if (res.rows.length > 0) {
-		return res.rows[0]
+		return false
 	}
 
-	return false
+	async buscarPorId(id) {
+		let res = await buscarPorIdBD(id);
+		if (res.rows.length > 0) {
+			return new Instituicao({ ...res.rows[0] })
+		}
+
+		return false
+	}
+
 }
+

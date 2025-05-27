@@ -8,8 +8,10 @@ import {
 	listAlunosByTurmaIdBD
 } from "../repositories/turma.js";
 
-import { getInstituicaoByNome } from "./instituicao.js";
 import Turma from "$lib/models/Turma.js";
+import InstituicaoController from "./instituicao.js";
+
+const instituicaoController = new InstituicaoController()
 
 const CORES = [
 	"4682B4", "6B8E23", "CD5C5C", "9370DB", "778899",
@@ -28,7 +30,7 @@ export default class TurmaController {
 		}
 
 		// Busca ID da instituição
-		const instituicao = await getInstituicaoByNome(dadosTurma.instituicao);
+		const instituicao = await instituicaoController.buscarPorNome(dadosTurma.instituicao);
 		dadosTurma.id_instituicao = instituicao.id;
 
 		// Verifica duplicidade
@@ -65,7 +67,7 @@ export default class TurmaController {
 	}
 
 	async isRegistrada(codigo, nomeInstituicao) {
-		const instituicao = await getInstituicaoByNome(nomeInstituicao);
+		const instituicao = await instituicaoController.buscarPorNome(nomeInstituicao);
 		const res = await isTurmaRegisteredDB(codigo, instituicao.id);
 		return res.rows.length > 0;
 	}

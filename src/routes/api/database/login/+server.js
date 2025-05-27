@@ -1,5 +1,7 @@
 import { json } from "@sveltejs/kit";
-import { loginUser } from "$controllers/auth";
+import UsuarioController from "$lib/server/controllers/usuario";
+
+const usuarioController = new UsuarioController()
 
 /* Realiza login do usuário
  *
@@ -15,7 +17,7 @@ export async function POST(event) {
 		return json("Missing login or password.")
 	}
 
-	const loginRes = await loginUser(data.login, data.password)
+	const loginRes = await usuarioController.login(data.login, data.password)
 
 	let res = "";
 	if (loginRes) {

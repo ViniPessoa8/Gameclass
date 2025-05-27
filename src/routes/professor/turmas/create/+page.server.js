@@ -1,5 +1,7 @@
 import { redirect, fail } from "@sveltejs/kit";
-import { registraTurma } from "$lib/server/controllers/turma"
+import TurmaController from "$lib/server/controllers/turma";
+
+const turmaController = new TurmaController()
 
 export function load() {
 	console.log("turmas/create/server/")
@@ -23,7 +25,7 @@ export const actions = {
 
 		try {
 
-			res = await registraTurma(
+			res = await turmaController.registrar(
 				data.get('codigo'),
 				data.get('disciplina'),
 				data.get('nome'),

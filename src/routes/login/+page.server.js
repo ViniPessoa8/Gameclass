@@ -1,6 +1,9 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { loginUser } from "$controllers/auth";
-import { getInstituicaoById } from "$controllers/instituicao";
+import UsuarioController from "$lib/server/controllers/usuario";
+import InstituicaoController from "$lib/server/controllers/instituicao";
+
+const usuarioController = new UsuarioController();
+const instituicaoController = new InstituicaoController();
 
 export function load({ cookies }) {
 	const session = cookies.get("session");
@@ -28,7 +31,7 @@ export const actions = {
 
 		// NOTE: Queremos mesmo tratar isso com uma catch??
 		try {
-			res = await loginUser(userLogin, userPassword)
+			res = await usuarioController.login(userLogin, userPassword)
 		} catch (e) {
 			return fail(400, { not_registered: true })
 		}
@@ -39,7 +42,7 @@ export const actions = {
 				"nome": res.nome,
 				"login": res.login,
 				"dtNasc": res.dt_nasc,
-				"instituicao": await getInstituicaoById(res.id_instituicao)
+				"instituicao": await instituicaoController.buscarPorNome(res.id_instituicao)
 			}
 
 			cookies.set('session', JSON.stringify(session), {
