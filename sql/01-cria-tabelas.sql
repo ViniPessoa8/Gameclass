@@ -81,6 +81,7 @@ CREATE TABLE item_atividade (
 	"tipo_atribuicao_nota" SMALLINT NOT NULL,
 	"em_grupos" BOOLEAN NOT NULL, -- TODO: Mudar nome no diagrama MER
 	"receber_apos_prazo" BOOLEAN NOT NULL,
+	"tipo_formacao_grupo" SMALLINT NULL,
 	"n_integrantes_grupo" SMALLINT,
 	"n_max_grupos" SMALLINT,
 	"status" varchar(20),
