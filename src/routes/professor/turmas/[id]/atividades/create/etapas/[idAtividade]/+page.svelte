@@ -56,7 +56,7 @@
 		if (validaFormulario()) {
 			formData.set('etapas', JSON.stringify(etapasData));
 			$etapas = etapasData;
-			sessionStorage.setItem('etapasData', JSON.stringify(etapasData));
+			sessionStorage.setItem('etapas', JSON.stringify(etapasData));
 
 			return true;
 		}

@@ -20,7 +20,7 @@ import CriterioController from "./criterio";
 const criterioController = new CriterioController();
 
 export default class ItemAtividadeController {
-	async cadastraItemAtividade(
+	async cadastrar(
 		titulo,
 		descricao = '',
 		notaMax,
