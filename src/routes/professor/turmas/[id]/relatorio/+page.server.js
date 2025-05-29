@@ -1,40 +1,45 @@
-import { listAlunosByTurmaId } from "$lib/server/controllers/turma"
-import { listaEntregasPorItemAtividadeId, listaNotasObtidasDeCriteriosPorIdEntrega } from "$lib/server/controllers/entrega"
-import { getAtividadesByIdTurma } from "$lib/server/controllers/atividade"
-import { listaItensDaAtividadePorId } from "$lib/server/controllers/itemAtividade"
-import { getTurmaById } from "$lib/server/controllers/turma"
+import AtividadeController from "$lib/server/controllers/atividade"
+import ItemAtividadeController from "$lib/server/controllers/itemAtividade"
+import EntregaController from "$lib/server/controllers/entrega"
+import TurmaController from "$lib/server/controllers/turma"
+import Turma from "$lib/models/Turma"
+
+const atividadeController = new AtividadeController()
+const itemAtividadeController = new ItemAtividadeController()
+const entregaController = new EntregaController()
+const turmaController = new TurmaController()
 
 export async function load({ params, cookies }) {
-
 	let data = {}
 	const idTurma = params['id']
 
 	// ----- CARREGA DADOS DO BANCO ----- //
 
 	// Info da turma
-	data.turma = await getTurmaById(idTurma)
+	data.turma = new Turma(await turmaController.buscarPorId(idTurma)).toObject()
 
 	// Atividades da turma
-	let atividades = await getAtividadesByIdTurma(idTurma);
-	data.atividades = atividades
+	let atividades = await atividadeController.listarPorIdTurma(idTurma);
+	data.atividades = atividades.map((e) => e.toObject())
 
 	// Itens de Atividade
 	for (const [indexA, atividade] of atividades.entries()) {
-		let itensAtividade = await listaItensDaAtividadePorId(atividade.id);
+		let itensAtividade = await itemAtividadeController.listaItensDaAtividadePorId(atividade.id);
+		itensAtividade = itensAtividade.map((e) => e.toObject())
 
 		// Entregas
 		for (const [indexIA, itemAtividade] of itensAtividade.entries()) {
-			itensAtividade[indexIA].entregas = await listaEntregasPorItemAtividadeId(itemAtividade.id);
+			itensAtividade[indexIA].entregas = await entregaController.listarPorItemAtividade(itemAtividade.id);
 
 			// Notas da entrega
 			for (const [indexE, entrega] of itensAtividade[indexIA].entregas.entries()) {
-				itensAtividade[indexIA].entregas[indexE].notas = await listaNotasObtidasDeCriteriosPorIdEntrega(entrega.id)
+				itensAtividade[indexIA].entregas[indexE].notas = await entregaController.listarNotasObtidasDeCriterios(entrega.id)
 			}
 		}
 		data.atividades[indexA].itensAtividade = itensAtividade
 	}
 
-	data.estudantes = await listAlunosByTurmaId(idTurma);
+	data.estudantes = await turmaController.listarAlunos(idTurma);
 
 	// ----- CALCULA ESTATISTICAS ----- // 
 
@@ -150,6 +155,9 @@ export async function load({ params, cookies }) {
 
 	}
 
+
+	console.debug("data> ", data)
+	console.debug("data.atividades[0].itensAtividade> ", data.atividades[0].itensAtividade)
 
 	return data
 }
