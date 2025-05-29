@@ -6,12 +6,15 @@
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO } from '$lib/constants.js';
 
-	export let data;
+	const { data } = $props();
 
-	const notas =
+	console.debug(data);
+
+	const notas = $state(
 		data.entrega.notas.length != 0
 			? data.entrega.notas.map((notas) => notas.nota_atribuida.toFixed(1))
-			: Array(data.etapa.criterios.length).fill('');
+			: Array(data.etapa.criterios.length).fill('')
+	);
 
 	function validarNotas() {
 		const inputs = document.querySelectorAll('.input-container input');
@@ -66,10 +69,11 @@
 		}
 	}
 
-	let pontuacaoFinal = 0;
-	$: {
+	let pontuacaoFinal = $derived.by(() => {
 		if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
-			pontuacaoFinal = notas.reduce((acc, n) => acc + (n ? parseFloat(n) : 0), 0) / notas.length;
+			let pontuacaoFinal =
+				notas.reduce((acc, n) => acc + (n ? parseFloat(n) : 0), 0) / notas.length;
+			return pontuacaoFinal;
 		} else {
 			const somaPesos = data.etapa.criterios.reduce((acc, c) => acc + c.peso, 0);
 			let somaNotasObtidas = 0;
@@ -77,9 +81,10 @@
 				somaNotasObtidas += notas[i] * c.peso;
 			});
 
-			pontuacaoFinal = somaNotasObtidas / somaPesos;
+			let pontuacaoFinal = somaNotasObtidas / somaPesos;
+			return pontuacaoFinal;
 		}
-	}
+	});
 
 	const grid_template_header =
 		data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada

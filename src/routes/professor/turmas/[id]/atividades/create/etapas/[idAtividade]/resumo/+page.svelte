@@ -1,16 +1,15 @@
 <script>
-	import { beforeUpdate } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 
-	export let data;
+	const { data } = $props();
 
 	let etapasSessionStorage;
-	let etapasString;
+	let etapasString = $state('');
 
-	beforeUpdate(() => {
+	$effect.pre(() => {
 		etapasSessionStorage = JSON.parse(sessionStorage.getItem('etapas'));
 		if (etapasSessionStorage) {
 			data.etapas = etapasSessionStorage;
