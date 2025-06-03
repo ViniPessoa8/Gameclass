@@ -73,7 +73,13 @@
 				goto(novaUrl);
 			}}>Voltar</Button
 		>
-		<Button backgroundColor="var(--cor-primaria)" color="white" type="submit">Salvar etapas</Button>
+		{#if data.etapas && data.etapas.find((etapa) => etapa.emGrupos)}
+			<Button backgroundColor="var(--cor-primaria)" color="white" type="submit"
+				>Salvar etapas</Button
+			>
+		{:else}
+			<Button backgroundColor="var(--cor-primaria)" color="white" type="submit">Próximo</Button>
+		{/if}
 	</div>
 </form>
 

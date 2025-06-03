@@ -85,5 +85,13 @@ export let actions = {
 		}
 
 		redirect(300, `/professor/turmas/${params.id}/atividades/`)
+		if (etapas.find((etapa) => etapa.realizacaoGroup == 'Em Grupos')) {
+			const novaUrl = url.pathname.split("/").slice(0, -1).join("/")
+
+			redirect(300, novaUrl + `/grupos`)
+		} else {
+
+			redirect(300, `/professor/turmas/${params.id}/atividades/`)
+		}
 	}
 }
