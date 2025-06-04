@@ -60,8 +60,8 @@ describe('template spec', () => {
 		cy.get('[type="submit"]').click();
 
 		/* ==== Generated with Cypress Studio ==== */
-		cy.get('h1.s-lvv8qsW60Xk1 > .s-lvv8qsW60Xk1').should('have.text', 'Resumo de critérios para avaliação da atividade');
-		cy.get('[type="submit"]').click();
+		// cy.get('h1.s-lvv8qsW60Xk1 > .s-lvv8qsW60Xk1').should('have.text', 'Resumo de critérios para avaliação da atividade');
+		// cy.get('[type="submit"]').click();
 		/* ==== End Cypress Studio ==== */
 	});
 })

@@ -96,4 +96,10 @@ export const CORES_PERFIL = [
 	"#BF713D"  // Marrom alaranjado
 ];
 
+export const FORMACAO_GRUPO = {
+	alunos_convidam: 1,
+	professor_escolhe: 2,
+	aleatorio: 3,
+}
+
 

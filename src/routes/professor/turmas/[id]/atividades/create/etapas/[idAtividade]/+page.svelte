@@ -14,6 +14,7 @@
 	import { etapas } from '$src/stores/etapas';
 	import { onMount } from 'svelte';
 	import { Toaster, toast } from 'svelte-sonner';
+	import { FORMACAO_GRUPO } from '../../../../../../../../lib/constants';
 
 	let novoCriterioTitulo = '';
 	let novoCriterioNota = '';
@@ -37,6 +38,12 @@
 	let atribuicaoOpcoes = [
 		{ name: 'media_simples', text: 'Média Simples' },
 		{ name: 'media_ponderada', text: 'Média Ponderada' }
+	];
+
+	let formacaoGrupoOpcoes = [
+		{ name: FORMACAO_GRUPO.alunos_convidam, text: 'Alunos criam seus grupos' },
+		{ name: FORMACAO_GRUPO.professor_escolhe, text: 'Professor forma os grupos' },
+		{ name: FORMACAO_GRUPO.aleatorio, text: 'Aleatório' }
 	];
 
 	if (!$selectedEtapa) {
@@ -232,6 +239,12 @@
 			{ name: 'media_ponderada', text: 'Média Ponderada' }
 		];
 
+		formacaoGrupoOpcoes = [
+			{ name: FORMACAO_GRUPO.alunos_convidam, text: 'Alunos criam seus grupos' },
+			{ name: FORMACAO_GRUPO.professor_escolhe, text: 'Professor forma os grupos' },
+			{ name: FORMACAO_GRUPO.aleatorio, text: 'Aleatório' }
+		];
+
 		const unsubscribe = etapas.subscribe((valor) => {
 			if (valor.length > 0) {
 				etapasData = valor;
@@ -332,16 +345,6 @@
 								/>
 							</div>
 							<div class="row">
-								<h2>Realização:</h2>
-								<InputRadio
-									id="inputRealizacaoEtapa"
-									borded
-									name="realizacao"
-									bind:group={etapasData[$selectedEtapa].realizacaoGroup}
-									bind:options={realizacaoOpcoes}
-								/>
-							</div>
-							<div class="row">
 								<h2>Atribuição de Notas:</h2>
 								<InputRadio
 									id="inputAtribuicaoNotasEtapa"
@@ -351,6 +354,28 @@
 									options={atribuicaoOpcoes}
 								/>
 							</div>
+							<div class="row">
+								<h2>Realização:</h2>
+								<InputRadio
+									id="inputRealizacaoEtapa"
+									borded
+									name="realizacao"
+									bind:group={etapasData[$selectedEtapa].realizacaoGroup}
+									bind:options={realizacaoOpcoes}
+								/>
+							</div>
+							{#if etapasData[$selectedEtapa].realizacaoGroup == 'Em Grupos'}
+								<div class="row">
+									<h2>Formação dos grupos:</h2>
+									<InputRadio
+										id="inputRealizacaoEtapa"
+										borded
+										name="formacao_grupo"
+										bind:group={etapasData[$selectedEtapa].formacao_grupo}
+										bind:options={formacaoGrupoOpcoes}
+									/>
+								</div>
+							{/if}
 							<div class="row">
 								<InputCheckbox
 									id="inputReceberAposPrazoEtapa"
@@ -522,7 +547,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 10em;
+		gap: 2em;
 	}
 
 	.row {

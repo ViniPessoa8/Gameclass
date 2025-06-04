@@ -52,12 +52,15 @@ describe('template spec', () => {
 		cy.get(':nth-child(5) > .bord > .borded').type('2025-09-29T17:00');
 		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('c');
 		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('criterio unico');
+		cy.get('#realizacao_grupos').check();
 		cy.get('.column > :nth-child(2) > .board').click();
 		cy.get('.column > :nth-child(2) > .board > .borded').clear('de');
 		cy.get('.column > :nth-child(2) > .board > .borded').type('descricao muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito grande do criterio unico');
 		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('1');
 		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('8.0');
 		cy.get('.btn-add-criterio > .button').click();
+		cy.get('[type="submit"]').click();
+		cy.wait(1000)
 		cy.get('[type="submit"]').click();
 
 		/* ==== Generated with Cypress Studio ==== */
