@@ -8,8 +8,6 @@
 
 	const { data } = $props();
 
-	console.debug(data);
-
 	const notas = $state(
 		data.entrega.notas.length != 0
 			? data.entrega.notas.map((notas) => notas.nota_atribuida.toFixed(1))

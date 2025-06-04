@@ -10,7 +10,6 @@
 
 	// Função para download de arquivos
 	function downloadFile(buffer, filename, mimeType) {
-		console.debug(`downloadFile(${buffer}, ${filename}, ${mimeType})`);
 		if (!buffer) {
 			console.error('Buffer inválido:', buffer);
 			return;
@@ -69,7 +68,6 @@
 		const mimeType = getMimeTypeFromExtension(nomeArquivo);
 
 		// Realizar o download do arquivo com base no tipo
-		console.debug(arquivo);
 		if (arquivo.conteudo_texto != null) {
 			downloadFile(arquivo.conteudo_texto, nomeArquivo, mimeType);
 		} else if (arquivo.conteudo_binario != null) {

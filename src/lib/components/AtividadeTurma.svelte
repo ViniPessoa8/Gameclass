@@ -16,8 +16,6 @@
 	let width = 0;
 	let toggled = false;
 
-	console.debug('atividade:', atividade);
-
 	const prazoFinalStr = new Atividade(atividade).formataPrazo();
 </script>
 

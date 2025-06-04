@@ -62,7 +62,6 @@ export default class AtividadeController {
 
 	async listarPorIdTurma(id_turma) {
 		const res = await getAtividadesByIdTurmaBD(id_turma);
-		console.debug("res:", res.rows)
 		return res.rows.map((row) => new Atividade(row));
 	}
 }

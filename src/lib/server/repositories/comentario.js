@@ -68,7 +68,6 @@ export async function comentarBD(idUsuario, idEntrega, idPublicacao, idItemAvali
 			idAvaliacao ? parseInt(idAvaliacao) : null,
 			texto]
 	}
-	console.debug("QUERY:", query)
 
 	try {
 		const res = await db.query(query)

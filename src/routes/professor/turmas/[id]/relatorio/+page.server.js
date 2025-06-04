@@ -155,9 +155,5 @@ export async function load({ params, cookies }) {
 
 	}
 
-
-	console.debug("data> ", data)
-	console.debug("data.atividades[0].itensAtividade> ", data.atividades[0].itensAtividade)
-
 	return data
 }

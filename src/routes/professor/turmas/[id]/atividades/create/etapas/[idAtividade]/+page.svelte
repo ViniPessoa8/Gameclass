@@ -255,11 +255,6 @@
 			carregando = false;
 		});
 
-		console.debug(
-			'{etapasData[$selectedEtapa].realizacaoGroup}',
-			etapasData[$selectedEtapa].realizacaoGroup
-		);
-
 		return unsubscribe; // limpa quando sair da página
 	});
 </script>

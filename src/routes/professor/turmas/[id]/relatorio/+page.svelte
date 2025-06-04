@@ -9,7 +9,6 @@
 	import { slide } from 'svelte/transition';
 
 	export let data;
-	console.debug(data);
 	let mostraAtividades = data.atividades.map(() => false);
 	const dateOptions = {
 		day: '2-digit',

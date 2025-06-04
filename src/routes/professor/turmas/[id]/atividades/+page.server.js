@@ -21,14 +21,12 @@ export async function load({ params, cookies }) {
 
 	for (let i = 0; i <= atividades.length - 1; i += 1) {
 		let itensAtividade = await itemAtividadeController.listaItensDaAtividadePorId(atividades[i].id)
-		console.debug(`atividades[${i}].itensAtividade: `, itensAtividade)
 		atividades[i].itens_atividade = itensAtividade
 	}
 
 	data["atividades"] = atividades.map((a) => a.toObject())
 	data["perfil"] = perfil
 
-	console.debug("data: ", data)
 	return data
 }
 

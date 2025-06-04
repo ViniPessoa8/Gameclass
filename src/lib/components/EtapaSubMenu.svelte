@@ -11,7 +11,6 @@
 	export let idTurma;
 
 	itemAtividade = new ItemAtividade(itemAtividade);
-	console.debug('itemAtividade:', itemAtividade);
 
 	function capitalizeFirstLetter(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
