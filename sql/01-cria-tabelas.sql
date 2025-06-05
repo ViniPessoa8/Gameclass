@@ -188,6 +188,14 @@ CREATE TABLE comentario (
 	PRIMARY KEY ("id")
 );
 
+CREATE TABLE formacao_grupo (
+	"id" BIGSERIAL UNIQUE,
+	"numero_grupos" INT NOT NULL DEFAULT 0,
+	"numero_alunos" INT NOT NULL DEFAULT 0,
+	"data_definicao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_item_atividade" BIGINT REFERENCES item_atividade(id) NOT NULL,
+	PRIMARY KEY ("id")
+);
 
 CREATE TABLE pontuacao (
 	"id" BIGSERIAL UNIQUE,
