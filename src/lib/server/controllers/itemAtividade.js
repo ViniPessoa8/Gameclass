@@ -69,14 +69,14 @@ export default class ItemAtividadeController {
 
 		for (const c of criterios) {
 			try {
-				await criterioController.cadastraCriterio(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade);
+				await criterioController.cadastrar(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade);
 			} catch (e) {
 				throw `Erro ao cadastrar critério: ${e}`;
 			}
 		}
 
 		if (res.rowCount > 0) {
-			return res.rows.map((item) => new ItemAtividade(item));
+			return res.rows[0].id
 		}
 	}
 

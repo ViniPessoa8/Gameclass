@@ -3,9 +3,11 @@ import { ATRIBUICAO, REALIZACAO } from "$lib/constants";
 import { page } from '$app/state';
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
+import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
+const formacaoGrupoController = new FormacaoGrupoController()
 
 export async function load({ cookies, params }) {
 	const idAtividade = params.id
@@ -23,6 +25,7 @@ export let actions = {
 		let etapasData = JSON.parse(data.get('etapas'))
 		const etapas = etapasData;
 
+		let idAtividadePai
 		let criterios
 		let titulo
 		let descricao
@@ -32,13 +35,14 @@ export let actions = {
 		let atribuicaoNotas
 		let realizacao
 		let receberAposPrazo
-		let idAtividadePai
+		let formacoes
 
 		if (!etapas) {
 			fail(401, "Erro ao carregar etapas: lista vazia")
 		}
 
 		for (const etapa of etapas) {
+			idAtividadePai = params.idAtividade
 			criterios = etapa.criterios
 			titulo = etapa.titulo
 			descricao = etapa.descricao
@@ -48,13 +52,13 @@ export let actions = {
 			atribuicaoNotas = etapa.atribuicaoNotasGroup
 			realizacao = etapa.realizacaoGroup
 			receberAposPrazo = Boolean(etapa.receberAposPrazo)
-			idAtividadePai = params.idAtividade
+			formacoes = etapa.formacoes
 
 			atribuicaoNotas = atribuicaoNotas === "Média Simples" ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada
 			realizacao = realizacao === "Individual" ? REALIZACAO.individual : REALIZACAO.grupos
 
 			try {
-				await itemAtividadeController.cadastrar(
+				const idItemAtividade = await itemAtividadeController.cadastrar(
 					titulo,
 					descricao,
 					notaMax,
@@ -69,13 +73,19 @@ export let actions = {
 					criterios,
 				);
 
+				// Formações de grupo
+				for (const formacao of formacoes) {
+					formacaoGrupoController.cadastrar({ id_item_atividade: idItemAtividade, numero_grupos: formacao.nGrupos, numero_alunos: formacao.nAlunos })
+				}
+
 			} catch (e) {
+				console.error("Erro ao cadastrar Item da atividade: ", e)
 				const errorMessage = typeof e === 'string' ? e : e.message
 
 				if (errorMessage.includes("Dados obrigatórios não foram preenchidos.")) {
-					fail(401, "Dados obrigatórios não foram preenchidos.")
+					return fail(401, "Dados obrigatórios não foram preenchidos.")
 				} else {
-					fail(401, e.message)
+					return fail(401, errorMessage)
 				}
 			}
 		}

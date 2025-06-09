@@ -83,9 +83,23 @@
 			let dataInicial = etapa.dtEntregaMin;
 			let dataFinal = etapa.dtEntregaMax;
 			let tituloEtapa = etapa.titulo;
+			let realizacao = etapa.realizacaoGroup;
+			let formacoes = JSON.parse(JSON.stringify(etapa.formacoes));
+
 			if (!isValidDate(dataInicial))
 				throw new Error(`Data inicial inválida (Etapa "${tituloEtapa}")`);
+
 			if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa "${tituloEtapa}")`);
+
+			// Formação de grupos da etapa
+			const filter = formacoes.filter(
+				(e) =>
+					e.nGrupos === null &&
+					realizacao == 'Em Grupos'
+			);
+			if (filter.length > 0) {
+				throw new Error(`Formação de grupos com dados incompletos`);
+			}
 		}
 
 		return true;
@@ -240,8 +254,8 @@
 		}
 
 		realizacaoOpcoes = [
-			{ name: 'realizacao_grupos', text: 'Em Grupos' },
-			{ name: 'realizacao_individual', text: 'Individual' }
+			{ name: 'realizacao_individual', text: 'Individual' },
+			{ name: 'realizacao_grupos', text: 'Em Grupos' }
 		];
 
 		atribuicaoOpcoes = [
@@ -279,7 +293,12 @@
 						atribuicaoNotasGroup: 'Média Simples',
 						receberAposPrazo: true,
 						criterios: [],
-						formacoes: formacoesGrupo
+						formacoes: [
+							{
+								nGrupos: null,
+								nAlunos: null
+							}
+						]
 					}
 				];
 			}
@@ -397,7 +416,7 @@
 								<div class="row">
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
-										id="inputRealizacaoEtapa"
+										id="inputFormacaoGrupos"
 										borded
 										name="formacao_grupo"
 										bind:group={etapasData[$selectedEtapa].formacao_grupo}
@@ -411,7 +430,7 @@
 										<div class="row">
 											<p>{index + 1}.</p>
 											<InputText
-												id="inputNGrupos"
+												id="inputNGruposEtapa{index}"
 												borded
 												width="24px"
 												padding="10px"
@@ -421,7 +440,7 @@
 											/>
 											<p>Grupos de</p>
 											<InputText
-												id="inputNAluno"
+												id="inputNAluno{index}"
 												borded
 												width="24px"
 												padding="10px"
@@ -432,6 +451,7 @@
 											<p>alunos</p>
 											{#if etapasData[$selectedEtapa].formacoes.length > 1}
 												<Button
+													id="btnRemoveFormacaoEtapa{index}"
 													color="var(--cor primaria)"
 													type="button"
 													on:click={() => {

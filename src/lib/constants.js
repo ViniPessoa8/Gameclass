@@ -30,7 +30,8 @@ export const DB_INFO = {
 		anexo: "anexo",
 		realizar_avaliacao: "realizar_avaliacao",
 		avaliacao_criterio: "avaliacao_criterio",
-		mural: "publicacao_mural"
+		mural: "publicacao_mural",
+		formacaoGrupo: "formacao_grupo"
 	}
 }
 
@@ -45,6 +46,7 @@ export const ATRIBUICAO = {
 	media_ponderada: 2
 }
 
+// TODO: refatorar para ->  1: 'Individual'
 export const REALIZACAO = {
 	individual: 0,
 	grupos: 1

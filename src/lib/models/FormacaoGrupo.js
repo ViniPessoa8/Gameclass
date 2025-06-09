@@ -1,10 +1,10 @@
 
 export default class FormacaoGrupo {
-	constructor(id, numero_grupos, numero_alunos, data_definicao = null, id_item_atividade) {
+	constructor({ numero_grupos, numero_alunos, data_definicao = null, id_item_atividade, id = null }) {
 		this.id = id
 		this.numero_grupos = numero_grupos
 		this.numero_alunos = numero_alunos
-		this.data_definicao = new Date(data_definicao);
+		this.data_definicao = data_definicao ? new Date(data_definicao) : null;
 		this.id_item_atividade = id_item_atividade
 
 		this.validar()
@@ -33,6 +33,8 @@ export default class FormacaoGrupo {
 		const camposFaltando = [];
 
 		if (!this.id_item_atividade) camposFaltando.push('id_item_atividade');
+		if (!this.numero_grupos) camposFaltando.push('numero_grupos');
+		if (!this.numero_alunos) camposFaltando.push('numero_alunos');
 
 		if (camposFaltando.length > 0) {
 			throw new Error(`Dados obrigatórios não preenchidos: ${camposFaltando.join(', ')} (Atividade)`);
