@@ -30,21 +30,10 @@
 	// let tagsAutocomplete = [];
 	// let tagsColors = {};
 
-	let realizacaoOpcoes = [
-		{ name: 'realizacao_individual', text: 'Individual' },
-		{ name: 'realizacao_grupos', text: 'Em Grupos' }
-	];
-
-	let atribuicaoOpcoes = [
-		{ name: 'media_simples', text: 'Média Simples' },
-		{ name: 'media_ponderada', text: 'Média Ponderada' }
-	];
-
-	let formacaoGrupoOpcoes = [
-		{ name: FORMACAO_GRUPO.alunos_convidam, text: 'Alunos criam seus grupos' },
-		{ name: FORMACAO_GRUPO.professor_escolhe, text: 'Professor forma os grupos' },
-		{ name: FORMACAO_GRUPO.aleatorio, text: 'Aleatório' }
-	];
+	let realizacaoOpcoes;
+	let atribuicaoOpcoes;
+	let formacaoGrupoOpcoes;
+	let formacoesGrupo;
 
 	if (!$selectedEtapa) {
 		$selectedEtapa = 0;
@@ -176,6 +165,14 @@
 		});
 	}
 
+	function onRemoveFormacao(formacao) {
+		console.debug('formacao: ', formacao);
+		etapasData[$selectedEtapa].formacoes = etapasData[$selectedEtapa].formacoes.filter((elem) => {
+			console.debug(`${elem} === ${formacao}: `, elem === formacao);
+			return elem !== formacao;
+		});
+	}
+
 	function isValidDate(dateStr) {
 		return !isNaN(new Date(dateStr));
 	}
@@ -210,6 +207,19 @@
 		}
 	}
 
+	function onAdicionaFormacao() {
+		console.debug('onAdicionaFormacao()');
+		console.debug('etapasData[$selectedEtapa].formacoes', etapasData[$selectedEtapa].formacoes);
+		etapasData[$selectedEtapa].formacoes = [
+			...etapasData[$selectedEtapa].formacoes,
+			{
+				nGrupos: null,
+				nAlunos: null
+			}
+		];
+		console.debug('etapasData[$selectedEtapa].formacoes 2', etapasData[$selectedEtapa].formacoes);
+	}
+
 	// function onTagAdicionada(tag, index) {
 	// 	tagsColors[tag] = 'black';
 	// }
@@ -230,8 +240,8 @@
 		}
 
 		realizacaoOpcoes = [
-			{ name: 'realizacao_individual', text: 'Individual' },
-			{ name: 'realizacao_grupos', text: 'Em Grupos' }
+			{ name: 'realizacao_grupos', text: 'Em Grupos' },
+			{ name: 'realizacao_individual', text: 'Individual' }
 		];
 
 		atribuicaoOpcoes = [
@@ -243,6 +253,13 @@
 			{ name: FORMACAO_GRUPO.alunos_convidam, text: 'Alunos criam seus grupos' },
 			{ name: FORMACAO_GRUPO.professor_escolhe, text: 'Professor forma os grupos' },
 			{ name: FORMACAO_GRUPO.aleatorio, text: 'Aleatório' }
+		];
+
+		formacoesGrupo = [
+			{
+				nGrupos: null,
+				nAlunos: null
+			}
 		];
 
 		const unsubscribe = etapas.subscribe((valor) => {
@@ -261,7 +278,8 @@
 						realizacaoGroup: 'Individual',
 						atribuicaoNotasGroup: 'Média Simples',
 						receberAposPrazo: true,
-						criterios: []
+						criterios: [],
+						formacoes: formacoesGrupo
 					}
 				];
 			}
@@ -345,6 +363,15 @@
 								/>
 							</div>
 							<div class="row">
+								<InputCheckbox
+									id="inputReceberAposPrazoEtapa"
+									bind:checked={etapasData[$selectedEtapa].receberAposPrazo}
+									text="Receber após o prazo"
+								/>
+								<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
+							</div>
+							<hr />
+							<div class="row">
 								<h2>Atribuição de Notas:</h2>
 								<InputRadio
 									id="inputAtribuicaoNotasEtapa"
@@ -354,6 +381,7 @@
 									options={atribuicaoOpcoes}
 								/>
 							</div>
+							<hr />
 							<div class="row">
 								<h2>Realização:</h2>
 								<InputRadio
@@ -364,6 +392,7 @@
 									bind:options={realizacaoOpcoes}
 								/>
 							</div>
+							<hr />
 							{#if etapasData[$selectedEtapa].realizacaoGroup == 'Em Grupos'}
 								<div class="row">
 									<h2>Formação dos grupos:</h2>
@@ -375,15 +404,56 @@
 										bind:options={formacaoGrupoOpcoes}
 									/>
 								</div>
+								<hr />
+								<div class="tamanho-grupos">
+									<h2>Tamanho dos grupos:</h2>
+									{#each etapasData[$selectedEtapa].formacoes as formacao, index}
+										<div class="row">
+											<p>{index + 1}.</p>
+											<InputText
+												id="inputNGrupos"
+												borded
+												width="24px"
+												padding="10px"
+												fontWeight="500"
+												bind:value={etapasData[$selectedEtapa].formacoes[index].nGrupos}
+												name="nGrupos"
+											/>
+											<p>Grupos de</p>
+											<InputText
+												id="inputNAluno"
+												borded
+												width="24px"
+												padding="10px"
+												fontWeight="500"
+												bind:value={etapasData[$selectedEtapa].formacoes[index].nAlunos}
+												name="nAluno"
+											/>
+											<p>alunos</p>
+											{#if etapasData[$selectedEtapa].formacoes.length > 1}
+												<Button
+													color="var(--cor primaria)"
+													type="button"
+													on:click={() => {
+														onRemoveFormacao(formacao);
+													}}>X</Button
+												>
+											{/if}
+										</div>
+									{/each}
+									<div class="btn-add-formacao">
+										<Button
+											borded
+											color="var(--cor primaria)"
+											backgroundColor="var(--cor-secundaria)"
+											type="button"
+											fontSize="20px"
+											fontWeight="500"
+											on:click={onAdicionaFormacao}>Nova Formação</Button
+										>
+									</div>
+								</div>
 							{/if}
-							<div class="row">
-								<InputCheckbox
-									id="inputReceberAposPrazoEtapa"
-									bind:checked={etapasData[$selectedEtapa].receberAposPrazo}
-									text="Receber após o prazo"
-								/>
-								<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
-							</div>
 							<!-- Tags -->
 							<!-- <div class="row"> -->
 							<!-- 	<h3>Tags:</h3> -->
@@ -556,7 +626,8 @@
 		align-items: center;
 		justify-content: center;
 		gap: 20px;
-		margin-top: 20px;
+		margin-top: 10px;
+		margin-bottom: 10px;
 	}
 
 	.column {
@@ -572,8 +643,17 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		margin-top: 40px;
 		margin-right: 24px;
+	}
+
+	.info-container hr {
+		width: 90%;
+		height: 1px;
+		border: 0;
+		border-top: 1px solid darkgrey;
+		background-color: #dddddd;
 	}
 
 	.criterios-container {
@@ -630,5 +710,22 @@
 		flex-direction: row;
 		justify-content: space-between;
 		margin-top: 6px;
+	}
+
+	.tamanho-grupos {
+		margin-top: 10px;
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		gap: 12px;
+	}
+
+	.tamanho-grupos > .row {
+		font-size: 24px;
+	}
+
+	.btn-add-formacao {
+		display: flex;
+		justify-content: center;
 	}
 </style>
