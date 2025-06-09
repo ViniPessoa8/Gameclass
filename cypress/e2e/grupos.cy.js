@@ -21,6 +21,8 @@ describe('template spec', () => {
 		cy.get('.bord > .borded').clear('2025-09-30T10:00');
 		cy.get('.bord > .borded').type('2025-09-30T10:00');
 		cy.get(':nth-child(6) > .button').click();
+
+		// Etapa 1
 		cy.get('#inputTituloEtapa').clear('et');
 		cy.get('#inputTituloEtapa').type('etapa 1');
 		cy.get('#inputDescricaoEtapa').clear('et');
@@ -28,37 +30,57 @@ describe('template spec', () => {
 		cy.get('.container > .s-gl8iGQs72fud').click();
 		cy.get(':nth-child(5) > .bord > .borded').clear('2025-09-28T17:00');
 		cy.get(':nth-child(5) > .bord > .borded').type('2025-09-28T17:00');
-		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('c');
-		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('criterio 1 etapa 1');
-		cy.get('.column > :nth-child(2) > .board > .borded').clear('de');
-		cy.get('.column > :nth-child(2) > .board > .borded').type('descricao criterio 1');
-		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('5');
-		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('5.0');
+		cy.get('#inputTituloCriterio').clear('c');
+		cy.get('#inputTituloCriterio').type('criterio 1 etapa 1');
+		cy.get('#inputDescricaoCriterio').clear('de');
+		cy.get('#inputDescricaoCriterio').type('descricao criterio 1');
+		cy.get('#inputNotaMaxCriterio').clear('5');
+		cy.get('#inputNotaMaxCriterio').type('5.0');
 		cy.get('.btn-add-criterio > .button').click();
-		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('c');
-		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('criterio 2 etapa 1');
+		cy.get('#inputTituloCriterio').clear('c');
+		cy.get('#inputTituloCriterio').type('criterio 2 etapa 1');
 		cy.get('#realizacao_grupos').check();
+		cy.get('#inputNGruposEtapa0').clear('4');
+		cy.get('#inputNGruposEtapa0').type('4');
+		cy.get('#inputNAluno0').clear('5');
+		cy.get('#inputNAluno0').type('5');
+		cy.get('.btn-add-formacao > .button').click();
+		cy.get('#inputNGruposEtapa1').clear('1');
+		cy.get('#inputNGruposEtapa1').type('1');
+		cy.get('#inputNAluno1').clear('6');
+		cy.get('#inputNAluno1').type('6');
 		cy.get('.column > :nth-child(2) > .board').click();
-		cy.get('.column > :nth-child(2) > .board > .borded').clear('de');
-		cy.get('.column > :nth-child(2) > .board > .borded').type('descricao criterio 2');
-		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('5');
-		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('5.0');
+		cy.get('#inputDescricaoCriterio').clear('de');
+		cy.get('#inputDescricaoCriterio').type('descricao criterio 2');
+		cy.get('#inputNotaMaxCriterio').clear('5');
+		cy.get('#inputNotaMaxCriterio').type('5.0');
 		cy.get('.btn-add-criterio > .button').click();
 		cy.get('.etapas-container > .button').click();
+
+		// Etapa 2
 		cy.get('.info-container > :nth-child(2) > .board > .borded').clear('et');
 		cy.get('.info-container > :nth-child(2) > .board > .borded').type('etapa 2');
 		cy.get('.container > .s-gl8iGQs72fud').click();
 		cy.get(':nth-child(5) > .bord > .borded').clear('2025-09-29T17:00');
 		cy.get(':nth-child(5) > .bord > .borded').type('2025-09-29T17:00');
-		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('c');
-		cy.get(':nth-child(1) > [style="background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('criterio unico');
+		cy.get('#inputTituloCriterio').clear('c');
+		cy.get('#inputTituloCriterio').type('criterio unico');
 		cy.get('#realizacao_grupos').check();
 		cy.get('.column > :nth-child(2) > .board').click();
-		cy.get('.column > :nth-child(2) > .board > .borded').clear('de');
-		cy.get('.column > :nth-child(2) > .board > .borded').type('descricao muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito grande do criterio unico');
-		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').clear('1');
-		cy.get('[style="width: 150px; background-color: var(--cor-primaria); padding: 14px;"] > .borded').type('8.0');
+		cy.get('#inputDescricaoCriterio').clear('de');
+		cy.get('#inputDescricaoCriterio').type('descricao muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito grande do criterio unico');
+		cy.get('#inputNotaMaxCriterio').clear('1');
+		cy.get('#inputNotaMaxCriterio').type('8.0');
 		cy.get('.btn-add-criterio > .button').click();
+		cy.get('#inputNGruposEtapa0').clear('4');
+		cy.get('#inputNGruposEtapa0').type('4');
+		cy.get('#inputNAluno0').clear('5');
+		cy.get('#inputNAluno0').type('5');
+		cy.get('.btn-add-formacao > .button').click();
+		cy.get('#inputNGruposEtapa1').clear('1');
+		cy.get('#inputNGruposEtapa1').type('1');
+		cy.get('#inputNAluno1').clear('6');
+		cy.get('#inputNAluno1').type('6');
 		cy.get('[type="submit"]').click();
 		cy.wait(1000)
 		cy.get('[type="submit"]').click();
@@ -66,6 +88,9 @@ describe('template spec', () => {
 		/* ==== Generated with Cypress Studio ==== */
 		// cy.get('h1.s-lvv8qsW60Xk1 > .s-lvv8qsW60Xk1').should('have.text', 'Resumo de critérios para avaliação da atividade');
 		// cy.get('[type="submit"]').click();
+		/* ==== End Cypress Studio ==== */
+		/* ==== Generated with Cypress Studio ==== */
+		cy.get('.info-container').click();
 		/* ==== End Cypress Studio ==== */
 	});
 })
