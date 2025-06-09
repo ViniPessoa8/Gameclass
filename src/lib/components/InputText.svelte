@@ -8,10 +8,14 @@
 	export let borded = false;
 	export let backgroundColor = 'var(--cor-primaria)';
 	export let padding = '14px';
+	export let fontWeight = '400';
 </script>
 
 {#if borded}
-	<div class="board" style="width: {width}; background-color: {backgroundColor}; padding:{padding}">
+	<div
+		class="board"
+		style="width: {width}; background-color: {backgroundColor}; padding:{padding}; font-weight:{fontWeight}"
+	>
 		<input
 			class="borded"
 			type="text"
@@ -20,7 +24,7 @@
 			bind:value
 			on:input={inputHandler}
 			on:blur
-			style="width: {width};background-color: {backgroundColor}; font-size:{fontSize}"
+			style="width: {width};background-color: {backgroundColor}; font-size:{fontSize}; font-weight:{fontWeight}"
 			{...$$restProps}
 		/>
 	</div>

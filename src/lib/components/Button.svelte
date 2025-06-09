@@ -7,13 +7,14 @@
 	export let marginTop = '';
 	export let fontSize = '24px';
 	export let disabled = false;
+	export let fontWeight = 'bold';
 </script>
 
 <button
 	{type}
 	class="button"
 	{disabled}
-	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}; width: {width}; height: {height}"
+	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}; width: {width}; height: {height}; font-weight:{fontWeight}"
 	on:click
 	{...$$restProps}
 >
@@ -25,7 +26,6 @@
 		border: none;
 		min-height: 48px;
 		font-family: var(--font);
-		font-weight: bold;
 		color: var(--cor-primaria);
 		border-radius: 15px;
 		padding: 10px 15px;
