@@ -16,7 +16,12 @@
 	});
 </script>
 
-{#if entrega.data_entrega}
+{#if entrega == null}
+	<div class="card off" style="background-color: {corCard}">
+		<p class="nome">Grupo ?</p>
+		<p class="data">(Não Formado)</p>
+	</div>
+{:else if entrega.data_entrega}
 	<div class="card" style="background-color: {corCard}">
 		<p class="nome">{entrega.nome}</p>
 		{#if entrega.avaliacao}
