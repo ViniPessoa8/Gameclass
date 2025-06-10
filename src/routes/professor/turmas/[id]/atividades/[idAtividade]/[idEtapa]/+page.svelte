@@ -7,7 +7,7 @@
 	import { ATRIBUICAO } from '$lib/constants.js';
 	import AtividadeInfo from '$lib/components/AtividadeInfo.svelte';
 	import { page } from '$app/stores';
-	import EnvioEstudante from '$lib/components/EnvioEstudante.svelte';
+	import EnvioEntrega from '$lib/components/EnvioEntrega.svelte';
 	import { goto } from '$app/navigation';
 	import Entrega from '$lib/models/Entrega.js';
 
@@ -24,17 +24,38 @@
 	$: idEtapa = $page.params.idEtapa;
 	$: arquivos = [...arquivos, arquivo];
 
-	const entregas_por_estudante = data.estudantes
-		.map((estudante) => {
-			const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id);
+	let entregas_por_estudante = [];
+	let entregas_por_grupo = [];
 
-			if (entrega != undefined) {
-				return { ...estudante, ...entrega };
+	console.debug('data.etapa.em_grupos => ', data.etapa.em_grupos);
+	if (data.etapa.em_grupos) {
+		console.debug('data.etapa.grupos => ', data.etapa.grupos);
+		console.debug('data.etapa.formacoes => ', data.etapa.formacoes);
+		const totalDeGrupos = data.etapa.formacoes.reduce((acc, f) => acc + f.numero_grupos, 0);
+		console.debug('totalDeGrupos => ', totalDeGrupos);
+
+		data.etapa.grupos.sort((a, b) => (a.data_criacao > b.data_criacao ? -1 : 1));
+		for (let i = 0; i < totalDeGrupos; i++) {
+			if (i < data.etapa.grupos.length) {
+				entregas_por_grupo.push(data.etapa.grupos[i]);
+			} else {
+				entregas_por_grupo.push(null);
 			}
+		}
+		console.debug('entregas_por_grupo => ', entregas_por_grupo);
+	} else {
+		entregas_por_estudante = data.estudantes
+			.map((estudante) => {
+				const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id);
 
-			return { ...estudante, data_entrega: null };
-		})
-		.sort((a, b) => a.nome.localeCompare(b.nome));
+				if (entrega != undefined) {
+					return { ...estudante, ...entrega };
+				}
+
+				return { ...estudante, data_entrega: null };
+			})
+			.sort((a, b) => a.nome.localeCompare(b.nome));
+	}
 
 	const formatter = new Intl.DateTimeFormat('pt-BR', {
 		day: '2-digit',
@@ -76,9 +97,15 @@
 			<p>Entregas:</p>
 		</div>
 		<div class="entregas">
-			{#each entregas_por_estudante as entrega}
-				<EnvioEstudante {entrega} onClick={() => onClick(entrega.id)} />
-			{/each}
+			{#if data.etapa.em_grupos}
+				{#each entregas_por_grupo as entrega}
+					<EnvioEntrega {entrega} onClick={() => onClick(entrega.id)} />
+				{/each}
+			{:else}
+				{#each entregas_por_estudante as entrega}
+					<EnvioEntrega {entrega} onClick={() => onClick(entrega.id)} />
+				{/each}
+			{/if}
 		</div>
 	</div>
 </div>

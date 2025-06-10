@@ -4,12 +4,16 @@ import AtividadeController from "$lib/server/controllers/atividade";
 import TurmaController from "$lib/server/controllers/turma";
 import EntregaController from "$lib/server/controllers/entrega";
 import AvaliacaoController from "$lib/server/controllers/avaliacao";
+import GrupoController from "$lib/server/controllers/grupo";
+import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
 
 const itemAtividadeController = new ItemAtividadeController()
 const atividadeController = new AtividadeController()
 const turmaController = new TurmaController()
 const entregaController = new EntregaController()
 const avaliacaoController = new AvaliacaoController()
+const grupoController = new GrupoController()
+const formacaoGrupoController = new FormacaoGrupoController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -21,6 +25,8 @@ export async function load({ cookies, params }) {
 	const estudantes = await turmaController.listarAlunos(atividade.id_turma)
 	const entregas = await entregaController.listarPorItemAtividade(idEtapa)
 	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
+	const grupos = await grupoController.listaGruposPorIdItemAtividade(idEtapa)
+	const formacoes = await formacaoGrupoController.listaPorIdItemAtividade(idEtapa)
 
 	let avaliacoes = []
 	for (const entrega of entregas) {
@@ -33,6 +39,8 @@ export async function load({ cookies, params }) {
 	}
 
 	etapa.criterios = criterios
+	etapa.grupos = grupos
+	etapa.formacoes = formacoes
 
 	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas, "avaliacoes": avaliacoes }
 }
