@@ -86,6 +86,10 @@ export default class ItemAtividadeController {
 		}
 
 		const res = await buscarItemAtividadePorIdBD(idItemAtividade);
+		if (!res) {
+			return null
+		}
+
 		res.status = this.calculaStatusItemAtividade(res);
 
 		return new ItemAtividade(res);

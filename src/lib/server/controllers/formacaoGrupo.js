@@ -1,5 +1,5 @@
 import FormacaoGrupo from "../../models/FormacaoGrupo";
-import { cadastraFormacaoBD } from "../repositories/formacaoGrupo";
+import { cadastraFormacaoBD, listaFormacoesPorIdItemAtividadeBD } from "../repositories/formacaoGrupo";
 
 export default class FormacaoGrupoController {
 	async cadastrar(dados) {
@@ -12,5 +12,14 @@ export default class FormacaoGrupoController {
 		);
 
 		return res.rows[0]; // retorna o ID
+	}
+
+	async listaPorIdItemAtividade(idItemAtividade) {
+		const res = await listaFormacoesPorIdItemAtividadeBD(idItemAtividade)
+		if (res.rows == 0) return
+
+		return res.rows.map((f) => new FormacaoGrupo({ ...f }).toObject())
+
+
 	}
 }

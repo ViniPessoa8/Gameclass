@@ -31,7 +31,8 @@ export const DB_INFO = {
 		realizar_avaliacao: "realizar_avaliacao",
 		avaliacao_criterio: "avaliacao_criterio",
 		mural: "publicacao_mural",
-		formacaoGrupo: "formacao_grupo"
+		formacaoGrupo: "formacao_grupo",
+		grupo: "grupo_de_alunos"
 	}
 }
 
