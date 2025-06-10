@@ -82,8 +82,6 @@ CREATE TABLE item_atividade (
 	"em_grupos" BOOLEAN NOT NULL, -- TODO: Mudar nome no diagrama MER
 	"receber_apos_prazo" BOOLEAN NOT NULL,
 	"tipo_formacao_grupo" SMALLINT NULL,
-	"n_integrantes_grupo" SMALLINT,
-	"n_max_grupos" SMALLINT,
 	"status" varchar(20),
 	"id_atividade" BIGINT REFERENCES atividade(id) NOT NULL,
 	PRIMARY KEY ("titulo", "id_atividade")
