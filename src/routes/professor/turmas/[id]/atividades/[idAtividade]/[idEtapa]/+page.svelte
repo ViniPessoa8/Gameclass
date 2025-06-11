@@ -38,14 +38,23 @@
 				const entrega = data.entregas.find((e) => e.id_grupo_de_alunos == grupo.id);
 
 				if (entrega) {
-					entrega.grupo = grupo;
 					entrega.em_grupos = true;
-					entregas_por_grupo.push(entrega);
+					entregas_por_grupo.push({ entrega, grupo, em_grupos: true, estudante: null });
 				} else {
-					entregas_por_grupo.push(data.etapa.grupos[i]);
+					entregas_por_grupo.push({
+						entrega: null,
+						grupo: grupo,
+						em_grupos: true,
+						estudante: null
+					});
 				}
 			} else {
-				entregas_por_grupo.push(null);
+				entregas_por_grupo.push({
+					entrega: null,
+					grupo: null,
+					em_grupos: true,
+					estudante: null
+				});
 			}
 		}
 		console.debug('entregas_por_grupo => ', entregas_por_grupo);
@@ -55,13 +64,12 @@
 				const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id);
 
 				if (entrega != undefined) {
-					entrega.em_grupos = false;
-					return { ...estudante, ...entrega };
+					return { estudante: estudante, entrega: entrega, grupo: null, em_grupos: false };
 				}
 
-				return { ...estudante, data_entrega: null };
+				return { estudante: estudante, entrega: null, grupo: null, em_grupos: false };
 			})
-			.sort((a, b) => a.nome.localeCompare(b.nome));
+			.sort((a, b) => a.estudante.nome.localeCompare(b.estudante.nome));
 	}
 
 	const formatter = new Intl.DateTimeFormat('pt-BR', {
@@ -105,12 +113,12 @@
 		</div>
 		<div class="entregas">
 			{#if data.etapa.em_grupos}
-				{#each entregas_por_grupo as entrega}
-					<EnvioEntrega {entrega} onClick={() => onClick(entrega.id)} />
+				{#each entregas_por_grupo as dados}
+					<EnvioEntrega {dados} onClick={() => onClick(dados.grupo?.id)} />
 				{/each}
 			{:else}
-				{#each entregas_por_estudante as entrega}
-					<EnvioEntrega {entrega} onClick={() => onClick(entrega.id)} />
+				{#each entregas_por_estudante as dados}
+					<EnvioEntrega {dados} onClick={() => onClick(dados.estudante?.id)} />
 				{/each}
 			{/if}
 		</div>

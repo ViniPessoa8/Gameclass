@@ -2,43 +2,53 @@
 	import { onMount } from 'svelte';
 	import Entrega from '$lib/models/Entrega.js';
 
-	export let entrega;
+	export let dados;
 	export let onClick;
+
+	console.debug('EnvioEntrega dados => ', dados);
 
 	let corCard;
 
 	onMount(() => {
-		if (entrega.avaliacao) {
+		if (dados && dados.entrega && dados.entrega.avaliacao) {
 			corCard = 'green';
 		} else {
 			corCard = '#0b2a71';
 		}
+		console.debug('EnvioEntrega dados => ', dados);
 	});
 </script>
 
-{#if entrega == null}
-	<div class="card off" style="background-color: {corCard}">
-		<p class="nome">Grupo ?</p>
-		<p class="data">(Não Formado)</p>
-	</div>
-{:else if entrega.data_entrega}
-	<div class="card" style="background-color: {corCard}">
-		{#if entrega.em_grupos}
-			<p class="nome">{entrega.grupo.nome}</p>
-		{:else}
-			<p class="nome">{entrega.nome}</p>
-		{/if}
-		{#if entrega.avaliacao}
-			<p class="status">(corrigida)</p>
-		{/if}
-		<p class="data">{new Entrega(entrega).formataDataEntrega()}</p>
-		<button on:click={onClick} class="botao">Visualizar</button>
-	</div>
-{:else}
-	<div class="card off">
-		<p class="nome">{entrega.nome}</p>
-		<p class="sem-resposta">Aguardando Resposta</p>
-	</div>
+{#if dados}
+	{#if dados.entrega}
+		<div class="card" style="background-color: {corCard}">
+			{#if dados.em_grupos}
+				<p class="nome">{dados.grupo.nome}</p>
+			{:else}
+				<p class="nome">{dados.estudante.nome}</p>
+			{/if}
+			{#if dados.entrega.avaliacao}
+				<p class="status">(corrigida)</p>
+			{/if}
+			<p class="data">{new Entrega(dados.entrega).formataDataEntrega()}</p>
+			<button on:click={onClick} class="botao">Visualizar</button>
+		</div>
+	{:else if dados.estudante || dados.grupo}
+		<div class="card off">
+			{#if dados.grupo}
+				<p class="nome">{dados.grupo.nome}</p>
+				<p class="sem-resposta">Aguardando Resposta</p>
+			{:else if dados.estudante}
+				<p class="nome">{dados.estudante.nome}</p>
+				<p class="sem-resposta">Aguardando Resposta</p>
+			{/if}
+		</div>
+	{:else}
+		<div class="card off">
+			<p class="nome">Grupo ?</p>
+			<p class="data">(Não Formado)</p>
+		</div>
+	{/if}
 {/if}
 
 <style>
