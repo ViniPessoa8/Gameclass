@@ -95,8 +95,10 @@ VALUES
 ('Critério 1', 'Descrição do critério 1', 5, 1, 1),
 ('Critério 2', 'Descrição do critério 2', 5, 1, 1),
 ('Critério 1', 'Descrição do critério 1', 10, 3, 2),
-('Critério 2', 'Descrição do critério 2', 5, 2, 2);
-ALTER SEQUENCE criterio_id_seq RESTART WITH 5;
+('Critério 2', 'Descrição do critério 2', 5, 2, 2),
+('Critério 1', 'Descrição do critério 1', 5, 1, 3),
+('Critério 2', 'Descrição do critério 2', 5, 1, 3);
+ALTER SEQUENCE criterio_id_seq RESTART WITH 7;
 
 INSERT INTO realizar_avaliacao(data_avaliacao, id_entrega) VALUES
 (now(), 1),
@@ -114,4 +116,27 @@ INSERT INTO avaliacao_criterio (nota_atribuida, id_realizar_avaliacao, id_criter
 (3.0, 3, 2),
 (4.9, 4, 1),
 (4.9, 4, 2);
+ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 9;
+
+INSERT INTO formacao_grupo (numero_grupos, numero_alunos, id_item_atividade) VALUES
+(4, 4, 3);
+ALTER SEQUENCE formacao_grupo_id_seq RESTART WITH 2;
+
+INSERT INTO grupo_de_alunos (nome, id_item_atividade) VALUES
+('Grupo dos Enzos', 3),
+('Grupo 2', 3);
+ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 3;
+
+INSERT INTO entrega ("id_grupo_de_alunos", "id_estudante", "id_item_atividade") 
+VALUES 
+(1, NULL, 3);
+ALTER SEQUENCE entrega_id_seq RESTART WITH 9;
+
+INSERT INTO realizar_avaliacao(id_entrega) VALUES
+(1);
+ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 6;
+
+INSERT INTO avaliacao_criterio (nota_atribuida, id_realizar_avaliacao, id_criterio) VALUES
+(4.5, 5, 5),
+(5, 5, 6);
 ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 9;

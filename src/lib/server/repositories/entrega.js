@@ -1,4 +1,3 @@
-
 import { DB_INFO } from "../../constants";
 import { getPool } from "$config/database.js"
 
@@ -6,16 +5,20 @@ export async function listaEntregasPorItemAtividadeIdBD(idItemAtividade) {
 	const db = getPool()
 	try {
 		const query = {
-			text: `	SELECT 
-						ent.* 
-					FROM 
-						${DB_INFO.tables.item_atividade} ia,
-						${DB_INFO.tables.entrega} ent,
-						${DB_INFO.tables.estudante} est
-					WHERE 
-						ia.id = ent.id_item_atividade
-						AND est.id = ent.id_estudante
-						AND ia.id = $1;`,
+			text: `	
+				SELECT 
+					ent.*, 
+					est.id AS estudante_id,
+					est.matricula,
+					gp.id AS grupo_id,
+					gp.nome AS grupo_nome
+				FROM 
+					${DB_INFO.tables.entrega} ent
+				LEFT JOIN ${DB_INFO.tables.estudante} est ON est.id = ent.id_estudante
+				LEFT JOIN ${DB_INFO.tables.grupo} gp ON gp.id = ent.id_grupo_de_alunos
+				WHERE 
+					ent.id_item_atividade = $1;
+			`,
 			values: [idItemAtividade]
 		}
 

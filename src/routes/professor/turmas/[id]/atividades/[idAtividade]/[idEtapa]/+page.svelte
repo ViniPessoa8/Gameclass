@@ -27,17 +27,23 @@
 	let entregas_por_estudante = [];
 	let entregas_por_grupo = [];
 
-	console.debug('data.etapa.em_grupos => ', data.etapa.em_grupos);
 	if (data.etapa.em_grupos) {
-		console.debug('data.etapa.grupos => ', data.etapa.grupos);
-		console.debug('data.etapa.formacoes => ', data.etapa.formacoes);
 		const totalDeGrupos = data.etapa.formacoes.reduce((acc, f) => acc + f.numero_grupos, 0);
-		console.debug('totalDeGrupos => ', totalDeGrupos);
 
 		data.etapa.grupos.sort((a, b) => (a.data_criacao > b.data_criacao ? -1 : 1));
+
 		for (let i = 0; i < totalDeGrupos; i++) {
 			if (i < data.etapa.grupos.length) {
-				entregas_por_grupo.push(data.etapa.grupos[i]);
+				const grupo = data.etapa.grupos[i];
+				const entrega = data.entregas.find((e) => e.id_grupo_de_alunos == grupo.id);
+
+				if (entrega) {
+					entrega.grupo = grupo;
+					entrega.em_grupos = true;
+					entregas_por_grupo.push(entrega);
+				} else {
+					entregas_por_grupo.push(data.etapa.grupos[i]);
+				}
 			} else {
 				entregas_por_grupo.push(null);
 			}
@@ -49,6 +55,7 @@
 				const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id);
 
 				if (entrega != undefined) {
+					entrega.em_grupos = false;
 					return { ...estudante, ...entrega };
 				}
 

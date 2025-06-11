@@ -29,6 +29,7 @@ export async function load({ cookies, params }) {
 	const formacoes = await formacaoGrupoController.listaPorIdItemAtividade(idEtapa)
 
 	let avaliacoes = []
+	// TODO: criar método para fazer busca por avaliacoes usando o id do item da atividade
 	for (const entrega of entregas) {
 		const avaliacao = await avaliacaoController.buscarAvaliacao(entrega.id)
 		if (avaliacao) {

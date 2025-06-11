@@ -23,7 +23,11 @@
 	</div>
 {:else if entrega.data_entrega}
 	<div class="card" style="background-color: {corCard}">
-		<p class="nome">{entrega.nome}</p>
+		{#if entrega.em_grupos}
+			<p class="nome">{entrega.grupo.nome}</p>
+		{:else}
+			<p class="nome">{entrega.nome}</p>
+		{/if}
 		{#if entrega.avaliacao}
 			<p class="status">(corrigida)</p>
 		{/if}
