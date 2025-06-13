@@ -21,3 +21,22 @@ export async function listaGruposPorIdItemAtividadeBD(idItemAtividade) {
 	}
 }
 
+export async function buscaGrupoPorIdBD(idGrupo) {
+	const db = getPool()
+	const query = {
+		text: `	SELECT 
+					*
+ 				FROM 
+					${DB_INFO.tables.grupo}
+				WHERE 
+					id = $1;`,
+		values: [parseInt(idGrupo)]
+	}
+
+	try {
+		const res = await db.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao buscar grupo por ID (${idGrupo}): ${e}`)
+	}
+}

@@ -114,11 +114,11 @@
 		<div class="entregas">
 			{#if data.etapa.em_grupos}
 				{#each entregas_por_grupo as dados}
-					<EnvioEntrega {dados} onClick={() => onClick(dados.grupo?.id)} />
+					<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
 				{/each}
 			{:else}
 				{#each entregas_por_estudante as dados}
-					<EnvioEntrega {dados} onClick={() => onClick(dados.estudante?.id)} />
+					<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
 				{/each}
 			{/if}
 		</div>

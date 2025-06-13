@@ -122,7 +122,11 @@
 		</div>
 	</div>
 	<div class="right-column">
-		<h2>Estudante: {data.nomeEstudante}</h2>
+		{#if data.etapa.em_grupos}
+			<h2>Grupo: {data.nome}</h2>
+		{:else}
+			<h2>Estudante: {data.nome}</h2>
+		{/if}
 		<div class="resposta-container">
 			<div class="top-content">
 				<div class="resposta-header">
