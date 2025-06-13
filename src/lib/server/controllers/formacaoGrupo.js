@@ -2,7 +2,7 @@ import FormacaoGrupo from "../../models/FormacaoGrupo";
 import { cadastraFormacaoBD, listaFormacoesPorIdItemAtividadeBD } from "../repositories/formacaoGrupo";
 
 export default class FormacaoGrupoController {
-	async cadastrar(dados) {
+	async cadastra(dados) {
 		const formacao = new FormacaoGrupo({ id_item_atividade: dados.id_item_atividade, numero_grupos: dados.numero_grupos, numero_alunos: dados.numero_alunos });
 
 		const res = await cadastraFormacaoBD(

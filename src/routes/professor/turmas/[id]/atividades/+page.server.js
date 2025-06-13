@@ -6,7 +6,7 @@ const itemAtividadeController = new ItemAtividadeController()
 
 export async function load({ params, cookies }) {
 	let data = {}
-	let atividades = await atividadeController.listarPorIdTurma(params.id)
+	let atividades = await atividadeController.listaPorIdTurma(params.id)
 
 	const perfil = cookies.get("perfil")
 	const toast = cookies.get("toast")

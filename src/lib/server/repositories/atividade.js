@@ -27,7 +27,7 @@ export async function removeAtividadeBD(titulo, id_turma) {
 	}
 }
 
-export async function getAtividadeByIdBD(id) {
+export async function buscaPorIdBD(id) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.atividade} WHERE id=$1`,
@@ -45,7 +45,8 @@ export async function getAtividadeByIdBD(id) {
 	}
 }
 
-export async function getAtividadesByIdTurmaBD(idTurma) {
+// export async function getAtividadesByIdTurmaBD(idTurma) {
+export async function listaPorIdTurmaBD(idTurma) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.atividade} WHERE id_turma=$1`,
@@ -63,7 +64,8 @@ export async function getAtividadesByIdTurmaBD(idTurma) {
 	}
 }
 
-export async function getAtividadeByTituloBD(titulo, id_turma) {
+// export async function getAtividadeByTituloBD(titulo, id_turma) {
+export async function buscaPorTituloBD(titulo, id_turma) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.atividade} WHERE titulo=$1 AND id_turma=$2`,

@@ -11,7 +11,7 @@ const formacaoGrupoController = new FormacaoGrupoController()
 
 export async function load({ cookies, params }) {
 	const idAtividade = params.id
-	const atividade = (await atividadeController.buscarPorId(idAtividade)).toObject()
+	const atividade = (await atividadeController.buscaPorId(idAtividade)).toObject()
 
 	return { "atividade": atividade }
 }
@@ -42,6 +42,7 @@ export let actions = {
 		}
 
 		for (const etapa of etapas) {
+			console.debug("Etapa => ", etapa)
 			idAtividadePai = params.idAtividade
 			criterios = etapa.criterios
 			titulo = etapa.titulo
@@ -54,30 +55,34 @@ export let actions = {
 			receberAposPrazo = Boolean(etapa.receberAposPrazo)
 			formacoes = etapa.formacoes
 
+			// TODO: Instanciar objeto de ItemAtividade e usar ele no cadastra(itemAtividade)
+
 			atribuicaoNotas = atribuicaoNotas === "Média Simples" ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada
-			realizacao = realizacao === "Individual" ? REALIZACAO.individual : REALIZACAO.grupos
+			const emGrupos = realizacao === "Individual" ? false : true
 
 			try {
-				const idItemAtividade = await itemAtividadeController.cadastrar(
+				console.debug("Cadastrando =>", titulo, descricao, notaMax, dtEntregaMin, dtEntregaMax, atribuicaoNotas, realizacao, receberAposPrazo, idAtividadePai, criterios)
+
+				const idItemAtividade = await itemAtividadeController.cadastra(
 					titulo,
 					descricao,
 					notaMax,
 					dtEntregaMin,
 					dtEntregaMax,
 					atribuicaoNotas,
-					realizacao,
+					emGrupos,
 					receberAposPrazo,
-					0,
-					0,
 					idAtividadePai,
 					criterios,
 				);
 
 				// Formações de grupo
-				for (const formacao of formacoes) {
-					formacaoGrupoController.cadastrar({ id_item_atividade: idItemAtividade, numero_grupos: formacao.nGrupos, numero_alunos: formacao.nAlunos })
+				if (emGrupos) {
+					for (const formacao of formacoes) {
+						console.debug("FORMAÇÃO => ", formacao)
+						formacaoGrupoController.cadastra({ id_item_atividade: idItemAtividade, numero_grupos: formacao.nGrupos, numero_alunos: formacao.nAlunos })
+					}
 				}
-
 			} catch (e) {
 				console.error("Erro ao cadastrar Item da atividade: ", e)
 				const errorMessage = typeof e === 'string' ? e : e.message

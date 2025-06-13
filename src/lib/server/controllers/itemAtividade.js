@@ -1,6 +1,6 @@
 import {
-	buscarItemAtividadePorIdBD,
-	buscarItemAtividadePorTituloBD,
+	buscaItemAtividadePorIdBD,
+	buscaItemAtividadePorTituloBD,
 	cadastraItemAtividadeBD,
 	listaItensDaAtividadePorIdBD,
 	removeItemAtividadePorIdBD,
@@ -8,19 +8,16 @@ import {
 	listaNotasDeCriteriosPorIdItemAtividadeBD
 } from "../repositories/itemAtividade";
 
-
-// import { cadastraCriterio, removeCriterioPorIdItemAtividade } from "./criterio";
 import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
 
 import ItemAtividade from "$lib/models/ItemAtividade.js";
 import Criterio from "$lib/models/Criterio.js";
 import CriterioController from "./criterio";
 
-
 const criterioController = new CriterioController();
 
 export default class ItemAtividadeController {
-	async cadastrar(
+	async cadastra(
 		titulo,
 		descricao = '',
 		notaMax,
@@ -29,8 +26,6 @@ export default class ItemAtividadeController {
 		tipoAtribuicaoNota,
 		emGrupos,
 		receberAposPrazo,
-		nIntegrantesGrupo = 0,
-		nMaxGrupos = 0,
 		idAtividadePai,
 		criterios,
 		status = 1
@@ -53,8 +48,6 @@ export default class ItemAtividadeController {
 				tipoAtribuicaoNota,
 				emGrupos,
 				receberAposPrazo,
-				nIntegrantesGrupo,
-				nMaxGrupos,
 				idAtividadePai,
 				status
 			);
@@ -69,7 +62,7 @@ export default class ItemAtividadeController {
 
 		for (const c of criterios) {
 			try {
-				await criterioController.cadastrar(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade);
+				await criterioController.cadastra(c.titulo, c.descricao, c.nota_max, c.peso, idItemAtividade);
 			} catch (e) {
 				throw `Erro ao cadastrar critério: ${e}`;
 			}
@@ -80,12 +73,12 @@ export default class ItemAtividadeController {
 		}
 	}
 
-	async buscarItemAtividadePorId(idItemAtividade) {
+	async buscaItemAtividadePorId(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorId)";
 		}
 
-		const res = await buscarItemAtividadePorIdBD(idItemAtividade);
+		const res = await buscaItemAtividadePorIdBD(idItemAtividade);
 		if (!res) {
 			return null
 		}
@@ -95,12 +88,12 @@ export default class ItemAtividadeController {
 		return new ItemAtividade(res);
 	}
 
-	async buscarItemAtividadePorTitulo(titulo, idAtividadePai) {
+	async buscaItemAtividadePorTitulo(titulo, idAtividadePai) {
 		if (!titulo || !idAtividadePai) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorTitulo)";
 		}
 
-		const res = await buscarItemAtividadePorTituloBD(titulo, idAtividadePai);
+		const res = await buscaItemAtividadePorTituloBD(titulo, idAtividadePai);
 		return res.map((item) => new ItemAtividade(item));
 	}
 
@@ -122,7 +115,7 @@ export default class ItemAtividadeController {
 			throw "Dados obrigatórios não foram preenchidos. (RemoveItemAtividadePorId)";
 		}
 
-		await criterioController.removeCriterioPorIdItemAtividade(idItemAtividade);
+		await criterioController.removePorIdItemAtividade(idItemAtividade);
 
 		const res = await removeItemAtividadePorIdBD(idItemAtividade);
 		if (res.rowCount > 0) {

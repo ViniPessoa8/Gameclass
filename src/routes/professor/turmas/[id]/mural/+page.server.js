@@ -1,6 +1,9 @@
-import { criaPublicacao } from "$lib/server/controllers/mural"
-import { comentarPublicacao } from "$lib/server/controllers/comentario";
 import { fail } from '@sveltejs/kit';
+import MuralController from '$lib/server/controllers/mural';
+import ComentarioController from '$lib/server/controllers/comentario';
+
+const muralController = new MuralController()
+const comentarioController = new ComentarioController()
 
 export const actions = {
 	novaPublicacao: async ({ cookies, request, params }) => {
@@ -14,7 +17,7 @@ export const actions = {
 		if (anexos && anexos[0].size == 0) anexos = []
 
 		let idPublicacao;
-		idPublicacao = await criaPublicacao(idTurma, idUsuario, textPublicacao, anexos)
+		idPublicacao = await muralController.criaPublicacao(idTurma, idUsuario, textPublicacao, anexos)
 
 		cookies.set("toast", 'publicacao_criada', { path: "/" })
 		return true
@@ -36,7 +39,7 @@ export const actions = {
 		const dataFormatada = formatter.format(dataAtual);
 
 		try {
-			await comentarPublicacao(idUsuario, idPublicacao, textoComentario, dataFormatada)
+			await comentarioController.comentaPublicacao(idUsuario, idPublicacao, textoComentario, dataFormatada)
 		} catch (e) {
 			console.error("DEU ERRO", e)
 			return fail("Erro", "Erro ao criar comentário")

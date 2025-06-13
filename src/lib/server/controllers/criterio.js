@@ -2,7 +2,7 @@
 import { cadastraCriterioBD, removeCriterioPorIdItemAtividadeBD } from "../repositories/criterio.js";
 
 export default class CriterioController {
-	async cadastrar(titulo, descricao = '', notaMax, peso, idItemAtividade) {
+	async cadastra(titulo, descricao = '', notaMax, peso, idItemAtividade) {
 		if (!titulo || !notaMax || !idItemAtividade) {
 			throw new Error("Dados obrigatórios não foram preenchidos. (Critério)");
 		}
@@ -25,7 +25,7 @@ export default class CriterioController {
 		}
 	}
 
-	async removerPorItemAtividade(idItemAtividade) {
+	async removePorIdItemAtividade(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw new Error("Dados obrigatórios não foram preenchidos. (Critério)");
 		}

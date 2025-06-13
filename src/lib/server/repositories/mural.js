@@ -1,7 +1,7 @@
 import { getPool } from "$config/database.js"
 import { DB_INFO } from "../../constants"
 
-export async function getPublicacoesByIdTurmaBD(idTurma) {
+export async function buscaPorIdTurmaBD(idTurma) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 

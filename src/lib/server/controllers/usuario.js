@@ -1,21 +1,21 @@
 import bcrypt from "bcryptjs"
-import { buscarPorLoginBD, removerPorLoginBD, registrarBD, loginBD } from "../repositories/usuario";
+import { buscaPorLoginBD, removePorLoginBD, registraUsuarioBD, loginBD } from "../repositories/usuario";
 import InstituicaoController from "./instituicao";
 import { Usuario } from "../../models/Usuario";
 
 const instituicaoController = new InstituicaoController()
 
 export default class UsuarioController {
-	async registrar(nome, login, password, instituicao, dtNasc, bio, email, matricula_aluno, cor) {
+	async registra(nome, login, password, instituicao, dtNasc, bio, email, matricula_aluno, cor) {
 		if (!nome || !login || !password || !instituicao || !dtNasc || !email) {
 			throw ("Dados obrigatórios não foram preenchidos.")
 		}
 
-		if (await this.buscarPorLogin(login)) {
+		if (await this.buscaPorLogin(login)) {
 			throw ("Já existe usuário com o mesmo login cadastrado.")
 		}
 
-		const instituicaoRes = await instituicaoController.buscarPorNome(instituicao);
+		const instituicaoRes = await instituicaoController.buscaPorNome(instituicao);
 		const idInstituicao = instituicaoRes.id
 		const nivelInicial = 0
 		const acumuloXpInicial = 0
@@ -26,7 +26,7 @@ export default class UsuarioController {
 		let hash = bcrypt.hashSync(password, salt)
 
 		try {
-			let res = await registrarBD(nome, login, hash, salt, idInstituicao, dtNasc, bio, email, matricula_aluno, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso, cor)
+			let res = await registraUsuarioBD(nome, login, hash, salt, idInstituicao, dtNasc, bio, email, matricula_aluno, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso, cor)
 
 			if (res.rowCount > 0) {
 				return res.rows
@@ -41,7 +41,7 @@ export default class UsuarioController {
 			throw ("Preencha o login e a senha")
 		}
 
-		if (!await this.buscarPorLogin(login)) {
+		if (!await this.buscaPorLogin(login)) {
 			throw ("Usuário não cadastrado")
 		}
 
@@ -54,11 +54,11 @@ export default class UsuarioController {
 	}
 
 	async removerPorLogin(login) {
-		await removerPorLoginBD(login);
+		await removePorLoginBD(login);
 	}
 
-	async buscarPorLogin(login) {
-		const res = await buscarPorLoginBD(login);
+	async buscaPorLogin(login) {
+		const res = await buscaPorLoginBD(login);
 
 		return new Usuario({ ...res });
 	}

@@ -1,9 +1,9 @@
-import { listarBD, buscarPorNomeBD, buscarPorIdBD } from "$repositories/instituicao"
+import { listaInstituicoesBD, buscaPorNomeBD, buscaPorIdBD } from "$repositories/instituicao"
 import Instituicao from "../../models/Instituicao";
 
 export default class InstituicaoController {
-	async listar() {
-		let res = await listarBD();
+	async lista() {
+		let res = await listaInstituicoesBD();
 
 		if (res.rows.length > 0) {
 
@@ -18,8 +18,8 @@ export default class InstituicaoController {
 
 	}
 
-	async buscarPorNome(nome) {
-		let res = await buscarPorNomeBD(nome);
+	async buscaPorNome(nome) {
+		let res = await buscaPorNomeBD(nome);
 		if (res.rows.length > 0) {
 			return new Instituicao({ ...res.rows[0] })
 		}
@@ -27,8 +27,8 @@ export default class InstituicaoController {
 		return false
 	}
 
-	async buscarPorId(id) {
-		let res = await buscarPorIdBD(id);
+	async buscaPorId(id) {
+		let res = await buscaPorIdBD(id);
 		if (res.rows.length > 0) {
 			return new Instituicao({ ...res.rows[0] })
 		}

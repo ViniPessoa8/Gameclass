@@ -49,7 +49,7 @@ export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
 	}
 }
 
-export async function comentarBD(idUsuario, idEntrega, idPublicacao, idItemAvaliacao, idAvaliacao, texto) {
+export async function comentaBD(idUsuario, idEntrega, idPublicacao, idItemAvaliacao, idAvaliacao, texto) {
 	const db = getPool()
 	if (idEntrega == null && idPublicacao == null && idItemAvaliacao == null && idAvaliacao == null) {
 		throw (`Comentário sem referência`)

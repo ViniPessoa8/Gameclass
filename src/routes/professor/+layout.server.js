@@ -21,8 +21,8 @@ export async function load({ url, cookies }) {
 
 	const perfil_raw = cookies.get("perfil");
 	const data = JSON.parse(session_raw);
-	const usuario = await usuarioController.buscarPorLogin(data.login)
-	const turmas = await turmaController.listarPorProfessor(data.id)
+	const usuario = await usuarioController.buscaPorLogin(data.login)
+	const turmas = await turmaController.listaPorProfessor(data.id)
 
 	data.perfil = perfil_raw
 	data.turmas = turmas

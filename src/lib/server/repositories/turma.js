@@ -31,7 +31,7 @@ export async function isTurmaRegisteredDB(codigo, instituicaoId) {
 	}
 }
 
-export async function getTurmaByCodigoBD(codigo) {
+export async function listaTurmaPorIdBD(codigo) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE codigo = $1;`,
@@ -46,7 +46,7 @@ export async function getTurmaByCodigoBD(codigo) {
 	}
 }
 
-export async function getTurmasByIdProfessorBD(idProfessor) {
+export async function buscaTurmasPorIdProfessorBD(idProfessor) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE id_professor = $1;`,
@@ -61,7 +61,7 @@ export async function getTurmasByIdProfessorBD(idProfessor) {
 	}
 }
 
-export async function getTurmaByIdBD(id) {
+export async function listaTurmaPorIdBD(id) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE id = $1;`,
@@ -76,7 +76,7 @@ export async function getTurmaByIdBD(id) {
 	}
 }
 
-export async function listAlunosByTurmaIdBD(idTurma) {
+export async function listaAlunosPorTurmaIdBD(idTurma) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 
@@ -106,7 +106,7 @@ export async function listAlunosByTurmaIdBD(idTurma) {
 	}
 }
 
-export async function deleteTurmaByCodigoBD(codigo) {
+export async function removeTurmaPorCodigoBD(codigo) {
 	const db = getPool()
 	const query = {
 		text: `DELETE FROM ${DB_INFO.tables.turma} WHERE codigo = $1 RETURNING id;`,

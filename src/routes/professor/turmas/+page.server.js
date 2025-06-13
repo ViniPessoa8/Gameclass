@@ -9,7 +9,7 @@ export async function load({ cookies }) {
 	const idProfessor = session.id
 	let data = {};
 
-	let turmas = await turmaController.listarPorProfessor(idProfessor)
+	let turmas = await turmaController.listaPorProfessor(idProfessor)
 	data.turmas = turmas
 
 	if (message === 'turma_criada') {

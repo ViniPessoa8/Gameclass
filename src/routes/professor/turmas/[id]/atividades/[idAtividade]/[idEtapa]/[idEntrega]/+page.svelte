@@ -21,7 +21,7 @@
 	let idEtapa;
 	let status, corStatus;
 	let textoComentario;
-	let arquivo = 'teste';
+	let arquivo;
 	let listaComentarios;
 
 	$: id = $page.params.id;

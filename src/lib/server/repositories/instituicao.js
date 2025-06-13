@@ -1,14 +1,14 @@
 import { getPool } from "../../../config/database.js"
 import { DB_INFO } from "../../constants.js";
 
-export async function listarBD() {
+export async function listaInstituicoesBD() {
 	const db = getPool()
 	const query = `SELECT * FROM ${DB_INFO.tables.instituicao}`;
 	const res = await db.query(query);
 	return res;
 }
 
-export async function buscarPorNomeBD(nome) {
+export async function buscaPorNomeBD(nome) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.instituicao} WHERE nome=$1`,
@@ -18,7 +18,7 @@ export async function buscarPorNomeBD(nome) {
 	return res;
 }
 
-export async function buscarPorIdBD(id) {
+export async function buscaPorIdBD(id) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.instituicao} WHERE id=$1`,

@@ -8,18 +8,17 @@ import Avaliacao from "$lib/models/Avaliacao.js";
 import AvaliacaoCriterio from "../../models/AvaliacaoCriterio.js";
 
 export default class AvaliacaoController {
-	async avaliar(idEntrega, criteriosAvaliados) {
-		// criteriosAvaliados deve ser array de AvaliacaoCriterio ou objetos equivalentes
+	async avalia(idEntrega, criteriosAvaliados) {
 		const sucesso = await avaliaEntregaBD(idEntrega, criteriosAvaliados);
 		return sucesso;
 	}
 
-	async alterarAvaliacao(idEntrega, criteriosAvaliados) {
+	async alteraAvaliacao(idEntrega, criteriosAvaliados) {
 		const sucesso = await alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados);
 		return sucesso;
 	}
 
-	async buscarAvaliacao(idEntrega) {
+	async buscaAvaliacao(idEntrega) {
 		const rows = await buscaAvaliacaoEntregaBD(idEntrega);
 		if (!rows.length) return null;
 

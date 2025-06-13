@@ -16,10 +16,10 @@ export async function load({ params, cookies }) {
 	// ----- CARREGA DADOS DO BANCO ----- //
 
 	// Info da turma
-	data.turma = new Turma(await turmaController.buscarPorId(idTurma)).toObject()
+	data.turma = new Turma(await turmaController.buscaPorId(idTurma)).toObject()
 
 	// Atividades da turma
-	let atividades = await atividadeController.listarPorIdTurma(idTurma);
+	let atividades = await atividadeController.listaPorIdTurma(idTurma);
 	data.atividades = atividades.map((e) => e.toObject())
 
 	// Itens de Atividade
@@ -29,17 +29,17 @@ export async function load({ params, cookies }) {
 
 		// Entregas
 		for (const [indexIA, itemAtividade] of itensAtividade.entries()) {
-			itensAtividade[indexIA].entregas = await entregaController.listarPorItemAtividade(itemAtividade.id);
+			itensAtividade[indexIA].entregas = await entregaController.listaPorItemAtividade(itemAtividade.id);
 
 			// Notas da entrega
 			for (const [indexE, entrega] of itensAtividade[indexIA].entregas.entries()) {
-				itensAtividade[indexIA].entregas[indexE].notas = await entregaController.listarNotasObtidasDeCriterios(entrega.id)
+				itensAtividade[indexIA].entregas[indexE].notas = await entregaController.listaNotasObtidasDeCriterios(entrega.id)
 			}
 		}
 		data.atividades[indexA].itensAtividade = itensAtividade
 	}
 
-	data.estudantes = await turmaController.listarAlunos(idTurma);
+	data.estudantes = await turmaController.listaAlunos(idTurma);
 
 	// ----- CALCULA ESTATISTICAS ----- // 
 

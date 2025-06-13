@@ -8,7 +8,7 @@ const atividadeController = new AtividadeController()
 
 export async function load({ params }) {
 	const turmaId = params.id
-	const turma = await turmaController.buscarPorId(turmaId)
+	const turma = await turmaController.buscaPorId(turmaId)
 
 	console.assert(turma != null, `Turma ${turmaId} não encontrada.`)
 
@@ -46,7 +46,7 @@ export const actions = {
 		let idAtividade;
 		let erro;
 		try {
-			const idAtividadeRes = await atividadeController.cadastrar({ titulo: tituloAtividade, descricao: descricaoAtividade, prazo: prazoAtividade, id_turma: idTurma })
+			const idAtividadeRes = await atividadeController.cadastra({ titulo: tituloAtividade, descricao: descricaoAtividade, prazo: prazoAtividade, id_turma: idTurma })
 
 			idAtividade = idAtividadeRes.id
 		} catch (e) {
@@ -55,7 +55,7 @@ export const actions = {
 
 		if (erro) {
 			console.error(erro)
-			if (erro.message.includes("Uma atividade com o mesmo nome já existe nessa turma")) {
+			if (erro.hasOwnProperty("message") && erro.message.includes("Uma atividade com o mesmo nome já existe nessa turma")) {
 				return fail(400, { duplicated: true, e: erro.message })
 
 			} else {

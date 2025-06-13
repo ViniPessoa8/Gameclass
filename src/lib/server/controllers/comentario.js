@@ -1,28 +1,35 @@
 
 import { listaComentariosPorIdEntregaBD, comentarBD, listaComentariosPorIdPublicacaoMuralBD } from "../repositories/comentario"
 
-export async function listaComentariosPorIdEntrega(idEntrega) {
-	let res = await listaComentariosPorIdEntregaBD(idEntrega)
-	return res.rows
-}
+export default class ComentarioController {
 
-export async function listaComentariosPorIdPublicacaoMural(idPublicacao) {
-	let res = await listaComentariosPorIdPublicacaoMuralBD(idPublicacao)
-	return res.rows
-}
+	async listaPorIdEntrega(idEntrega) {
+		let res = await listaComentariosPorIdEntregaBD(idEntrega)
+		return res.rows
+	}
 
-export async function comentarEntrega(idUsuario, idEntrega = null, textoComentario) {
-	await comentarBD(idUsuario, idEntrega, null, null, null, textoComentario)
-}
+	async listaPorIdPublicacaoMural(idPublicacao) {
+		let res = await listaComentariosPorIdPublicacaoMuralBD(idPublicacao)
+		return res.rows
+	}
 
-export async function comentarPublicacao(idUsuario, idPublicacao = null, textoComentario) {
-	await comentarBD(idUsuario, null, idPublicacao, null, null, textoComentario)
-}
+	async comentaEntrega(idUsuario, idEntrega = null, textoComentario) {
+		// async comentarEntrega(idUsuario, idEntrega = null, textoComentario) {
+		await comentarBD(idUsuario, idEntrega, null, null, null, textoComentario)
+	}
 
-export async function comentarItemAtividade(idUsuario, idItemAtividade = null, textoComentario) {
-	await comentarBD(idUsuario, null, null, idItemAtividade, null, textoComentario)
-}
+	async comentaPublicacao(idUsuario, idPublicacao = null, textoComentario) {
+		// async comentarPublicacao(idUsuario, idPublicacao = null, textoComentario) {
+		await comentarBD(idUsuario, null, idPublicacao, null, null, textoComentario)
+	}
 
-export async function comentarAvaliacao(idUsuario, idAvaliacao = null, textoComentario) {
-	await comentarBD(idUsuario, null, null, null, idAvaliacao, textoComentario)
+	async comentaItemAtividade(idUsuario, idItemAtividade = null, textoComentario) {
+		// async comentarItemAtividade(idUsuario, idItemAtividade = null, textoComentario) {
+		await comentarBD(idUsuario, null, null, idItemAtividade, null, textoComentario)
+	}
+
+	async comentaAvaliacao(idUsuario, idAvaliacao = null, textoComentario) {
+		// async comentarAvaliacao(idUsuario, idAvaliacao = null, textoComentario) {
+		await comentarBD(idUsuario, null, null, null, idAvaliacao, textoComentario)
+	}
 }

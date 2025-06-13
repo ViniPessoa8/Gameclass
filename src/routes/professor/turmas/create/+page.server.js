@@ -25,16 +25,18 @@ export const actions = {
 
 		try {
 
-			res = await turmaController.registrar(
-				data.get('codigo'),
-				data.get('disciplina'),
-				data.get('nome'),
-				data.get('descricao'),
-				data.get('ano'),
-				data.get('periodo'),
-				data.get('local'),
-				data.get('instituicao'),
-				professorId,
+			res = await turmaController.registra(
+				{
+					codigo: data.get('codigo'),
+					disciplina: data.get('disciplina'),
+					nome: data.get('nome'),
+					descricao: data.get('descricao'),
+					ano: data.get('ano'),
+					periodo: data.get('periodo'),
+					local: data.get('local'),
+					instituicao: data.get('instituicao'),
+					professorId,
+				}
 			)
 
 		} catch (e) {

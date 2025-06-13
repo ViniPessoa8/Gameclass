@@ -8,7 +8,7 @@ const entregaController = new EntregaController();
 
 export async function avaliaEntregaBD(idEntrega, criteriosAvaliados) {
 	const db = getPool();
-	const entrega = await entregaController.buscarPorId(idEntrega);
+	const entrega = await entregaController.buscaPorId(idEntrega);
 
 	if (!entrega) {
 		console.error(`Entrega ${idEntrega} não encontrada`);
@@ -59,7 +59,7 @@ export async function avaliaEntregaBD(idEntrega, criteriosAvaliados) {
 
 export async function alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados) {
 	const db = getPool();
-	const entrega = await entregaController.buscarPorId(idEntrega);
+	const entrega = await entregaController.buscaPorId(idEntrega);
 	if (!entrega) {
 		console.error(`Entrega ${idEntrega} não encontrada`);
 		return false;

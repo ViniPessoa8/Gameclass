@@ -42,6 +42,10 @@
 		return true;
 	}
 
+	function handleArquivos(event) {
+		arquivos = Array.from(event.target.files);
+	}
+
 	onMount(async () => {});
 </script>
 
@@ -61,7 +65,6 @@
 
 			return async ({ result, update }) => {
 				if (result.data) {
-					arquivos = [];
 					await invalidate();
 					toast.success('Publicação criada com sucesso!');
 				}
@@ -93,7 +96,7 @@
 					<input
 						id="inputFiles"
 						name="inputFiles"
-						bind:files={arquivos}
+						on:change={handleArquivos}
 						accept="image/*, .pdf, .doc, .docx, .py, .c, cpp, .js, .html, .css"
 						type="file"
 						style="display: none;"

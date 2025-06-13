@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs"
 import { DB_INFO } from "../../constants";
 import { getPool } from "$config/database.js"
 
-export async function registrarBD(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor) {
+export async function registraUsuarioBD(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor) {
 	const db = getPool()
 	const query = {
 		text: `INSERT INTO ${DB_INFO.tables.usuario}(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, data_criacao, ultimo_acesso, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id`,
@@ -17,7 +17,7 @@ export async function registrarBD(nome, login, hash, salt, id_instituicao, dt_na
 	}
 }
 
-export async function buscarPorLoginBD(login) {
+export async function buscaPorLoginBD(login) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.usuario} WHERE login = $1`,
@@ -66,7 +66,7 @@ export async function loginBD(login, password) {
 }
 
 
-export async function removerPorLoginBD(login) {
+export async function removePorLoginBD(login) {
 	const db = getPool()
 	const query = {
 		text: `DELETE FROM ${DB_INFO.tables.usuario} WHERE login = $1 RETURNING id`,

@@ -1,16 +1,19 @@
 import { redirect } from "@sveltejs/kit";
-import { buscaEstudantePorId } from '$controllers/estudante.js';
-import { findUserByLogin } from "$repositories/auth";
-import { listaAnexosPorIdEntrega } from "$controllers/anexo";
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import EntregaController from "$lib/server/controllers/entrega";
 import AvaliacaoController from "$lib/server/controllers/avaliacao";
+import AnexoController from "$lib/server/controllers/anexo";
+import EstudanteController from "$lib/server/controllers/estudante";
+import UsuarioController from "$lib/server/controllers/usuario";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
 const entregaController = new EntregaController()
 const avaliacaoController = new AvaliacaoController()
+const anexoController = new AnexoController()
+const estudanteController = new EstudanteController()
+const usuarioController = new UsuarioController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -20,14 +23,14 @@ export async function load({ cookies, params }) {
 	const idEntrega = params.idEntrega
 	const idEtapa = params.idEtapa
 
-	const etapa = (await itemAtividadeController.buscarItemAtividadePorId(idEtapa)).toObject()
-	const atividade = (await atividadeController.buscarPorId(etapa.id_atividade)).toObject()
-	const entrega = (await entregaController.buscarPorId(idEntrega)).toObject()
-	const estudante = await buscaEstudantePorId(parseInt(entrega.id_estudante))
-	const usuario = await findUserByLogin(data.login)
-	const anexos = await listaAnexosPorIdEntrega(idEntrega)
+	const etapa = (await itemAtividadeController.buscaItemAtividadePorId(idEtapa)).toObject()
+	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
+	const entrega = (await entregaController.buscaPorId(idEntrega)).toObject()
+	const estudante = await estudanteController.buscaEstudantePorId(parseInt(entrega.id_estudante))
+	const usuario = await usuarioController.buscaPorLogin(data.login)
+	const anexos = await anexoController.listaPorIdEntrega(idEntrega)
 	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
-	const notas = await entregaController.listarNotasObtidasDeCriterios(idEntrega)
+	const notas = await entregaController.listaNotasObtidasDeCriterios(idEntrega)
 
 	entrega["anexos"] = anexos
 	usuario["cor"] = usuario.cor
@@ -46,7 +49,7 @@ export const actions = {
 
 		try {
 
-			res = await avaliacaoController.avaliar(idEntrega, notas)
+			res = await avaliacaoController.avalia(idEntrega, notas)
 
 		} catch (e) {
 			console.error(e)
@@ -72,7 +75,7 @@ export const actions = {
 		});
 		const idEntrega = params.idEntrega;
 
-		res = await avaliacaoController.alterarAvaliacao(idEntrega, notas)
+		res = await avaliacaoController.alteraAvaliacao(idEntrega, notas)
 
 		if (res) {
 			cookies.set("toast", 'avaliacao_atualizada', { path: "/" })

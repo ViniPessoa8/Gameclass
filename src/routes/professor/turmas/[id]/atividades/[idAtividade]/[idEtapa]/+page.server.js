@@ -20,10 +20,10 @@ export async function load({ cookies, params }) {
 	const data = JSON.parse(session_raw);
 	data["perfil"] = cookies.get("perfil")
 	const idEtapa = params.idEtapa
-	const etapa = (await itemAtividadeController.buscarItemAtividadePorId(idEtapa)).toObject()
-	const atividade = (await atividadeController.buscarPorId(etapa.id_atividade)).toObject()
-	const estudantes = await turmaController.listarAlunos(atividade.id_turma)
-	const entregas = await entregaController.listarPorItemAtividade(idEtapa)
+	const etapa = (await itemAtividadeController.buscaItemAtividadePorId(idEtapa)).toObject()
+	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
+	const estudantes = await turmaController.listaAlunos(atividade.id_turma)
+	const entregas = await entregaController.listaPorItemAtividade(idEtapa)
 	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
 	const grupos = await grupoController.listaGruposPorIdItemAtividade(idEtapa)
 	const formacoes = await formacaoGrupoController.listaPorIdItemAtividade(idEtapa)
@@ -31,7 +31,7 @@ export async function load({ cookies, params }) {
 	let avaliacoes = []
 	// TODO: criar método para fazer busca por avaliacoes usando o id do item da atividade
 	for (const entrega of entregas) {
-		const avaliacao = await avaliacaoController.buscarAvaliacao(entrega.id)
+		const avaliacao = await avaliacaoController.buscaAvaliacao(entrega.id)
 		if (avaliacao) {
 			entrega.avaliacao = avaliacao.toObject()
 		} else {

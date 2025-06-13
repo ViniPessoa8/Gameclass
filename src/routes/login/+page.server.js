@@ -42,7 +42,7 @@ export const actions = {
 				"nome": res.nome,
 				"login": res.login,
 				"dtNasc": res.dt_nasc,
-				"instituicao": await instituicaoController.buscarPorNome(res.id_instituicao)
+				"instituicao": await instituicaoController.buscaPorNome(res.id_instituicao)
 			}
 
 			cookies.set('session', JSON.stringify(session), {

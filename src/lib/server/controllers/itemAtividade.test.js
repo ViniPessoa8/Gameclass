@@ -41,8 +41,6 @@ describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 			ATRIBUICAO.media_simples,
 			false,
 			false,
-			null,
-			null,
 			idAtividadePai,
 			criterios
 		)
@@ -59,8 +57,6 @@ describe.sequential("Criação de Itens da atividade (Etapas)", () => {
 			ATRIBUICAO.media_simples,
 			false,
 			false,
-			null,
-			null,
 			idAtividadePai,
 			criterios
 		)

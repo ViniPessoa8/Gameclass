@@ -1,8 +1,10 @@
-import { listAlunosByTurmaId } from "$lib/server/controllers/turma"
+import TurmaController from "$lib/server/controllers/turma"
+
+const turmaController = new TurmaController()
 
 export async function load({ params, cookies }) {
 	let data = {}
-	let estudantes = await listAlunosByTurmaId(params.id)
+	let estudantes = await turmaController.listaAlunos(params.id)
 
 	if (estudantes && estudantes.length == 0) {
 		return { estudantes: [] }
