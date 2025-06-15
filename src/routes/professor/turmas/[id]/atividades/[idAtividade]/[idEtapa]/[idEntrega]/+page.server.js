@@ -27,7 +27,7 @@ export async function load({ cookies, params }) {
 	const idEtapa = params.idEtapa
 
 	const usuario = await usuarioController.buscaPorLogin(data.login)
-	const etapa = (await itemAtividadeController.buscaItemAtividadePorId(idEtapa)).toObject()
+	const etapa = (await itemAtividadeController.buscaPorId(idEtapa)).toObject()
 	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
 	const entrega = (await entregaController.buscaPorId(idEntrega)).toObject()
 	const entregaAvaliada = await avaliacaoController.buscaAvaliacao(entrega.id)
@@ -38,7 +38,7 @@ export async function load({ cookies, params }) {
 	if (etapa.em_grupos) {
 		grupo = await grupoController.buscaPorId(parseInt(entrega.id_grupo_de_alunos))
 	} else {
-		estudante = await estudanteController.buscaEstudantePorId(parseInt(entrega.id_estudante))
+		estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
 	}
 
 	entrega["comentarios"] = comentarios_entrega

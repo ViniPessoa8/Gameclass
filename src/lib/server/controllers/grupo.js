@@ -1,7 +1,7 @@
 import { listaGruposPorIdItemAtividadeBD, buscaGrupoPorIdBD } from "../repositories/grupo"
 
 export default class GrupoController {
-	async listaGruposPorIdItemAtividade(idItemAtividade) {
+	async listaPorIdItemAtividade(idItemAtividade) {
 		let res = await listaGruposPorIdItemAtividadeBD(idItemAtividade)
 		return res.rows
 	}

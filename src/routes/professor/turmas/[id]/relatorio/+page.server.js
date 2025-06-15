@@ -24,7 +24,7 @@ export async function load({ params, cookies }) {
 
 	// Itens de Atividade
 	for (const [indexA, atividade] of atividades.entries()) {
-		let itensAtividade = await itemAtividadeController.listaItensDaAtividadePorId(atividade.id);
+		let itensAtividade = await itemAtividadeController.listaPorIdAtividade(atividade.id);
 		itensAtividade = itensAtividade.map((e) => e.toObject())
 
 		// Entregas

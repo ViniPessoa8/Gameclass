@@ -23,13 +23,13 @@ export async function load({ cookies, params }) {
 	const idEntrega = params.idEntrega
 	const idEtapa = params.idEtapa
 
-	const etapa = (await itemAtividadeController.buscaItemAtividadePorId(idEtapa)).toObject()
+	const etapa = (await itemAtividadeController.buscaPorId(idEtapa)).toObject()
 	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
 	const entrega = (await entregaController.buscaPorId(idEntrega)).toObject()
-	const estudante = await estudanteController.buscaEstudantePorId(parseInt(entrega.id_estudante))
+	const estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
 	const usuario = await usuarioController.buscaPorLogin(data.login)
 	const anexos = await anexoController.listaPorIdEntrega(idEntrega)
-	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
+	const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
 	const notas = await entregaController.listaNotasObtidasDeCriterios(idEntrega)
 
 	entrega["anexos"] = anexos

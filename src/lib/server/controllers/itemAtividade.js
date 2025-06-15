@@ -73,7 +73,7 @@ export default class ItemAtividadeController {
 		}
 	}
 
-	async buscaItemAtividadePorId(idItemAtividade) {
+	async buscaPorId(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorId)";
 		}
@@ -83,12 +83,12 @@ export default class ItemAtividadeController {
 			return null
 		}
 
-		res.status = this.calculaStatusItemAtividade(res);
+		res.status = this.calculaStatus(res);
 
 		return new ItemAtividade(res);
 	}
 
-	async buscaItemAtividadePorTitulo(titulo, idAtividadePai) {
+	async buscaPorTitulo(titulo, idAtividadePai) {
 		if (!titulo || !idAtividadePai) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorTitulo)";
 		}
@@ -97,7 +97,7 @@ export default class ItemAtividadeController {
 		return res.map((item) => new ItemAtividade(item));
 	}
 
-	async listaItensDaAtividadePorId(idAtividadePai) {
+	async listaPorIdAtividade(idAtividadePai) {
 		if (!idAtividadePai) {
 			throw "Dados obrigatórios não foram preenchidos. (listaItensDaAtividadePorId)";
 		}
@@ -105,12 +105,12 @@ export default class ItemAtividadeController {
 		const res = await listaItensDaAtividadePorIdBD(idAtividadePai);
 
 		return res.map((item) => {
-			item.status = this.calculaStatusItemAtividade(item);
+			item.status = this.calculaStatus(item);
 			return new ItemAtividade(item);
 		});
 	}
 
-	async removeItemAtividadePorId(idItemAtividade) {
+	async removePorId(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (RemoveItemAtividadePorId)";
 		}
@@ -123,7 +123,7 @@ export default class ItemAtividadeController {
 		}
 	}
 
-	calculaStatusItemAtividade(itemAtividade) {
+	calculaStatus(itemAtividade) {
 		const now = new Date();
 		if (!itemAtividade.data_entrega_inicial) {
 			return STATUS_ITEM_ATIVIDADE_PROFESSOR["0"];
@@ -148,7 +148,7 @@ export default class ItemAtividadeController {
 		}
 	}
 
-	async listaCriteriosPorIdItemAtividade(idItemAtividade) {
+	async listaCriteriosPorId(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (listaCriteriosPorIdItemAtividade)";
 		}
@@ -157,7 +157,7 @@ export default class ItemAtividadeController {
 		return res.map((c) => new Criterio(c).toObject())
 	}
 
-	async listaNotasDeCriteriosPorIdItemAtividade(idItemAtividade) {
+	async listaNotasDeCriteriosPorId(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (listaNotasDeCriteriosPorIdItemAtividade)";
 		}

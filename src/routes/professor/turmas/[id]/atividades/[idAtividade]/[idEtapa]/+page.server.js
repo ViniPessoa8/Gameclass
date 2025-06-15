@@ -20,12 +20,12 @@ export async function load({ cookies, params }) {
 	const data = JSON.parse(session_raw);
 	data["perfil"] = cookies.get("perfil")
 	const idEtapa = params.idEtapa
-	const etapa = (await itemAtividadeController.buscaItemAtividadePorId(idEtapa)).toObject()
+	const etapa = (await itemAtividadeController.buscaPorId(idEtapa)).toObject()
 	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
 	const estudantes = await turmaController.listaAlunos(atividade.id_turma)
 	const entregas = await entregaController.listaPorItemAtividade(idEtapa)
-	const criterios = await itemAtividadeController.listaCriteriosPorIdItemAtividade(idEtapa)
-	const grupos = await grupoController.listaGruposPorIdItemAtividade(idEtapa)
+	const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
+	const grupos = await grupoController.listaPorIdItemAtividade(idEtapa)
 	const formacoes = await formacaoGrupoController.listaPorIdItemAtividade(idEtapa)
 
 	let avaliacoes = []
