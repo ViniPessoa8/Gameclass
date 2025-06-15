@@ -12,7 +12,7 @@ export async function GET({ params }) {
 		const publicacoes = await muralController.buscaPorIdTurma(params.id);
 		for (const pub of publicacoes) {
 			pub.comentarios = await comentarioController.listaPorIdPublicacaoMural(pub.id);
-			pub.anexos = await anexoController.listaPorIdPublicacaoMural(pub.id)
+			pub.anexos = (await anexoController.listaPorIdPublicacaoMural(pub.id)).map((e) => e.toObject())
 		}
 		return json({ publicacoes });
 	} catch (e) {

@@ -32,7 +32,7 @@ export async function load({ cookies, params }) {
 	const entrega = (await entregaController.buscaPorId(idEntrega)).toObject()
 	const entregaAvaliada = await avaliacaoController.buscaAvaliacao(entrega.id)
 	const comentarios_entrega = await comentarioController.listaPorIdEntrega(parseInt(entrega.id))
-	const anexos = await anexoController.listaPorIdEntrega(idEntrega)
+	const anexos = (await anexoController.listaPorIdEntrega(idEntrega)).map((e) => e.toObject())
 
 	let estudante, grupo;
 	if (etapa.em_grupos) {
