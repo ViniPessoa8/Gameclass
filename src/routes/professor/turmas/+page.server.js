@@ -10,6 +10,11 @@ export async function load({ cookies }) {
 	let data = {};
 
 	let turmas = await turmaController.listaPorProfessor(idProfessor)
+	for (const turma of turmas) {
+		const nAlunos = (await turmaController.listaAlunos(turma.id)).length
+		turma.numero_alunos = nAlunos
+	}
+
 	data.turmas = turmas
 
 	if (message === 'turma_criada') {
