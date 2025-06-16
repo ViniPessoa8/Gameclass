@@ -2,8 +2,8 @@ import { STATUS_ENTREGA } from '$lib/constants.js';
 
 export default class Entrega {
 	constructor({
-		id,
-		data_entrega,
+		id = null,
+		data_entrega = null,
 		id_grupo_de_alunos,
 		id_item_atividade,
 		id_estudante,

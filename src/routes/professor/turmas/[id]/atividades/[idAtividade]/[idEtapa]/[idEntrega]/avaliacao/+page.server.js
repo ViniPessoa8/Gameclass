@@ -6,6 +6,7 @@ import AvaliacaoController from "$lib/server/controllers/avaliacao";
 import AnexoController from "$lib/server/controllers/anexo";
 import EstudanteController from "$lib/server/controllers/estudante";
 import UsuarioController from "$lib/server/controllers/usuario";
+import Avaliacao from "$lib/models/Avaliacao";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -32,7 +33,7 @@ export async function load({ cookies, params }) {
 	const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
 	const notas = await entregaController.listaNotasObtidasDeCriterios(idEntrega)
 
-	entrega["anexos"] = anexos
+	entrega["anexos"] = anexos.map((e) => e.toObject())
 	usuario["cor"] = usuario.cor
 	etapa["criterios"] = criterios
 	entrega["notas"] = notas ? notas : []
@@ -44,12 +45,16 @@ export const actions = {
 	criar: async ({ request, cookies, params }) => {
 		let res;
 
-		const notas = await request.formData();
+		const notas = Array.from(await request.formData());
 		const idEntrega = params.idEntrega;
+
+		console.debug("NOTAS => ", notas)
 
 		try {
 
-			res = await avaliacaoController.avalia(idEntrega, notas)
+			const avaliacao = new Avaliacao({ id_entrega: idEntrega, criterios_avaliados: notas })
+			console.debug("AVALIACAO => ", avaliacao)
+			res = await avaliacaoController.avalia(avaliacao)
 
 		} catch (e) {
 			console.error(e)
@@ -75,7 +80,9 @@ export const actions = {
 		});
 		const idEntrega = params.idEntrega;
 
-		res = await avaliacaoController.alteraAvaliacao(idEntrega, notas)
+		const avaliacao = new Avaliacao({ id_entrega: idEntrega, criterios_avaliados: notasObj })
+		console.debug("avaliacao => ", avaliacao)
+		res = await avaliacaoController.alteraAvaliacao(avaliacao)
 
 		if (res) {
 			cookies.set("toast", 'avaliacao_atualizada', { path: "/" })

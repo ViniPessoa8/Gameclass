@@ -12,8 +12,7 @@ import Atividade from "$lib/models/Atividade.js";
 const itemAtividadeController = new ItemAtividadeController()
 
 export default class AtividadeController {
-	async cadastra(dados) {
-		const atividade = new Atividade(dados);
+	async cadastra(atividade) {
 
 		const existente = await this.buscaPorTitulo(atividade.titulo, atividade.id_turma);
 		if (existente) {
@@ -35,9 +34,9 @@ export default class AtividadeController {
 		const atividade = res.rows[0];
 		if (!atividade) return;
 
-		const itens = await itemAtividadeController.listaItensDaAtividadePorId(atividade.id);
+		const itens = await itemAtividadeController.listaPorIdAtividade(atividade.id);
 		for (const item of itens) {
-			await itemAtividadeController.removeItemAtividadePorId(item.id);
+			await itemAtividadeController.removePorId(item.id);
 		}
 
 		await removeAtividadeBD(titulo, id_turma);

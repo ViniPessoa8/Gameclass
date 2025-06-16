@@ -8,17 +8,17 @@ import Avaliacao from "$lib/models/Avaliacao.js";
 import AvaliacaoCriterio from "../../models/AvaliacaoCriterio.js";
 
 export default class AvaliacaoController {
-	async avalia(idEntrega, criteriosAvaliados) {
-		const sucesso = await avaliaEntregaBD(idEntrega, criteriosAvaliados);
-		return sucesso;
+	// TODO: Parametro: avaliacao
+	async avalia(avaliacao) {
+		return await avaliaEntregaBD(avaliacao.idEntrega, avaliacao.criteriosAvaliados);
 	}
 
-	async alteraAvaliacao(idEntrega, criteriosAvaliados) {
-		const sucesso = await alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados);
-		return sucesso;
+	// TODO: Parametro: avaliacao
+	async alteraAvaliacao(avaliacao) {
+		return await alteraAvaliacaoEntregaBD(avaliacao.idEntrega, avaliacao.criteriosAvaliados);
 	}
 
-	async buscaAvaliacao(idEntrega) {
+	async buscaPorIdEntrega(idEntrega) {
 		const rows = await buscaAvaliacaoEntregaBD(idEntrega);
 		if (!rows.length) return null;
 
@@ -26,7 +26,7 @@ export default class AvaliacaoController {
 		const id_realizar_avaliacao = rows[0].id_realizar_avaliacao;
 
 		const criterios_avaliados = rows
-			.filter(row => row.id_avaliacao_criterio) // ignora se ainda não houver critérios
+			.filter(row => row.id_avaliacao_criterio)
 			.map(row => new AvaliacaoCriterio({
 				id: row.id_avaliacao_criterio,
 				nota_atribuida: row.nota_atribuida,

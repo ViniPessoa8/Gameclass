@@ -31,7 +31,7 @@ export async function load({ cookies, params }) {
 	let avaliacoes = []
 	// TODO: criar método para fazer busca por avaliacoes usando o id do item da atividade
 	for (const entrega of entregas) {
-		const avaliacao = await avaliacaoController.buscaAvaliacao(entrega.id)
+		const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
 		if (avaliacao) {
 			entrega.avaliacao = avaliacao.toObject()
 		} else {

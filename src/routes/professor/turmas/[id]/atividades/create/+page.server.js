@@ -2,6 +2,7 @@ import { cadastraTag } from "$lib/server/controllers/tag"
 import { error, fail, redirect } from "@sveltejs/kit"
 import TurmaController from "$lib/server/controllers/turma"
 import AtividadeController from "$lib/server/controllers/atividade"
+import Atividade from "$lib/models/Atividade"
 
 const turmaController = new TurmaController()
 const atividadeController = new AtividadeController()
@@ -46,7 +47,14 @@ export const actions = {
 		let idAtividade;
 		let erro;
 		try {
-			const idAtividadeRes = await atividadeController.cadastra({ titulo: tituloAtividade, descricao: descricaoAtividade, prazo: prazoAtividade, id_turma: idTurma })
+			const atividade = new Atividade({
+				titulo: tituloAtividade,
+				descricao: descricaoAtividade,
+				prazo: prazoAtividade,
+				id_turma: idTurma
+			});
+
+			const idAtividadeRes = await atividadeController.cadastra(atividade)
 
 			idAtividade = idAtividadeRes.id
 		} catch (e) {
