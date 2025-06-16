@@ -4,6 +4,7 @@
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
 	import InputRadio from '$lib/components/InputRadio.svelte';
 	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
+	import InputNumber from '$lib/components/InputText.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
@@ -92,11 +93,7 @@
 			if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa "${tituloEtapa}")`);
 
 			// Formação de grupos da etapa
-			const filter = formacoes.filter(
-				(e) =>
-					e.nGrupos === null &&
-					realizacao == 'Em Grupos'
-			);
+			const filter = formacoes.filter((e) => e.nGrupos === null && realizacao == 'Em Grupos');
 			if (filter.length > 0) {
 				throw new Error(`Formação de grupos com dados incompletos`);
 			}
@@ -203,7 +200,7 @@
 			.replace(/[^\d.]/g, ''); // Remove tudo que não for número
 
 		if (parseFloat(novoCriterioNota) > 10.0) {
-			novoCriterioNota = 10.0;
+			novoCriterioNota = oldCriterioNota;
 		} else {
 			oldCriterioNota = novoCriterioNota;
 		}
@@ -502,7 +499,7 @@
 											placeholder="Título"
 											bind:value={novoCriterioTitulo}
 										/>
-										<InputText
+										<InputNumber
 											id="inputNotaMaxCriterio"
 											borded
 											name="nota-max-criterio"

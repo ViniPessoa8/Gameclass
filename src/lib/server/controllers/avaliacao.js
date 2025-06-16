@@ -8,12 +8,10 @@ import Avaliacao from "$lib/models/Avaliacao.js";
 import AvaliacaoCriterio from "../../models/AvaliacaoCriterio.js";
 
 export default class AvaliacaoController {
-	// TODO: Parametro: avaliacao
 	async avalia(avaliacao) {
 		return await avaliaEntregaBD(avaliacao.idEntrega, avaliacao.criteriosAvaliados);
 	}
 
-	// TODO: Parametro: avaliacao
 	async alteraAvaliacao(avaliacao) {
 		return await alteraAvaliacaoEntregaBD(avaliacao.idEntrega, avaliacao.criteriosAvaliados);
 	}
