@@ -8,6 +8,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	// import Tags from 'svelte-tags-input';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
@@ -26,7 +27,6 @@
 	let erroNotaCriterio = false;
 	let etapasData = [];
 	let carregando = true;
-	let realizacaoSelecionada = 0;
 	// let tags = [];
 	// let tagsAutocomplete = [];
 	// let tagsColors = {};
@@ -35,6 +35,16 @@
 	let atribuicaoOpcoes;
 	let formacaoGrupoOpcoes;
 	let formacoesGrupo;
+	let showModal = false;
+	let proximoValor;
+
+	$: console.debug('etapasData =>', etapasData);
+
+	$: {
+		if (atribuicaoOpcoes) {
+			etapasData[$selectedEtapa].criterios = [];
+		}
+	}
 
 	if (!$selectedEtapa) {
 		$selectedEtapa = 0;
@@ -231,6 +241,22 @@
 		console.debug('etapasData[$selectedEtapa].formacoes 2', etapasData[$selectedEtapa].formacoes);
 	}
 
+	function handleAtribuicaoDeNotas(valor) {
+		proximoValor = valor;
+		showModal = true;
+	}
+
+	function confirmaModalAtribuicaoDeNotas() {
+		etapasData[$selectedEtapa].criterios = [];
+		showModal = false;
+		etapasData[$selectedEtapa].atribuicaoNotasGroup = proximoValor;
+	}
+
+	function handleRealizaoEtapa(valor) {
+		console.debug('valor realizacao =>', valor);
+		etapasData[$selectedEtapa].realizacaoGroup = valor.trim();
+	}
+
 	// function onTagAdicionada(tag, index) {
 	// 	tagsColors[tag] = 'black';
 	// }
@@ -288,6 +314,7 @@
 						dtEntregaMax: '', // TODO: Validar campo
 						realizacaoGroup: 'Individual',
 						atribuicaoNotasGroup: 'Média Simples',
+						formacao: 'Alunos criam seus grupos',
 						receberAposPrazo: true,
 						criterios: [],
 						formacoes: [
@@ -306,6 +333,27 @@
 	});
 </script>
 
+<Modal
+	visible={showModal}
+	title="Atenção"
+	message="Alterar a atribuição de notas irá remover os critérios existentes. Deseja continuar?"
+	buttons={[
+		{
+			label: 'Sim',
+			onClick: () => {
+				confirmaModalAtribuicaoDeNotas();
+			},
+			color: 'green'
+		},
+		{
+			label: 'Não',
+			onClick: () => {
+				showModal = false;
+			},
+			color: 'red'
+		}
+	]}
+/>
 <Toaster richColors expand position="top-center" closeButton />
 {#if !carregando}
 	<div class="page-container">
@@ -392,20 +440,20 @@
 								<InputRadio
 									id="inputAtribuicaoNotasEtapa"
 									borded
-									name="atribuicao_notas"
-									bind:group={etapasData[$selectedEtapa].atribuicaoNotasGroup}
 									options={atribuicaoOpcoes}
+									selected={etapasData[$selectedEtapa].atribuicaoNotasGroup}
+									onClickOption={handleAtribuicaoDeNotas}
+									requerConfirmacao
 								/>
 							</div>
 							<hr />
 							<div class="row">
 								<h2>Realização:</h2>
 								<InputRadio
-									id="inputRealizacaoEtapa"
 									borded
-									name="realizacao"
-									bind:group={etapasData[$selectedEtapa].realizacaoGroup}
-									bind:options={realizacaoOpcoes}
+									options={realizacaoOpcoes}
+									selected={etapasData[$selectedEtapa].realizacaoGroup}
+									onClickOption={handleRealizaoEtapa}
 								/>
 							</div>
 							<hr />
@@ -413,11 +461,12 @@
 								<div class="row">
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
-										id="inputFormacaoGrupos"
 										borded
-										name="formacao_grupo"
-										bind:group={etapasData[$selectedEtapa].formacao_grupo}
-										bind:options={formacaoGrupoOpcoes}
+										options={formacaoGrupoOpcoes}
+										selected={etapasData[$selectedEtapa].formacao}
+										onClickOption={(valor) => {
+											etapasData[$selectedEtapa].formacao = valor.trim();
+										}}
 									/>
 								</div>
 								<hr />

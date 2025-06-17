@@ -12,6 +12,9 @@
 
 	// Variável de controle da tag input
 	export let group = [];
+	export let selected = '';
+	export let requerConfirmacao = false;
+	export let onClickOption = () => {};
 
 	if (options) {
 		group = options[0].text;
@@ -24,20 +27,32 @@
 			{#if index === 0}
 				<input
 					name={option.name}
-					bind:group
 					id={option.name}
 					type="radio"
 					value={option.text}
+					checked={selected.trim() == option.text}
 					on:change
+					on:click={(e) => {
+						if (requerConfirmacao) {
+							e.preventDefault();
+						}
+						onClickOption(option.text);
+					}}
 				/>
 			{:else}
 				<input
 					name={option.name}
-					bind:group
 					id={option.name}
 					type="radio"
 					value={option.text}
+					checked={selected.trim() == option.text}
 					on:change
+					on:click={(e) => {
+						if (requerConfirmacao) {
+							e.preventDefault();
+						}
+						onClickOption(option.text);
+					}}
 				/>
 			{/if}
 			<label for={option.name}>{option.text}</label>
