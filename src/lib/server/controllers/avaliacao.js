@@ -9,11 +9,11 @@ import AvaliacaoCriterio from "../../models/AvaliacaoCriterio.js";
 
 export default class AvaliacaoController {
 	async avalia(avaliacao) {
-		return await avaliaEntregaBD(avaliacao.idEntrega, avaliacao.criteriosAvaliados);
+		return await avaliaEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados);
 	}
 
 	async alteraAvaliacao(avaliacao) {
-		return await alteraAvaliacaoEntregaBD(avaliacao.idEntrega, avaliacao.criteriosAvaliados);
+		return await alteraAvaliacaoEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados);
 	}
 
 	async buscaPorIdEntrega(idEntrega) {

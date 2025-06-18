@@ -8,7 +8,7 @@ export default class GrupoController {
 
 	async buscaPorId(idGrupo) {
 		let res = await buscaGrupoPorIdBD(idGrupo)
-		return res.rows
+		return res.rows[0]
 	}
 
 }

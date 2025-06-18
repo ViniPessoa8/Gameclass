@@ -10,8 +10,11 @@
 
 	const notas = $state(
 		data.entrega.notas.length != 0
-			? data.entrega.notas.map((notas) => notas.nota_atribuida.toFixed(1))
-			: Array(data.etapa.criterios.length).fill('')
+			? data.entrega.notas.map((nota) => ({
+					id_criterio: nota.id_criterio,
+					nota: nota.nota_atribuida.toFixed(1)
+				}))
+			: data.etapa.criterios.map((c) => ({ id_criterio: c.id, nota: null }))
 	);
 
 	function validarNotas() {
@@ -21,7 +24,7 @@
 		inputs.forEach((input, index) => {
 			if (!input.value.trim()) {
 				todosPreenchidos = false;
-				notas[index] = null;
+				notas[index].nota = null;
 			}
 		});
 
@@ -44,7 +47,7 @@
 
 		// Permitir números no formato "X" ou "X.Y" com até 2 dígitos antes do ponto
 		if (/^\d{0,2}(\.\d{0,1})?$/.test(valor) || valor === '') {
-			notas[index] = valor;
+			notas[index].nota = valor;
 
 			// Aguarda a próxima renderização para restaurar a posição do cursor
 			setTimeout(() => {
@@ -53,30 +56,27 @@
 		}
 	}
 
-	function formatarNotaFinal(index, max) {
-		const num = parseFloat(notas[index]);
+	function formatarNotaFinal(index, criterio) {
+		const num = parseFloat(notas[index].num);
 		if (!isNaN(num)) {
-			notas[index] = Math.min(num, max).toFixed(1);
+			notas[index].notas = Math.min(num, criterio.pontuacao_max).toFixed(1);
+			notas[index].id_criterio = criterio.id;
 		} else {
-			notas[index] = '';
-		}
-	}
-
-	function finalizarAvaliacao() {
-		if (validarNotas()) {
+			notas[index].notas = 0.0;
+			notas[index].id_criterio = criterio.id;
 		}
 	}
 
 	let pontuacaoFinal = $derived.by(() => {
 		if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
 			let pontuacaoFinal =
-				notas.reduce((acc, n) => acc + (n ? parseFloat(n) : 0), 0) / notas.length;
+				notas.reduce((acc, n) => acc + (n.nota ? parseFloat(n.nota) : 0), 0) / notas.length;
 			return pontuacaoFinal;
 		} else {
 			const somaPesos = data.etapa.criterios.reduce((acc, c) => acc + c.peso, 0);
 			let somaNotasObtidas = 0;
 			data.etapa.criterios.map((c, i) => {
-				somaNotasObtidas += notas[i] * c.peso;
+				somaNotasObtidas += notas[i].nota * c.peso;
 			});
 
 			let pontuacaoFinal = somaNotasObtidas / somaPesos;
@@ -99,7 +99,11 @@
 <div class="container">
 	<p class="titulo-atividade">{data.atividade.titulo}</p>
 	<p class="titulo-etapa">Etapa: {data.etapa.titulo}</p>
-	<p class="nome-estudante">Estudante: <b>{data.nomeEstudante}</b></p>
+	{#if data.nomeEstudante != undefined}
+		<p class="nome-estudante">Estudante: <b>{data.nomeEstudante}</b></p>
+	{:else}
+		<p class="nome-estudante">Grupo: <b>{data.nomeGrupo}</b></p>
+	{/if}
 
 	<form
 		class="criterios-grid"
@@ -138,9 +142,9 @@
 						name={criterio.titulo}
 						placeholder="Nota"
 						width="80px"
-						bind:value={notas[index]}
-						inputHandler={(e) => formatarNota(notas[index], index, e)}
-						on:blur={() => formatarNotaFinal(index, criterio.pontuacao_max)}
+						bind:value={notas[index].nota}
+						inputHandler={(e) => formatarNota(notas[index].nota, index, e)}
+						on:blur={() => formatarNotaFinal(index, criterio)}
 						step="0.1"
 						min="0"
 						max="10"
@@ -162,11 +166,7 @@
 				<h2>Média final: {pontuacaoFinal.toFixed(1)}</h2>
 			</div>
 			<div class="btn-finalizar">
-				<Button
-					type="submit"
-					on:click={finalizarAvaliacao}
-					backgroundColor="var(--cor-primaria)"
-					color="white"
+				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white"
 					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 				>
 			</div>

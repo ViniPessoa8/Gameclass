@@ -59,7 +59,7 @@ export async function load({ cookies, params }) {
 		"entrega": entrega,
 		"atividade": atividade,
 		"etapa": etapa,
-		"nome": etapa.em_grupos ? grupo[0].nome : estudante.nome,
+		"nome": etapa.em_grupos ? grupo.nome : estudante.nome,
 		"toast": toast
 	}
 

@@ -4,9 +4,9 @@ export default class Entrega {
 	constructor({
 		id = null,
 		data_entrega = null,
-		id_grupo_de_alunos,
+		id_grupo_de_alunos = null,
 		id_item_atividade,
-		id_estudante,
+		id_estudante = null,
 	}) {
 		this.id = id;
 		this.data_entrega = data_entrega ? new Date(data_entrega) : null;

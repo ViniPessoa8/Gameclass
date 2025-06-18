@@ -13,8 +13,9 @@ export default class Avaliacao {
 		if (
 			criterios_avaliados != null &&
 			Array.isArray(criterios_avaliados)
-		)
-			this.criterios_avaliados = criterios_avaliados ? criterios_avaliados.map((ca) => new AvaliacaoCriterio({ ca }).toObject()) : [];
+		) {
+			this.criterios_avaliados = criterios_avaliados ? criterios_avaliados.map((ca) => new AvaliacaoCriterio(ca).toObject()) : [];
+		}
 	}
 
 	toObject() {

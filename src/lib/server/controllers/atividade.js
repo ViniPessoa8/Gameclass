@@ -32,14 +32,15 @@ export default class AtividadeController {
 	async remove(titulo, id_turma) {
 		const res = await buscaPorTituloBD(titulo, id_turma);
 		const atividade = res.rows[0];
-		if (!atividade) return;
+		if (!atividade) throw new Error("Atividade não encontrada");
 
+		// Remove itens da atividade antes de remover a atividade em si
 		const itens = await itemAtividadeController.listaPorIdAtividade(atividade.id);
 		for (const item of itens) {
 			await itemAtividadeController.removePorId(item.id);
 		}
 
-		await removeAtividadeBD(titulo, id_turma);
+		await removeAtividadeBD(titulo, id_turma); // Remove a atividade
 	}
 
 	async buscaPorId(id) {
