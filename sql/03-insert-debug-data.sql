@@ -271,17 +271,17 @@ INSERT INTO item_atividade(
 	"tipo_formacao_grupo") 
 VALUES
 	(1, 
-	'Etapa Exemplo 1',
+	'Exemplo Média Simples',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-01-20T20:00:00.000Z',
 	'2025-01-30T20:00:00.000Z', 1, false, false, 1, 1, NULL),
 	(2,
-	'Etapa Exemplo 2',
+	'Exemplo Média Ponderada',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-02-20T20:00:00.000Z',
 	'2025-02-28T20:00:00.000Z', 2, false, false, 2, 1, NULL),
 	(3,
-	'Etapa Exemplo 3',
+	'Exemplo em Grupos',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-03-20T20:00:00.000Z',
 	'2025-03-28T20:00:00.000Z', 1, true, false, 3, 1, NULL),
@@ -428,5 +428,7 @@ ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 7;
 
 INSERT INTO avaliacao_criterio (nota_atribuida, id_realizar_avaliacao, id_criterio) VALUES
 (4.5, 5, 5),
-(5, 5, 6);
-ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 11;
+(5, 5, 6),
+(4.5, 6, 5),
+(5, 6, 6);
+ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 13;
