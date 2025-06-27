@@ -286,12 +286,14 @@ VALUES
 	'2025-03-20T20:00:00.000Z',
 	'2025-03-28T20:00:00.000Z', 1, true, false, 3, 1, NULL),
 	(4,
-	'Etapa Exemplo 4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
-	'2025-04-20T20:00:00.000Z',
-	'2025-04-28T20:00:00.000Z', 1, false, false, 4, 1, NULL);
+	'Exemplo em Grupos (aval. individual)',
+	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
+	'2025-03-20T20:00:00.000Z',
+	'2025-03-28T20:00:00.000Z', 1, true, false, 3, 1, NULL);
 ALTER SEQUENCE item_atividade_id_seq RESTART WITH 5;
 
-INSERT INTO entrega ("data_entrega",
+INSERT INTO entrega (
+	"data_entrega",
 	"id_grupo_de_alunos",
 	"id_estudante",
 	"id_item_atividade") 
@@ -305,17 +307,19 @@ VALUES
 ('2024-03-05 16:20:00', NULL, 2, 2);
 ALTER SEQUENCE entrega_id_seq RESTART WITH 8;
 
-INSERT INTO publicacao_mural ("id",
+INSERT INTO publicacao_mural (
+	"id",
 	"conteudo",
 	"data_publicacao",
 	"id_turma",
 	"id_usuario") 
-VALUES 
-(1,
+VALUES(
+	1,
 	'Alguém sem grupo pro trabalho?', (CURRENT_DATE - INTERVAL
 	'5 days') + TIME
-	'08:00:00',1, 4),
-(2,
+	'08:00:00',1, 4
+),(
+	2,
 	'Sem aula hoje, turma', (CURRENT_DATE - INTERVAL
 	'10 days') + TIME
 	'23:30:00', 1, 1);
@@ -404,14 +408,18 @@ INSERT INTO avaliacao_criterio (nota_atribuida, id_realizar_avaliacao, id_criter
 ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 9;
 
 INSERT INTO formacao_grupo (numero_grupos, numero_alunos, id_item_atividade) VALUES
-(4, 4, 3);
-ALTER SEQUENCE formacao_grupo_id_seq RESTART WITH 2;
+(4, 4, 3),
+(4, 4, 4);
+ALTER SEQUENCE formacao_grupo_id_seq RESTART WITH 3;
 
 INSERT INTO grupo_de_alunos (nome, id_item_atividade) VALUES
+	-- Etapa 3 -- 
 ('Grupo dos Enzos', 3),
 ('Little Monsters', 3),
-('O melhor grupo', 3);
-ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 3;
+('O melhor grupo', 3),
+	-- Etapa 4 -- 
+('Grupo 1', 4);
+ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 4;
 
 INSERT INTO entrega ("id_grupo_de_alunos",
 	"id_estudante",
