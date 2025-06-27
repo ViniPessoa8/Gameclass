@@ -28,6 +28,10 @@
 	let entregas_por_grupo = [];
 
 	if (data.etapa.em_grupos) {
+		if (!data.etapa.formacoes) {
+			throw new Error('Não foram definidas formações para essa atividade');
+		}
+
 		const totalDeGrupos = data.etapa.formacoes.reduce((acc, f) => acc + f.numero_grupos, 0);
 
 		data.etapa.grupos.sort((a, b) => (a.data_criacao > b.data_criacao ? -1 : 1));

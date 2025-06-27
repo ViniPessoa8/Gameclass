@@ -9,8 +9,25 @@
 	const segments = derived(page, ($page) => {
 		const parts = $page.url.pathname.split('/').filter(Boolean); // remove vazios
 		return parts.map((part, i) => {
+			let label = part;
+
+			if (i == 2) {
+				label = session.turma.nome;
+			}
+
+			if (i == 4) {
+				label = session.atividade.titulo;
+			}
+
+			if (i == 5) {
+				label = session.etapa.titulo;
+			}
+
+			if (i == 6) {
+				label = session.grupo ? session.grupo.nome : session.estudante.nome;
+			}
 			return {
-				label: decodeURIComponent(part),
+				label: label,
 				href: '/' + parts.slice(0, i + 1).join('/')
 			};
 		});

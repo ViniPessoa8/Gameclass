@@ -2,12 +2,23 @@ import { redirect } from "@sveltejs/kit";
 
 import TurmaController from "../../lib/server/controllers/turma";
 import UsuarioController from "../../lib/server/controllers/usuario";
+import AtividadeController from "../../lib/server/controllers/atividade";
+import EtapaController from "../../lib/server/controllers/itemAtividade";
+import GrupoController from "../../lib/server/controllers/grupo";
+import EstudanteController from "../../lib/server/controllers/estudante";
+import EntregaController from "../../lib/server/controllers/entrega";
 
 const turmaController = new TurmaController()
 const usuarioController = new UsuarioController()
+const atividadeController = new AtividadeController()
+const etapaController = new EtapaController()
+const grupoController = new GrupoController()
+const estudanteController = new EstudanteController()
+const entregaController = new EntregaController()
 
 export async function load({ url, cookies }) {
 	const session_raw = cookies.get("session");
+	const parts = url.pathname.split('/').filter(Boolean); // remove vazios
 
 	if (!session_raw) {
 		console.log("Usuário não autenticado")
@@ -23,6 +34,35 @@ export async function load({ url, cookies }) {
 	const data = JSON.parse(session_raw);
 	const usuario = await usuarioController.buscaPorLogin(data.login)
 	const turmas = await turmaController.listaPorProfessor(data.id)
+
+	// Turma
+	if (parts.length > 2 && parts[2]) {
+		data.turma = await turmaController.buscaPorId(parts[2])
+	}
+
+	// Atividade
+	if (parts.length > 4 && parts[4]) {
+		const atividade = await atividadeController.buscaPorId(parts[4])
+		data.atividade = atividade.toObject()
+
+	}
+
+	// Etapa
+	if (parts.length > 5 && parts[5]) {
+		const etapa = await etapaController.buscaPorId(parts[5])
+		data.etapa = etapa.toObject()
+	}
+
+	// Estudante/Grupo
+	if (parts.length > 6 && parts[6]) {
+		const entrega = await entregaController.buscaPorId(parts[6])
+
+		if (data.etapa.em_grupos) {
+			data.grupo = await grupoController.buscaPorId(entrega.id_grupo_de_alunos)
+		} else {
+			data.estudante = await estudanteController.buscaPorId(entrega.id_estudante)
+		}
+	}
 
 	data.perfil = perfil_raw
 	data.turmas = turmas
