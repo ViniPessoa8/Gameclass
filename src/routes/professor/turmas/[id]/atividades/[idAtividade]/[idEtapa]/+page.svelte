@@ -139,7 +139,7 @@
 		display: flex;
 		flex-direction: column;
 		text-align: center;
-		padding-top: 126px;
+		padding-top: 64px;
 		padding-right: 96px;
 	}
 

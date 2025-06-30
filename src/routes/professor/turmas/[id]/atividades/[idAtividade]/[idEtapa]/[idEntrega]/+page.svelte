@@ -109,6 +109,7 @@
 			<h2>Escolha um integrante para avaliar:</h2>
 			<div class="container-integrantes">
 				<div class="integrantes">
+					<!-- TODO: Pegar integrantes do banco -->
 					{#if integrantes && integrantes.length == 0}
 						<p>(Não há integrantes para avaliar)</p>
 					{/if}
@@ -221,23 +222,22 @@
 		width: 100%;
 		display: flex;
 		padding-top: 64px;
-		padding-right: 96px;
 	}
 
 	.left-column,
-	.right-column,
-	.atividade-info-container {
+	.right-column {
 		display: flex;
 		flex-direction: column;
+		padding-left: 48px;
+		padding-right: 12px;
 	}
 
 	.left-column {
-		padding: 12px;
 		flex: 2;
 	}
 
 	.right-column {
-		padding: 12px;
+		padding-right: 64px;
 		flex: 1;
 		text-align: center;
 	}
