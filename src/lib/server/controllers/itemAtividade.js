@@ -24,6 +24,7 @@ export default class ItemAtividadeController {
 		dataEntregaInicial,
 		dataEntregaFinal,
 		tipoAtribuicaoNota,
+		tipoAvaliacaoNota,
 		emGrupos,
 		receberAposPrazo,
 		idAtividadePai,
@@ -32,7 +33,7 @@ export default class ItemAtividadeController {
 	) {
 		if (
 			!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal ||
-			![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0 || !criterios
+			![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0 || !criterios || !tipoAvaliacaoNota
 		) {
 			throw "Dados obrigatórios não foram preenchidos. (Item Atividade)";
 		}
@@ -46,6 +47,7 @@ export default class ItemAtividadeController {
 				dataEntregaInicial,
 				dataEntregaFinal,
 				tipoAtribuicaoNota,
+				tipoAvaliacaoNota,
 				emGrupos,
 				receberAposPrazo,
 				idAtividadePai,

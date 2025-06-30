@@ -3,11 +3,11 @@ import { DB_INFO } from "$lib/constants"
 
 //INSERT
 
-export async function cadastraItemAtividadeBD(titulo, descricao, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, idAtividade, status) {
+export async function cadastraItemAtividadeBD(titulo, descricao, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, tipoAvaliacaoNota, emGrupos, receberAposPrazo, idAtividade, status) {
 	const db = getPool()
 	const query = {
-		text: `INSERT INTO ${DB_INFO.tables.item_atividade}(titulo, descricao, nota_max, data_entrega_inicial, data_entrega_final, tipo_atribuicao_nota, em_grupos, receber_apos_prazo, id_atividade, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
-		values: [titulo, descricao, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, emGrupos, receberAposPrazo, idAtividade, status]
+		text: `INSERT INTO ${DB_INFO.tables.item_atividade}(titulo, descricao, nota_max, data_entrega_inicial, data_entrega_final, tipo_atribuicao_nota, tipo_avaliacao_nota, em_grupos, receber_apos_prazo, id_atividade, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
+		values: [titulo, descricao, notaMax, dataEntregaInicial, dataEntregaFinal, tipoAtribuicaoNota, tipoAvaliacaoNota, emGrupos, receberAposPrazo, idAtividade, status]
 	}
 
 	try {

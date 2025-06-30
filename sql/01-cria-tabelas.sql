@@ -79,6 +79,7 @@ CREATE TABLE item_atividade (
 	"data_entrega_inicial" TIMESTAMP NOT NULL,
 	"data_entrega_final" TIMESTAMP NOT NULL,
 	"tipo_atribuicao_nota" SMALLINT NOT NULL,
+	"tipo_avaliacao_nota" SMALLINT NOT NULL,
 	"em_grupos" BOOLEAN NOT NULL, -- TODO: Mudar nome no diagrama MER
 	"receber_apos_prazo" BOOLEAN NOT NULL,
 	"tipo_formacao_grupo" SMALLINT NULL,

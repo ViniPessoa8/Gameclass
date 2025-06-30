@@ -47,6 +47,10 @@ export const ATRIBUICAO = {
 	media_ponderada: 2
 }
 
+export const AVALIACAO = {
+	individual: 1,
+	em_grupos: 2
+}
 // TODO: refatorar para ->  1: 'Individual'
 export const REALIZACAO = {
 	individual: 0,

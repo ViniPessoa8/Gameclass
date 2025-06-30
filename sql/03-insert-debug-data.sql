@@ -264,6 +264,7 @@ INSERT INTO item_atividade(
 	"data_entrega_inicial",
 	"data_entrega_final",
 	"tipo_atribuicao_nota",
+	"tipo_avaliacao_nota",
 	"em_grupos",
 	"receber_apos_prazo",
 	"status",
@@ -274,22 +275,22 @@ VALUES
 	'Exemplo Média Simples',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-01-20T20:00:00.000Z',
-	'2025-01-30T20:00:00.000Z', 1, false, false, 1, 1, NULL),
+	'2025-01-30T20:00:00.000Z', 1, 1, false, false, 1, 1, NULL),
 	(2,
 	'Exemplo Média Ponderada',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-02-20T20:00:00.000Z',
-	'2025-02-28T20:00:00.000Z', 2, false, false, 2, 1, NULL),
+	'2025-02-28T20:00:00.000Z', 2, 2, false, false, 2, 1, NULL),
 	(3,
 	'Exemplo em Grupos',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-03-20T20:00:00.000Z',
-	'2025-03-28T20:00:00.000Z', 1, true, false, 3, 1, NULL),
+	'2025-03-28T20:00:00.000Z', 1, 1, true, false, 3, 1, NULL),
 	(4,
 	'Exemplo em Grupos (aval. individual)',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-03-20T20:00:00.000Z',
-	'2025-03-28T20:00:00.000Z', 1, true, false, 3, 1, NULL);
+	'2025-03-28T20:00:00.000Z', 1, 1, true, false, 3, 1, NULL);
 ALTER SEQUENCE item_atividade_id_seq RESTART WITH 5;
 
 INSERT INTO entrega (
@@ -426,8 +427,32 @@ INSERT INTO entrega ("id_grupo_de_alunos",
 	"id_item_atividade") 
 VALUES 
 (1, NULL, 3),
-(2, NULL, 3);
-ALTER SEQUENCE entrega_id_seq RESTART WITH 9;
+(2, NULL, 3),
+(4, NULL, 4);
+ALTER SEQUENCE entrega_id_seq RESTART WITH 11;
+
+INSERT INTO anexo ("titulo",
+	"conteudo_texto",
+	"data_upload",
+	"id_entrega",
+	"id_publicacao_mural") VALUES
+(
+	'teste.txt', 
+	pg_read_file('/var/lib/postgresql/data/teste.txt'),
+	'2024-03-01 14:30:00', 
+	8, 
+	null),(
+	'teste.txt', 
+	pg_read_file('/var/lib/postgresql/data/teste.txt'),
+	'2024-03-01 14:30:00', 
+	9, 
+	null),(
+	'teste.txt', 
+	pg_read_file('/var/lib/postgresql/data/teste.txt'),
+	'2024-03-01 14:30:00', 
+	10, 
+	null);
+ALTER SEQUENCE anexo_id_seq RESTART WITH 11;
 
 INSERT INTO realizar_avaliacao(id_entrega) VALUES
 (1),
