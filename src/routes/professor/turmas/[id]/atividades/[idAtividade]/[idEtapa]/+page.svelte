@@ -107,36 +107,55 @@
 </script>
 
 <div class="content-etapa">
-	<h1>{data.atividade.titulo}</h1>
-	<h2>Etapa: {data.etapa.titulo}</h2>
-	<p>{data.etapa.descricao}</p>
-	<AtividadeInfo data={atividadeInfo} />
-	<div class="container-entregas">
-		<div class="entregas-header">
-			<p>Entregas:</p>
-		</div>
-		<div class="entregas">
-			{#if data.etapa.em_grupos}
-				{#each entregas_por_grupo as dados}
-					<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
-				{/each}
-			{:else}
-				{#each entregas_por_estudante as dados}
-					<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
-				{/each}
-			{/if}
+	<div class="content-header">
+		<h1>{data.atividade.titulo}</h1>
+		<h2>Etapa: {data.etapa.titulo}</h2>
+	</div>
+	<div class="content-data">
+		<p>{data.etapa.descricao}</p>
+		<AtividadeInfo data={atividadeInfo} />
+		<div class="container-entregas">
+			<div class="entregas-header">
+				<p>Entregas:</p>
+			</div>
+			<div class="entregas">
+				{#if data.etapa.em_grupos}
+					{#each entregas_por_grupo as dados}
+						<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
+					{/each}
+				{:else}
+					{#each entregas_por_estudante as dados}
+						<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
+					{/each}
+				{/if}
+			</div>
 		</div>
 	</div>
 </div>
 
 <style scoped>
 	.content-etapa {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		text-align: center;
 		padding-top: 126px;
+		padding-right: 96px;
+	}
+
+	.content-header {
+		width: 100%;
+		background-color: lightgray;
+	}
+
+	.content-data {
+		padding-top: 36px;
 		padding-left: 96px;
 		padding-right: 96px;
+	}
+
+	.content-data > p {
+		margin-bottom: 24px;
 	}
 
 	.content-etapa > h1 {
@@ -156,12 +175,14 @@
 	}
 
 	.entregas-header {
+		margin-top: 36px;
 		padding-left: 48px;
 		font-size: 24px;
-		text-align: left;
+		text-align: center;
 	}
 
 	.entregas {
+		margin-top: 12px;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;

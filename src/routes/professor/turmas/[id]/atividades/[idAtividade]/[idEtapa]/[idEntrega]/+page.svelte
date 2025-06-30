@@ -8,7 +8,7 @@
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
-	import { TIPO_ARQUIVO, TIPO_COMENTARIO, STATUS_ENTREGA } from '$lib/constants.js';
+	import { TIPO_ARQUIVO, TIPO_COMENTARIO, STATUS_ENTREGA, AVALIACAO } from '$lib/constants.js';
 	import { Toaster, toast } from 'svelte-sonner';
 
 	export let data;
@@ -23,6 +23,8 @@
 	let textoComentario;
 	let arquivo;
 	let listaComentarios;
+	let alunoParaAvaliar = null;
+	let integrantes = [];
 
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
@@ -93,103 +95,132 @@
 </script>
 
 <Toaster richColors position="top-center" closeButton />
-<div class="content-etapa">
-	<div class="left-column">
+
+<!-- Avaliação INDIVIDUAL de atividade EM GRUPOS -->
+{#if data.etapa.em_grupos && data.etapa.tipo_avaliacao_nota == AVALIACAO.individual && alunoParaAvaliar == null}
+	<div class="content-etapa">
 		<div class="page-info-container">
-			<h1>{data.etapa.titulo}</h1>
-			<h3>{data.atividade.titulo}</h3>
-		</div>
-		<hr />
-		<div class="descricao-etapa">{descricaoEtapa}</div>
-		<hr />
-		<div class="comentarios-etapa">
-			<p style="font-size:22px">{$listaComentarios.length} Comentários</p>
-			{#each $listaComentarios as comentario}
-				<Comentario
-					texto={comentario.texto}
-					nome={comentario.nome}
-					data={new Date(comentario.data_criacao).toLocaleString('pt-BR', dateOptions)}
-					cor={'#' + comentario.cor}
-				/>
-			{/each}
-		</div>
-		<div class="comentario-input">
-			<CircularIcon backgroundColor={'#' + data.cor} text="V" type="text" />
-			<InputText bind:value={textoComentario} borded placeholder="Deixe um comentário" />
-			<Button type="text" backgroundColor="var(--cor-secundaria)" on:click={adicionarComentario}
-				>Enviar</Button
-			>
+			<div class="page-info-header">
+				<h1>{data.etapa.titulo}</h1>
+				<h3>{data.atividade.titulo}</h3>
+			</div>
+			<br />
+			<br />
+			<h2>Escolha um integrante para avaliar:</h2>
+			<div class="container-integrantes">
+				<div class="integrantes">
+					{#if integrantes && integrantes.length == 0}
+						<p>(Não há integrantes para avaliar)</p>
+					{/if}
+					{#each integrantes as integrante}
+						<EnvioEntrega {integrante} onClick={() => onClick(integrante?.id)} />
+					{/each}
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="right-column">
-		{#if data.etapa.em_grupos}
-			<h2>Grupo: {data.nome}</h2>
-		{:else}
-			<h2>Estudante: {data.nome}</h2>
-		{/if}
-		<div class="resposta-container">
-			<div class="top-content">
-				<div class="resposta-header">
-					{#if data.usuario.perfil == 'estudante'}
-						<p><b>Sua resposta</b></p>
-					{:else if data.usuario.perfil == 'professor'}
-						<p><b>Resposta</b></p>
+
+	<!-- Avaliação EM GRUPOS de atividade EM GRUPOS -->
+	<!-- Avaliação INDIVIDUAL de atividade INDIVIDUAL -->
+{:else}
+	<div class="content-etapa">
+		<div class="left-column">
+			<div class="page-info-container">
+				<h1>{data.etapa.titulo}</h1>
+				<h3>{data.atividade.titulo}</h3>
+			</div>
+			<hr />
+			<div class="descricao-etapa">{descricaoEtapa}</div>
+			<hr />
+			<div class="comentarios-etapa">
+				<p style="font-size:22px">{$listaComentarios.length} Comentários</p>
+				{#each $listaComentarios as comentario}
+					<Comentario
+						texto={comentario.texto}
+						nome={comentario.nome}
+						data={new Date(comentario.data_criacao).toLocaleString('pt-BR', dateOptions)}
+						cor={'#' + comentario.cor}
+					/>
+				{/each}
+			</div>
+			<div class="comentario-input">
+				<CircularIcon backgroundColor={'#' + data.cor} text="V" type="text" />
+				<InputText bind:value={textoComentario} borded placeholder="Deixe um comentário" />
+				<Button type="text" backgroundColor="var(--cor-secundaria)" on:click={adicionarComentario}
+					>Enviar</Button
+				>
+			</div>
+		</div>
+		<div class="right-column">
+			{#if data.etapa.em_grupos}
+				<h2>Grupo: {data.nome}</h2>
+			{:else}
+				<h2>Estudante: {data.nome}</h2>
+			{/if}
+			<div class="resposta-container">
+				<div class="top-content">
+					<div class="resposta-header">
+						{#if data.usuario.perfil == 'estudante'}
+							<p><b>Sua resposta</b></p>
+						{:else if data.usuario.perfil == 'professor'}
+							<p><b>Resposta</b></p>
+						{/if}
+						<p class="status-resposta" style="color:{corStatus}">({status})</p>
+					</div>
+					{#if data.entrega.anexos && data.entrega.anexos.length != 0}
+						{#each data.entrega.anexos as arquivo}
+							<Anexo
+								fontSize="20px"
+								width="100%"
+								{arquivo}
+								tipoDoArquivo={TIPO_ARQUIVO.PDF}
+								nomeArquivo={arquivo.titulo}
+							/>
+						{/each}
 					{/if}
-					<p class="status-resposta" style="color:{corStatus}">({status})</p>
+					{#if data.usuario.perfil == 'estudante'}
+						<div class="btn-anexo">
+							<label title="Anexar arquivo" for="inputFiles" class="btn">+</label>
+							<input
+								id="inputFiles"
+								bind:value={arquivo}
+								type="file"
+								accept="image/*"
+								style="display: none;"
+							/>
+						</div>
+					{/if}
 				</div>
-				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
-					{#each data.entrega.anexos as arquivo}
-						<Anexo
-							fontSize="20px"
-							width="100%"
-							{arquivo}
-							tipoDoArquivo={TIPO_ARQUIVO.PDF}
-							nomeArquivo={arquivo.titulo}
-						/>
-					{/each}
-				{/if}
-				{#if data.usuario.perfil == 'estudante'}
-					<div class="btn-anexo">
-						<label title="Anexar arquivo" for="inputFiles" class="btn">+</label>
-						<input
-							id="inputFiles"
-							bind:value={arquivo}
-							type="file"
-							accept="image/*"
-							style="display: none;"
-						/>
+				{#if status != 'Sem Resposta'}
+					<div class="btn-avaliar">
+						<Button
+							backgroundColor="var(--cor-secundaria)"
+							color="white"
+							type="text"
+							marginTop="auto"
+							on:click={() => {
+								console.debug('[$page.url.pathname]', $page.url.pathname);
+								goto($page.url.pathname + '/avaliacao');
+							}}
+						>
+							{#if status == 'Corrigido'}
+								Editar Avaliação
+							{:else if status == 'Aguardando Correção'}
+								Avaliar
+							{/if}
+						</Button>
 					</div>
 				{/if}
 			</div>
-			{#if status != 'Sem Resposta'}
-				<div class="btn-avaliar">
-					<Button
-						backgroundColor="var(--cor-secundaria)"
-						color="white"
-						type="text"
-						marginTop="auto"
-						on:click={() => {
-							console.debug('[$page.url.pathname]', $page.url.pathname);
-							goto($page.url.pathname + '/avaliacao');
-						}}
-					>
-						{#if status == 'Corrigido'}
-							Editar Avaliação
-						{:else if status == 'Aguardando Correção'}
-							Avaliar
-						{/if}
-					</Button>
-				</div>
-			{/if}
 		</div>
 	</div>
-</div>
+{/if}
 
 <style scoped>
 	.content-etapa {
+		width: 100%;
 		display: flex;
 		padding-top: 64px;
-		padding-left: 96px;
 		padding-right: 96px;
 	}
 
@@ -215,7 +246,19 @@
 		margin-bottom: 12px;
 	}
 
+	.page-info-header {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		padding-bottom: 8px;
+		justify-content: space-between;
+		align-items: center;
+		background-color: lightgray;
+	}
+
 	.page-info-container {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 8px;
@@ -326,5 +369,14 @@
 		background-color: #a1a1a1;
 		transition: 0.3s;
 		cursor: pointer;
+	}
+
+	.integrantes {
+		margin-top: 36px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
 	}
 </style>
