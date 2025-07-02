@@ -7,6 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
+	import CardIntegrante from '$lib/components/CardIntegrante.svelte';
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
 	import { TIPO_ARQUIVO, TIPO_COMENTARIO, STATUS_ENTREGA, AVALIACAO } from '$lib/constants.js';
 	import { Toaster, toast } from 'svelte-sonner';
@@ -92,6 +93,8 @@
 			data.toast = '';
 		}
 	});
+
+	console.debug('data => ', data);
 </script>
 
 <Toaster richColors position="top-center" closeButton />
@@ -109,13 +112,14 @@
 			<h2>Escolha um integrante para avaliar:</h2>
 			<div class="container-integrantes">
 				<div class="integrantes">
-					<!-- TODO: Pegar integrantes do banco -->
-					{#if integrantes && integrantes.length == 0}
+					{#if data.etapa.grupo.integrantes && data.etapa.grupo.integrantes.length == 0}
 						<p>(Não há integrantes para avaliar)</p>
+					{:else}
+						{#each data.etapa.grupo.integrantes as integrante}
+							{console.debug('integrante => ', integrante)}
+							<CardIntegrante {integrante} onClick={() => onClick(integrante?.id)} />
+						{/each}
 					{/if}
-					{#each integrantes as integrante}
-						<EnvioEntrega {integrante} onClick={() => onClick(integrante?.id)} />
-					{/each}
 				</div>
 			</div>
 		</div>
@@ -375,8 +379,6 @@
 		margin-top: 36px;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
+		align-items: left;
 	}
 </style>

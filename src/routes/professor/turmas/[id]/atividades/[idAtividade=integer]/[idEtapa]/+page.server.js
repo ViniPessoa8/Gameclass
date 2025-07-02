@@ -16,6 +16,7 @@ const grupoController = new GrupoController()
 const formacaoGrupoController = new FormacaoGrupoController()
 
 export async function load({ cookies, params }) {
+	console.debug("params => ", params)
 	const session_raw = cookies.get("session");
 	const data = JSON.parse(session_raw);
 	data["perfil"] = cookies.get("perfil")

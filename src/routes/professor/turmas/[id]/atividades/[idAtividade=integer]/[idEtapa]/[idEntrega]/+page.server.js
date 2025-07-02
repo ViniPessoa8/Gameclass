@@ -37,6 +37,8 @@ export async function load({ cookies, params }) {
 	let estudante, grupo;
 	if (etapa.em_grupos) {
 		grupo = await grupoController.buscaPorId(parseInt(entrega.id_grupo_de_alunos))
+		grupo.integrantes = await estudanteController.buscaPorIdGrupo(parseInt(entrega.id_grupo_de_alunos))
+		etapa.grupo = grupo
 	} else {
 		estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
 	}
@@ -63,5 +65,6 @@ export async function load({ cookies, params }) {
 		"toast": toast
 	}
 
+	console.debug("returnData => ", returnData)
 	return returnData
 }
