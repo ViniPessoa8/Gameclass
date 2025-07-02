@@ -15,17 +15,20 @@
 				label = session.turma.nome;
 			}
 
-			if (i == 4) {
-				label = session.atividade.titulo;
+			if (parts[4] != 'create') {
+				if (i == 4) {
+					label = session.atividade.titulo;
+				}
+
+				if (i == 5) {
+					label = session.etapa.titulo;
+				}
+
+				if (i == 6) {
+					label = session.grupo ? session.grupo.nome : session.estudante.nome;
+				}
 			}
 
-			if (i == 5) {
-				label = session.etapa.titulo;
-			}
-
-			if (i == 6) {
-				label = session.grupo ? session.grupo.nome : session.estudante.nome;
-			}
 			return {
 				label: label,
 				href: '/' + parts.slice(0, i + 1).join('/')

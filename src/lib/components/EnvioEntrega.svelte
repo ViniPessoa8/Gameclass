@@ -5,8 +5,6 @@
 	export let dados;
 	export let onClick;
 
-	console.debug('EnvioEntrega dados => ', dados);
-
 	let corCard;
 
 	onMount(() => {
@@ -15,7 +13,6 @@
 		} else {
 			corCard = '#0b2a71';
 		}
-		console.debug('EnvioEntrega dados => ', dados);
 	});
 </script>
 

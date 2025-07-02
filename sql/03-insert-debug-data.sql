@@ -280,12 +280,12 @@ VALUES
 	'Exemplo Média Ponderada',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-02-20T20:00:00.000Z',
-	'2025-02-28T20:00:00.000Z', 2, 2, false, false, 2, 1, NULL),
+	'2025-02-28T20:00:00.000Z', 2, 1, false, false, 2, 1, NULL),
 	(3,
 	'Exemplo em Grupos',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-03-20T20:00:00.000Z',
-	'2025-03-28T20:00:00.000Z', 1, 1, true, false, 3, 1, NULL),
+	'2025-03-28T20:00:00.000Z', 1, 2, true, false, 3, 1, NULL),
 	(4,
 	'Exemplo em Grupos (aval. individual)',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
@@ -421,6 +421,18 @@ INSERT INTO grupo_de_alunos (nome, id_item_atividade) VALUES
 	-- Etapa 4 -- 
 ('Grupo 1', 4);
 ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 4;
+
+INSERT INTO integrante_grupo_de_alunos (id_estudante, id_grupo_de_alunos) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 2),
+(5, 2),
+(6, 2),
+(1, 4),
+(2, 4),
+(3, 4);
+ALTER SEQUENCE integrante_grupo_de_alunos_id_seq RESTART WITH 10;
 
 INSERT INTO entrega ("id_grupo_de_alunos",
 	"id_estudante",

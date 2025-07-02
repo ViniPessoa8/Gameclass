@@ -41,20 +41,20 @@ export async function load({ url, cookies }) {
 	}
 
 	// Atividade
-	if (parts.length > 4 && parts[4]) {
+	if (parts.length > 4 && parts[4] && parts[4] != 'create') {
 		const atividade = await atividadeController.buscaPorId(parts[4])
 		data.atividade = atividade.toObject()
 
 	}
 
 	// Etapa
-	if (parts.length > 5 && parts[5]) {
+	if (parts.length > 5 && parts[5] && parts[4] != 'create') {
 		const etapa = await etapaController.buscaPorId(parts[5])
 		data.etapa = etapa.toObject()
 	}
 
 	// Estudante/Grupo
-	if (parts.length > 6 && parts[6]) {
+	if (parts.length > 6 && parts[6] && parts[4] != 'create') {
 		const entrega = await entregaController.buscaPorId(parts[6])
 
 		if (data.etapa.em_grupos) {

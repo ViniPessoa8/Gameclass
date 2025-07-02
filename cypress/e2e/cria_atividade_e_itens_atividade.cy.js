@@ -51,7 +51,7 @@ describe('template spec', () => {
 		cy.get(':nth-child(5) > .bord > .borded').type('2025-09-29T17:00');
 		cy.get('#inputTituloCriterio').clear('c');
 		cy.get('#inputTituloCriterio').type('criterio unico');
-		cy.get('#inputDescricaoCriterio').click();
+		// cy.get('#inputDescricaoCriterio').click();
 		cy.get('#inputDescricaoCriterio').clear('de');
 		cy.get('#inputDescricaoCriterio').type('descricao muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito grande do criterio unico');
 		cy.get('#inputNotaMaxCriterio').clear('1');
