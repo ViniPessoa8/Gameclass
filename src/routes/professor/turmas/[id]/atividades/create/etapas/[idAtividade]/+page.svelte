@@ -33,12 +33,11 @@
 
 	let realizacaoOpcoes;
 	let atribuicaoOpcoes;
+	let tipoAvaliacaoOpcoes;
 	let formacaoGrupoOpcoes;
 	let formacoesGrupo;
 	let showModal = false;
 	let proximoValor;
-
-	$: console.debug('etapasData =>', etapasData);
 
 	$: {
 		if (atribuicaoOpcoes) {
@@ -187,9 +186,7 @@
 	}
 
 	function onRemoveFormacao(formacao) {
-		console.debug('formacao: ', formacao);
 		etapasData[$selectedEtapa].formacoes = etapasData[$selectedEtapa].formacoes.filter((elem) => {
-			console.debug(`${elem} === ${formacao}: `, elem === formacao);
 			return elem !== formacao;
 		});
 	}
@@ -229,8 +226,6 @@
 	}
 
 	function onAdicionaFormacao() {
-		console.debug('onAdicionaFormacao()');
-		console.debug('etapasData[$selectedEtapa].formacoes', etapasData[$selectedEtapa].formacoes);
 		etapasData[$selectedEtapa].formacoes = [
 			...etapasData[$selectedEtapa].formacoes,
 			{
@@ -238,7 +233,6 @@
 				nAlunos: null
 			}
 		];
-		console.debug('etapasData[$selectedEtapa].formacoes 2', etapasData[$selectedEtapa].formacoes);
 	}
 
 	function handleAtribuicaoDeNotas(valor) {
@@ -253,8 +247,11 @@
 	}
 
 	function handleRealizaoEtapa(valor) {
-		console.debug('valor realizacao =>', valor);
 		etapasData[$selectedEtapa].realizacaoGroup = valor.trim();
+	}
+
+	function handleTipoAvaliacao(valor) {
+		etapasData[$selectedEtapa].tipoAvaliacaoNotasGroup = valor.trim();
 	}
 
 	// function onTagAdicionada(tag, index) {
@@ -286,6 +283,11 @@
 			{ name: 'media_ponderada', text: 'Média Ponderada' }
 		];
 
+		tipoAvaliacaoOpcoes = [
+			{ name: 'avaliacao_individual', text: 'Individual' },
+			{ name: 'avaliacao_grupos', text: 'Em Grupos' }
+		];
+
 		formacaoGrupoOpcoes = [
 			{ name: FORMACAO_GRUPO.alunos_convidam, text: 'Alunos criam seus grupos' },
 			{ name: FORMACAO_GRUPO.professor_escolhe, text: 'Professor forma os grupos' },
@@ -314,6 +316,7 @@
 						dtEntregaMax: '', // TODO: Validar campo
 						realizacaoGroup: 'Individual',
 						atribuicaoNotasGroup: 'Média Simples',
+						tipoAvaliacaoNotasGroup: 'Individual',
 						formacao: 'Alunos criam seus grupos',
 						receberAposPrazo: true,
 						criterios: [],
@@ -458,6 +461,17 @@
 							</div>
 							<hr />
 							{#if etapasData[$selectedEtapa].realizacaoGroup == 'Em Grupos'}
+								<div class="row">
+									<h2>Tipo de Avaliação</h2>
+									<InputRadio
+										id="inputTipoAvaliacaoNotas"
+										borded
+										options={tipoAvaliacaoOpcoes}
+										selected={etapasData[$selectedEtapa].tipoAvaliacaoNotasGroup}
+										onClickOption={handleTipoAvaliacao}
+									/>
+								</div>
+								<hr />
 								<div class="row">
 									<h2>Formação dos grupos:</h2>
 									<InputRadio

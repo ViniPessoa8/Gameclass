@@ -4,6 +4,7 @@ import { page } from '$app/state';
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
+import { AVALIACAO } from "../../../../../../../../../lib/constants";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -33,6 +34,7 @@ export let actions = {
 		let dtEntregaMin
 		let dtEntregaMax
 		let atribuicaoNotas
+		let tipoAvaliacaoNota
 		let realizacao
 		let receberAposPrazo
 		let formacoes
@@ -42,7 +44,6 @@ export let actions = {
 		}
 
 		for (const etapa of etapas) {
-			console.debug("Etapa => ", etapa)
 			idAtividadePai = params.idAtividade
 			criterios = etapa.criterios
 			titulo = etapa.titulo
@@ -51,6 +52,7 @@ export let actions = {
 			dtEntregaMin = new Date(etapa.dtEntregaMin)
 			dtEntregaMax = new Date(etapa.dtEntregaMax)
 			atribuicaoNotas = etapa.atribuicaoNotasGroup
+			tipoAvaliacaoNota = etapa.tipoAvaliacaoNotasGroup
 			realizacao = etapa.realizacaoGroup
 			receberAposPrazo = Boolean(etapa.receberAposPrazo)
 			formacoes = etapa.formacoes
@@ -58,10 +60,10 @@ export let actions = {
 			// TODO: Instanciar objeto de ItemAtividade e usar ele no cadastra(itemAtividade)
 
 			atribuicaoNotas = atribuicaoNotas === "Média Simples" ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada
+			tipoAvaliacaoNota = tipoAvaliacaoNota === "Individual" ? AVALIACAO.individual : AVALIACAO.em_grupos
 			const emGrupos = realizacao === "Individual" ? false : true
 
 			try {
-				console.debug("Cadastrando =>", titulo, descricao, notaMax, dtEntregaMin, dtEntregaMax, atribuicaoNotas, realizacao, receberAposPrazo, idAtividadePai, criterios)
 
 				const idItemAtividade = await itemAtividadeController.cadastra(
 					titulo,
@@ -70,6 +72,7 @@ export let actions = {
 					dtEntregaMin,
 					dtEntregaMax,
 					atribuicaoNotas,
+					tipoAvaliacaoNota,
 					emGrupos,
 					receberAposPrazo,
 					idAtividadePai,
@@ -79,7 +82,6 @@ export let actions = {
 				// Formações de grupo
 				if (emGrupos) {
 					for (const formacao of formacoes) {
-						console.debug("FORMAÇÃO => ", formacao)
 						formacaoGrupoController.cadastra({ id_item_atividade: idItemAtividade, numero_grupos: formacao.nGrupos, numero_alunos: formacao.nAlunos })
 					}
 				}

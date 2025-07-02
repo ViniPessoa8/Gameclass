@@ -31,12 +31,41 @@ export default class ItemAtividadeController {
 		criterios,
 		status = 1
 	) {
-		if (
-			!titulo || !notaMax || !dataEntregaInicial || !dataEntregaFinal ||
-			![0, 1].includes(tipoAtribuicaoNota) || idAtividadePai <= 0 || !criterios || !tipoAvaliacaoNota
-		) {
-			throw "Dados obrigatórios não foram preenchidos. (Item Atividade)";
+		const camposFaltando = [];
+
+		if (!titulo) {
+			camposFaltando.push('titulo');
 		}
+		if (!notaMax) {
+			camposFaltando.push('notaMax');
+		}
+		if (!dataEntregaInicial) {
+			camposFaltando.push('dataEntregaInicial');
+		}
+		if (!dataEntregaFinal) {
+			camposFaltando.push('dataEntregaFinal');
+		}
+		if (![0, 1].includes(tipoAtribuicaoNota)) {
+			camposFaltando.push('tipoAtribuicaoNota (deve ser 0 ou 1)');
+		}
+		if (idAtividadePai === undefined || idAtividadePai === null || idAtividadePai <= 0) {
+			camposFaltando.push('idAtividadePai (deve ser maior que 0)');
+		}
+		if (!criterios) {
+			camposFaltando.push('criterios');
+		}
+		if (!tipoAvaliacaoNota) {
+			camposFaltando.push('tipoAvaliacaoNota');
+		}
+
+		if (camposFaltando.length > 0) {
+			throw `Os seguintes campos obrigatórios não foram preenchidos ou são inválidos: ${camposFaltando.join(', ')}. (Item Atividade)`;
+		}
+
+		// Your existing logic for successful registration would go here
+		// For example:
+		// console.log("Dados da atividade prontos para cadastro!");
+		// return { success: true, message: "Atividade cadastrada com sucesso!" };
 
 		let res;
 		try {
