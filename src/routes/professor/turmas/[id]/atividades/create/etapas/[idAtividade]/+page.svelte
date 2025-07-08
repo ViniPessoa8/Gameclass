@@ -665,15 +665,9 @@
 							</div>
 						</div>
 					</div>
-					{#if etapasData[$selectedEtapa].realizacaoGroup === 'Individual'}
-						<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-							>Próximo</Button
-						>
-					{:else}
-						<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-							>Definir formação de grupos</Button
-						>
-					{/if}
+					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
+						>Próximo</Button
+					>
 				</form>
 			</div>
 		</div>
