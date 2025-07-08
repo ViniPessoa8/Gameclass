@@ -40,33 +40,37 @@ export async function load({ url, cookies }) {
 		data.turma = await turmaController.buscaPorId(parts[2])
 	}
 
-	// Atividade
-	if (parts.length > 4 && parts[4] && parts[4] != 'create') {
-		const atividade = await atividadeController.buscaPorId(parts[4])
-		data.atividade = atividade.toObject()
+	if (parts[4] && parts[4] != 'create') {
+		// Atividade
+		if (parts.length > 4) {
+			const atividade = await atividadeController.buscaPorId(parts[4])
+			data.atividade = atividade.toObject()
 
-	}
-
-	// Etapa
-	if (parts.length > 5 && parts[5] && parts[4] != 'create') {
-		const etapa = await etapaController.buscaPorId(parts[5])
-		data.etapa = etapa.toObject()
-	}
-
-	// Estudante/Grupo
-	if (parts.length > 6 && parts[6] && parts[4] != 'create') {
-		const entrega = await entregaController.buscaPorId(parts[6])
-
-		if (data.etapa.em_grupos) {
-			data.grupo = await grupoController.buscaPorId(entrega.id_grupo_de_alunos)
-		} else {
-			data.estudante = await estudanteController.buscaPorId(entrega.id_estudante)
 		}
-	}
 
-	// Integrante
-	if (parts.length > 7 && parts[7] && parts[4] != 'create') {
-		data.integrante = await estudanteController.buscaPorId(parts[7])
+		// Etapa
+		if (parts.length > 5) {
+			const etapa = await etapaController.buscaPorId(parts[5])
+			data.etapa = etapa.toObject()
+		}
+
+		// Estudante/Grupo
+		if (parts.length > 6) {
+			const entrega = await entregaController.buscaPorId(parts[6])
+
+			if (data.etapa.em_grupos) {
+				data.grupo = await grupoController.buscaPorId(entrega.id_grupo_de_alunos)
+			} else {
+				data.estudante = await estudanteController.buscaPorId(entrega.id_estudante)
+			}
+		}
+
+		// Integrante
+		console.debug("parts[7]", parts[7])
+		if (parts.length > 7 && Number.isInteger(parts[7])) {
+			data.integrante = await estudanteController.buscaPorId(parts[7])
+		}
+
 	}
 
 	data.perfil = perfil_raw

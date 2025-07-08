@@ -65,6 +65,5 @@ export async function load({ cookies, params }) {
 		"toast": toast
 	}
 
-	console.debug("returnData => ", returnData)
 	return returnData
 }

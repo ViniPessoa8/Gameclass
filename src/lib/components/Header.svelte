@@ -7,7 +7,13 @@
 
 	// Constrói um array de segmentos da URL atual
 	const segments = derived(page, ($page) => {
-		const parts = $page.url.pathname.split('/').filter(Boolean); // remove vazios
+		let parts = $page.url.pathname.split('/').filter(Boolean); // remove vazios
+
+		// Remove o resto da url se não for um número inteiro
+		if (parts.length >= 7 && !Number.isInteger(parts[7])) {
+			parts = parts.slice(0, 6);
+		}
+
 		return parts.map((part, i) => {
 			let label = part;
 
@@ -28,8 +34,9 @@
 					label = session.grupo ? session.grupo.nome : session.estudante.nome;
 				}
 
-				if (i == 7) {
-					label = session.integrante.nome;
+				if (i == 7 && Number.isInteger(parts[7])) {
+					console.debug('parts[7]', parts[7]);
+					label = session.integrante?.nome;
 				}
 			}
 
