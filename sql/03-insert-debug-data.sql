@@ -376,19 +376,15 @@ INSERT INTO criterio ("titulo",
 	"peso",
 	"id_item_atividade") 
 VALUES 
-('Critério 1',
-	'Descrição do critério 1', 5, 1, 1),
-('Critério 2',
-	'Descrição do critério 2', 5, 1, 1),
-('Critério 1',
-	'Descrição do critério 1', 10, 3, 2),
-('Critério 2',
-	'Descrição do critério 2', 5, 2, 2),
-('Critério 1',
-	'Descrição do critério 1', 5, 1, 3),
-('Critério 2',
-	'Descrição do critério 2', 5, 1, 3);
-ALTER SEQUENCE criterio_id_seq RESTART WITH 7;
+('Critério 1', 'Descrição do critério 1', 5, 1, 1),
+('Critério 2', 'Descrição do critério 2', 5, 1, 1),
+('Critério 1', 'Descrição do critério 1', 10, 3, 2),
+('Critério 2', 'Descrição do critério 2', 5, 2, 2),
+('Critério 1', 'Descrição do critério 1', 5, 1, 3),
+('Critério 2', 'Descrição do critério 2', 5, 1, 3),
+('Critério 1', 'Descrição do critério 1', 5, 1, 4),
+('Critério 2', 'Descrição do critério 2', 5, 1, 4);
+ALTER SEQUENCE criterio_id_seq RESTART WITH 9;
 
 INSERT INTO realizar_avaliacao(data_avaliacao, id_entrega) VALUES
 (now(), 1),
