@@ -27,6 +27,10 @@
 				if (i == 6) {
 					label = session.grupo ? session.grupo.nome : session.estudante.nome;
 				}
+
+				if (i == 7) {
+					label = session.integrante.nome;
+				}
 			}
 
 			return {
@@ -40,7 +44,11 @@
 <div class="header">
 	<nav aria-label="breadcrumb" class="caminho-de-pao">
 		{#each $segments as s, i}
-			<a class="caminho-de-pao-link" href={s.href}>{s.label}</a>
+			{#if i == $segments.length - 1}
+				<b><p>{s.label}</p></b>
+			{:else}
+				<a class="caminho-de-pao-link" href={s.href}>{s.label}</a>
+			{/if}
 			{#if i < $segments.length - 1}
 				<span> > </span>
 			{/if}

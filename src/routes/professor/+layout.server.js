@@ -64,6 +64,11 @@ export async function load({ url, cookies }) {
 		}
 	}
 
+	// Integrante
+	if (parts.length > 7 && parts[7] && parts[4] != 'create') {
+		data.integrante = await estudanteController.buscaPorId(parts[7])
+	}
+
 	data.perfil = perfil_raw
 	data.turmas = turmas
 	data.cor = usuario.cor

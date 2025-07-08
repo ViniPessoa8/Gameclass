@@ -138,6 +138,16 @@ CREATE TABLE avaliacao_criterio (
 	PRIMARY KEY ("id")
 );
 
+CREATE TABLE avaliacao_integrante_criterio (
+	"id" BIGSERIAL UNIQUE,
+	"nota_atribuida" FLOAT NOT NULL,
+	"id_realizar_avaliacao" BIGINT REFERENCES realizar_avaliacao(id) NOT NULL,
+	"id_estudante" BIGINT REFERENCES estudante(id) NOT NULL,
+	"id_criterio" BIGINT REFERENCES criterio(id) NOT NULL,
+	PRIMARY KEY ("id"),
+    UNIQUE ("id_realizar_avaliacao", "id_estudante", "id_criterio") 
+);
+
 CREATE TABLE integrante_grupo_de_alunos (
 	"id" BIGSERIAL UNIQUE,
 	"id_estudante" BIGINT REFERENCES estudante(id) NOT NULL,
