@@ -170,7 +170,7 @@
 						type="text"
 						marginTop="auto"
 						on:click={() => {
-							if (data.etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
+							if (data.etapa.em_grupos && data.etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
 								goto($page.url.pathname + '/escolhaIntegrante');
 							} else {
 								goto($page.url.pathname + '/avaliacao');
