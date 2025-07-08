@@ -4,15 +4,17 @@
 	export let integrante;
 </script>
 
-<div class="container">
+<button class="container" on:click>
 	<CircularTextIcon backgroundColor={'#' + integrante.cor}>{integrante.nome[0]}</CircularTextIcon>
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{integrante.nome} </b></p>
 	</div>
-</div>
+</button>
 
 <style>
 	.container {
+		cursor: pointer;
+		border: none;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
