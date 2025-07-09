@@ -34,7 +34,7 @@
 
 	function onClickIntegrante(id) {
 		alunoParaAvaliar = id;
-		const url = $page.url.pathname.split('/').slice(0, -1).join('/') + '/' + id + '/avaliar';
+		const url = $page.url.pathname.split('/').slice(0, -1).join('/') + '/' + id;
 		goto(url);
 	}
 
