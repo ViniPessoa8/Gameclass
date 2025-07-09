@@ -2,12 +2,22 @@
 	import CircularTextIcon from './CircularTextIcon.svelte';
 
 	export let integrante;
+
+	let mediaNotas;
+
+	if (integrante.notas) {
+		const somaNotas = integrante.notas.reduce((acc, n) => n.nota_atribuida + acc, 0);
+		mediaNotas = somaNotas / integrante.notas.length;
+	}
 </script>
 
-<button class="container" on:click>
+<button class="container" class:corrigido={mediaNotas} on:click>
 	<CircularTextIcon backgroundColor={'#' + integrante.cor}>{integrante.nome[0]}</CircularTextIcon>
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{integrante.nome} </b></p>
+		{#if integrante.notas.length != 0}
+			<p>Média: {mediaNotas}</p>
+		{/if}
 	</div>
 </button>
 
@@ -26,9 +36,14 @@
 		gap: 12px;
 	}
 
+	.corrigido {
+		background-color: green;
+	}
+
 	.info-container {
 		display: flex;
 		flex-direction: column;
 		padding-right: 30px;
+		text-align: left;
 	}
 </style>
