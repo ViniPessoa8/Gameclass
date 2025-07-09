@@ -95,4 +95,28 @@ export async function listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega) {
 	}
 }
 
+export async function listaNotasObtidasDeCriteriosIntegrantePorIdEntregaBD(idEntrega, idIntegrante) {
+	const db = getPool()
+	try {
+		let query = {
+			text: `	SELECT aic.*, ra.*, c.titulo, c.pontuacao_max, c.peso
+					FROM 
+						${DB_INFO.tables.realizar_avaliacao} ra,
+						${DB_INFO.tables.avaliacao_integrante_criterio} aic,
+						${DB_INFO.tables.criterio} c
+					WHERE 
+						ra.id_entrega = $1
+						AND aic.id_realizar_avaliacao = ra.id
+						AND aic.id_criterio = c.id
+						AND aic.id_estudante = $2
+					;`,
+			values: [idEntrega, idIntegrante]
+		}
 
+		let res = await db.query(query)
+		return res.rows
+
+	} catch (e) {
+		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
+	}
+}

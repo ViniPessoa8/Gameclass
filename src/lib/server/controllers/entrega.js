@@ -2,7 +2,8 @@ import {
 	listaEntregasPorItemAtividadeIdBD,
 	buscaEntregaPorIdBD,
 	listaNotasDeCriteriosPorIdEntregaBD,
-	listaNotasObtidasDeCriteriosPorIdEntregaBD
+	listaNotasObtidasDeCriteriosPorIdEntregaBD,
+	listaNotasObtidasDeCriteriosIntegrantePorIdEntregaBD
 } from "../repositories/entrega.js";
 
 import Entrega from "$lib/models/Entrega.js";
@@ -26,6 +27,11 @@ export default class EntregaController {
 
 	async listaNotasObtidasDeCriterios(idEntrega) {
 		const res = await listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega);
+		return res;
+	}
+
+	async listaNotasObtidasDeCriteriosIntegrante(idEntrega, idIntegrante) {
+		const res = await listaNotasObtidasDeCriteriosIntegrantePorIdEntregaBD(idEntrega, idIntegrante);
 		return res;
 	}
 }

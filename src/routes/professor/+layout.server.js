@@ -66,7 +66,6 @@ export async function load({ url, cookies }) {
 		}
 
 		// Integrante
-		console.debug("parts[7]", parts[7])
 		if (parts.length > 7 && Number.isInteger(parts[7])) {
 			data.integrante = await estudanteController.buscaPorId(parts[7])
 		}

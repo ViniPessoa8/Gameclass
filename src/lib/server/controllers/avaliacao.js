@@ -1,7 +1,9 @@
 import {
 	avaliaEntregaBD,
 	alteraAvaliacaoEntregaBD,
-	buscaAvaliacaoEntregaBD
+	buscaAvaliacaoEntregaBD,
+	avaliaIntegranteGrupoBD,
+	buscaAvaliacaoIntegrantesBD
 } from "../repositories/avaliacao.js";
 
 import Avaliacao from "$lib/models/Avaliacao.js";
@@ -39,5 +41,13 @@ export default class AvaliacaoController {
 		});
 
 		return avaliacao;
+	}
+
+	async avaliaIntegranteGrupo(idEntrega, idEstudante, criteriosAvaliados) {
+		return await avaliaIntegranteGrupoBD(idEntrega, idEstudante, criteriosAvaliados);
+	}
+
+	async buscaAvaliacaoIntegrantes(idEntrega) {
+		return await buscaAvaliacaoIntegrantesBD(idEntrega);
 	}
 }

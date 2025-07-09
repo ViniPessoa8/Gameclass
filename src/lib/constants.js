@@ -33,7 +33,8 @@ export const DB_INFO = {
 		mural: "publicacao_mural",
 		formacaoGrupo: "formacao_grupo",
 		grupo: "grupo_de_alunos",
-		integrante_grupo: "integrante_grupo_de_alunos"
+		integrante_grupo: "integrante_grupo_de_alunos",
+		avaliacao_integrante_criterio: "avaliacao_integrante_criterio"
 	}
 }
 

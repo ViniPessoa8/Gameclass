@@ -35,7 +35,6 @@
 				}
 
 				if (i == 7 && Number.isInteger(parts[7])) {
-					console.debug('parts[7]', parts[7]);
 					label = session.integrante?.nome;
 				}
 			}

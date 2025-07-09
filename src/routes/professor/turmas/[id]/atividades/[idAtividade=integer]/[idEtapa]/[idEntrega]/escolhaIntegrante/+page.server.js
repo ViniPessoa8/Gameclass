@@ -7,7 +7,7 @@ import ComentarioController from '$lib/server/controllers/comentario';
 import AnexoController from '$lib/server/controllers/anexo';
 import EstudanteController from '$lib/server/controllers/estudante';
 import UsuarioController from '$lib/server/controllers/usuario';
-import { goto, redirect } from "$app/navigation";
+import { redirect } from "@sveltejs/kit";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -39,6 +39,10 @@ export async function load({ url, cookies, params }) {
 	if (etapa.em_grupos) {
 		grupo = await grupoController.buscaPorId(parseInt(entrega.id_grupo_de_alunos))
 		grupo.integrantes = await estudanteController.buscaPorIdGrupo(parseInt(entrega.id_grupo_de_alunos))
+		for (let i = 0; i < grupo.integrantes.length; i++) {
+			grupo.integrantes[i].notas = await entregaController.listaNotasObtidasDeCriteriosIntegrante(idEntrega, grupo.integrantes[i].id)
+
+		}
 		etapa.grupo = grupo
 	} else {
 		estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
@@ -52,10 +56,6 @@ export async function load({ url, cookies, params }) {
 	let toast = ''
 	const message = cookies.get("toast");
 
-	if (message !== '') {
-		redirect(300, url.pathname + '/avaliacao')
-		toast = message
-	}
 
 	let returnData = {
 		"usuario": data,
