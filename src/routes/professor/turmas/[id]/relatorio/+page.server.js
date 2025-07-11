@@ -67,7 +67,7 @@ export async function load({ params, cookies }) {
 	data.menorNota = notasTurma.length != 0 ? Math.min(...notasAtribuidas) : 0.0
 
 	for (const [indexA, atividade] of data.atividades.entries()) {
-		console.debug("\n[Calculando estatísticas] Atividade ", atividade.id)
+		console.info("\n[Calculando estatísticas] Atividade ", atividade.id)
 
 		// Nota total de cada atividade
 		const somaNotas = atividade.itensAtividade

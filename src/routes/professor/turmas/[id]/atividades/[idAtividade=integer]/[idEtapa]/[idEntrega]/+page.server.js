@@ -7,6 +7,7 @@ import ComentarioController from '$lib/server/controllers/comentario';
 import AnexoController from '$lib/server/controllers/anexo';
 import EstudanteController from '$lib/server/controllers/estudante';
 import UsuarioController from '$lib/server/controllers/usuario';
+import { AVALIACAO } from "../../../../../../../../lib/constants";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -30,18 +31,36 @@ export async function load({ cookies, params }) {
 	const etapa = (await itemAtividadeController.buscaPorId(idEtapa)).toObject()
 	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
 	const entrega = (await entregaController.buscaPorId(idEntrega)).toObject()
-	const entregaAvaliada = await avaliacaoController.buscaPorIdEntrega(entrega.id)
 	const comentarios_entrega = await comentarioController.listaPorIdEntrega(parseInt(entrega.id))
 	const anexos = (await anexoController.listaPorIdEntrega(idEntrega)).map((e) => e.toObject())
 
-	let estudante, grupo;
+	let estudante, grupo, entregaAvaliada = false;
 	if (etapa.em_grupos) {
 		grupo = await grupoController.buscaPorId(parseInt(entrega.id_grupo_de_alunos))
 		grupo.integrantes = await estudanteController.buscaPorIdGrupo(parseInt(entrega.id_grupo_de_alunos))
 		etapa.grupo = grupo
+
+		if (etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
+			const avaliacoesIntegrantes = await avaliacaoController.buscaAvaliacaoIntegrantes(entrega.id)
+			const nAvaliacoes = avaliacoesIntegrantes.map((value) => value.id_estudante).filter((value, index, _arr) => _arr.indexOf(value) == index).length; // Mapeia os valores por id_estudante único, para contar quantos estudantes foram avaliados.
+
+			if (nAvaliacoes == etapa.grupo.integrantes.length) {
+				entregaAvaliada = true
+			} else {
+				entregaAvaliada = false
+			}
+
+		} else {
+			const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
+			console.debug("avaliacao => ", avaliacao)
+			if (avaliacao) entregaAvaliada = true
+
+		}
+
 	} else {
 		estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
 	}
+
 
 	entrega["comentarios"] = comentarios_entrega
 	entrega["anexos"] = anexos

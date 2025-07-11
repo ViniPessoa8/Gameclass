@@ -82,7 +82,6 @@ export const actions = {
 		if (res) {
 			cookies.set("toast", 'avaliacao_realizada', { path: "/" })
 			const novaUrl = request.url.split("/").slice(0, -2).join("/") + "/escolhaIntegrante";
-			console.debug("novaUrl", novaUrl)
 			redirect(301, novaUrl)
 		}
 	},
@@ -110,7 +109,6 @@ export const actions = {
 		if (res) {
 			cookies.set("toast", 'avaliacao_atualizada', { path: "/" })
 			const novaUrl = request.url.split("/").slice(0, -2).join("/") + "/escolhaIntegrante";
-			console.debug("novaUrl", novaUrl)
 			redirect(301, novaUrl)
 		}
 	}

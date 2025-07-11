@@ -70,7 +70,6 @@
 					<p>(Não há integrantes para avaliar)</p>
 				{:else}
 					{#each data.etapa.grupo.integrantes as integrante}
-						{console.debug('integrante => ', integrante)}
 						<CardIntegrante {integrante} on:click={() => onClickIntegrante(integrante?.id)} />
 					{/each}
 				{/if}

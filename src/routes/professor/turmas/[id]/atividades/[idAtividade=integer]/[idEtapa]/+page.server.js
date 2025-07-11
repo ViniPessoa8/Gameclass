@@ -6,6 +6,8 @@ import EntregaController from "$lib/server/controllers/entrega";
 import AvaliacaoController from "$lib/server/controllers/avaliacao";
 import GrupoController from "$lib/server/controllers/grupo";
 import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
+import EstudanteController from '$lib/server/controllers/estudante';
+import { AVALIACAO } from "../../../../../../../lib/constants";
 
 const itemAtividadeController = new ItemAtividadeController()
 const atividadeController = new AtividadeController()
@@ -14,9 +16,9 @@ const entregaController = new EntregaController()
 const avaliacaoController = new AvaliacaoController()
 const grupoController = new GrupoController()
 const formacaoGrupoController = new FormacaoGrupoController()
+const estudanteController = new EstudanteController()
 
 export async function load({ cookies, params }) {
-	console.debug("params => ", params)
 	const session_raw = cookies.get("session");
 	const data = JSON.parse(session_raw);
 	data["perfil"] = cookies.get("perfil")
@@ -32,12 +34,36 @@ export async function load({ cookies, params }) {
 	let avaliacoes = []
 	// TODO: criar método para fazer busca por avaliacoes usando o id do item da atividade
 	for (const entrega of entregas) {
-		const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
-		if (avaliacao) {
-			entrega.avaliacao = avaliacao.toObject()
+		let entregaAvaliada
+		if (etapa.em_grupos && etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
+
+			const avaliacao = await avaliacaoController.buscaAvaliacaoIntegrantes(entrega.id)
+			const nAvaliacoes = avaliacao.map((value) => value.id_estudante).filter((value, index, _arr) => _arr.indexOf(value) == index).length; // Mapeia os valores por id_estudante único, para contar quantos estudantes foram avaliados.
+
+			for (let i = 0; i < grupos.length; i++) {
+				if (grupos[i].id == entrega.id_grupo_de_alunos) {
+					grupos[i].integrantes = await estudanteController.buscaPorIdGrupo(parseInt(entrega.id_grupo_de_alunos))
+
+					if (grupos[i].integrantes.length == nAvaliacoes) {
+						entregaAvaliada = true
+					} else {
+						entregaAvaliada = false
+					}
+				}
+			}
 		} else {
-			entrega.avaliacao = null
+
+			const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
+			if (avaliacao) {
+				entregaAvaliada = true
+			} else {
+				entregaAvaliada = false
+			}
+
 		}
+
+		entrega.avaliacao = entregaAvaliada
+
 	}
 
 	etapa.criterios = criterios

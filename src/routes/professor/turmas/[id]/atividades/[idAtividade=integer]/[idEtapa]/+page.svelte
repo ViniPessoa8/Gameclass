@@ -61,7 +61,6 @@
 				});
 			}
 		}
-		console.debug('entregas_por_grupo => ', entregas_por_grupo);
 	} else {
 		entregas_por_estudante = data.estudantes
 			.map((estudante) => {
