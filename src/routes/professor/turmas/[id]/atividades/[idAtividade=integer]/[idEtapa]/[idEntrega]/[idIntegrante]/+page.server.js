@@ -53,7 +53,7 @@ export async function load({ url, cookies, params }) {
 }
 
 export const actions = {
-	criar: async ({ request, cookies, params }) => {
+	avaliar: async ({ request, cookies, params }) => {
 		let res;
 
 		const criteriosAvaliados = Array.from(await request.formData());
@@ -111,5 +111,36 @@ export const actions = {
 			const novaUrl = request.url.split("/").slice(0, -2).join("/") + "/escolhaIntegrante";
 			redirect(301, novaUrl)
 		}
-	}
+	},
+	avaliarTodos: async ({ request, cookies, params }) => {
+		let res;
+
+		const criteriosAvaliados = Array.from(await request.formData());
+		const idEntrega = params.idEntrega;
+		const idEtapa = params.idEtapa
+		const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
+		const entrega = await entregaController.buscaPorId(idEntrega)
+		const integrantes = await estudanteController.buscaPorIdGrupo(parseInt(entrega.id_grupo_de_alunos))
+
+		let criteriosAvaliadosObj = [];
+		criteriosAvaliados.forEach((valor, indice) => {
+			criteriosAvaliadosObj.push({
+				nota_atribuida: parseFloat(valor[1]),
+				id: (criterios.find((e) => e.titulo == valor[0]).id)
+			});
+		});
+
+		try {
+			for (let i = 0; i < integrantes.length; i++) {
+				res = await avaliacaoController.avaliaIntegranteGrupo(idEntrega, integrantes[i].id, criteriosAvaliadosObj)
+			}
+		} catch (e) {
+			console.error(e)
+		}
+		if (res) {
+			cookies.set("toast", 'avaliacao_realizada', { path: "/" })
+			const novaUrl = request.url.split("/").slice(0, -2).join("/") + "/escolhaIntegrante";
+			redirect(301, novaUrl)
+		}
+	},
 }

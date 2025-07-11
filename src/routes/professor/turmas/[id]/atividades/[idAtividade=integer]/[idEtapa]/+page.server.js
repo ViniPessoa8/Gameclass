@@ -1,4 +1,3 @@
-import { listaEntregasPorItemAtividadeId } from "$lib/server/controllers/entrega";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import AtividadeController from "$lib/server/controllers/atividade";
 import TurmaController from "$lib/server/controllers/turma";

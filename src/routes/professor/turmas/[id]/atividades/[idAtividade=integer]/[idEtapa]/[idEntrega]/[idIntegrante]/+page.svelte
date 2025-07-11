@@ -105,7 +105,7 @@
 		class="criterios-grid"
 		method="POST"
 		style={grid_template_body}
-		action={data.entrega.notas.length != 0 ? '?/alterar' : '?/criar'}
+		action={data.entrega.notas.length != 0 ? '?/alterar' : '?/avaliar'}
 		use:enhance={({ cancel }) => {
 			if (!validarNotas()) {
 				cancel();
@@ -162,6 +162,15 @@
 				<h2>Média final: {pontuacaoFinal.toFixed(1)}</h2>
 			</div>
 			<div class="btn-finalizar">
+				<Button
+					type="submit"
+					formaction="?/avaliarTodos"
+					backgroundColor="var(--cor-secundaria)"
+					color="white"
+					>{data.entrega.notas.length == 0
+						? 'Repetir avaliação para todos'
+						: 'Editar avaliação para todos'}</Button
+				>
 				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white"
 					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 				>
@@ -293,5 +302,6 @@
 		display: flex;
 		justify-content: center;
 		margin-top: 12px;
+		gap: 12px;
 	}
 </style>
