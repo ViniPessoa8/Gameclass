@@ -56,6 +56,11 @@ export async function load({ url, cookies, params }) {
 	let toast = ''
 	const message = cookies.get("toast");
 
+	if (message !== '') {
+		cookies.set("toast", "", { path: '/' });
+		toast = message
+	}
+
 
 	let returnData = {
 		"usuario": data,
