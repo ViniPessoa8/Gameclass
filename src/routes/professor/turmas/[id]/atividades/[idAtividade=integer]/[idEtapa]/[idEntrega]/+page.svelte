@@ -65,20 +65,8 @@
 		}
 	}
 
-	async function calculaStatusEntrega() {
-		if (data.entrega.avaliada) {
-			status = STATUS_ENTREGA['2'];
-			corStatus = 'lightgreen';
-		} else if (data.entrega.anexos.length > 0) {
-			status = STATUS_ENTREGA['1'];
-		} else {
-			status = STATUS_ENTREGA['0'];
-		}
-	}
-
 	onMount(async () => {
 		await fetchComentarios(data.entrega.id);
-		await calculaStatusEntrega();
 
 		if (data.toast === 'avaliacao_atualizada') {
 			toast.success('Avaliação editada com sucesso!');

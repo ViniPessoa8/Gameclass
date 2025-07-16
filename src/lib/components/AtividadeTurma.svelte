@@ -7,7 +7,6 @@
 	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
 	import EtapaSubMenu from './EtapaSubMenu.svelte';
 	import { goto } from '$app/navigation';
-	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '../constants';
 
 	import Atividade from '$lib/models/Atividade.js';
 

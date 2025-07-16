@@ -11,7 +11,7 @@ export default class Atividade {
 			(item) => new ItemAtividade(item)
 		);
 
-		this.validar()
+		this.valida()
 	}
 
 	formataPrazo() {
@@ -35,7 +35,7 @@ export default class Atividade {
 		return new Date() > this.prazo;
 	}
 
-	validar() {
+	valida() {
 		const camposFaltando = [];
 
 		if (!this.titulo) camposFaltando.push('titulo');

@@ -52,7 +52,6 @@ export async function load({ cookies, params }) {
 
 		} else {
 			const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
-			console.debug("avaliacao => ", avaliacao)
 			if (avaliacao) entregaAvaliada = true
 
 		}

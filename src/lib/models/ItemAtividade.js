@@ -55,18 +55,5 @@ export default class ItemAtividade {
 
 	toObject() {
 		return { ...this }
-		// return {
-		// 	id: this.id,
-		// 	titulo: this.titulo,
-		// 	descricao: this.descricao,
-		// 	dtEntregaInicial: this.dtEntregaInicial,
-		// 	dtEntregaFinal: this.dtEntregaFinal,
-		// 	tipoAtribuicaoNota: this.tipoAtribuicaoNota,
-		// 	emGrupos: this.emGrupos,
-		// 	receberAposPrazo: this.receberAposPrazo,
-		// 	nIntegrantes_grupo: this.nIntegrantes_grupo,
-		// 	nMaxGrupos: this.nMaxGrupos,
-		// 	idAtividade: this.idAtividade
-		// };
 	}
 }
