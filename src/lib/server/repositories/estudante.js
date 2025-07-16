@@ -10,7 +10,7 @@ export async function buscaEstudantePorIdBD(idEstudante) {
 					${DB_INFO.tables.estudante} e,
 					${DB_INFO.tables.usuario} u
 				WHERE 
-					u.id = $1
+					e.id = $1
 					AND e.id_usuario = u.id;`,
 		values: [parseInt(idEstudante)]
 	}

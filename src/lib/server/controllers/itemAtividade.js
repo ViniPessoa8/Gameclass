@@ -5,7 +5,8 @@ import {
 	listaItensDaAtividadePorIdBD,
 	removeItemAtividadePorIdBD,
 	listaCriteriosPorIdItemAtividadeBD,
-	listaNotasDeCriteriosPorIdItemAtividadeBD
+	listaNotasDeCriteriosPorIdItemAtividadeBD,
+	possuiAvaliacoesPendentesBD
 } from "../repositories/itemAtividade";
 
 import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
@@ -13,8 +14,14 @@ import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
 import ItemAtividade from "$lib/models/ItemAtividade.js";
 import Criterio from "$lib/models/Criterio.js";
 import CriterioController from "./criterio";
+import AvaliacaoController from "./avaliacao";
+import TurmaController from "./turma";
+import EntregaController from "./entrega";
 
 const criterioController = new CriterioController();
+const turmaController = new TurmaController();
+const entregaController = new EntregaController();
+
 
 export default class ItemAtividadeController {
 	async cadastra(
@@ -114,7 +121,7 @@ export default class ItemAtividadeController {
 			return null
 		}
 
-		res.status = this.calculaStatus(res);
+		res.status = await this.calculaStatus(res);
 
 		return new ItemAtividade(res);
 	}
@@ -134,11 +141,14 @@ export default class ItemAtividadeController {
 		}
 
 		const res = await listaItensDaAtividadePorIdBD(idAtividadePai);
+		let lista = []
+		for (let i = 0; i < res.length; i++) {
+			const itemAtividade = new ItemAtividade(res[i])
+			itemAtividade.status = await this.calculaStatus(itemAtividade);
+			lista.push(itemAtividade)
+		}
 
-		return res.map((item) => {
-			item.status = this.calculaStatus(item);
-			return new ItemAtividade(item);
-		});
+		return lista
 	}
 
 	async removePorId(idItemAtividade) {
@@ -154,29 +164,28 @@ export default class ItemAtividadeController {
 		}
 	}
 
-	calculaStatus(itemAtividade) {
+	async calculaStatus(itemAtividade) {
 		const now = new Date();
+		let status;
+		let possuiAvaliacoesPendentes = await this.possuiAvaliacoesPendentes(itemAtividade.id)
+
 		if (!itemAtividade.data_entrega_inicial) {
-			return STATUS_ITEM_ATIVIDADE_PROFESSOR["0"];
+			status = 0
+
+		} else if (now < itemAtividade.data_entrega_inicial) {
+			status = 1
+
+		} else if (now <= itemAtividade.data_entrega_final) {
+			status = 2
+
+		} else if (possuiAvaliacoesPendentes) {
+			status = 3
+
+		} else {
+			status = 4
 		}
 
-		const dataInicial = new Date(itemAtividade.data_entrega_inicial);
-
-		if (dataInicial > now) {
-			return STATUS_ITEM_ATIVIDADE_PROFESSOR["1"];
-		}
-
-		if (dataInicial <= now && !itemAtividade.entregue) {
-			return STATUS_ITEM_ATIVIDADE_PROFESSOR["2"];
-		}
-
-		if (itemAtividade.entregue && itemAtividade.nota === undefined) {
-			return STATUS_ITEM_ATIVIDADE_PROFESSOR["3"];
-		}
-
-		if (itemAtividade.entregue && itemAtividade.nota !== undefined) {
-			return STATUS_ITEM_ATIVIDADE_PROFESSOR["4"];
-		}
+		return status
 	}
 
 	async listaCriteriosPorId(idItemAtividade) {
@@ -194,6 +203,18 @@ export default class ItemAtividadeController {
 		}
 
 		return await listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade);
+	}
+
+
+	async possuiAvaliacoesPendentes(idItemAtividade) {
+		if (!idItemAtividade) {
+			throw "Dados obrigatórios não foram preenchidos. (possuiAvaliacoesPendentes)";
+		}
+
+		const res = await possuiAvaliacoesPendentesBD(idItemAtividade);
+
+		return res.diferenca != 0
+
 	}
 
 }

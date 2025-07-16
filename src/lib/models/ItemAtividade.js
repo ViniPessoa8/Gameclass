@@ -1,6 +1,6 @@
 
 export default class ItemAtividade {
-	constructor({ id, titulo, descricao, data_entrega_inicial, data_entrega_final, tipo_atribuicao_nota, tipo_avaliacao_nota, em_grupos, receber_apos_prazo, status, id_atividade }) {
+	constructor({ id, titulo, descricao, data_entrega_inicial, data_entrega_final, tipo_atribuicao_nota, tipo_avaliacao_nota, em_grupos, receber_apos_prazo, id_atividade, status = 0 }) {
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -10,8 +10,8 @@ export default class ItemAtividade {
 		this.tipo_avaliacao_nota = tipo_avaliacao_nota;
 		this.em_grupos = em_grupos;
 		this.receber_apos_prazo = receber_apos_prazo;
-		this.status = status;
 		this.id_atividade = id_atividade;
+		this.status = status;
 
 	}
 
@@ -46,7 +46,6 @@ export default class ItemAtividade {
 		if (!this.tipo_avaliacao_nota) camposFaltando.push('tipo_avaliacao_nota');
 		if (!this.em_grupos) camposFaltando.push('em_grupos');
 		if (!this.receber_apos_prazo) camposFaltando.push('receber_apos_prazo');
-		if (!this.status) camposFaltando.push('status');
 		if (!this.id_atividade) camposFaltando.push('id_atividade');
 
 		if (camposFaltando.length > 0) {

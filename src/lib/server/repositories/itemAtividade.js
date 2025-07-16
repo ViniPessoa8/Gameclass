@@ -106,7 +106,9 @@ export async function listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade)
 	const db = getPool()
 	try {
 		let query = {
-			text: `	c.*
+			text: `
+					SELECT
+						c.*
 					FROM 
 						${DB_INFO.tables.criterio} c
 					WHERE 
@@ -121,4 +123,34 @@ export async function listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade)
 	} catch (e) {
 		throw (`Erro ao listar notas de criteoriso por id do item da atividade (${idItemAtividade}): ${e}`)
 	}
+}
+
+export async function possuiAvaliacoesPendentesBD(idItemAtividade) {
+	const db = getPool()
+	try {
+		let query = {
+			text: `
+					select 
+						COUNT(e.*) - COUNT(r.*) diferenca
+					from 
+						public.item_atividade ia,
+						public.entrega e,
+						public.realizar_avaliacao r 
+					where
+						ia.id = $1
+						and e.id_item_atividade = ia.id
+						and e.id = r.id_entrega 
+					;`,
+			values: [idItemAtividade]
+		}
+
+		console.debug("query => ", query)
+
+		let res = await db.query(query)
+		return res.rows[0]
+
+	} catch (e) {
+		throw (`Erro ao listar notas de criteoriso por id do item da atividade (${idItemAtividade}): ${e}`)
+	}
+
 }

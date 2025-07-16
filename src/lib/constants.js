@@ -59,19 +59,48 @@ export const REALIZACAO = {
 	grupos: 1
 }
 
+export const STATUS_ITEM_ATIVIDADE = {
+	professor: {
+		0: "A definir início",
+		1: "Agendado",
+		2: "Em andamento",
+		3: "Avaliações Pendente",
+		4: "Concluído",
+	},
+	estudante: {
+		0: "Sem data de início",
+		1: "Agendado",
+		2: "Pendente",
+		3: "Entregue",
+		4: "Avaliado",
+	}
+}
+
+export const STATUS_ENTREGA = {
+	professor: {
+		0: "Aguardando Resposta",
+		2: "Aguardando Resposta (Atrasado)",
+		1: "Avaliação Pendente",
+		3: "Perdido",
+		4: "Avaliado",
+	},
+	estudante: {
+		0: "Pendente",
+		2: "Pendente (Atrasado)",
+		1: "Entregue",
+		3: "Perdido",
+		4: "Avaliado",
+	}
+}
+
 export const STATUS_ITEM_ATIVIDADE_PROFESSOR = {
 	0: "Sem data para lançamento",
 	1: "Agendado",
 	2: "Lançado",
 	3: "Aguardando Correção",
-	4: "Corrigido",
+	4: "Concluido",
 }
 
-export const STATUS_ENTREGA = {
-	0: "Sem Resposta",
-	1: "Aguardando Correção",
-	2: "Corrigido",
-}
 
 export const TIPO_ARQUIVO = {
 	PDF: "pdf",
@@ -111,4 +140,8 @@ export const FORMACAO_GRUPO = {
 	aleatorio: 3,
 }
 
+export const PERFIL = {
+	professor: 0,
+	estudante: 1
+}
 

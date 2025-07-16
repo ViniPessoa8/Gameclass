@@ -80,7 +80,7 @@ export async function listaAlunosPorTurmaIdBD(idTurma) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 
-					e.*, u.*, et.pontos
+					e.id id_estudante,  u.*, et.pontos
  				FROM 
 					${DB_INFO.tables.turma} t,
 					${DB_INFO.tables.estudante_turma} et,

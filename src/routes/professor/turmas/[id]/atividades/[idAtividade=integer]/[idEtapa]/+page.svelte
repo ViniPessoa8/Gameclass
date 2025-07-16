@@ -64,7 +64,7 @@
 	} else {
 		entregas_por_estudante = data.estudantes
 			.map((estudante) => {
-				const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id);
+				const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id_estudante);
 
 				if (entrega != undefined) {
 					return { estudante: estudante, entrega: entrega, grupo: null, em_grupos: false };
@@ -154,22 +154,6 @@
 	}
 
 	.content-data > p {
-		margin-bottom: 24px;
-	}
-
-	.content-etapa > h1 {
-		margin-bottom: 12px;
-	}
-
-	.content-etapa > h2 {
-		margin-bottom: 36px;
-	}
-
-	.content-etapa > h2 {
-		margin-bottom: 24px;
-	}
-
-	.content-etapa > p {
 		margin-bottom: 24px;
 	}
 

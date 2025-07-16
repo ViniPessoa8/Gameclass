@@ -2,37 +2,28 @@
 	import ButtonRedirect from './ButtonRedirect.svelte';
 	import IconeInformacao from './IconeInformacao.svelte';
 	import CircularIcon from './CircularIcon.svelte';
-	import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from '$lib/constants.js';
 	import ItemAtividade from '$lib/models/ItemAtividade.js';
+	import { page } from '$app/state';
+	import { STATUS_ITEM_ATIVIDADE } from '../constants';
 
 	export let itemAtividade;
-	export let criterios;
 	export let idAtividade;
-	export let idTurma;
 
 	itemAtividade = new ItemAtividade(itemAtividade);
 
-	function capitalizeFirstLetter(str) {
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-
 	// Props
 	let titulo = itemAtividade.titulo;
-	let notaMax = parseFloat(itemAtividade.nota_max).toFixed(1);
-	let dataInicial = itemAtividade.data_entrega_inicial;
-	let dataFinal = itemAtividade.data_entrega_final;
 	let status = itemAtividade.status;
 
 	// calculated variables
-	let dataAtual = new Date().getTime();
 	let iconText = titulo[0].toUpperCase();
 
 	const STATUS_ID = {
-		Pendente: 'pendente',
-		Agendado: 'agendado',
-		Lançado: 'lancado',
+		0: 'pendente',
+		1: 'agendado',
+		2: 'lancado',
 		'Aguardando Correção': 'aguardando_correcao',
-		Corrigido: 'corrigido'
+		3: 'corrigido'
 	};
 </script>
 
@@ -46,9 +37,12 @@
 		<span class="prazo">Prazo: {itemAtividade.formataDataFinal()}</span>
 		<div class="status row">
 			<h3 class="status-text-{STATUS_ID[status]}">
-				{capitalizeFirstLetter(status)}
+				{#if page.url.pathname.includes('professor')}
+					{STATUS_ITEM_ATIVIDADE.professor[status]}
+				{:else}
+					{STATUS_ITEM_ATIVIDADE.estudante[status]}
+				{/if}
 			</h3>
-			<!-- <h3 class="status-grade-{STATUS_ID[status]}">{notaMax}</h3> -->
 		</div>
 	</div>
 	<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}" color="white"
