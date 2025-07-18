@@ -65,7 +65,19 @@
 		}
 	}
 
+	function calculaStatus(entrega) {
+		if (!entrega.avaliada) {
+			entrega.status = 4;
+			corStatus = 'var(--cor-secundaria-2)';
+		} else {
+			entrega.status = 5;
+			corStatus = 'var(--cor-secundaria-4)';
+		}
+		status = STATUS_ENTREGA.professor[entrega.status];
+	}
+
 	onMount(async () => {
+		calculaStatus(data.entrega);
 		await fetchComentarios(data.entrega.id);
 
 		if (data.toast === 'avaliacao_atualizada') {
@@ -119,11 +131,7 @@
 		<div class="resposta-container">
 			<div class="top-content">
 				<div class="resposta-header">
-					{#if data.usuario.perfil == 'estudante'}
-						<p><b>Sua resposta</b></p>
-					{:else if data.usuario.perfil == 'professor'}
-						<p><b>Resposta</b></p>
-					{/if}
+					<p><b>Resposta</b></p>
 					<p class="status-resposta" style="color:{corStatus}">({status})</p>
 				</div>
 				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
@@ -150,29 +158,27 @@
 					</div>
 				{/if}
 			</div>
-			{#if status != 'Sem Resposta'}
-				<div class="btn-avaliar">
-					<Button
-						backgroundColor="var(--cor-secundaria)"
-						color="white"
-						type="text"
-						marginTop="auto"
-						on:click={() => {
-							if (data.etapa.em_grupos && data.etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
-								goto($page.url.pathname + '/escolhaIntegrante');
-							} else {
-								goto($page.url.pathname + '/avaliacao');
-							}
-						}}
-					>
-						{#if status == 'Corrigido'}
-							Editar Avaliação
-						{:else if status == 'Aguardando Correção'}
-							Avaliar
-						{/if}
-					</Button>
-				</div>
-			{/if}
+			<div class="btn-avaliar">
+				<Button
+					backgroundColor="var(--cor-secundaria)"
+					color="white"
+					type="text"
+					marginTop="auto"
+					on:click={() => {
+						if (data.etapa.em_grupos && data.etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
+							goto($page.url.pathname + '/escolhaIntegrante');
+						} else {
+							goto($page.url.pathname + '/avaliacao');
+						}
+					}}
+				>
+					{#if data.entrega.avaliada}
+						Editar Avaliação
+					{:else}
+						Avaliar
+					{/if}
+				</Button>
+			</div>
 		</div>
 	</div>
 </div>

@@ -43,13 +43,20 @@
 
 				if (entrega) {
 					entrega.em_grupos = true;
-					entregas_por_grupo.push({ entrega, grupo, em_grupos: true, estudante: null });
+					entregas_por_grupo.push({
+						entrega,
+						grupo,
+						em_grupos: true,
+						estudante: null,
+						prazo: data.etapa.data_entrega_final
+					});
 				} else {
 					entregas_por_grupo.push({
 						entrega: null,
 						grupo: grupo,
 						em_grupos: true,
-						estudante: null
+						estudante: null,
+						prazo: data.etapa.data_entrega_final
 					});
 				}
 			} else {
@@ -57,7 +64,8 @@
 					entrega: null,
 					grupo: null,
 					em_grupos: true,
-					estudante: null
+					estudante: null,
+					prazo: data.etapa.data_entrega_final
 				});
 			}
 		}
@@ -67,10 +75,22 @@
 				const entrega = data.entregas.find((ent) => ent.id_estudante === estudante.id_estudante);
 
 				if (entrega != undefined) {
-					return { estudante: estudante, entrega: entrega, grupo: null, em_grupos: false };
+					return {
+						estudante: estudante,
+						entrega: entrega,
+						grupo: null,
+						em_grupos: false,
+						prazo: data.etapa.data_entrega_final
+					};
 				}
 
-				return { estudante: estudante, entrega: null, grupo: null, em_grupos: false };
+				return {
+					estudante: estudante,
+					entrega: null,
+					grupo: null,
+					em_grupos: false,
+					prazo: data.etapa.data_entrega_final
+				};
 			})
 			.sort((a, b) => a.estudante.nome.localeCompare(b.estudante.nome));
 	}
@@ -99,7 +119,7 @@
 
 	const atividadeInfo = {
 		Realização: data.etapa.em_grupos ? 'Em Grupos' : 'Individual',
-		Prazo: formatter.format(data.atividade.data_entrega_final),
+		Prazo: formatter.format(data.etapa.data_entrega_final),
 		Média: data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples ? 'Simples' : 'Ponderada',
 		'Nota Máx.': notaMaximaItemAtividade
 	};

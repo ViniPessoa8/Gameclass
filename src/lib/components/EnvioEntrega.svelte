@@ -10,8 +10,10 @@
 	onMount(() => {
 		if (dados && dados.entrega && dados.entrega.avaliacao) {
 			corCard = 'green';
+		} else if (dados && !dados.entrega && dados.prazo < new Date()) {
+			corCard = 'var(--cor-secundaria-2)';
 		} else {
-			corCard = '#0b2a71';
+			corCard = 'var(--cor-primaria)';
 		}
 	});
 </script>
@@ -24,9 +26,13 @@
 			{:else}
 				<p class="nome">{dados.estudante.nome}</p>
 			{/if}
+
 			{#if dados.entrega.avaliacao}
-				<p class="status">(corrigida)</p>
+				<p>Avaliado</p>
+			{:else}
+				<p class="avaliacao-pendente">Avaliação Pendente</p>
 			{/if}
+
 			<p class="data">{new Entrega(dados.entrega).formataDataEntrega()}</p>
 			<button on:click={onClick} class="botao">Visualizar</button>
 		</div>
@@ -34,11 +40,15 @@
 		<div class="card off">
 			{#if dados.grupo}
 				<p class="nome">{dados.grupo.nome}</p>
-				<p class="sem-resposta">Aguardando Resposta</p>
 			{:else if dados.estudante}
 				<p class="nome">{dados.estudante.nome}</p>
-				<p class="sem-resposta">Aguardando Resposta</p>
 			{/if}
+
+			{#if dados.prazo < new Date()}
+				<p class="atrasado">Atrasado</p>
+			{/if}
+
+			<p class="sem-resposta">Aguardando Resposta</p>
 		</div>
 	{:else}
 		<div class="card off">
@@ -97,5 +107,15 @@
 
 	.botao:hover {
 		background-color: #3b8cd4;
+	}
+
+	.atrasado {
+		font-weight: 900;
+		color: var(--cor-secundaria-3);
+	}
+
+	.avaliacao-pendente {
+		font-weight: 500;
+		color: var(--cor-secundaria-2);
 	}
 </style>

@@ -58,6 +58,8 @@ export async function load({ cookies, params }) {
 
 	} else {
 		estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
+		const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
+		if (avaliacao) entregaAvaliada = true
 	}
 
 
