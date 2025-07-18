@@ -9,19 +9,9 @@ import {
 	possuiAvaliacoesPendentesBD
 } from "../repositories/itemAtividade";
 
-import { STATUS_ITEM_ATIVIDADE_PROFESSOR } from "../../constants";
-
 import ItemAtividade from "$lib/models/ItemAtividade.js";
 import Criterio from "$lib/models/Criterio.js";
 import CriterioController from "./criterio";
-import AvaliacaoController from "./avaliacao";
-import TurmaController from "./turma";
-import EntregaController from "./entrega";
-
-const criterioController = new CriterioController();
-const turmaController = new TurmaController();
-const entregaController = new EntregaController();
-
 
 export default class ItemAtividadeController {
 	async cadastra(
@@ -38,6 +28,7 @@ export default class ItemAtividadeController {
 		criterios,
 		status = 1
 	) {
+		const criterioController = new CriterioController();
 		const camposFaltando = [];
 
 		if (!titulo) {
@@ -68,11 +59,6 @@ export default class ItemAtividadeController {
 		if (camposFaltando.length > 0) {
 			throw `Os seguintes campos obrigatórios não foram preenchidos ou são inválidos: ${camposFaltando.join(', ')}. (Item Atividade)`;
 		}
-
-		// Your existing logic for successful registration would go here
-		// For example:
-		// console.log("Dados da atividade prontos para cadastro!");
-		// return { success: true, message: "Atividade cadastrada com sucesso!" };
 
 		let res;
 		try {
@@ -152,6 +138,8 @@ export default class ItemAtividadeController {
 	}
 
 	async removePorId(idItemAtividade) {
+		const criterioController = new CriterioController();
+
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (RemoveItemAtividadePorId)";
 		}
