@@ -10,6 +10,7 @@ export async function load({ params, cookies }) {
 		return { estudantes: [] }
 	}
 
+	data["idTurma"] = params.id
 	data["estudantes"] = estudantes
 	return data
 }

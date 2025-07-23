@@ -112,7 +112,7 @@ export async function listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade)
 					FROM 
 						${DB_INFO.tables.criterio} c
 					WHERE 
-						AND c.id_item_atividade = $1
+						c.id_item_atividade = $1
 					;`,
 			values: [idItemAtividade]
 		}
@@ -121,7 +121,7 @@ export async function listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade)
 		return res.rows
 
 	} catch (e) {
-		throw (`Erro ao listar notas de criteoriso por id do item da atividade (${idItemAtividade}): ${e}`)
+		throw (`Erro ao listar notas de criterios por id do item da atividade (${idItemAtividade}): ${e}`)
 	}
 }
 
@@ -143,8 +143,6 @@ export async function possuiAvaliacoesPendentesBD(idItemAtividade) {
 					;`,
 			values: [idItemAtividade]
 		}
-
-		console.debug("query => ", query)
 
 		let res = await db.query(query)
 		return res.rows[0]

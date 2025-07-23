@@ -11,6 +11,7 @@ export async function load({ cookies, params }) {
 
 	data["ranking"] = ranking
 	data["session"] = session
+	data["idTurma"] = params.id
 
 	return data
 }

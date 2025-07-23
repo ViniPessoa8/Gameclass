@@ -21,7 +21,7 @@
 				label = session.turma.nome;
 			}
 
-			if (parts[4] != 'create') {
+			if (parts[4] != 'create' && parts[3] == 'atividades') {
 				if (i == 4) {
 					label = session.atividade.titulo;
 				}

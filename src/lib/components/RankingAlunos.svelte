@@ -2,6 +2,8 @@
 	import AlunoRanking from './AlunoRanking.svelte';
 
 	export let listaAlunos;
+	export let idEstudante;
+	export let idTurma;
 </script>
 
 <div class="container">
@@ -15,6 +17,8 @@
 					pontos={pontoAluno.pontos}
 					posicao={index + 1}
 					cor={'#' + pontoAluno.cor}
+					idEstudante={pontoAluno.id}
+					{idTurma}
 				/>
 			{/each}
 		</div>
@@ -26,6 +30,8 @@
 					pontos={pontoAluno.pontos}
 					posicao={index + 4}
 					cor={'#' + pontoAluno.cor}
+					idEstudante={pontoAluno.id}
+					{idTurma}
 				/>
 			{/each}
 		</div>

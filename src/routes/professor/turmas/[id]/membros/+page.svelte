@@ -3,6 +3,7 @@
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -12,7 +13,8 @@
 	}
 
 	function abrePerfilDoUsuario(estudante) {
-		console.debug('Abre perfil de ', estudante.nome);
+		const url = `/professor/turmas/${data.idTurma}/membros/${estudante.id_estudante}`;
+		goto(url);
 	}
 </script>
 

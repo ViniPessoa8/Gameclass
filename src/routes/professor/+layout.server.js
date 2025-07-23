@@ -40,7 +40,7 @@ export async function load({ url, cookies }) {
 		data.turma = await turmaController.buscaPorId(parts[2])
 	}
 
-	if (parts[4] && parts[4] != 'create') {
+	if (parts[4] && parts[4] != 'create' && parts[3] === "atividades") {
 		// Atividade
 		if (parts.length > 4) {
 			const atividade = await atividadeController.buscaPorId(parts[4])

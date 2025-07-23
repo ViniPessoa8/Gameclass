@@ -31,7 +31,6 @@ export async function load({ params, cookies }) {
 	data.atividades = []
 	const atividades = await atividadeController.listaPorIdTurma(idTurma)
 
-
 	for (const a of atividades) {
 		a.itens_atividade = await itemAtividadeController.listaPorIdAtividade(a.id)
 		for (const ia of a.itens_atividade) {

@@ -1,7 +1,6 @@
 <script>
 	import { Toaster, toast } from 'svelte-sonner';
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
-	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 	import { onMount } from 'svelte';
 
 	export let data;
@@ -41,7 +40,6 @@
 </script>
 
 <Toaster richColors position="top-center" closeButton />
-<TurmaTabBar />
 <div class="content-membro">
 	<h1>Boletim do Aluno</h1>
 	<div class="estudante-info">
