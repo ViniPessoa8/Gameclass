@@ -140,11 +140,19 @@
 			<div class="entregas">
 				{#if data.etapa.em_grupos}
 					{#each entregas_por_grupo as dados}
-						<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
+						<EnvioEntrega
+							{dados}
+							receberAposPrazo={data.etapa.receber_apos_prazo}
+							onClick={() => onClick(dados.entrega?.id)}
+						/>
 					{/each}
 				{:else}
 					{#each entregas_por_estudante as dados}
-						<EnvioEntrega {dados} onClick={() => onClick(dados.entrega?.id)} />
+						<EnvioEntrega
+							{dados}
+							receberAposPrazo={data.etapa.receber_apos_prazo}
+							onClick={() => onClick(dados.entrega?.id)}
+						/>
 					{/each}
 				{/if}
 			</div>

@@ -3,6 +3,7 @@
 	import Entrega from '$lib/models/Entrega.js';
 
 	export let dados;
+	export let receberAposPrazo;
 	export let onClick;
 
 	let corCard;
@@ -45,7 +46,11 @@
 			{/if}
 
 			{#if dados.prazo < new Date()}
-				<p class="atrasado">Atrasado</p>
+				{#if receberAposPrazo}
+					<p class="atrasado">Atrasado</p>
+				{:else}
+					<p class="atrasado">Perdido</p>
+				{/if}
 			{/if}
 
 			<p class="sem-resposta">Aguardando Resposta</p>
