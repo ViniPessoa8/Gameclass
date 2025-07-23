@@ -463,9 +463,8 @@ INSERT INTO anexo ("titulo",
 ALTER SEQUENCE anexo_id_seq RESTART WITH 11;
 
 INSERT INTO realizar_avaliacao(id_entrega) VALUES
-(1),
 (8);
-ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 7;
+ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 6;
 
 INSERT INTO avaliacao_criterio (nota_atribuida, id_realizar_avaliacao, id_criterio) VALUES
 (4.5, 5, 5),
