@@ -13,12 +13,8 @@
 	export let data;
 	export let form;
 
-	console.log('DATA:', data);
-
 	onMount(async () => {
-		console.log('onMount');
 		if (data.message) {
-			console.log('entrou');
 			toast.success(data.message);
 		}
 	});

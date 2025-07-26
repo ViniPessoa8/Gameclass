@@ -69,9 +69,11 @@
 									(acc, a) => a.nota_atribuida + acc,
 									0
 								) / itemAtividade.avaliacao?.criterios_avaliados.length}
-								/ {itemAtividade.criterios.reduce((acc, c) => c.pontuacao_max + acc, 0)}
+								/ {itemAtividade.criterios.reduce((acc, c) => c.pontuacao_max + acc, 0).toFixed(1)}
 							{:else}
-								- / {itemAtividade.criterios.reduce((acc, c) => c.pontuacao_max + acc, 0)}
+								- / {itemAtividade.criterios
+									.reduce((acc, c) => c.pontuacao_max + acc, 0)
+									.toFixed(1)}
 							{/if}
 						</p>
 					{/each}

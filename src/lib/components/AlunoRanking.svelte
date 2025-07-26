@@ -1,6 +1,5 @@
 <script>
 	import CircularTextIcon from './CircularTextIcon.svelte';
-	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
 	export let nome = '',
@@ -11,10 +10,7 @@
 		idTurma = 0;
 
 	function onClick() {
-		// const url = page.url.pathname;
 		const url = `/professor/turmas/${idTurma}/membros/${idEstudante}`;
-
-		console.debug('url => ', url);
 		goto(url);
 	}
 </script>
@@ -22,7 +18,7 @@
 <button class="container" on:click={onClick}>
 	<CircularTextIcon backgroundColor={cor}>{nome[0]}</CircularTextIcon>
 	<div class="info-container">
-		<p style="font-size: 20px;"><b>{nome} #{posicao}</b></p>
+		<p style="font-size: 20px;"><b>{posicao}º {nome}</b></p>
 		<p style="font-size: 18px;">{pontos} pts</p>
 	</div>
 </button>
@@ -40,6 +36,7 @@
 		border-radius: 50px;
 		gap: 12px;
 		cursor: pointer;
+		color: var(--cor-primaria);
 	}
 
 	.info-container {
