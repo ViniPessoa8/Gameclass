@@ -4,7 +4,8 @@ import {
 	listaTurmaPorIdBD,
 	isTurmaRegisteredDB,
 	registraTurmaBD,
-	listaAlunosPorTurmaIdBD
+	listaAlunosPorTurmaIdBD,
+	buscaTurmasPorIdEstudanteProfessorBD
 } from "../repositories/turma.js";
 
 import Turma from "$lib/models/Turma.js";
@@ -89,6 +90,11 @@ export default class TurmaController {
 
 	async listaPorProfessor(idProfessor) {
 		const res = await buscaTurmasPorIdProfessorBD(idProfessor);
+		return res.rows.map(row => new Turma(row).toObject());
+	}
+
+	async listaPorEstudanteProfessor(idEstudante, idProfessor) {
+		const res = await buscaTurmasPorIdEstudanteProfessorBD(idEstudante, idProfessor);
 		return res.rows.map(row => new Turma(row).toObject());
 	}
 

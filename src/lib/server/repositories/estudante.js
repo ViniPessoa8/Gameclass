@@ -5,7 +5,8 @@ export async function buscaEstudantePorIdBD(idEstudante) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 
-					e.*, u.*
+					e.id as id, e.matricula, e.data_criacao, e.acumulo_xp, e.nivel, e.id_usuario, 
+u.nome, u.login, u.hash, u.salt, u.bio, u.email, u.acumulo_xp, u.nivel, u.matricula_aluno, u.dt_nasc, u.data_criacao, u.ultimo_acesso, u.cor, u.id_instituicao
  				FROM 
 					${DB_INFO.tables.estudante} e,
 					${DB_INFO.tables.usuario} u

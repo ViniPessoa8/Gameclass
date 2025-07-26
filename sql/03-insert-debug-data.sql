@@ -237,8 +237,9 @@ VALUES
 	(7, 7, 1, 210),
 	(8, 8, 1, 80),
 	(9, 9, 1, 100),
-	(10, 10, 1, 120);
-ALTER SEQUENCE estudante_turma_id_seq RESTART WITH 6;
+	(10, 10, 1, 120),
+	(11, 1, 2, 100);
+ALTER SEQUENCE estudante_turma_id_seq RESTART WITH 12;
 
 INSERT INTO atividade("id",
 	"titulo",

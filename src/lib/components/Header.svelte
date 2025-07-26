@@ -13,12 +13,17 @@
 		if (parts.length >= 7 && !Number.isInteger(parts[7])) {
 			parts = parts.slice(0, 6);
 		}
+		console.debug(parts);
 
 		return parts.map((part, i) => {
 			let label = part;
 
 			if (i == 2) {
 				label = session.turma.nome;
+			}
+
+			if (i == 4 && parts[3] == 'membros') {
+				label = session.estudante.login;
 			}
 
 			if (parts[4] != 'create' && parts[3] == 'atividades') {

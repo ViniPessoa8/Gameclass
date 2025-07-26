@@ -19,6 +19,7 @@ const entregaController = new EntregaController()
 export async function load({ url, cookies }) {
 	const session_raw = cookies.get("session");
 	const parts = url.pathname.split('/').filter(Boolean); // remove vazios
+	console.debug("parts => ", parts)
 
 	if (!session_raw) {
 		console.log("Usuário não autenticado")
@@ -38,6 +39,11 @@ export async function load({ url, cookies }) {
 	// Turma
 	if (parts.length > 2 && parts[2]) {
 		data.turma = await turmaController.buscaPorId(parts[2])
+	}
+
+	if (parts[3] && parts[4] && parts[3] == 'membros') {
+		data.estudante = await estudanteController.buscaPorId(parts[4])
+
 	}
 
 	if (parts[4] && parts[4] != 'create' && parts[3] === "atividades") {
@@ -69,6 +75,7 @@ export async function load({ url, cookies }) {
 		if (parts.length > 7 && Number.isInteger(parts[7])) {
 			data.integrante = await estudanteController.buscaPorId(parts[7])
 		}
+
 
 	}
 

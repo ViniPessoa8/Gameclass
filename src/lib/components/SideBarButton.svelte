@@ -3,7 +3,7 @@
 	export let type = '';
 
 	export let onClick = (x) => {
-		console.log(x);
+		// console.log(x);
 	};
 </script>
 

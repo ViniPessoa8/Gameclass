@@ -1,93 +1,74 @@
 <script>
 	import { Toaster, toast } from 'svelte-sonner';
-	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
+	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
+	import CardTurma from '$lib/components/CardTurma.svelte';
+	import icon_relatorio from '$lib/assets/icon_relatorio.png';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
 	const estudante = data.estudante;
 	const turma = data.turma;
-	const atividades = data.atividades;
+	const outras_turmas = data.outras_turmas;
 
-	onMount(() => {
-		// for (const atividade of atividades) {
-		for (let i = 0; i < atividades.length; i++) {
-			if (atividades[i].itens_atividade.length == 0) {
-				atividades[i].media_obtida = '-';
-				atividades[i].media_max = '-';
-			} else {
-				atividades[i].media_obtida = (
-					atividades[i].itens_atividade.reduce((acc, ia) => {
-						if (!ia.avaliacao) return acc;
+	function onClick() {
+		const url = `/professor/turmas/${turma.id}/membros/${estudante.id}/boletim`;
+		goto(url);
+	}
 
-						return (
-							acc +
-							ia.avaliacao?.criterios_avaliados.reduce((acc2, a) => a.nota_atribuida + acc2, 0) /
-								ia.avaliacao?.criterios_avaliados.length
-						);
-					}, 0) / atividades[i].itens_atividade.length
-				).toFixed(1);
-
-				atividades[i].media_max = (
-					atividades[i].itens_atividade.reduce(
-						(acc, ia) => acc + ia.criterios.reduce((acc2, c) => c.pontuacao_max + acc2, 0),
-						0
-					) / atividades[i].itens_atividade.length
-				).toFixed(1);
-			}
-		}
-	});
+	onMount(() => {});
 </script>
 
 <Toaster richColors position="top-center" closeButton />
-<div class="content-membro">
-	<h1>Boletim do Aluno</h1>
-	<div class="estudante-info">
-		<div class="row">
-			<p><b>{estudante.login}</b></p>
-			<p>{estudante.nome}</p>
-		</div>
-		<p>{turma.nome} - {turma.disciplina}</p>
-		<p>Posição no ranking da turma: <b>{estudante.posicao_ranking}</b></p>
+<div class="content-estudante">
+	<div class="estudante-nome-login">
+		<h1>{estudante.login}</h1>
+		<h3>{estudante.nome}</h3>
 	</div>
-	<div class="atividades">
-		<h1>Atividades</h1>
-		<hr />
-		<div class="atividades-container">
-			{#each atividades as atividade}
-				<div class="atividade">
-					<h2>{atividade.titulo}</h2>
-					<p style="font-size: 18px">Média</p>
-					<h3>{atividade.media_obtida}/{atividade.media_max}</h3>
-					<hr style="border-color: var(--cor-secundaria)" />
-					<!-- for item atividade -->
-					{#each atividade.itens_atividade as itemAtividade, index}
-						<p style="font-size:18px"><u><b>{index + 1}. {itemAtividade.titulo}</b></u></p>
-						<p style="font-size:18px">
-							{#if itemAtividade.avaliacao?.criterios_avaliados.filter((a) => a.nota_atribuida)}
-								{itemAtividade.avaliacao?.criterios_avaliados.reduce(
-									(acc, a) => a.nota_atribuida + acc,
-									0
-								) / itemAtividade.avaliacao?.criterios_avaliados.length}
-								/ {itemAtividade.criterios.reduce((acc, c) => c.pontuacao_max + acc, 0).toFixed(1)}
-							{:else}
-								- / {itemAtividade.criterios
-									.reduce((acc, c) => c.pontuacao_max + acc, 0)
-									.toFixed(1)}
-							{/if}
-						</p>
-					{/each}
-					{#if atividade.itens_atividade.length == 0}
-						<p style="font-size:18px">(Não há itens cadastrados)</p>
-					{/if}
-				</div>
-			{/each}
+
+	<ProgressBar
+		currentLevel={estudante.nivel}
+		currentXp={estudante.acumulo_xp}
+		xpForCurrentLevel={Math.trunc(estudante.acumulo_xp / 100) * 100}
+		xpForNextLevel={Math.trunc(estudante.acumulo_xp / 100) * 100 + 100}
+	/>
+
+	<div class="button-container">
+		<Button on:click={onClick}><img src={icon_relatorio} alt="icone boletim" /> Ver Boletim</Button>
+	</div>
+
+	<div class="descricao-estudante">
+		<h2>Descrição</h2>
+		<p>{estudante.bio}</p>
+	</div>
+
+	<hr style="border-color:var(--cor-primaria); width:100%" />
+
+	<div class="outras-turmas-container">
+		<h2>Outras turmas do estudante em que você é professor</h2>
+		<div class="outras-turmas">
+			{#if outras_turmas.length != 0}
+				{#each outras_turmas as turma}
+					<CardTurma
+						nome={turma.nome}
+						disciplina={turma.disciplina}
+						ano={turma.ano}
+						idTurma={turma.id}
+					/>
+				{/each}
+			{:else}
+				<p>(Não há outras turmas para exibir)</p>
+			{/if}
 		</div>
 	</div>
 </div>
 
 <style scoped>
-	.content-membro {
+	.content-estudante {
+		justify-self: center;
+		width: 50%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -96,40 +77,39 @@
 		padding: 24px 128px;
 	}
 
-	.row {
+	.button-container {
+		align-self: end;
+	}
+
+	.descricao-estudante {
+		width: 100%;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		gap: 12px;
 	}
 
-	.estudante-info {
-		font-size: 20px;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		text-align: left;
-	}
-
-	.atividades-container {
+	.estudante-nome-login {
 		display: flex;
 		flex-direction: row;
+		gap: 12px;
+		align-items: end;
+		align-self: start;
 	}
 
-	.atividade {
+	.estudante-nome-login > h3 {
+		font-weight: 500;
+	}
+
+	.outras-turmas-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.outras-turmas {
+		justify-content: center;
 		display: flex;
 		flex-wrap: wrap;
-		flex-direction: column;
-		background-color: var(--cor-secundaria-1);
-		border: 1px solid black;
-		border-radius: 38px;
-		padding: 18px;
-		margin: 12px;
-		text-align: center;
-		gap: 12px;
-	}
-
-	hr {
-		border: none;
-		border-top: 1px solid var(--cor-secundaria);
 	}
 </style>
