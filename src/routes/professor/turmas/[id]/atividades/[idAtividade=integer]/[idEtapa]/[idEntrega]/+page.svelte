@@ -8,7 +8,7 @@
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
-	import { TIPO_ARQUIVO, TIPO_COMENTARIO, STATUS_ENTREGA, AVALIACAO } from '$lib/constants.js';
+	import { TIPO_ARQUIVO, TIPO_COMENTARIO, AVALIACAO } from '$lib/constants.js';
 	import { Toaster, toast } from 'svelte-sonner';
 
 	export let data;
@@ -65,19 +65,7 @@
 		}
 	}
 
-	function calculaStatus(entrega) {
-		if (!entrega.avaliada) {
-			entrega.status = 4;
-			corStatus = 'var(--cor-secundaria-2)';
-		} else {
-			entrega.status = 5;
-			corStatus = 'var(--cor-secundaria-4)';
-		}
-		status = STATUS_ENTREGA.professor[entrega.status];
-	}
-
 	onMount(async () => {
-		calculaStatus(data.entrega);
 		await fetchComentarios(data.entrega.id);
 
 		if (data.toast === 'avaliacao_atualizada') {
@@ -132,7 +120,9 @@
 			<div class="top-content">
 				<div class="resposta-header">
 					<p><b>Resposta</b></p>
-					<p class="status-resposta" style="color:{corStatus}">({status})</p>
+					<p class="status-resposta" style="color:{data.entrega.corStatus}">
+						({data.entrega.status})
+					</p>
 				</div>
 				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
 					{#each data.entrega.anexos as arquivo}

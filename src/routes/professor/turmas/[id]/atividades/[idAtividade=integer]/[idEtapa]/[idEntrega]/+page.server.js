@@ -7,7 +7,7 @@ import ComentarioController from '$lib/server/controllers/comentario';
 import AnexoController from '$lib/server/controllers/anexo';
 import EstudanteController from '$lib/server/controllers/estudante';
 import UsuarioController from '$lib/server/controllers/usuario';
-import { AVALIACAO } from "../../../../../../../../lib/constants";
+import { AVALIACAO, STATUS_ENTREGA } from "$lib/constants";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -66,6 +66,7 @@ export async function load({ cookies, params }) {
 	entrega["comentarios"] = comentarios_entrega
 	entrega["anexos"] = anexos
 	entrega["avaliada"] = entregaAvaliada ? true : false
+	calculaStatus(entrega)
 	usuario["cor"] = usuario.cor
 
 	let toast = ''
@@ -86,4 +87,17 @@ export async function load({ cookies, params }) {
 	}
 
 	return returnData
+}
+
+function calculaStatus(entrega) {
+	let statusId
+	if (!entrega.avaliada) {
+		statusId = 1;
+		entrega.corStatus = 'var(--cor-secundaria-2)';
+	} else {
+		statusId = 4;
+		entrega.corStatus = 'var(--cor-secundaria-4)';
+	}
+	entrega.status = STATUS_ENTREGA.professor[statusId];
+
 }
