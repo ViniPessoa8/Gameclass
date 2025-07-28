@@ -7,9 +7,11 @@
 	import { ATRIBUICAO } from '$lib/constants.js';
 	import AtividadeInfo from '$lib/components/AtividadeInfo.svelte';
 	import { page } from '$app/stores';
-	import EnvioEntrega from '$lib/components/EnvioEntrega.svelte';
 	import { goto } from '$app/navigation';
 	import Entrega from '$lib/models/Entrega.js';
+	import SwitchView from '$lib/components/SwitchView.svelte';
+	import EnvioEntregaGrade from '$lib/components/EnvioEntregaGrade.svelte';
+	import EnvioEntregaLista from '$lib/components/EnvioEntregaLista.svelte';
 
 	export let data;
 
@@ -18,6 +20,7 @@
 	let idEtapa;
 	let arquivos = [];
 	let arquivo = 'teste';
+	let currentView = 'lista';
 
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
@@ -135,27 +138,50 @@
 		<AtividadeInfo data={atividadeInfo} />
 		<div class="container-entregas">
 			<div class="entregas-header">
+				<SwitchView bind:view={currentView} />
 				<p>Entregas:</p>
 			</div>
-			<div class="entregas">
-				{#if data.etapa.em_grupos}
-					{#each entregas_por_grupo as dados}
-						<EnvioEntrega
-							{dados}
-							receberAposPrazo={data.etapa.receber_apos_prazo}
-							onClick={() => onClick(dados.entrega?.id)}
-						/>
-					{/each}
-				{:else}
-					{#each entregas_por_estudante as dados}
-						<EnvioEntrega
-							{dados}
-							receberAposPrazo={data.etapa.receber_apos_prazo}
-							onClick={() => onClick(dados.entrega?.id)}
-						/>
-					{/each}
-				{/if}
-			</div>
+			{#if currentView == 'grade'}
+				<div class="entregas grade">
+					{#if data.etapa.em_grupos}
+						{#each entregas_por_grupo as dados}
+							<EnvioEntregaGrade
+								{dados}
+								receberAposPrazo={data.etapa.receber_apos_prazo}
+								onClick={() => onClick(dados.entrega?.id)}
+							/>
+						{/each}
+					{:else}
+						{#each entregas_por_estudante as dados}
+							<EnvioEntregaGrade
+								{dados}
+								receberAposPrazo={data.etapa.receber_apos_prazo}
+								onClick={() => onClick(dados.entrega?.id)}
+							/>
+						{/each}
+					{/if}
+				</div>
+			{:else}
+				<div class="entregas lista">
+					{#if data.etapa.em_grupos}
+						{#each entregas_por_grupo as dados}
+							<EnvioEntregaLista
+								{dados}
+								receberAposPrazo={data.etapa.receber_apos_prazo}
+								onClick={() => onClick(dados.entrega?.id)}
+							/>
+						{/each}
+					{:else}
+						{#each entregas_por_estudante as dados}
+							<EnvioEntregaLista
+								{dados}
+								receberAposPrazo={data.etapa.receber_apos_prazo}
+								onClick={() => onClick(dados.entrega?.id)}
+							/>
+						{/each}
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -186,18 +212,35 @@
 	}
 
 	.entregas-header {
+		width: 50%;
+		display: flex;
+		flex-direction: row;
 		margin-top: 36px;
 		padding-left: 48px;
 		font-size: 24px;
 		text-align: center;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.entregas {
-		margin-top: 12px;
+		margin-top: 24px;
+		gap: 16px;
+	}
+
+	.grade {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		gap: 24px;
+		align-items: center;
 		justify-content: center;
+	}
+
+	.lista {
+		align-items: center;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
 	}
 </style>
