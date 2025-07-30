@@ -2,69 +2,72 @@
 	import { createEventDispatcher } from 'svelte';
 	import StudentPill from '$lib/components/StudentPill.svelte';
 
-	/** @type {{id: string, nome: string, integrantes: any[]}} */
 	export let group;
-	/** @type {any[]} */
-	export let unassignedStudents;
+	export let estudantesSemGrupo;
 
 	let searchTerm = '';
-	let showSuggestions = false;
+	let mostraSugestoes = false;
 	let inputFocused = false;
 
 	const dispatch = createEventDispatcher();
 
-	$: suggestedStudents = searchTerm
-		? unassignedStudents
-				.filter((student) => student.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-				.slice(0, 5) // Limita a 5 sugestões
-		: [];
+	$: suggestedStudents = estudantesSemGrupo
+		.filter((student) => student.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+		.slice(0, 5);
 
-	function addStudent(student) {
-		dispatch('add', { studentId: student.id, groupId: group.id });
-		searchTerm = '';
-		showSuggestions = false;
+	function adicionaEstudante(student) {
+		if (group.integrantes.length >= group.maxIntegrantes) {
+			maximoAtingido = true;
+		} else {
+			dispatch('add', { studentId: student.id, groupId: group.id });
+			searchTerm = '';
+			mostraSugestoes = false;
+		}
 	}
 
 	function handleFocus() {
 		inputFocused = true;
-		showSuggestions = true;
+		mostraSugestoes = true;
 	}
 
 	function handleBlur() {
 		inputFocused = false;
 		// Atraso para permitir o clique na sugestão
 		setTimeout(() => {
-			if (!inputFocused) showSuggestions = false;
+			if (!inputFocused) mostraSugestoes = false;
 		}, 150);
 	}
 </script>
 
 <div class="group-card">
 	<div class="group-header">
-		<h2>{group.nome} ({group.integrantes.length})</h2>
-		<p>Alunos 0 / x</p>
+		<h2>{group.nome}</h2>
+		<p><b>{group.integrantes.length}</b> / {group.maxIntegrantes} Integrantes</p>
 	</div>
 
 	<div class="search-container">
 		<input
 			type="text"
 			class="search-input"
-			placeholder="Pesquisar e adicionar aluno..."
+			placeholder={group.maxIntegrantes == group.integrantes.length
+				? '(Grupo completo)'
+				: 'Pesquisar e adicionar aluno...'}
 			bind:value={searchTerm}
+			disabled={group.maxIntegrantes == group.integrantes.length}
 			on:focus={handleFocus}
 			on:blur={handleBlur}
-			on:input={() => (showSuggestions = true)}
+			on:input={() => (mostraSugestoes = true)}
 		/>
 
-		{#if showSuggestions && suggestedStudents.length > 0}
+		{#if mostraSugestoes && suggestedStudents.length > 0}
 			<ul class="suggestions-list">
-				{#each suggestedStudents as student (student.id)}
+				{#each suggestedStudents as estudante (estudante.id)}
 					<li
-						on:mousedown={() => addStudent(student)}
-						on:keydown={(e) => e.key === 'Enter' && addStudent(student)}
+						on:mousedown={() => adicionaEstudante(estudante)}
+						on:keydown={(e) => e.key === 'Enter' && adicionaEstudante(estudante)}
 						tabindex="0"
 					>
-						{student.nome}
+						{estudante.nome}
 					</li>
 				{/each}
 			</ul>
@@ -72,9 +75,9 @@
 	</div>
 
 	<div class="members-list">
-		{#each group.integrantes as student (student.id)}
+		{#each group.integrantes as estudante (estudante.id)}
 			<StudentPill
-				{student}
+				student={estudante}
 				on:remove={(e) => dispatch('remove', { studentId: e.detail.studentId, groupId: group.id })}
 			/>
 		{:else}
@@ -84,7 +87,6 @@
 </div>
 
 <style>
-	/* Estilos similares ao do mockup HTML */
 	.group-card {
 		background-color: white;
 		border-radius: 12px;

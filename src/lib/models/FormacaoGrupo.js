@@ -45,8 +45,9 @@ export default class FormacaoGrupo {
 
 		return {
 			id: this.id,
+
 			numero_grupos: this.numero_grupos,
-			numero_grupos: this.numero_grupos,
+			numero_alunos: this.numero_alunos,
 			data_definicao: this.data_definicao,
 			id_item_atividade: this.id_item_atividade,
 		}

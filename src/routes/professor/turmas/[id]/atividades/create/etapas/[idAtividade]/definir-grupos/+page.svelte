@@ -7,14 +7,14 @@
 
 	// Estados reativos
 	let groups = data.groups;
-	let allStudents = data.students;
-	let unassignedStudents = [];
+	let estudantesTurma = data.estudantes;
+	let estudantesSemGrupo = [];
 
 	// Função para calcular os alunos não alocados
 	function calculateUnassigned() {
-		const assignedIds = new Set();
-		groups.forEach((g) => g.integrantes.forEach((i) => assignedIds.add(i.id)));
-		unassignedStudents = allStudents.filter((s) => !assignedIds.has(s.id));
+		const idsAlunosComGrupo = new Set();
+		groups.forEach((g) => g.integrantes.forEach((i) => idsAlunosComGrupo.add(i.id)));
+		estudantesSemGrupo = estudantesTurma.filter((s) => !idsAlunosComGrupo.has(s.id));
 	}
 
 	// Recalcula sempre que os grupos mudarem
@@ -22,13 +22,13 @@
 
 	function handleAddStudent(event) {
 		const { studentId, groupId } = event.detail;
-		const studentToAdd = unassignedStudents.find((s) => s.id === studentId);
+		const estudanteNovo = estudantesSemGrupo.find((s) => s.id === studentId);
 
-		if (studentToAdd) {
+		if (estudanteNovo) {
 			groups = groups.map((g) => {
 				if (g.id === groupId) {
 					// Adiciona o aluno ao novo grupo
-					return { ...g, integrantes: [...g.integrantes, studentToAdd] };
+					return { ...g, integrantes: [...g.integrantes, estudanteNovo] };
 				}
 				return g;
 			});
@@ -68,7 +68,7 @@
 		{#each groups as group (group.id)}
 			<GroupCard
 				{group}
-				{unassignedStudents}
+				{estudantesSemGrupo}
 				on:add={handleAddStudent}
 				on:remove={handleRemoveStudent}
 			/>
