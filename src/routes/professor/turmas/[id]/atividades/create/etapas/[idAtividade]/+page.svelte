@@ -18,32 +18,37 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { FORMACAO_GRUPO } from '../../../../../../../../lib/constants';
 
-	let novoCriterioTitulo = '';
-	let novoCriterioNota = '';
-	let novoCriterioDescricao = '';
-	let novoCriterioPeso = '';
-	let oldCriterioNota = '';
-	let oldCriterioPeso = '';
-	let erroNotaCriterio = false;
-	let etapasData = [];
-	let carregando = true;
+	// export let data;
+	let { data } = $props();
+	console.debug('data=>', data);
+
+	let novoCriterioTitulo = $state('');
+	let novoCriterioNota = $state('');
+	let novoCriterioDescricao = $state('');
+	let novoCriterioPeso = $state('');
+	let oldCriterioNota = $state('');
+	let oldCriterioPeso = $state('');
+	let erroNotaCriterio = $state(false);
+	let etapasData = $state([]);
+	let carregando = $state(true);
 	// let tags = [];
 	// let tagsAutocomplete = [];
 	// let tagsColors = {};
 
-	let realizacaoOpcoes;
-	let atribuicaoOpcoes;
-	let tipoAvaliacaoOpcoes;
-	let formacaoGrupoOpcoes;
-	let formacoesGrupo;
-	let showModal = false;
-	let proximoValor;
+	let realizacaoOpcoes = $state();
+	let atribuicaoOpcoes = $state();
+	let tipoAvaliacaoOpcoes = $state();
+	let formacaoGrupoOpcoes = $state();
+	let formacoesGrupo = $state();
+	let showModal = $state(false);
+	let proximoValor = $state();
 
-	$: {
-		if (atribuicaoOpcoes) {
-			etapasData[$selectedEtapa].criterios = [];
-		}
-	}
+	// $: {
+	// 	if (atribuicaoOpcoes) {
+	// 		console.debug('ENTROU', atribuicaoOpcoes);
+	// 		etapasData[$selectedEtapa].criterios = [];
+	// 	}
+	// }
 
 	if (!$selectedEtapa) {
 		$selectedEtapa = 0;
@@ -421,6 +426,7 @@
 							</div>
 							<div class="row">
 								<h2>Data máxima de entrega:</h2>
+								<!-- TODO: Adicionar limite maximo sendo a data de entrega da atividade pai -->
 								<InputDatetime
 									id="inputDtFimEtapa"
 									borded
@@ -558,14 +564,14 @@
 										<InputText
 											id="inputTituloCriterio"
 											borded
-											name="titulo-criterio"
+											name="tituloCriterio"
 											placeholder="Título"
 											bind:value={novoCriterioTitulo}
 										/>
 										<InputNumber
 											id="inputNotaMaxCriterio"
 											borded
-											name="nota-max-criterio"
+											name="notaMaxCriterio"
 											width="150px"
 											placeholder="Nota max."
 											inputHandler={onChangeCriterioNota}
@@ -575,7 +581,7 @@
 											<InputText
 												id="inputPesoCriterio"
 												borded
-												name="peso-criterio"
+												name="pesoCriterio"
 												width="150px"
 												placeholder="Peso"
 												inputHandler={onChangeCriterioPeso}
@@ -587,7 +593,7 @@
 										<InputText
 											id="inputDescricaoCriterio"
 											borded
-											name="descricao-criterio"
+											name="descricaoCriterio"
 											placeholder="Descrição"
 											bind:value={novoCriterioDescricao}
 										/>

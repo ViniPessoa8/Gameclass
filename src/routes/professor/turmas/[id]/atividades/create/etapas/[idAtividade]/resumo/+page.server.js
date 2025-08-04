@@ -1,10 +1,8 @@
 import { fail, redirect } from "@sveltejs/kit"
-import { ATRIBUICAO, REALIZACAO } from "$lib/constants";
-import { page } from '$app/state';
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
-import { AVALIACAO } from "../../../../../../../../../lib/constants";
+import { AVALIACAO, ATRIBUICAO } from "$lib/constants";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()

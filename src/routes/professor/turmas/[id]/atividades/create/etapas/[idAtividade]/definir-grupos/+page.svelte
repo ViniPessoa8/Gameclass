@@ -53,6 +53,9 @@
 		// TODO: Implementar a lógica de salvamento
 		// Aqui você enviaria a estrutura `groups` para um endpoint da API
 		// que atualizaria as tabelas `integrante_grupo_de_alunos`.
+
+		// TODO: Criar Grupo
+		// TODO: Inserir alunos no grupo
 		console.log('Salvando alterações:', groups);
 		alert('Grupos salvos! (Ver console para detalhes)');
 	}

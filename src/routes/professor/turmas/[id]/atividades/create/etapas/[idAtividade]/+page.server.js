@@ -1,7 +1,30 @@
 import { redirect } from "@sveltejs/kit"
+import AtividadeController from "$lib/server/controllers/atividade";
+
+const atividadeController = new AtividadeController()
+
+export async function load({ cookies, params }) {
+	console.debug("entrou")
+	const idAtividade = params.id
+	const atividade = (await atividadeController.buscaPorId(idAtividade)).toObject()
+	console.debug("atividade => ", atividade)
+
+	return { "atividade": atividade }
+}
 
 export let actions = {
 	default: async ({ cookies, params, request, url }) => {
-		redirect(300, `${url.pathname}/resumo/`)
+		const formData = await request.formData()
+		const realizacao = formData.get("realizacao_grupos")
+
+		cookies.set("item_atividade", JSON.stringify(Object.fromEntries(formData)), { path: '/' })
+
+		if (realizacao == "Em Grupos") {
+			redirect(300, `${url.pathname}/definir-grupos/`)
+
+		} else {
+			redirect(300, `${url.pathname}/resumo/`)
+
+		}
 	}
 }

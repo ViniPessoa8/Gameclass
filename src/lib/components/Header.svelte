@@ -13,7 +13,6 @@
 		if (parts.length >= 7 && !Number.isInteger(parts[7])) {
 			parts = parts.slice(0, 6);
 		}
-		console.debug(parts);
 
 		return parts.map((part, i) => {
 			let label = part;
