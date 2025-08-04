@@ -83,42 +83,42 @@
 				</div>
 			{/each}
 			{#if etapas.length < LIMITE_NUMERO_DE_ETAPAS}
-				<Button
-					marginTop="48px"
-					color="var(--cor-secundaria)"
-					backgroundColor="white"
-					on:click={() => {
-						erroEtapa = [false, ''];
-
-						if (etapas.length > LIMITE_NUMERO_DE_ETAPAS) {
-							erroEtapa = [true, 'Limite de etapas atingido'];
-							return;
-						}
-
-						if (etapas[selectedEtapa].titulo == '') {
-							erroEtapa = [true, 'Etapa deve ter um título'];
-							return;
-						}
-
-						etapas.push({
-							id: etapas[etapas.length - 1].id + 1,
-							titulo: '',
-							descricao: '',
-							dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual
-							realizacaoGroup: 'Individual',
-							atribuicaoNotasGroup: 'Média Simples',
-							receberAposPrazo: true,
-							criterios: [],
-							formacoes: [
-								{
-									nGrupos: null,
-									nAlunos: null
-								}
-							]
-						});
-						selectedEtapa = selectedEtapa + 1;
-					}}>+ Nova Etapa</Button
-				>
+				<!-- <Button -->
+				<!-- 	marginTop="48px" -->
+				<!-- 	color="var(--cor-secundaria)" -->
+				<!-- 	backgroundColor="white" -->
+				<!-- 	on:click={() => { -->
+				<!-- 		erroEtapa = [false, '']; -->
+				<!---->
+				<!-- 		if (etapas.length > LIMITE_NUMERO_DE_ETAPAS) { -->
+				<!-- 			erroEtapa = [true, 'Limite de etapas atingido']; -->
+				<!-- 			return; -->
+				<!-- 		} -->
+				<!---->
+				<!-- 		if (etapas[selectedEtapa].titulo == '') { -->
+				<!-- 			erroEtapa = [true, 'Etapa deve ter um título']; -->
+				<!-- 			return; -->
+				<!-- 		} -->
+				<!---->
+				<!-- 		etapas.push({ -->
+				<!-- 			id: etapas[etapas.length - 1].id + 1, -->
+				<!-- 			titulo: '', -->
+				<!-- 			descricao: '', -->
+				<!-- 			dtEntregaMin: '1999-12-06T16:20', // TODO: usar a data atual -->
+				<!-- 			realizacaoGroup: 'Individual', -->
+				<!-- 			atribuicaoNotasGroup: 'Média Simples', -->
+				<!-- 			receberAposPrazo: true, -->
+				<!-- 			criterios: [], -->
+				<!-- 			formacoes: [ -->
+				<!-- 				{ -->
+				<!-- 					nGrupos: null, -->
+				<!-- 					nAlunos: null -->
+				<!-- 				} -->
+				<!-- 			] -->
+				<!-- 		}); -->
+				<!-- 		selectedEtapa = selectedEtapa + 1; -->
+				<!-- 	}}>+ Nova Etapa</Button -->
+				<!-- > -->
 			{/if}
 			{#if erroEtapa[0]}
 				<p style="color:red">{erroEtapa[1]}</p>
