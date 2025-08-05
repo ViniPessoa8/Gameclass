@@ -19,7 +19,6 @@ const entregaController = new EntregaController()
 export async function load({ url, cookies }) {
 	const session_raw = cookies.get("session");
 	const parts = url.pathname.split('/').filter(Boolean); // remove vazios
-	console.debug("parts => ", parts)
 
 	if (!session_raw) {
 		console.log("Usuário não autenticado")

@@ -6,26 +6,26 @@
 	export let data;
 
 	// Estados reativos
-	let groups = data.groups;
+	let grupos = data.groups;
 	let estudantesTurma = data.estudantes;
 	let estudantesSemGrupo = [];
 
 	// Função para calcular os alunos não alocados
 	function calculateUnassigned() {
 		const idsAlunosComGrupo = new Set();
-		groups.forEach((g) => g.integrantes.forEach((i) => idsAlunosComGrupo.add(i.id)));
+		grupos.forEach((g) => g.integrantes.forEach((i) => idsAlunosComGrupo.add(i.id)));
 		estudantesSemGrupo = estudantesTurma.filter((s) => !idsAlunosComGrupo.has(s.id));
 	}
 
 	// Recalcula sempre que os grupos mudarem
-	$: calculateUnassigned(groups);
+	$: calculateUnassigned(grupos);
 
 	function handleAddStudent(event) {
 		const { studentId, groupId } = event.detail;
 		const estudanteNovo = estudantesSemGrupo.find((s) => s.id === studentId);
 
 		if (estudanteNovo) {
-			groups = groups.map((g) => {
+			grupos = grupos.map((g) => {
 				if (g.id === groupId) {
 					// Adiciona o aluno ao novo grupo
 					return { ...g, integrantes: [...g.integrantes, estudanteNovo] };
@@ -39,7 +39,7 @@
 		const { studentId, groupId } = event.detail;
 		let studentToMove;
 
-		groups = groups.map((g) => {
+		grupos = grupos.map((g) => {
 			if (g.id === groupId) {
 				studentToMove = g.integrantes.find((s) => s.id === studentId);
 				// Remove o aluno do grupo
@@ -47,17 +47,6 @@
 			}
 			return g;
 		});
-	}
-
-	async function saveChanges() {
-		// TODO: Implementar a lógica de salvamento
-		// Aqui você enviaria a estrutura `groups` para um endpoint da API
-		// que atualizaria as tabelas `integrante_grupo_de_alunos`.
-
-		// TODO: Criar Grupo
-		// TODO: Inserir alunos no grupo
-		console.log('Salvando alterações:', groups);
-		alert('Grupos salvos! (Ver console para detalhes)');
 	}
 </script>
 
@@ -68,7 +57,7 @@
 	</div>
 
 	<div class="groups-grid">
-		{#each groups as group (group.id)}
+		{#each grupos as group (group.id)}
 			<GroupCard
 				{group}
 				{estudantesSemGrupo}
@@ -79,9 +68,12 @@
 	</div>
 
 	<div class="actions">
-		<Button color="var(--text-1)" backgroundColor="var(--cor-primaria)" on:click={saveChanges}
-			>Definir Grupos</Button
-		>
+		<form method="POST" class="button-definir">
+			<input type="hidden" name="grupos" value={JSON.stringify(grupos)} />
+			<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-primaria)"
+				>Definir Grupos</Button
+			>
+		</form>
 	</div>
 </div>
 

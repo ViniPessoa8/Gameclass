@@ -1,11 +1,32 @@
 import TurmaController from '$lib/server/controllers/turma';
 import FormacaoGrupoController from '$lib/server/controllers/formacaoGrupo';
 import GrupoController from '$lib/server/controllers/grupo';
+import IntegranteGrupoController from '$lib/server/controllers/integranteGrupo';
+import { log, info, debug } from '$lib/utils/logger';
+import { fail, redirect } from "@sveltejs/kit";
 
 export let actions = {
 	default: async ({ cookies, params, request, url }) => {
-		console.debug("action")
-		// redirect(300, `${url.pathname}/resumo/`)
+		const grupoController = new GrupoController();
+		const integranteGrupoController = new IntegranteGrupoController();
+		const formData = await request.formData();
+		const grupos = JSON.parse(formData.get("grupos"))
+
+		for (const grupo of grupos) {
+			debug("[grupo.nome, params.idAtividade] = ", [grupo.nome, params.idAtividade])
+			const idGrupo = (await grupoController.cadastra(grupo.nome, params.idAtividade)).rows[0].id
+			info(`Grupo (${idGrupo}) criado`)
+
+			for (const integrante of grupo.integrantes) {
+				await integranteGrupoController.cadastra(integrante.id_estudante, idGrupo)
+				info(`Integrante (${integrante.id_estudante} cadastrado no grupo ${idGrupo})`)
+			}
+		}
+
+		let urlNova = `${url.pathname.split("/").slice(0, -1).join("/")}/resumo`
+
+		debug("urlNova => ", urlNova)
+		redirect(301, urlNova)
 	}
 }
 
