@@ -16,9 +16,9 @@
 </script>
 
 <button class="container" on:click={onClick}>
-	<CircularTextIcon backgroundColor={cor}>{nome[0]}</CircularTextIcon>
+	<CircularTextIcon backgroundColor={cor}>{posicao}°</CircularTextIcon>
 	<div class="info-container">
-		<p style="font-size: 20px;"><b>{posicao}º {nome}</b></p>
+		<p style="font-size: 20px;"><b>{nome}</b></p>
 		<p style="font-size: 18px;">{pontos} pts</p>
 	</div>
 </button>
@@ -43,7 +43,7 @@
 		display: flex;
 		flex-direction: column;
 		padding-right: 30px;
-		text-align: center;
+		text-align: left;
 		width: 100%;
 	}
 </style>
