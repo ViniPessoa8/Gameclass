@@ -365,7 +365,7 @@
 <Toaster richColors expand position="top-center" closeButton />
 {#if !carregando}
 	<div class="page-container">
-		<EtapasBarraLateral bind:etapas={etapasData} bind:selectedEtapa={$selectedEtapa} />
+		<!-- <EtapasBarraLateral bind:etapas={etapasData} bind:selectedEtapa={$selectedEtapa} /> -->
 		<div class="content-container">
 			<h1>Calculados</h1>
 			<h2>Definição das etapas da atividade</h2>
