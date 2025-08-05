@@ -417,7 +417,7 @@ INSERT INTO grupo_de_alunos (nome, id_item_atividade) VALUES
 ('O melhor grupo', 3),
 	-- Etapa 4 -- 
 ('Grupo 1', 4);
-ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 4;
+ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 5;
 
 INSERT INTO integrante_grupo_de_alunos (id_estudante, id_grupo_de_alunos) VALUES
 (1, 1),
