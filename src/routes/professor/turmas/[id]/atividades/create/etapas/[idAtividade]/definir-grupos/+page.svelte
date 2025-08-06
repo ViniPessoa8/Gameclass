@@ -1,6 +1,7 @@
 <script>
 	import GroupCard from '$lib/components/GroupCard.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { onMount } from 'svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -33,6 +34,7 @@
 				return g;
 			});
 		}
+		sessionStorage.setItem('grupos', JSON.stringify(grupos));
 	}
 
 	function handleRemoveStudent(event) {
@@ -48,6 +50,13 @@
 			return g;
 		});
 	}
+
+	onMount(() => {
+		const gruposSessionStorage = sessionStorage.getItem('grupos');
+		if (gruposSessionStorage) {
+			grupos = JSON.parse(gruposSessionStorage);
+		}
+	});
 </script>
 
 <div class="page-container">
@@ -70,8 +79,13 @@
 	<div class="actions">
 		<form method="POST" class="button-definir">
 			<input type="hidden" name="grupos" value={JSON.stringify(grupos)} />
-			<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-primaria)"
-				>Definir Grupos</Button
+			<Button
+				type="submit"
+				color="var(--text-1)"
+				backgroundColor="var(--cor-primaria)"
+				on:click={() => {
+					sessionStorage.setItem('grupos', JSON.stringify(grupos));
+				}}>Definir Grupos</Button
 			>
 		</form>
 	</div>

@@ -3,19 +3,29 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 
 	const { data } = $props();
 
 	let etapasSessionStorage;
+	let gruposString = $state('');
 	let etapasString = $state('');
+	let submitButton;
 
 	$effect.pre(() => {
-		etapasSessionStorage = JSON.parse(sessionStorage.getItem('etapas'));
+		etapasSessionStorage = sessionStorage.getItem('etapas');
+		gruposString = sessionStorage.getItem('grupos');
+
 		if (etapasSessionStorage) {
-			data.etapas = etapasSessionStorage;
-			etapasString = JSON.stringify(data.etapas);
+			etapasString = etapasSessionStorage;
 		} else {
 			goto(`/professor/turmas/${$page.params.id}/atividades`);
+		}
+	});
+
+	onMount(() => {
+		if (submitButton) {
+			document.getElementById('submitButton').click();
 		}
 	});
 </script>
@@ -31,6 +41,7 @@
 	}}
 >
 	<input name="etapas" bind:value={etapasString} type="hidden" />
+	<input name="grupos" bind:value={gruposString} type="hidden" />
 	<h1><u>Resumo de critérios para avaliação da atividade</u></h1>
 	<h2>{data.atividade.titulo}</h2>
 	<div class="info-container"></div>
@@ -73,9 +84,15 @@
 				goto(novaUrl);
 			}}>Voltar</Button
 		>
-		<Button backgroundColor="var(--cor-primaria)" color="white" type="submit">
+		<Button
+			id="submitButton"
+			bind:this={submitButton}
+			backgroundColor="var(--cor-primaria)"
+			color="white"
+			type="submit"
+		>
 			{#if data.etapas && !data.etapas.find((etapa) => etapa.emGrupos)}
-				Salvar etapas
+				Salvar etapa
 			{:else}
 				Próximo
 			{/if}

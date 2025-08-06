@@ -481,6 +481,7 @@
 								<div class="row">
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
+										id="formacaoGrupos"
 										borded
 										options={formacaoGrupoOpcoes}
 										selected={etapasData[$selectedEtapa].formacao}
@@ -685,6 +686,7 @@
 		padding: 24px;
 		display: flex;
 		flex-direction: row;
+		justify-content: center;
 	}
 
 	.content-container {

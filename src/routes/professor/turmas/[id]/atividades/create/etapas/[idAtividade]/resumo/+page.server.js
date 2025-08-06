@@ -2,11 +2,16 @@ import { fail, redirect } from "@sveltejs/kit"
 import AtividadeController from "$lib/server/controllers/atividade";
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade";
 import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
-import { AVALIACAO, ATRIBUICAO } from "$lib/constants";
+import GrupoController from '$lib/server/controllers/grupo';
+import IntegranteGrupoController from '$lib/server/controllers/integranteGrupo';
+import { AVALIACAO, ATRIBUICAO, FORMACAO_GRUPO } from "$lib/constants";
+import { log, info, debug } from '$lib/utils/logger';
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
 const formacaoGrupoController = new FormacaoGrupoController()
+const grupoController = new GrupoController()
+const integranteGrupoController = new IntegranteGrupoController()
 
 export async function load({ cookies, params }) {
 	const idAtividade = params.id
@@ -21,6 +26,8 @@ export let actions = {
 		idUsuario = idUsuario.id
 
 		let data = await request.formData();
+		let grupos = data.get("grupos")
+		grupos = JSON.parse(grupos)
 		let etapasData = JSON.parse(data.get('etapas'))
 		const etapas = etapasData;
 
@@ -33,6 +40,7 @@ export let actions = {
 		let dtEntregaMax
 		let atribuicaoNotas
 		let tipoAvaliacaoNota
+		let tipoFormacaoGrupos
 		let realizacao
 		let receberAposPrazo
 		let formacoes
@@ -52,6 +60,7 @@ export let actions = {
 			atribuicaoNotas = etapa.atribuicaoNotasGroup
 			tipoAvaliacaoNota = etapa.tipoAvaliacaoNotasGroup
 			realizacao = etapa.realizacaoGroup
+			tipoFormacaoGrupos = etapa.formacao
 			receberAposPrazo = Boolean(etapa.receberAposPrazo)
 			formacoes = etapa.formacoes
 
@@ -81,6 +90,19 @@ export let actions = {
 				if (emGrupos) {
 					for (const formacao of formacoes) {
 						formacaoGrupoController.cadastra({ id_item_atividade: idItemAtividade, numero_grupos: formacao.nGrupos, numero_alunos: formacao.nAlunos })
+					}
+
+					if (tipoFormacaoGrupos == "Professor forma os grupos") {
+						for (const grupo of grupos) {
+							const idGrupo = (await grupoController.cadastra(grupo.nome, idItemAtividade)).rows[0].id
+							info(`Grupo (${idGrupo}) criado`)
+
+							for (const integrante of grupo.integrantes) {
+								await integranteGrupoController.cadastra(integrante.id_estudante, idGrupo)
+								info(`Integrante (${integrante.id_estudante} cadastrado no grupo ${idGrupo})`)
+							}
+						}
+
 					}
 				}
 			} catch (e) {
