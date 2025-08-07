@@ -1,14 +1,13 @@
 import { redirect } from "@sveltejs/kit"
-import AtividadeController from "$lib/server/controllers/atividade";
-import { FORMACAO_GRUPO } from "$lib/constants";
+import AtividadeController from "$lib/server/controllers/atividade"
 
-const atividadeController = new AtividadeController()
+export async function load({ params }) {
+	const atividadeController = new AtividadeController();
+	const idAtividade = params.idAtividade
 
-export async function load({ cookies, params }) {
-	console.debug("entrou")
-	const idAtividade = params.id
 	const atividade = (await atividadeController.buscaPorId(idAtividade)).toObject()
-	console.debug("atividade => ", atividade)
+
+	console.assert(atividade != null, `Turma ${idAtividade} não encontrada.`)
 
 	return { "atividade": atividade }
 }

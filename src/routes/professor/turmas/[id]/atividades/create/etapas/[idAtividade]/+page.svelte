@@ -22,6 +22,8 @@
 	let { data } = $props();
 	console.debug('data=>', data);
 
+	const atividade = data.atividade
+
 	let novoCriterioTitulo = $state('');
 	let novoCriterioNota = $state('');
 	let novoCriterioDescricao = $state('');
@@ -307,6 +309,7 @@
 		];
 
 		const unsubscribe = etapas.subscribe((valor) => {
+			atividade.prazo = showISOAsGMT4(atividade.prazo);
 			if (valor.length > 0) {
 				etapasData = valor;
 			} else {
@@ -339,6 +342,7 @@
 
 		return unsubscribe; // limpa quando sair da página
 	});
+
 </script>
 
 <Modal
@@ -422,6 +426,7 @@
 									bind:value={etapasData[$selectedEtapa].dtEntregaMin}
 									name="dtEntregaMin"
 									min={etapasData[$selectedEtapa].dtEntregaMin}
+									max={atividade.prazo}
 								/>
 							</div>
 							<div class="row">
@@ -433,6 +438,7 @@
 									bind:value={etapasData[$selectedEtapa].dtEntregaMax}
 									name="dtEntregaMax"
 									min={etapasData[$selectedEtapa].dtEntregaMin}
+									max={atividade.prazo}
 								/>
 							</div>
 							<div class="row">
