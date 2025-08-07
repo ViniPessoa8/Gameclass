@@ -71,7 +71,6 @@ export const actions = {
 			}
 		}
 
-		cookies.set("toast", 'atividade_criada', { path: "/" })
 		redirect(307, request.url + '/etapas/' + idAtividade)
 
 	}

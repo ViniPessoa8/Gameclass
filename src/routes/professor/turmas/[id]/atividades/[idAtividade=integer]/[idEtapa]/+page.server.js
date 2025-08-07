@@ -20,7 +20,6 @@ const estudanteController = new EstudanteController()
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
 	const data = JSON.parse(session_raw);
-	data["perfil"] = cookies.get("perfil")
 	const idEtapa = params.idEtapa
 	const etapa = (await itemAtividadeController.buscaPorId(idEtapa)).toObject()
 	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
@@ -29,6 +28,9 @@ export async function load({ cookies, params }) {
 	const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
 	const grupos = await grupoController.listaPorIdItemAtividade(idEtapa)
 	const formacoes = await formacaoGrupoController.listaPorIdItemAtividade(idEtapa)
+
+	data.perfil = cookies.get("perfil")
+	const visualizacaoEntregas = cookies.get("visualizacao_entregas")
 
 	let avaliacoes = []
 	// TODO: criar método para fazer busca por avaliacoes usando o id do item da atividade
@@ -69,5 +71,5 @@ export async function load({ cookies, params }) {
 	etapa.grupos = grupos
 	etapa.formacoes = formacoes
 
-	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas, "avaliacoes": avaliacoes }
+	return { "usuario": data, "etapa": etapa, "atividade": atividade, "estudantes": estudantes, "entregas": entregas, "avaliacoes": avaliacoes, "visualizacao_entregas": visualizacaoEntregas }
 }

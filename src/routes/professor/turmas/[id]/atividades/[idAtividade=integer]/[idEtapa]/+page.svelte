@@ -20,7 +20,7 @@
 	let idEtapa;
 	let arquivos = [];
 	let arquivo = 'teste';
-	let currentView = 'lista';
+	let currentView = data.visualizacao_entregas;
 
 	$: id = $page.params.id;
 	$: idAtividade = $page.params.idAtividade;
