@@ -7,7 +7,8 @@
 
 	export let data;
 
-	$: estudantes = data.estudantes;
+
+	let estudantes = data.estudantes;
 	if (!$selectedTurmaTabBar) {
 		$selectedTurmaTabBar = 3;
 	}
@@ -16,12 +17,32 @@
 		const url = `/professor/turmas/${data.idTurma}/membros/${estudante.id_estudante}`;
 		goto(url);
 	}
+	let sortBy = 'points'; // 'points' ou 'name'
+
+	function ordenaPorPontos() {
+		sortBy = 'points';
+		estudantes = estudantes.sort((a, b) => b.pontos - a.pontos);
+	}
+
+	function ordenaPorNome() {
+		sortBy = 'name';
+		estudantes = estudantes.sort((a, b) => a.nome.localeCompare(b.nome));
+	}
+
+	ordenaPorNome();
 </script>
 
 <Toaster richColors position="top-center" closeButton />
 <TurmaTabBar />
 <div class="content-membros">
 	<h1>Membros da turma</h1>
+	<div class="sort-buttons">
+		<span>Ordenar por:</span>
+		<button on:click={ordenaPorNome} class:active={sortBy === 'name'}> Nome (A-Z) </button>
+		<button on:click={ordenaPorPontos} class:active={sortBy === 'points'}>
+			Pontos (Decrescente)
+		</button>
+	</div>
 	<div class="membros-container">
 		{#each estudantes as estudante}
 			<button
@@ -73,6 +94,32 @@
 		padding: 12px 12px 12px 0px;
 		border: none;
 		cursor: pointer;
+	}
+
+	.sort-buttons {
+		margin-bottom: 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.sort-buttons button {
+		padding: 0.5rem 1rem;
+		border: 1px solid #ccc;
+		background-color: #f0f0f0;
+		cursor: pointer;
+		border-radius: 5px;
+		transition: background-color 0.2s;
+	}
+
+	.sort-buttons button:hover {
+		background-color: #e0e0e0;
+	}
+
+	.sort-buttons button.active {
+		background-color: #007bff;
+		color: white;
+		border-color: #007bff;
 	}
 
 	.membro-info > p {
