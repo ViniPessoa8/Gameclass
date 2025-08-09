@@ -22,12 +22,6 @@
 			page: 'atividades'
 		},
 		{
-			text: 'Pontuação',
-			icon: icon_pontuacao,
-			alt: 'Ícone de Potuação',
-			page: 'pontuacao'
-		},
-		{
 			text: 'Membros',
 			icon: icon_membros,
 			alt: 'Ícone de membros',
