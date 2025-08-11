@@ -1,5 +1,5 @@
 <script>
-	import BarraDeProgresso from './BarraDeProgresso.svelte';
+	import FlexibleProgressBar from './FlexibleProgressBar.svelte';
 	import CircularIcon from './CircularIcon.svelte';
 	import Button from './Button.svelte';
 	import icon_atividade_turma from '$lib/assets/icon_atividade_turma.png';
@@ -14,8 +14,53 @@
 	export let idTurma;
 	let width = 0;
 	let toggled = false;
-
 	const prazoFinalStr = new Atividade(atividade).formataPrazo();
+	const segments = [];
+
+	const total_etapas_concluidas = atividade.itens_atividade.filter(
+		(i) => i.data_entrega_final <= Date.now()
+	).length;
+	if (total_etapas_concluidas > 0) {
+		segments.push({
+			name: 'etapas_concluidas',
+			descricao: 'Etapas finalizadas',
+			color: 'var(--cor-secundaria-4)',
+			value: total_etapas_concluidas
+		});
+	}
+
+	const total_etapas_abertas = atividade.itens_atividade.filter(
+		(i) => i.data_entrega_inicial <= Date.now() && i.data_entrega_final >= Date.now()
+	).length;
+	if (total_etapas_abertas > 0) {
+		segments.push({
+			name: 'etapas_abertas',
+			descricao: 'Etapas em andamento',
+			color: 'var(--cor-secundaria-2)',
+			value: total_etapas_abertas
+		});
+	}
+
+	const total_etapas_a_lancar = atividade.itens_atividade.filter(
+		(i) => i.data_entrega_inicial >= Date.now()
+	).length;
+	if (total_etapas_a_lancar > 0) {
+		segments.push({
+			name: 'etapas_a_lancar',
+			descricao: 'Etapas agendadas para o futuro',
+			color: 'var(--cor-primaria)',
+			value: total_etapas_a_lancar
+		});
+	}
+
+	if (segments.length == 0) {
+		segments.push({
+			name: 'sem_etapas',
+			descricao: 'Não há etapas cadastradas',
+			color: 'var(--cor-secundaria-1)',
+			value: 0
+		});
+	}
 </script>
 
 <div
@@ -30,7 +75,7 @@
 		}}
 	>
 		<div class="atividade-info-barra">
-			<BarraDeProgresso {width} />
+			<FlexibleProgressBar {segments} />
 		</div>
 		<div class="atividade-info-content">
 			<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
