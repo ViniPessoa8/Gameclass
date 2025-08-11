@@ -1,6 +1,8 @@
 import TurmaController from "$lib/server/controllers/turma";
+import AtividadeController from "$lib/server/controllers/atividade";
 
 const turmaController = new TurmaController()
+const atividadeController = new AtividadeController()
 
 export async function load({ cookies }) {
 	const message = cookies.get("toast");
@@ -13,6 +15,9 @@ export async function load({ cookies }) {
 	for (const turma of turmas) {
 		const nAlunos = (await turmaController.listaAlunos(turma.id)).length
 		turma.numero_alunos = nAlunos
+
+		const atividades = (await atividadeController.listaPorIdTurma(turma.id)).map((a) => a.toObject())
+		turma.atividades = atividades
 	}
 
 	data.turmas = turmas

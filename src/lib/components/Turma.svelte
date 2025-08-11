@@ -2,11 +2,48 @@
 	import CircularIcon from './CircularIcon.svelte';
 	import Button from './Button.svelte';
 	import BarraDeProgresso from './BarraDeProgresso.svelte';
+	import FlexibleProgressBar from './FlexibleProgressBar.svelte';
 	import selectedTurma from '$src/stores/selectedTurma';
 	import { goto } from '$app/navigation';
 
 	export let turma;
 	export let width;
+
+	console.debug('turma => ', turma);
+
+	const segments = [];
+
+	const total_atividades_abertas = turma.atividades.filter((i) => i.prazo >= Date.now()).length;
+	if (total_atividades_abertas > 0) {
+		segments.push({
+			name: 'atividades_abertas',
+			descricao: 'Atividades abertas',
+			backgroundColor: 'var(--cor-secundaria-2)',
+			color: 'black',
+			value: total_atividades_abertas
+		});
+	}
+
+	const total_atividades_concluidas = turma.atividades.filter((i) => i.prazo <= Date.now()).length;
+	if (total_atividades_concluidas > 0) {
+		segments.push({
+			name: 'atividades_concluidas',
+			descricao: 'Atividades concluídas',
+			backgroundColor: 'var(--cor-secundaria-4)',
+			color: 'black',
+			value: total_atividades_concluidas
+		});
+	}
+
+	if (segments.length == 0) {
+		segments.push({
+			name: 'sem_atividades',
+			descricao: 'Não há atividades cadastradas',
+			backgroundColor: 'var(--cor-secundaria-1)',
+			color: 'black',
+			value: 0
+		});
+	}
 </script>
 
 <div class="turma">
@@ -25,7 +62,9 @@
 	</div>
 	<div class="turma-progresso">
 		<span>Progresso de Atividades</span>
-		<BarraDeProgresso {width} />
+
+		<FlexibleProgressBar {segments} />
+		<!-- <BarraDeProgresso {width} /> -->
 	</div>
 	<div class="turma-buttons">
 		<Button

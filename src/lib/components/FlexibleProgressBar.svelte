@@ -9,38 +9,75 @@
 	 * @type {Segment[]}
 	 * Uma lista de objetos, onde cada objeto representa uma seção na barra.
 	 */
-	export let segments = [];
+	let { segments } = $props();
+	let popupContent = $state('');
+	let popupStyle = $state({
+		left: '0px',
+		transform: 'translateX(-50%)',
+		opacity: 0,
+		backgroundColor: '#333'
+	});
 
-	// $: é uma declaração reativa em Svelte.
-	// Este código será re-executado sempre que a prop `segments` mudar.
-	$: total = segments.reduce((sum, segment) => sum + segment.value, 0);
+	const total = $derived(segments.reduce((sum, segment) => sum + segment.value, 0));
+
+	function handleMouseEnter(index, node) {
+		if (!node) return;
+
+		const popupLeft = node.offsetLeft + node.offsetWidth / 2;
+
+		popupContent =
+			segments[index].value > 0
+				? `${segments[index].descricao}: ${segments[index].value}`
+				: segments[index].descricao;
+		popupStyle.left = `${popupLeft}px`;
+		popupStyle.transform = 'translateX(-50%)';
+		popupStyle.backgroundColor = segments[index].backgroundColor;
+		popupStyle.color = segments[index].color;
+		popupStyle.opacity = 1;
+	}
+	function handleMouseLeave() {
+		popupStyle.opacity = 0;
+	}
 </script>
 
-<div class="progress-bar-container" aria-label="Barra de progresso">
+<div
+	class="progress-bar-container"
+	aria-label="Barra de progresso"
+	role="tooltip"
+	onmouseleave={handleMouseLeave}
+>
 	<div class="progress-bar">
 		{#each segments as segment, i (i)}
 			<div
 				class="progress-segment"
 				style="width: {total > 0
 					? (segment.value / total) * 100
-					: 100}%; background-color: {segment.color};"
-				aria-valuenow={segment.value}
-				aria-valuemin="0"
-				aria-valuemax={total}
+					: 100}%; background-color: {segment.backgroundColor}; "
+				aria-label={segment.nome}
 				role="progressbar"
+				onmouseenter={(event) => handleMouseEnter(i, event.currentTarget)}
 			>
-				<span class="segment-label">{segment.value}</span>
+				<span class={segment.value > 0 ? 'segment-label' : 'segment-label zero'}
+					>{segment.value}</span
+				>
 			</div>
 		{/each}
+	</div>
+
+	<div
+		class="hover-info"
+		style="left: {popupStyle.left}; transform: {popupStyle.transform}; opacity: {popupStyle.opacity}; background-color: {popupStyle.backgroundColor}; color: {popupStyle.color}; --arrow-color: {popupStyle.backgroundColor};
+		"
+	>
+		{popupContent}
 	</div>
 </div>
 
 <style>
 	.progress-bar-container {
 		width: 100%;
-		/* Adiciona espaço abaixo para os números não serem cortados do layout */
+		position: relative;
 		padding-bottom: 25px;
-		font-family: sans-serif; /* Recomendo definir uma fonte para consistência */
 	}
 
 	.progress-bar {
@@ -48,16 +85,15 @@
 		width: 100%;
 		height: 12px;
 		border-radius: 6px;
-		position: relative;
 	}
 
 	.progress-segment {
 		position: relative;
 		height: 100%;
 		transition: width 0.4s ease-in-out;
+		cursor: pointer;
 	}
 
-	/* Aplica o raio da borda no primeiro e último elemento para criar o efeito de pílula */
 	.progress-segment:first-child {
 		border-top-left-radius: 6px;
 		border-bottom-left-radius: 6px;
@@ -68,24 +104,54 @@
 		border-bottom-right-radius: 6px;
 	}
 
-	/* Garante que, se houver apenas um segmento, ele tenha todas as bordas arredondadas */
 	.progress-segment:only-child {
 		border-radius: 6px;
 	}
 
 	.segment-label {
 		position: absolute;
-		bottom: -22px; /* Posição abaixo da barra */
+		bottom: -22px;
 		right: 0;
-		/* Centraliza o número na linha de divisão */
 		transform: translateX(50%);
-		font-size: 0.875rem; /* 14px */
+		font-size: 0.875rem;
 		font-weight: 500;
-		color: #828282; /* Cinza neutro, como na imagem */
+		color: #828282;
+		pointer-events: none;
 	}
 
-	/* O último número deve ficar alinhado ao final da barra, e não no meio da borda */
+	.zero {
+		left: 0;
+	}
+
 	.progress-segment:last-child .segment-label {
 		transform: translateX(0);
+	}
+
+	.hover-info {
+		position: absolute;
+		top: -50px;
+		box-sizing: border-box;
+		padding: 8px 12px;
+		border-radius: 4px;
+		text-align: center;
+		font-size: 1rem;
+		font-weight: 600;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+		transition: opacity 0.3s ease-in-out;
+		pointer-events: none;
+		white-space: nowrap;
+		z-index: 10;
+	}
+
+	.hover-info::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 35px;
+		transform: translateX(-50%);
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent var(--arrow-color) transparent;
+		pointer-events: none;
 	}
 </style>

@@ -24,7 +24,8 @@
 		segments.push({
 			name: 'etapas_concluidas',
 			descricao: 'Etapas finalizadas',
-			color: 'var(--cor-secundaria-4)',
+			backgroundColor: 'var(--cor-secundaria-4)',
+			color: 'black',
 			value: total_etapas_concluidas
 		});
 	}
@@ -36,7 +37,8 @@
 		segments.push({
 			name: 'etapas_abertas',
 			descricao: 'Etapas em andamento',
-			color: 'var(--cor-secundaria-2)',
+			backgroundColor: 'var(--cor-secundaria-2)',
+			color: 'black',
 			value: total_etapas_abertas
 		});
 	}
@@ -48,7 +50,8 @@
 		segments.push({
 			name: 'etapas_a_lancar',
 			descricao: 'Etapas agendadas para o futuro',
-			color: 'var(--cor-primaria)',
+			backgroundColor: 'var(--cor-primaria)',
+			color: 'white',
 			value: total_etapas_a_lancar
 		});
 	}
@@ -57,7 +60,8 @@
 		segments.push({
 			name: 'sem_etapas',
 			descricao: 'Não há etapas cadastradas',
-			color: 'var(--cor-secundaria-1)',
+			backgroundColor: 'var(--cor-secundaria-1)',
+			color: 'black',
 			value: 0
 		});
 	}

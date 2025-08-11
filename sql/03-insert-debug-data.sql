@@ -250,7 +250,7 @@ VALUES
 	(1,
 	'Atividade Exemplo 1',
 	'Atividade de exemplo.',
-	'2025-03-01T00:00:00.000Z', 1),
+	'2025-09-01T00:00:00.000Z', 1),
 	(2,
 	'Atividade Exemplo 2',
 	'Atividade de exemplo.',
