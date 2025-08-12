@@ -10,7 +10,6 @@
 	const atividades = data.atividades;
 
 	onMount(() => {
-		// for (const atividade of atividades) {
 		for (let i = 0; i < atividades.length; i++) {
 			if (atividades[i].itens_atividade.length == 0) {
 				atividades[i].media_obtida = '-';
@@ -18,13 +17,13 @@
 			} else {
 				atividades[i].media_obtida = (
 					atividades[i].itens_atividade.reduce((acc, ia) => {
-						if (!ia.avaliacao) return acc;
+						if (ia.avaliacao.length == 0) return acc;
 
-						return (
+						const r =
 							acc +
-							ia.avaliacao?.criterios_avaliados.reduce((acc2, a) => a.nota_atribuida + acc2, 0) /
-								ia.avaliacao?.criterios_avaliados.length
-						);
+							ia.avaliacao?.reduce((acc2, a) => a.nota_atribuida + acc2, 0) / ia.avaliacao?.length;
+
+						return r;
 					}, 0) / atividades[i].itens_atividade.length
 				).toFixed(1);
 
@@ -60,15 +59,14 @@
 					<p style="font-size: 18px">Média</p>
 					<h3>{atividade.media_obtida}/{atividade.media_max}</h3>
 					<hr style="border-color: var(--cor-secundaria)" />
-					<!-- for item atividade -->
 					{#each atividade.itens_atividade as itemAtividade, index}
 						<p style="font-size:18px"><u><b>{index + 1}. {itemAtividade.titulo}</b></u></p>
 						<p style="font-size:18px">
-							{#if itemAtividade.avaliacao?.criterios_avaliados.filter((a) => a.nota_atribuida)}
-								{itemAtividade.avaliacao?.criterios_avaliados.reduce(
-									(acc, a) => a.nota_atribuida + acc,
-									0
-								) / itemAtividade.avaliacao?.criterios_avaliados.length}
+							{#if itemAtividade.avaliacao.length != 0}
+								<b
+									>{itemAtividade.avaliacao?.reduce((acc, a) => a.nota_atribuida + acc, 0) /
+										itemAtividade.avaliacao?.length}
+								</b>
 								/ {itemAtividade.criterios.reduce((acc, c) => c.pontuacao_max + acc, 0).toFixed(1)}
 							{:else}
 								- / {itemAtividade.criterios

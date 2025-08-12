@@ -3,7 +3,8 @@ import {
 	alteraAvaliacaoEntregaBD,
 	buscaAvaliacaoEntregaBD,
 	avaliaIntegranteGrupoBD,
-	buscaAvaliacaoIntegrantesBD
+	buscaAvaliacaoIntegrantesBD,
+	buscaPorEstudanteItemAtividadeBD
 } from "../repositories/avaliacao.js";
 
 import Avaliacao from "$lib/models/Avaliacao.js";
@@ -49,5 +50,9 @@ export default class AvaliacaoController {
 
 	async buscaAvaliacaoIntegrantes(idEntrega) {
 		return await buscaAvaliacaoIntegrantesBD(idEntrega);
+	}
+
+	async buscaPorEstudanteItemAtividade(idEstudante, idItemAtividade) {
+		return await buscaPorEstudanteItemAtividadeBD(idEstudante, idItemAtividade);
 	}
 }

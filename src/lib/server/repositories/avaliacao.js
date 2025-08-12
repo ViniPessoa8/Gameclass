@@ -206,3 +206,36 @@ export async function buscaAvaliacaoIntegrantesBD(idEntrega) {
 		throw new Error(`Erro ao buscar avaliação dos integrantes da entrega (${idEntrega}): ${e}`);
 	}
 }
+
+export async function buscaPorEstudanteItemAtividadeBD(idEstudante, idItemAtividade) {
+	const db = getPool();
+
+	try {
+		const query = {
+			text: `
+				SELECT 
+					ra.id AS id_realizar_avaliacao,
+					ra.id_entrega,
+					ac.id AS id_avaliacao_criterio,
+					ac.nota_atribuida,
+					ac.id_criterio
+				FROM ${DB_INFO.tables.realizar_avaliacao} ra
+				LEFT JOIN ${DB_INFO.tables.avaliacao_criterio} ac
+					ON ra.id = ac.id_realizar_avaliacao
+				LEFT JOIN ${DB_INFO.tables.entrega} e
+					ON ra.id_entrega = e.id
+				LEFT JOIN ${DB_INFO.tables.item_atividade} ia
+					ON ia.id = e.id_item_atividade
+				WHERE e.id_estudante = $1
+					AND e.id_item_atividade = $2
+			`,
+			values: [idEstudante, idItemAtividade]
+		};
+
+		const res = await db.query(query);
+		return res.rows;
+
+	} catch (e) {
+		throw new Error(`Erro ao buscar avaliação do estudante ${idEstudante} no item ${idItemAtividade}: ${e}`);
+	}
+}

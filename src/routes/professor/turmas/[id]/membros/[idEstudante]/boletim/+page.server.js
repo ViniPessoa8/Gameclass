@@ -36,7 +36,7 @@ export async function load({ params, cookies }) {
 		for (const ia of a.itens_atividade) {
 			ia.criterios = await itemAtividadeController.listaCriteriosPorId(a.id)
 			ia.notas = await itemAtividadeController.listaNotasDeCriteriosPorId(a.id)
-			ia.avaliacao = await avaliacaoController.buscaPorEstudanteItemAtividade(ia.id, idEstudante)
+			ia.avaliacao = await avaliacaoController.buscaPorEstudanteItemAtividade(idEstudante, ia.id)
 		}
 
 		data.atividades.push(a);
