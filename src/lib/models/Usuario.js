@@ -36,4 +36,25 @@ export class Usuario {
 	getResumo() {
 		return `${this.nome} (nível ${this.nivel})`;
 	}
+
+	toObject() {
+		return {
+			id: this.id,
+			nome: this.nome,
+			login: this.login,
+			hash: this.hash,
+			salt: this.salt,
+			bio: this.bio,
+			email: this.email,
+			acumulo_xp: this.acumulo_xp,
+			nivel: this.nivel,
+			matricula_aluno: this.matricula_aluno,
+			data_nascimento: this.data_nascimento,
+			data_criacao: this.data_criacao,
+			ultimo_acesso: this.ultimo_acesso,
+			cor: this.cor,
+			id_instituicao: this.id_instituicao
+		};
+	}
+
 }
