@@ -130,8 +130,17 @@ export async function possuiAvaliacoesPendentesBD(idItemAtividade) {
 	try {
 		let query = {
 			text: `
-					select 
-						COUNT(e.*) - COUNT(r.*) diferenca
+					select (select 
+						COUNT(e.*) 
+					from 
+						public.item_atividade ia,
+						public.entrega e
+					where
+						ia.id = $1
+						and e.id_item_atividade = ia.id)
+						-
+					(select 
+						COUNT(r.*)
 					from 
 						public.item_atividade ia,
 						public.entrega e,
@@ -140,7 +149,8 @@ export async function possuiAvaliacoesPendentesBD(idItemAtividade) {
 						ia.id = $1
 						and e.id_item_atividade = ia.id
 						and e.id = r.id_entrega 
-					;`,
+					) as pendencias;
+		`,
 			values: [idItemAtividade]
 		}
 

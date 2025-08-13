@@ -166,7 +166,7 @@ export default class ItemAtividadeController {
 		} else if (now <= itemAtividade.data_entrega_final) {
 			status = 2
 
-		} else if (possuiAvaliacoesPendentes) {
+		} else if (possuiAvaliacoesPendentes != 0) {
 			status = 3
 
 		} else {
@@ -201,7 +201,7 @@ export default class ItemAtividadeController {
 
 		const res = await possuiAvaliacoesPendentesBD(idItemAtividade);
 
-		return res.diferenca != 0
+		return res.pendencias
 
 	}
 
