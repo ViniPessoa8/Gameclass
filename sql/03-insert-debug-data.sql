@@ -254,7 +254,7 @@ VALUES
 	(2,
 	'Atividade Exemplo 2',
 	'Atividade de exemplo.',
-	'2025-06-01T00:00:00.000Z', 1);
+	'2025-09-01T00:00:00.000Z', 1);
 ALTER SEQUENCE atividade_id_seq RESTART WITH 3;
 
 INSERT INTO item_atividade(

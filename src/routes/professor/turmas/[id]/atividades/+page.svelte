@@ -26,6 +26,7 @@
 		if (data.toast === 'etapas_criadas') {
 			toast.success('Etapa(s) definida(s) com sucesso.');
 		}
+		sessionStorage.removeItem('grupos');
 	});
 </script>
 

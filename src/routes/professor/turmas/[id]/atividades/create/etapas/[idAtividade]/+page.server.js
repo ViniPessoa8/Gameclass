@@ -1,5 +1,6 @@
 import { redirect } from "@sveltejs/kit"
 import AtividadeController from "$lib/server/controllers/atividade"
+import { FORMACAO_GRUPO } from "../../../../../../../../lib/constants";
 
 export async function load({ params }) {
 	const atividadeController = new AtividadeController();
