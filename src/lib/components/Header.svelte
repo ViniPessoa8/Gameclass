@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { derived } from 'svelte/store';
 	import CircularIcon from './CircularIcon.svelte';
+	import { goto } from '$app/navigation';
 
 	export let session;
 
@@ -49,6 +50,10 @@
 			};
 		});
 	});
+
+	function onClickUsuario() {
+		goto('/professor/perfil');
+	}
 </script>
 
 <div class="header">
@@ -64,7 +69,7 @@
 			{/if}
 		{/each}
 	</nav>
-	<div class="logged-user">
+	<button class="logged-user" on:click={onClickUsuario}>
 		<div class="info">
 			<h4 class="logged-user-name">{session.login}</h4>
 			<p class="logged-user-role">{session.perfil}</p>
@@ -74,7 +79,7 @@
 			backgroundColor={'#' + session.cor}
 			text={session.login[0].toUpperCase()}
 		/>
-	</div>
+	</button>
 </div>
 
 <style>
@@ -95,6 +100,11 @@
 		display: flex;
 		gap: 10px;
 		text-align: end;
+		border: none;
+		background-color: var(--cor-primaria);
+		color: white;
+		align-items: center;
+		cursor: pointer;
 	}
 
 	.logged-user-name {
