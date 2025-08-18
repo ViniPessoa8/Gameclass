@@ -32,6 +32,8 @@
 		font-weight: bold;
 		border-radius: 15px;
 		padding: 10px 15px;
+		display: flex;
+		align-items: center;
 	}
 
 	.button:hover {

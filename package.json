@@ -34,7 +34,9 @@
 		"cypress": "^14.4.0",
 		"dotenv": "^16.5.0",
 		"dtrace-provider": "^0.8.8",
+		"feather-icons": "^4.29.2",
 		"pg": "^8.16.0",
+		"svelte-feather-icons": "^4.2.0",
 		"svelte-input-mask": "^1.1.0",
 		"svelte-sonner": "^1.0.1",
 		"svelte-tags-input": "^6.0.2"
