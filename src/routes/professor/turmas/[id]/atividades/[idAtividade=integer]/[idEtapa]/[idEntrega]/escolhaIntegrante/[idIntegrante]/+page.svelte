@@ -167,10 +167,8 @@
 					formaction="?/avaliarTodos"
 					backgroundColor="var(--cor-secundaria)"
 					color="white"
-					>{data.entrega.notas.length == 0
-						? 'Repetir avaliação para todos'
-						: 'Editar avaliação para todos'}</Button
-				>
+					>Aplicar para toda a equipe
+				</Button>
 				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white"
 					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 				>
