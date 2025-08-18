@@ -3,11 +3,15 @@
 	export let backgroundColor = 'var(--cor-secundaria)';
 	export let color = 'var(--cor-primaria)';
 	export let borderRadius;
+	export let disabled = false;
 </script>
 
 <a {href}>
 	<button
 		class="button"
+		class:disabled
+		{disabled}
+		{...$$restProps}
 		style="
 			background-color: {backgroundColor};
 			color: {color};
@@ -34,5 +38,15 @@
 		background-color: #a1a1a1;
 		transition: 0.3s;
 		cursor: pointer;
+	}
+
+	.button:not(.disabled):hover {
+		background-color: #a1a1a1;
+		cursor: pointer;
+	}
+
+	.button.disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
 	}
 </style>

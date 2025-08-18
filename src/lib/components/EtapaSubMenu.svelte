@@ -5,6 +5,7 @@
 	import ItemAtividade from '$lib/models/ItemAtividade.js';
 	import { page } from '$app/state';
 	import { STATUS_ITEM_ATIVIDADE } from '../constants';
+	import { EditIcon, EyeIcon } from 'svelte-feather-icons';
 
 	export let itemAtividade;
 	export let idAtividade;
@@ -45,9 +46,14 @@
 			</h3>
 		</div>
 	</div>
-	<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}" color="white"
-		>Visualizar</ButtonRedirect
-	>
+	<div class="botoes">
+		<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}" color="white"
+			><EyeIcon size="24" /></ButtonRedirect
+		>
+		<ButtonRedirect disabled href="atividades/{idAtividade}/{itemAtividade.id}" color="white"
+			><EditIcon size="24" /></ButtonRedirect
+		>
+	</div>
 </div>
 
 <style>
@@ -134,5 +140,11 @@
 		padding-right: 4px;
 		background-color: var(--cor-secundaria);
 		border-radius: 10px;
+	}
+
+	.botoes {
+		display: flex;
+		flex-direction: row;
+		gap: 4px;
 	}
 </style>
