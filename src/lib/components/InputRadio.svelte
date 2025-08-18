@@ -14,6 +14,7 @@
 	export let group = [];
 	export let selected = '';
 	export let requerConfirmacao = false;
+	export let disabled = false;
 	export let onClickOption = () => {};
 
 	if (options) {
@@ -32,6 +33,7 @@
 					value={option.text}
 					checked={selected.trim() == option.text}
 					on:change
+					{disabled}
 					on:click={(e) => {
 						if (requerConfirmacao) {
 							e.preventDefault();
@@ -47,6 +49,7 @@
 					value={option.text}
 					checked={selected.trim() == option.text}
 					on:change
+					{disabled}
 					on:click={(e) => {
 						if (requerConfirmacao) {
 							e.preventDefault();

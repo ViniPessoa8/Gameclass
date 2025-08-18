@@ -45,7 +45,8 @@ export async function load({ url, cookies }) {
 
 	}
 
-	if (parts[4] && parts[4] != 'create' && parts[3] === "atividades") {
+	console.debug("parts[6]", parts[6])
+	if (parts[4] && parts[4] != 'create' && parts[3] === "atividades" && parts[6] != "edit") {
 		// Atividade
 		if (parts.length > 4) {
 			const atividade = await atividadeController.buscaPorId(parts[4])

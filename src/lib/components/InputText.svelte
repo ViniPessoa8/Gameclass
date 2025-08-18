@@ -9,6 +9,7 @@
 	export let backgroundColor = 'var(--cor-primaria)';
 	export let padding = '14px';
 	export let fontWeight = '400';
+	export let disabled = false;
 </script>
 
 {#if borded}
@@ -21,6 +22,7 @@
 			type="text"
 			{name}
 			{placeholder}
+			{disabled}
 			bind:value
 			on:input={inputHandler}
 			on:blur
@@ -35,6 +37,7 @@
 			type="text"
 			{name}
 			{placeholder}
+			{disabled}
 			bind:value
 			on:input={inputHandler}
 			on:blur
@@ -73,6 +76,18 @@
 
 	input:focus {
 		outline: none;
+	}
+
+	input:disabled {
+		background-color: #f0f0f0; /* Um cinza claro padrão para desabilitado */
+		border-color: #dcdcdc;
+		color: #a1a1a1; /* Cor do texto mais clara */
+		cursor: not-allowed; /* Cursor indica que não é clicável */
+	}
+
+	/* Opcional: Estilizar também o placeholder do campo desabilitado */
+	input:disabled::placeholder {
+		color: #b3b3b3;
 	}
 
 	::placeholder {

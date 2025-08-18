@@ -26,7 +26,7 @@
 				label = session.estudante.login;
 			}
 
-			if (parts[4] != 'create' && parts[3] == 'atividades') {
+			if (parts[4] != 'create' && parts[3] == 'atividades' && parts[6] == 'edit') {
 				if (i == 4) {
 					label = session.atividade.titulo;
 				}
