@@ -23,8 +23,8 @@
 		0: 'pendente',
 		1: 'agendado',
 		2: 'lancado',
-		'Aguardando Correção': 'aguardando_correcao',
-		3: 'corrigido'
+		3: 'aguardando_correcao',
+		4: 'corrigido'
 	};
 </script>
 
@@ -113,15 +113,18 @@
 		border-radius: 10px;
 	}
 
-	.status-text-pendente,
-	.status-text-lancado,
 	.status-text-agendado {
 		color: var(--cor-secundaria);
 	}
 
+	.status-text-pendente,
+	.status-text-lancado {
+		color: var(--cor-primaria);
+	}
+
 	/* 3. AGUARDANDO_CORRECAO */
 	.status-text-aguardando_correcao {
-		color: red;
+		color: var(--cor-secundaria-2);
 	}
 
 	.status-grade-aguardando_correcao {

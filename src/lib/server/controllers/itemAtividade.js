@@ -204,11 +204,11 @@ export default class ItemAtividadeController {
 		} else if (now < itemAtividade.data_entrega_inicial) {
 			status = 1
 
-		} else if (now <= itemAtividade.data_entrega_final) {
-			status = 2
-
 		} else if (possuiAvaliacoesPendentes != 0) {
 			status = 3
+
+		} else if (now <= itemAtividade.data_entrega_final) {
+			status = 2
 
 		} else {
 			status = 4
