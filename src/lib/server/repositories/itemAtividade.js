@@ -46,7 +46,7 @@ export async function alteraItemAtividadeBD(idItemAtividade, titulo, descricao, 
 export async function listaItensDaAtividadePorIdBD(idAtividadePai) {
 	const db = getPool()
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id_atividade = $1`,
+		text: `SELECT * FROM ${DB_INFO.tables.item_atividade} WHERE id_atividade = $1 AND arquivado = FALSE`,
 		values: [idAtividadePai]
 	}
 
@@ -182,6 +182,30 @@ export async function possuiAvaliacoesPendentesBD(idItemAtividade) {
 
 	} catch (e) {
 		throw (`Erro ao listar notas de criteoriso por id do item da atividade (${idItemAtividade}): ${e}`)
+	}
+
+}
+
+export async function arquivaItemAtividadePorIdBD(idItemAtividade) {
+	const db = getPool()
+	try {
+		let query = {
+			text: `
+				UPDATE
+					${DB_INFO.tables.item_atividade}
+				SET
+					arquivado = TRUE
+				WHERE
+					id = $1
+		`,
+			values: [idItemAtividade]
+		}
+
+		let res = await db.query(query)
+		return res.rows[0]
+
+	} catch (e) {
+		throw (`Erro ao arquivar item da atividade (${idItemAtividade}): ${e}`)
 	}
 
 }

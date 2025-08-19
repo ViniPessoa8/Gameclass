@@ -29,6 +29,9 @@
 		color: var(--cor-primaria);
 		border-radius: 15px;
 		padding: 10px 15px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 	}
 
 	.button:disabled {

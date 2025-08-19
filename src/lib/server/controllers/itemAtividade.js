@@ -7,7 +7,8 @@ import {
 	listaCriteriosPorIdItemAtividadeBD,
 	listaNotasDeCriteriosPorIdItemAtividadeBD,
 	possuiAvaliacoesPendentesBD,
-	alteraItemAtividadeBD
+	alteraItemAtividadeBD,
+	arquivaItemAtividadePorIdBD
 } from "../repositories/itemAtividade";
 
 import ItemAtividade from "$lib/models/ItemAtividade.js";
@@ -234,16 +235,20 @@ export default class ItemAtividadeController {
 		return await listaNotasDeCriteriosPorIdItemAtividadeBD(idItemAtividade);
 	}
 
-
 	async possuiAvaliacoesPendentes(idItemAtividade) {
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (possuiAvaliacoesPendentes)";
 		}
 
 		const res = await possuiAvaliacoesPendentesBD(idItemAtividade);
-
 		return res.pendencias
-
 	}
 
+	async arquivar(idItemAtividade) {
+		if (!idItemAtividade) {
+			throw "Dados obrigatórios não foram preenchidos. (possuiAvaliacoesPendentes)";
+		}
+
+		return await arquivaItemAtividadePorIdBD(idItemAtividade);
+	}
 }

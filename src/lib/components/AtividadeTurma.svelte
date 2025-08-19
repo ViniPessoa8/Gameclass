@@ -7,13 +7,14 @@
 	import icon_seta_baixo from '$lib/assets/icon_seta_baixo.png';
 	import EtapaSubMenu from './EtapaSubMenu.svelte';
 	import { goto } from '$app/navigation';
-
 	import Atividade from '$lib/models/Atividade.js';
 
-	export let atividade;
-	export let idTurma;
-	let width = 0;
-	let toggled = false;
+	let data = $props();
+	let atividade = data.atividade;
+	let idTurma = data.idTurma;
+	let showModal = $state(false);
+	let width = $state(0);
+	let toggled = $state(false);
 	const prazoFinalStr = new Atividade(atividade).formataPrazo();
 	const segments = [];
 

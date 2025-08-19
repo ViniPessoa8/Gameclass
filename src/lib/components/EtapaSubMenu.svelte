@@ -1,14 +1,19 @@
 <script>
 	import ButtonRedirect from './ButtonRedirect.svelte';
+	import Button from './Button.svelte';
 	import IconeInformacao from './IconeInformacao.svelte';
 	import CircularIcon from './CircularIcon.svelte';
 	import ItemAtividade from '$lib/models/ItemAtividade.js';
 	import { page } from '$app/state';
 	import { STATUS_ITEM_ATIVIDADE } from '../constants';
 	import { ArchiveIcon, EditIcon, EyeIcon } from 'svelte-feather-icons';
+	import Modal from '$lib/components/Modal.svelte';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	export let itemAtividade;
 	export let idAtividade;
+	let showModal = false;
+	let itemParaArquivar;
 
 	itemAtividade = new ItemAtividade(itemAtividade);
 
@@ -26,8 +31,56 @@
 		3: 'aguardando_correcao',
 		4: 'corrigido'
 	};
+
+	async function confirmaModalArquivarItemAtividade() {
+		console.debug('Arquiva item atividade ' + itemParaArquivar);
+		try {
+			const response = await fetch(`/api/item_atividade/${itemParaArquivar}/arquivar`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
+				throw new Error(errorData.message || `Erro ${response.status}: Falha ao arquivar o item.`);
+			}
+		} catch (error) {
+			console.error('Erro ao arquivar atividade:', error);
+		}
+
+		window.location.reload();
+		showModal = false;
+	}
+
+	function handleArquivaItemAtividade(item) {
+		showModal = true;
+		itemParaArquivar = item;
+	}
 </script>
 
+<Modal
+	visible={showModal}
+	title="Atenção"
+	message="Deseja realmente arquivar o item?"
+	buttons={[
+		{
+			label: 'Sim',
+			onClick: async () => {
+				await confirmaModalArquivarItemAtividade();
+			},
+			color: 'green'
+		},
+		{
+			label: 'Não',
+			onClick: () => {
+				showModal = false;
+			},
+			color: 'red'
+		}
+	]}
+/>
 <div class="etapa">
 	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={iconText} />
 	<div class="titulo-etapa">
@@ -53,8 +106,10 @@
 		<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}/edit" color="white"
 			><EditIcon size="24" /></ButtonRedirect
 		>
-		<ButtonRedirect disabled href="atividades/{idAtividade}/{itemAtividade.id}" color="white"
-			><ArchiveIcon size="24" /></ButtonRedirect
+		<Button
+			backgroundColor="var(--cor-secundaria)"
+			on:click={handleArquivaItemAtividade(itemAtividade.id)}
+			color="white"><ArchiveIcon size="24" /></Button
 		>
 	</div>
 </div>
