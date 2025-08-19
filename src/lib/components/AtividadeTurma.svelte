@@ -65,6 +65,16 @@
 			value: 0
 		});
 	}
+
+	function comparaItemAtividade(a, b) {
+		if (a.id < b.id) {
+			return -1;
+		}
+		if (a.id > b.id) {
+			return 1;
+		}
+		return 0;
+	}
 </script>
 
 <div
@@ -101,7 +111,7 @@
 			{#if atividade.itens_atividade.length === 0}
 				<h3 style="align-self: center; margin: 8px;">(Não há etapas nessa atividade)</h3>
 			{/if}
-			{#each atividade.itens_atividade as itemAtividade}
+			{#each atividade.itens_atividade.sort(comparaItemAtividade) as itemAtividade}
 				<hr />
 				<div class="etapas-container">
 					<EtapaSubMenu {itemAtividade} {idTurma} idAtividade={atividade.id} />
