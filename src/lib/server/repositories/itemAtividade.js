@@ -18,6 +18,29 @@ export async function cadastraItemAtividadeBD(titulo, descricao, notaMax, dataEn
 	}
 }
 
+// update
+
+export async function alteraItemAtividadeBD(idItemAtividade, titulo, descricao, dataEntregaInicial, dataEntregaFinal) {
+	const db = getPool()
+	const query = {
+		text: `UPDATE 
+							${DB_INFO.tables.item_atividade} 
+						SET 
+							titulo = $2, descricao = $3, data_entrega_inicial = $4, data_entrega_final = $5
+						WHERE
+							id = $1
+`,
+		values: [idItemAtividade, titulo, descricao, dataEntregaInicial, dataEntregaFinal]
+	}
+
+	try {
+		const res = await db.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao alterar item da atividade (${idItemAtividade}): [${e.name} => ${e.message}`)
+	}
+}
+
 // SELECT
 
 export async function listaItensDaAtividadePorIdBD(idAtividadePai) {

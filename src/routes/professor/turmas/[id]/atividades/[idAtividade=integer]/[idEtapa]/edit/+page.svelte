@@ -18,14 +18,11 @@
 
 	// export let data;
 	let { data } = $props();
-	console.debug('data=>', data);
 
 	const atividade = data.atividade;
 	const etapa = data.etapa;
 	etapa.data_entrega_inicial = showISOAsGMT4(etapa.data_entrega_inicial);
 	etapa.data_entrega_final = showISOAsGMT4(etapa.data_entrega_final);
-	console.debug('etapa ', etapa);
-	console.debug('etapa.data_entrega_inicial ', etapa.data_entrega_inicial);
 
 	let novoCriterioTitulo = $state('');
 	let novoCriterioNota = $state('');
@@ -70,9 +67,14 @@
 
 	function onSubmit(formData) {
 		if (validaFormulario()) {
-			formData.set('etapas', JSON.stringify(etapasData));
-			$etapas = etapasData;
-			sessionStorage.setItem('etapas', JSON.stringify(etapasData));
+			const etapaObj = {
+				id: etapa.id,
+				titulo: etapa.titulo,
+				descricao: etapa.descricao,
+				data_entrega_inicial: etapa.data_entrega_inicial,
+				data_entrega_final: etapa.data_entrega_final
+			};
+			formData.set('etapa', JSON.stringify(etapaObj));
 
 			return true;
 		}
@@ -84,39 +86,15 @@
 		let titulo = etapa.titulo;
 		if (titulo === '') throw new Error('Título vazio');
 
-		let realizacao = etapa.realizacaoGroup;
-		let atribuicaoNotas = etapa.atribuicaoNotasGroup;
-		realizacao = realizacao === 'Individual' ? REALIZACAO.individual : REALIZACAO.grupos;
-		atribuicaoNotas =
-			atribuicaoNotas === 'Média Simples' ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada;
+		// for (const etapa of etapasData) {
+		let dataInicial = etapa.data_entrega_inicial;
+		let dataFinal = etapa.data_entrega_final;
+		let tituloEtapa = etapa.titulo;
 
-		let criterios = etapa.criterios;
-		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
+		if (!isValidDate(dataInicial)) throw new Error(`Data inicial inválida (Etapa: ${tituloEtapa})`);
 
-		let notaMax = etapa.criterios
-			.map((criterio) => parseFloat(criterio.nota_max))
-			.reduce((item, acc) => item + acc);
-		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
-			throw new Error('Nota total passa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos');
-
-		for (const etapa of etapasData) {
-			let dataInicial = etapa.dtEntregaMin;
-			let dataFinal = etapa.dtEntregaMax;
-			let tituloEtapa = etapa.titulo;
-			let realizacao = etapa.realizacaoGroup;
-			let formacoes = JSON.parse(JSON.stringify(etapa.formacoes));
-
-			if (!isValidDate(dataInicial))
-				throw new Error(`Data inicial inválida (Etapa "${tituloEtapa}")`);
-
-			if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa "${tituloEtapa}")`);
-
-			// Formação de grupos da etapa
-			const filter = formacoes.filter((e) => e.nGrupos === null && realizacao == 'Em Grupos');
-			if (filter.length > 0) {
-				throw new Error(`Formação de grupos com dados incompletos`);
-			}
-		}
+		if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa: ${tituloEtapa})`);
+		// }
 
 		return true;
 	}
@@ -425,7 +403,7 @@
 									borded
 									bind:value={etapa.data_entrega_inicial}
 									name="dtEntregaMin"
-									min={etapa.data_entrega_inicial}
+									min={Date.now()}
 									max={atividade.prazo}
 								/>
 							</div>

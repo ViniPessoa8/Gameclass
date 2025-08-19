@@ -11,28 +11,23 @@ export async function load({ params }) {
 	const idEtapa = params.idEtapa
 
 	const atividade = (await atividadeController.buscaPorId(idAtividade)).toObject()
-	const etapa = (await itemAtividadeController.buscaPorId(idAtividade)).toObject()
+	const etapa = (await itemAtividadeController.buscaPorId(idEtapa)).toObject()
 	etapa.criterios = await itemAtividadeController.listaCriteriosPorId(etapa.id)
 
 	console.assert(atividade != null, `Turma ${idAtividade} não encontrada.`)
 
-	return { "atividade": atividade, "etapa": etapa }
+	return { "atividade": atividade, "etapa": etapa, "voltarPara": "" }
 }
 
 export let actions = {
 	default: async ({ cookies, params, request, url }) => {
+		const itemAtividadeController = new ItemAtividadeController();
 		const formData = await request.formData()
-		const realizacao = formData.get("realizacao_grupos")
-		const formacao = formData.get(FORMACAO_GRUPO.professor_escolhe)
+		const etapa = JSON.parse(formData.get("etapa"))
 
-		cookies.set("item_atividade", JSON.stringify(Object.fromEntries(formData)), { path: '/' })
+		await itemAtividadeController.altera(etapa)
 
-		if (realizacao == "Em Grupos" && formacao == "Professor forma os grupos") {
-			redirect(300, `${url.pathname}/definir-grupos/`)
+		redirect(300, `/professor/turmas/${params.id}/atividades`)
 
-		} else {
-			redirect(300, `${url.pathname}/resumo/`)
-
-		}
 	}
 }

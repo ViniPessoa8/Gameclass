@@ -6,7 +6,8 @@ import {
 	removeItemAtividadePorIdBD,
 	listaCriteriosPorIdItemAtividadeBD,
 	listaNotasDeCriteriosPorIdItemAtividadeBD,
-	possuiAvaliacoesPendentesBD
+	possuiAvaliacoesPendentesBD,
+	alteraItemAtividadeBD
 } from "../repositories/itemAtividade";
 
 import ItemAtividade from "$lib/models/ItemAtividade.js";
@@ -94,6 +95,46 @@ export default class ItemAtividadeController {
 
 		if (res.rowCount > 0) {
 			return res.rows[0].id
+		}
+	}
+
+	async altera(
+		{ id,
+			titulo,
+			descricao,
+			data_entrega_inicial,
+			data_entrega_final }
+	) {
+		const camposFaltando = [];
+
+		if (!id) {
+			camposFaltando.push('idItemAtividade');
+		}
+		if (!titulo) {
+			camposFaltando.push('titulo');
+		}
+		if (!data_entrega_inicial) {
+			camposFaltando.push('dataEntregaInicial');
+		}
+		if (!data_entrega_final) {
+			camposFaltando.push('dataEntregaFinal');
+		}
+
+		if (camposFaltando.length > 0) {
+			throw `Os seguintes campos obrigatórios não foram preenchidos ou são inválidos: ${camposFaltando.join(', ')}. (Item Atividade)`;
+		}
+
+		let res;
+		res = await alteraItemAtividadeBD(
+			id,
+			titulo,
+			descricao,
+			data_entrega_inicial,
+			data_entrega_final,
+		);
+
+		if (res.rowCount > 0) {
+			return true
 		}
 	}
 
