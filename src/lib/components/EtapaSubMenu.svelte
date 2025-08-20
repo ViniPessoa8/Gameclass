@@ -8,12 +8,10 @@
 	import { STATUS_ITEM_ATIVIDADE } from '../constants';
 	import { ArchiveIcon, EditIcon, EyeIcon } from 'svelte-feather-icons';
 	import Modal from '$lib/components/Modal.svelte';
-	import { goto, invalidateAll } from '$app/navigation';
 
-	export let itemAtividade;
-	export let idAtividade;
-	let showModal = false;
-	let itemParaArquivar;
+	let { itemAtividade, idAtividade } = $props();
+	let showModal = $state(false);
+	let itemParaArquivar = $state();
 
 	itemAtividade = new ItemAtividade(itemAtividade);
 
@@ -108,7 +106,7 @@
 		>
 		<Button
 			backgroundColor="var(--cor-secundaria)"
-			on:click={handleArquivaItemAtividade(itemAtividade.id)}
+			on:click={() => handleArquivaItemAtividade(itemAtividade.id)}
 			color="white"><ArchiveIcon size="24" /></Button
 		>
 	</div>

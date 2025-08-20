@@ -12,6 +12,22 @@ export async function cadastraAtividadeBD(titulo, descricao, prazo, id_turma) {
 	return res
 }
 
+export async function atualizaAtividadeBD(id, titulo, descricao, prazo) {
+	const db = getPool()
+	const query = {
+		text: `UPDATE ${DB_INFO.tables.atividade} 
+					SET titulo = $2,
+						descricao = $3,
+						prazo = $4
+					WHERE
+						id = $1`,
+		values: [id, titulo, descricao, prazo]
+	}
+
+	const res = await db.query(query)
+	return res
+}
+
 export async function removeAtividadeBD(titulo, id_turma) {
 	const db = getPool()
 	const query = {

@@ -8,13 +8,16 @@
 	import EtapaSubMenu from './EtapaSubMenu.svelte';
 	import { goto } from '$app/navigation';
 	import Atividade from '$lib/models/Atividade.js';
+	import { ArchiveIcon, EditIcon } from 'svelte-feather-icons';
+	import ButtonRedirect from './ButtonRedirect.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
-	let data = $props();
-	let atividade = data.atividade;
-	let idTurma = data.idTurma;
+	let { atividade, idTurma } = $props();
 	let showModal = $state(false);
+	let itemParaArquivar = $state();
 	let width = $state(0);
 	let toggled = $state(false);
+
 	const prazoFinalStr = new Atividade(atividade).formataPrazo();
 	const segments = [];
 
@@ -76,8 +79,56 @@
 		}
 		return 0;
 	}
+
+	function handleArquivaAtividade(item) {
+		showModal = true;
+		itemParaArquivar = item;
+	}
+
+	async function confirmaModalArquivarItemAtividade() {
+		console.debug('Arquiva item atividade ' + itemParaArquivar);
+		try {
+			const response = await fetch(`/api/item_atividade/${itemParaArquivar}/arquivar`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
+				throw new Error(errorData.message || `Erro ${response.status}: Falha ao arquivar o item.`);
+			}
+		} catch (error) {
+			console.error('Erro ao arquivar atividade:', error);
+		}
+
+		window.location.reload();
+		showModal = false;
+	}
 </script>
 
+<Modal
+	visible={showModal}
+	title="Atenção"
+	message="Deseja realmente arquivar o item?"
+	buttons={[
+		{
+			label: 'Sim',
+			onClick: async () => {
+				await confirmaModalArquivarItemAtividade();
+			},
+			color: 'green'
+		},
+		{
+			label: 'Não',
+			onClick: () => {
+				showModal = false;
+			},
+			color: 'red'
+		}
+	]}
+/>
 <div
 	class={toggled ? 'atividade-container-toggled' : 'atividade-container'}
 	bind:clientWidth={width}
@@ -97,7 +148,21 @@
 			<div class="column">
 				<h2>{atividade.titulo}</h2>
 			</div>
-			<span>Prazo: {prazoFinalStr}</span>
+			<div class="column right">
+				<span>Prazo: {prazoFinalStr}</span>
+				<div class="botoes">
+					{#if toggled}
+						<ButtonRedirect href="atividades/{atividade.id}/edit" color="white"
+							><EditIcon size="24" /></ButtonRedirect
+						>
+						<Button
+							backgroundColor="var(--cor-secundaria)"
+							on:click={handleArquivaAtividade(atividade.id)}
+							color="white"><ArchiveIcon size="24" /></Button
+						>
+					{/if}
+				</div>
+			</div>
 			{#if toggled}
 				<img src={icon_seta_cima} alt="Seta para abrir a turma" />
 			{:else}
@@ -105,7 +170,6 @@
 			{/if}
 		</div>
 	</div>
-	<!-- TODO: Etapas as component (parameter: list of etapas)-->
 	{#if toggled}
 		<div class="etapas">
 			<h2>Etapas</h2>
@@ -118,7 +182,6 @@
 					<EtapaSubMenu {itemAtividade} {idTurma} idAtividade={atividade.id} />
 				</div>
 			{/each}
-			<!-- TODO: Toggle Button para abrir as etapas -->
 			<div class="button">
 				<Button
 					on:click={() => {
@@ -173,6 +236,11 @@
 		align-self: center;
 	}
 
+	.botoes {
+		display: flex;
+		flex-direction: row;
+	}
+
 	/* button { */
 	/* 	background: none; */
 	/* 	color: inherit; */
@@ -185,7 +253,6 @@
 
 	.atividade-info-content > span {
 		margin-left: auto;
-		font-size: 1.2em;
 	}
 
 	.atividade-info-content > img {
@@ -196,6 +263,18 @@
 		margin-left: 24px;
 		display: flex;
 		flex-direction: column;
+	}
+
+	.right {
+		margin-left: auto;
+		font-size: 1.2em;
+	}
+
+	.botoes {
+		display: flex;
+		gap: 4px;
+		margin-top: 8px;
+		justify-content: center;
 	}
 
 	.etapas {

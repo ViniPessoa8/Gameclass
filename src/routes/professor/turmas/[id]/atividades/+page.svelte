@@ -28,6 +28,10 @@
 		}
 		sessionStorage.removeItem('grupos');
 	});
+
+	function comparaAtividade(a, b) {
+		return a.id - b.id;
+	}
 </script>
 
 <Toaster richColors position="top-center" closeButton />
@@ -37,7 +41,7 @@
 	{#if atividades.length == 0}
 		<p>(Não há atividades nessa turma)</p>
 	{:else}
-		{#each atividades as atividade}
+		{#each atividades.sort(comparaAtividade) as atividade}
 			<AtividadeTurma {atividade} idTurma={id} />
 		{/each}
 	{/if}

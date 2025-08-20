@@ -4,6 +4,9 @@
 	export let color = 'var(--cor-primaria)';
 	export let borderRadius;
 	export let disabled = false;
+	export let size;
+
+	$: width = size ? `${size}px` : undefined;
 </script>
 
 <a {href}>
@@ -12,10 +15,11 @@
 		class:disabled
 		{disabled}
 		{...$$restProps}
-		style="
-			background-color: {backgroundColor};
-			color: {color};
-			border-radius: {borderRadius}"
+		style:width
+		style:height={width}
+		style:color
+		style:background-color={backgroundColor}
+		style:border-radius={borderRadius}
 		on:click
 	>
 		<slot />
