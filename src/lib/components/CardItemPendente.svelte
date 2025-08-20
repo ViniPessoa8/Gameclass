@@ -1,4 +1,3 @@
-
 <script>
 	import { goto } from '$app/navigation';
 
@@ -7,7 +6,8 @@
 		disciplina = '',
 		idTurma = 0,
 		idAtividade = 0,
-		idItemAtividade = 0;
+		idItemAtividade = 0,
+		cor = 'var(--cor-primaria)';
 
 	function onClick() {
 		const url = `/professor/turmas/${idTurma}/atividades/${idAtividade}/${idItemAtividade}`;
@@ -19,8 +19,10 @@
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{nome}</b></p>
 		<p style="font-size: 20px; margin-top: 4px; margin-bottom: 4px">{disciplina}</p>
-		<hr style="border-color: var(--cor-secundaria-2)">
-		<p style="font-size: 20px; margin-top: 4px; color: var(--cor-secundaria-2)">{pendencias} pendência(s)</p>
+		<hr style="border-color: var(--cor-secundaria-2)" />
+		<p style="font-size: 20px; margin-top: 4px; color: var(--cor-secundaria-2)">
+			{pendencias} pendência(s)
+		</p>
 	</div>
 </button>
 
@@ -38,7 +40,7 @@
 		gap: 12px;
 		cursor: pointer;
 		color: var(--text-1);
-		background-color: var(--cor-primaria)
+		background-color: var(--cor-primaria);
 	}
 
 	.info-container {

@@ -6,8 +6,10 @@
 	import CardItemPendente from '$lib/components/CardItemPendente.svelte';
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 	import { goto } from '$app/navigation';
+	import CircularIcon from '$lib/components/CircularIcon.svelte';
 
 	export let data;
+	console.debug('data =>', data);
 
 	const usuario = data.usuario;
 	const itensPendentes = data.itensPendentes;
@@ -22,9 +24,16 @@
 
 <Toaster richColors position="top-center" closeButton />
 <div class="content-estudante">
-	<div class="estudante-nome-login">
-		<h1>{usuario.login}</h1>
-		<h3>{usuario.nome}</h3>
+	<div class="estudante-nome">
+		<CircularIcon
+			type="text"
+			backgroundColor={'#' + data.usuario.cor}
+			text={data.usuario.login[0].toUpperCase()}
+		/>
+		<div class="estudante-nome-login">
+			<h3 class="login">{usuario.login}</h3>
+			<h3 class="nome">{usuario.nome}</h3>
+		</div>
 	</div>
 
 	<div class="button-container">
@@ -82,16 +91,28 @@
 		gap: 12px;
 	}
 
+	.estudante-nome {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		align-self: start;
+	}
+
 	.estudante-nome-login {
 		display: flex;
 		flex-direction: row;
 		gap: 12px;
 		align-items: end;
-		align-self: start;
 	}
 
-	.estudante-nome-login > h3 {
+	.login {
+		font-weight: 800;
+		font-size: 32px;
+	}
+
+	.nome {
 		font-weight: 500;
+		margin-bottom: 4px;
 	}
 
 	.itens-pendentes-container {
