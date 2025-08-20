@@ -34,7 +34,7 @@
 		background-color: white;
 		margin: 8px;
 		padding: 8px 8px 8px 8px;
-		border-radius: 50px;
+		border-radius: 24px;
 		gap: 12px;
 		cursor: pointer;
 		color: var(--text-1);
