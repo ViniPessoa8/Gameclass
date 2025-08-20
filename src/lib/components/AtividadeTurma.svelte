@@ -14,7 +14,7 @@
 
 	let { atividade, idTurma } = $props();
 	let showModal = $state(false);
-	let itemParaArquivar = $state();
+	let atividadeParaArquivar = $state();
 	let width = $state(0);
 	let toggled = $state(false);
 
@@ -82,13 +82,13 @@
 
 	function handleArquivaAtividade(item) {
 		showModal = true;
-		itemParaArquivar = item;
+		atividadeParaArquivar = item;
 	}
 
 	async function confirmaModalArquivarItemAtividade() {
-		console.debug('Arquiva item atividade ' + itemParaArquivar);
+		console.debug('Arquiva item atividade ' + atividadeParaArquivar);
 		try {
-			const response = await fetch(`/api/item_atividade/${itemParaArquivar}/arquivar`, {
+			const response = await fetch(`/api/atividade/${atividadeParaArquivar}/arquivar`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -157,7 +157,7 @@
 						>
 						<Button
 							backgroundColor="var(--cor-secundaria)"
-							on:click={handleArquivaAtividade(atividade.id)}
+							on:click={() => handleArquivaAtividade(atividade.id)}
 							color="white"><ArchiveIcon size="24" /></Button
 						>
 					{/if}

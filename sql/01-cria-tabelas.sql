@@ -67,6 +67,7 @@ CREATE TABLE atividade (
 	"titulo" VARCHAR(255) NOT NULL,
 	"descricao" TEXT,
 	"prazo" TIMESTAMP NOT NULL,
+	"arquivado" BOOLEAN NOT NULL DEFAULT FALSE,
 	"id_turma" BIGINT REFERENCES turma(id) NOT NULL,
 	PRIMARY KEY ("titulo", "id_turma")
 );

@@ -4,7 +4,8 @@ import {
 	listaPorIdTurmaBD,
 	buscaPorTituloBD,
 	removeAtividadeBD,
-	atualizaAtividadeBD
+	atualizaAtividadeBD,
+	arquivarAtividadeBD
 } from "../repositories/atividade.js";
 
 import ItemAtividadeController from "./itemAtividade.js";
@@ -78,5 +79,9 @@ export default class AtividadeController {
 	async listaPorIdTurma(id_turma) {
 		const res = await listaPorIdTurmaBD(id_turma);
 		return res.rows.map((row) => new Atividade(row));
+	}
+
+	async arquivar(idAtividade) {
+		return await arquivarAtividadeBD(idAtividade);
 	}
 }
