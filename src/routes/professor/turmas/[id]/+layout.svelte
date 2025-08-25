@@ -25,5 +25,6 @@
 
 	.content {
 		flex: 1;
+		margin-bottom: 64px;
 	}
 </style>

@@ -61,20 +61,22 @@ export async function load({ url, cookies }) {
 			}
 
 			// Estudante/Grupo
-			if (parts.length > 6) {
-				const entrega = await entregaController.buscaPorId(parts[6])
+			if (parts[6] != "edit") {
+				if (parts.length > 6) {
+					const entrega = await entregaController.buscaPorId(parts[6])
 
-				if (data.etapa.em_grupos) {
-					data.grupo = await grupoController.buscaPorId(entrega.id_grupo_de_alunos)
-				} else {
-					data.estudante = await estudanteController.buscaPorId(entrega.id_estudante)
+					if (data.etapa.em_grupos) {
+						data.grupo = await grupoController.buscaPorId(entrega.id_grupo_de_alunos)
+					} else {
+						data.estudante = await estudanteController.buscaPorId(entrega.id_estudante)
+					}
+				}
+				// Integrante
+				if (parts.length > 7 && Number.isInteger(parts[7])) {
+					data.integrante = await estudanteController.buscaPorId(parts[7])
 				}
 			}
 
-			// Integrante
-			if (parts.length > 7 && Number.isInteger(parts[7])) {
-				data.integrante = await estudanteController.buscaPorId(parts[7])
-			}
 
 		}
 

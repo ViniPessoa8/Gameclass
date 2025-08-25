@@ -1,8 +1,11 @@
 
 import { fail, redirect, error } from "@sveltejs/kit";
-import { registerNewUser } from "$controllers/auth";
+// import { registerNewUser } from "$controllers/auth";
 import { getRandomInt } from "$lib/utils/util";
 import { CORES_PERFIL } from "$lib/constants";
+import UsuarioController from "$lib/server/controllers/usuario";
+
+const usuarioController = new UsuarioController()
 
 export const actions = {
 	default: async ({ request, cookies }) => {
@@ -18,7 +21,7 @@ export const actions = {
 		try {
 
 			const cor = CORES_PERFIL[getRandomInt(CORES_PERFIL.length)].slice(1)
-			res = await registerNewUser(data.get("nome"), data.get("login"), data.get("password"), data.get("instituicao"), data.get("dtNasc"), bio, data.get("email"), data.get("matriculaAluno"), cor)
+			res = await usuarioController.registra(data.get("nome"), data.get("login"), data.get("password"), data.get("instituicao"), data.get("dtNasc"), bio, data.get("email"), data.get("matriculaAluno"), cor)
 		} catch (e) {
 			// TODO: Verificar se é mesmo esse erro
 			return fail(400, { already_registered: true })
