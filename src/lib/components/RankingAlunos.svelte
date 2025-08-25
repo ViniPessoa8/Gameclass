@@ -40,11 +40,14 @@
 
 <style scoped>
 	.container {
-		margin-top: -24px;
 		float: right;
 		background-color: var(--cor-secundaria);
 		width: 325px;
-		height: 1000px;
+		overflow-y: auto;
+	}
+
+	.ranking {
+		margin: 0 auto;
 	}
 
 	.titulo {

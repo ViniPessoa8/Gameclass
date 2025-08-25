@@ -8,12 +8,22 @@
 	const idTurma = data.idTurma;
 </script>
 
-<div>
+<div class="page-layout">
+	<div class="content">
+		<slot></slot>
+	</div>
 	{#if !urlAtual.includes('create') && urlAtual.split('/').length < 8}
 		<RankingAlunos listaAlunos={data['ranking']} {idTurma} />
 	{/if}
-	<slot></slot>
 </div>
 
 <style>
+	.page-layout {
+		display: flex;
+		min-height: 100vh;
+	}
+
+	.content {
+		flex: 1;
+	}
 </style>
