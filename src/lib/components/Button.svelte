@@ -14,7 +14,13 @@
 	{type}
 	class="button"
 	{disabled}
-	style="background-color: {backgroundColor}; color: {color}; margin-top: {marginTop}; font-size: {fontSize}; width: {width}; height: {height}; font-weight:{fontWeight}"
+	style:background-color={backgroundColor}
+	style:color
+	style:margin-top={marginTop}
+	style:font-size={fontSize}
+	style:width
+	style:height
+	style:font-weight={fontWeight}
 	on:click
 	{...$$restProps}
 >
@@ -24,7 +30,6 @@
 <style>
 	.button {
 		border: none;
-		min-height: 48px;
 		font-family: var(--font);
 		color: var(--cor-primaria);
 		border-radius: 15px;

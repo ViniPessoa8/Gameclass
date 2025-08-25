@@ -106,7 +106,7 @@
 			{/if}
 		</div>
 
-		<Button type="submit" onclick={checkInputs}>Login</Button>
+		<Button width="fit-content" type="submit" onclick={checkInputs}>Login</Button>
 		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>
