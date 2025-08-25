@@ -26,7 +26,7 @@
 	</button>
 </a>
 
-<style>
+<style scoped>
 	.button {
 		border: none;
 		height: 48px;
@@ -38,6 +38,10 @@
 		padding: 10px 15px;
 		display: flex;
 		align-items: center;
+	}
+
+	a {
+		text-decoration: none;
 	}
 
 	.button:hover {

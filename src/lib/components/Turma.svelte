@@ -5,6 +5,8 @@
 	import FlexibleProgressBar from './FlexibleProgressBar.svelte';
 	import selectedTurma from '$src/stores/selectedTurma';
 	import { goto } from '$app/navigation';
+	import ButtonRedirect from './ButtonRedirect.svelte';
+	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 
 	export let turma;
 	export let width;
@@ -73,7 +75,10 @@
 				$selectedTurma = turma.id;
 			}}>Abrir</Button
 		>
-		<Button>Relatório da Turma</Button>
+		<ButtonRedirect href="turmas/{turma.id}/relatorio">
+			<img class="icon_relatorio" src={icon_relatorio} alt="icone_relatorio" />
+			Relatório da Turma</ButtonRedirect
+		>
 	</div>
 </div>
 
@@ -128,5 +133,9 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+
+	.icon_relatorio {
+		margin-right: 8px;
 	}
 </style>
