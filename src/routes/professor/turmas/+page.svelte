@@ -49,6 +49,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 60px;
+		margin-bottom: 64px;
 	}
 
 	.sem-turmas {

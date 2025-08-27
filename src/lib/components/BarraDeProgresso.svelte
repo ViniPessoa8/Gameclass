@@ -1,9 +1,8 @@
 <script>
 	import { COLORS } from '../constants';
 	export let width;
-	export let input = [1, 2, 3];
+	export let input = [1, 2, 3]; // input[0] > input[1] > input[2] > ....
 
-	// input[0] > input[1] > input[2] > ....
 	checkInput(input);
 
 	let input_step;
