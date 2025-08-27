@@ -48,3 +48,27 @@ u.nome, u.login, u.hash, u.salt, u.bio, u.email, u.acumulo_xp, u.nivel, u.matric
 		throw (`Erro ao buscar estudante por id do grupo (${idGrupo}): ${e}`)
 	}
 }
+
+export async function listaConquistasEstudantePorIdBD(idEstudante) {
+	const db = getPool()
+	const query = {
+		text: `	SELECT 
+							c.*
+						FROM 
+							${DB_INFO.tables.conquista} c,
+							${DB_INFO.tables.conquista_estudante} ec,
+							${DB_INFO.tables.estudante} e
+						WHERE 
+							c.id = ec.id_conquista
+							AND ec.id_estudante = e.id
+							AND e.id = $1`,
+		values: [parseInt(idEstudante)]
+	}
+
+	try {
+		const res = await db.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao listar conquistas do estudante (${idEstudante}): ${e}`)
+	}
+}

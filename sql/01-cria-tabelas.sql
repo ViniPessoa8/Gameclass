@@ -217,3 +217,22 @@ CREATE TABLE pontuacao (
 	"id_turma" BIGINT REFERENCES turma(id) NOT NULL,
 	PRIMARY KEY ("id")
 );
+
+CREATE TABLE conquista (
+	"id" BIGSERIAL UNIQUE,
+	"nome" VARCHAR(100) NOT NULL UNIQUE,
+	"descricao" TEXT NOT NULL,
+	"emblema_url" VARCHAR(255) NOT NULL,
+	"pontos_xp" INT NOT NULL DEFAULT 0,
+	PRIMARY KEY ("id")
+);
+
+CREATE TABLE conquista_estudante (
+	"id" BIGSERIAL UNIQUE,
+	"data_conquista" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"id_estudante" BIGINT REFERENCES estudante(id) NOT NULL,
+	"id_conquista" BIGINT REFERENCES conquista(id) NOT NULL,
+	"id_turma" BIGINT REFERENCES turma(id),
+	PRIMARY KEY ("id")
+);
+

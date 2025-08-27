@@ -18,7 +18,9 @@
 		goto(url);
 	}
 
-	onMount(() => {});
+	onMount(() => {
+		console.debug('conquistas => ', estudante.conquistas);
+	});
 </script>
 
 <Toaster richColors position="top-center" closeButton />

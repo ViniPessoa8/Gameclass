@@ -8,7 +8,9 @@
 		"preview": "vite preview",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"test": "vitest --sequence.setupfiles='list'"
+		"test": "vitest --sequence.setupfiles='list'",
+		"db:seed": "node src/lib/seeders/seed.js",
+		"start:dev": "npm run db:seed && npm run dev"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^6.0.1",
