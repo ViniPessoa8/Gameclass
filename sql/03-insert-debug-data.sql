@@ -475,11 +475,3 @@ INSERT INTO avaliacao_criterio("nota_atribuida", "id_realizar_avaliacao", "id_cr
 (5, 6, 6);
 ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 13;
 
-INSERT INTO conquista("nome", "descricao", "emblema_url", "pontos_xp") VALUES
-('Maior nota da turma', 'Obteve a maior média final da turma.', 
-	pg_read_file('/var/lib/postgresql/data/teste.txt') , 100);
-ALTER SEQUENCE conquista_id_seq RESTART WITH 2;
-
-INSERT INTO conquista_estudante("id_estudante", "id_conquista", "id_turma") VALUES
-(6, 1, 1);
-ALTER SEQUENCE conquista_estudante_id_seq RESTART WITH 2;

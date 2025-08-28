@@ -233,6 +233,7 @@ CREATE TABLE conquista_estudante (
 	"id_estudante" BIGINT REFERENCES estudante(id) NOT NULL,
 	"id_conquista" BIGINT REFERENCES conquista(id) NOT NULL,
 	"id_turma" BIGINT REFERENCES turma(id),
+	CONSTRAINT uq_estudante_conquista_turma UNIQUE (id_estudante, id_conquista, id_turma),
 	PRIMARY KEY ("id")
 );
 
