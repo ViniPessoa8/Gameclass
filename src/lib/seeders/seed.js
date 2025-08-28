@@ -12,7 +12,7 @@ dotenv.config();
 const conquistasDir = path.join(process.cwd(), 'static', 'images', 'conquistas');
 
 // A URL base da sua API, que também viria de variáveis de ambiente
-const API_BASE_URL = process.env.ORIGIN || 'http://localhost:3000';
+const API_BASE_URL = process.env.ORIGIN || 'http://localhost:5173';
 
 
 async function seedDatabase() {
@@ -55,14 +55,14 @@ async function seedDatabase() {
 
 			// --- LÓGICA DE ATRIBUIÇÃO ---
 			// Defina o ID do estudante que receberá a conquista de exemplo.
-			const ESTUDANTE_ALVO_ID = 6;
+			let estudanteAlvoId = 6;
 			// Defina o nome da conquista que será atribuída.
-			const NOME_CONQUISTA_ALVO = "Maior nota da Turma";
+			let nomeConquistaAlvo = "Maior nota da Turma";
 			// Defina o ID da turma que será atribuída.
-			const TURMA_ALVO_ID = 1;
+			let turmaAlvoId = 1;
 			// Se a conquista atual for a que queremos atribuir, fazemos a ligação.
-			if (conquista.nome === NOME_CONQUISTA_ALVO) {
-				console.log(`-> Atribuindo conquista "${NOME_CONQUISTA_ALVO}" ao estudante ID: ${ESTUDANTE_ALVO_ID}...`);
+			if (conquista.nome === nomeConquistaAlvo) {
+				console.log(`-> Atribuindo conquista "${nomeConquistaAlvo}" ao estudante ID: ${estudanteAlvoId}...`);
 
 				// Query 2: Insere a ligação na tabela conquista_estudante.
 				const queryLigacao = `
@@ -73,11 +73,35 @@ async function seedDatabase() {
 				`;
 				// ON CONFLICT ... DO NOTHING: Se a ligação já existir, não faz nada.
 
-				const valuesLigacao = [ESTUDANTE_ALVO_ID, id_conquista, TURMA_ALVO_ID];
+				const valuesLigacao = [estudanteAlvoId, id_conquista, turmaAlvoId];
 				await db.query(queryLigacao, valuesLigacao);
 
-				console.log(`-> Atribuição concluída.`);
 			}
+
+			// Defina o ID do estudante que receberá a conquista de exemplo.
+			estudanteAlvoId = 6;
+			// Defina o nome da conquista que será atribuída.
+			nomeConquistaAlvo = "Quebrando o gelo";
+			// Defina o ID da turma que será atribuída.
+			turmaAlvoId = 1;
+			// Se a conquista atual for a que queremos atribuir, fazemos a ligação.
+			if (conquista.nome === nomeConquistaAlvo) {
+				console.log(`-> Atribuindo conquista "${nomeConquistaAlvo}" ao estudante ID: ${estudanteAlvoId}...`);
+
+				// Query 2: Insere a ligação na tabela conquista_estudante.
+				const queryLigacao = `
+					INSERT INTO conquista_estudante (id_estudante, id_conquista, id_turma)
+					VALUES ($1, $2, $3)
+					ON CONFLICT (id_estudante, id_conquista, id_turma)
+					DO NOTHING;
+				`;
+				// ON CONFLICT ... DO NOTHING: Se a ligação já existir, não faz nada.
+
+				const valuesLigacao = [estudanteAlvoId, id_conquista, turmaAlvoId];
+				await db.query(queryLigacao, valuesLigacao);
+
+			}
+			console.log(`-> Atribuição concluída.`);
 		}
 
 		console.log('Seeding de conquistas concluído com sucesso!');
