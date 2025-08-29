@@ -16,7 +16,7 @@ export async function load({ params }) {
 
 	console.assert(atividade != null, `Turma ${idAtividade} não encontrada.`)
 
-	return { "atividade": atividade, "etapa": etapa, "voltarPara": "" }
+	return { "atividade": atividade, "etapa": etapa }
 }
 
 export let actions = {

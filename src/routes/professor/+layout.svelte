@@ -2,30 +2,13 @@
 	import '../../static/app.css';
 	import Header from '$lib/components/Header.svelte';
 	import SideBar from '$lib/components/SideBar.svelte';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Button from '$lib/components/Button.svelte';
-	import { onMount } from 'svelte';
 	import { historyStack } from '$src/stores/history.js';
 	import BackButton from '../../lib/components/BackButton.svelte';
 
 	export let data;
-	let previousPage;
-	let voltarPara;
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
-
-	$: voltarPara = $page.data.voltarPara;
-	$: console.debug('voltarPara => ', voltarPara);
-
-	function onBack() {
-		if (voltarPara) {
-			goto(voltarPara);
-		} else {
-			const partes = $page.url.pathname.split('/');
-			partes.pop();
-			goto(partes.join('/'));
-		}
-	}
 
 	afterNavigate(() => {
 		// Acessa o valor atual da store
