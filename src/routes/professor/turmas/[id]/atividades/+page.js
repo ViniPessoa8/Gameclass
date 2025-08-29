@@ -1,6 +1,7 @@
-export function load({ data }) {
+export function load({ data, url }) {
+
 	return {
 		...data,
-		voltarPara: `/professor/turmas`
+		voltarPara: url.pathname
 	};
 }

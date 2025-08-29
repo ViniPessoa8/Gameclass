@@ -6,6 +6,8 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
+	import { historyStack } from '$src/stores/history.js';
+	import BackButton from '../../lib/components/BackButton.svelte';
 
 	export let data;
 	let previousPage;
@@ -13,6 +15,7 @@
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
 
 	$: voltarPara = $page.data.voltarPara;
+	$: console.debug('voltarPara => ', voltarPara);
 
 	function onBack() {
 		if (voltarPara) {
@@ -23,6 +26,24 @@
 			goto(partes.join('/'));
 		}
 	}
+
+	afterNavigate(() => {
+		// Acessa o valor atual da store
+		const currentStack = $historyStack;
+
+		// Pega a última página na pilha
+		const lastPage = currentStack[currentStack.length - 1];
+
+		// Pega o pathname da página atual
+		const currentPage = $page.url.pathname;
+
+		// Evita adicionar a mesma página duas vezes seguidas na pilha
+		// (acontece em recarregamentos ou navegações programáticas para a mesma rota)
+		if (lastPage !== currentPage) {
+			// Adiciona a página atual à pilha
+			historyStack.update((stack) => [...stack, currentPage]);
+		}
+	});
 </script>
 
 <div class="turmas-container">
@@ -32,11 +53,7 @@
 		<div class="content-page">
 			<!-- TODO: melhorar design do botão -->
 			{#if !BACK_SKIP.includes($page.url.pathname)}
-				<div class="button-container">
-					<Button backgroundColor="var(--cor-primaria)" color="white" on:click={onBack}
-						>{'<-'}</Button
-					>
-				</div>
+				<BackButton />
 			{/if}
 			<slot></slot>
 		</div>
@@ -44,11 +61,6 @@
 </div>
 
 <style>
-	.button-container {
-		position: absolute;
-		margin: 20px;
-	}
-
 	.turmas-container {
 		display: flex;
 		flex-direction: column;
