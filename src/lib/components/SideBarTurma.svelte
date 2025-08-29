@@ -26,13 +26,8 @@
 	aria-hidden="true"
 	style="background-color: {backgroundColor};"
 	on:click={() => {
-		$selectedTurma = turma.id;
-		try {
-			let url = `/${perfil}/turmas/` + turma.id + '/atividades';
-			goto(url);
-		} catch (e) {
-			console.error('Erro:', e);
-		}
+		const url = `/${perfil}/turmas/${turma.id}/atividades`;
+		goto(url);
 	}}
 >
 	<CircularIcon backgroundColor="#{color}" text={acronym} type="text" />

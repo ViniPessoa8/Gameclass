@@ -6,24 +6,28 @@
 	import { page } from '$app/stores';
 	import { historyStack } from '$src/stores/history.js';
 	import BackButton from '../../lib/components/BackButton.svelte';
+	import selectedTurma from '$src/stores/selectedTurma.js';
 
 	export let data;
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
 
-	afterNavigate(() => {
-		// Acessa o valor atual da store
-		const currentStack = $historyStack;
+	// Declaração reativa: Executa sempre que $page mudar.
+	$: {
+		const turmaIdFromUrl = $page.params.id;
 
-		// Pega a última página na pilha
+		if (turmaIdFromUrl) {
+			// Atualiza a store com o ID vindo da URL.
+			$selectedTurma = turmaIdFromUrl;
+		}
+	}
+
+	afterNavigate(() => {
+		const currentStack = $historyStack;
 		const lastPage = currentStack[currentStack.length - 1];
 
-		// Pega o pathname da página atual
 		const currentPage = $page.url.pathname;
 
-		// Evita adicionar a mesma página duas vezes seguidas na pilha
-		// (acontece em recarregamentos ou navegações programáticas para a mesma rota)
 		if (lastPage !== currentPage) {
-			// Adiciona a página atual à pilha
 			historyStack.update((stack) => [...stack, currentPage]);
 		}
 	});
