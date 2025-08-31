@@ -36,7 +36,7 @@ export async function load({ url, cookies }) {
 	const turmas = await turmaController.listaPorProfessor(data.id)
 
 	// Turma
-	if (parts.length > 2 && parts[2]) {
+	if (parts.length > 2 && parts[2] && parts[2].trim() != "create") {
 		data.turma = await turmaController.buscaPorId(parts[2])
 	}
 

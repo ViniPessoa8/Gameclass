@@ -18,7 +18,9 @@
 		return parts.map((part, i) => {
 			let label = part;
 
-			if (i == 2) {
+			console.debug('parts =>', parts);
+
+			if (i == 2 && parts[2] && parts[2] != 'create') {
 				label = session.turma.nome;
 			}
 
