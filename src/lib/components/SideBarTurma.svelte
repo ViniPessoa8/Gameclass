@@ -2,6 +2,7 @@
 	import CircularIcon from './CircularIcon.svelte';
 	import selectedTurma from '$src/stores/selectedTurma.js';
 	import { goto } from '$app/navigation';
+	import { Tooltip } from '@svelte-plugins/tooltips';
 
 	export let turma;
 	export let perfil;
@@ -21,21 +22,23 @@
 	}
 </script>
 
-<div
-	class="turma"
-	aria-hidden="true"
-	style="background-color: {backgroundColor};"
-	on:click={() => {
-		const url = `/${perfil}/turmas/${turma.id}/atividades`;
-		goto(url);
-	}}
->
-	<CircularIcon backgroundColor="#{color}" text={acronym} type="text" />
-	<div class="info">
-		<h1>{turma.nome}</h1>
-		<p style="color:{disciplinaCor}">{turma.disciplina}</p>
+<Tooltip content="This is my tooltip message." delay="1000">
+	<div
+		class="turma"
+		aria-hidden="true"
+		style="background-color: {backgroundColor};"
+		on:click={() => {
+			const url = `/${perfil}/turmas/${turma.id}/atividades`;
+			goto(url);
+		}}
+	>
+		<CircularIcon backgroundColor="#{color}" text={acronym} type="text" />
+		<div class="info">
+			<h1>{turma.nome}</h1>
+			<p style="color:{disciplinaCor}">{turma.disciplina}</p>
+		</div>
 	</div>
-</div>
+</Tooltip>
 
 <style>
 	.turma {
