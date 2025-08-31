@@ -167,6 +167,10 @@
 		justify-content: end;
 	}
 
+	.status {
+		font-size: 16px;
+	}
+
 	/* 	0. PENDENTE */
 	/* 1. AGENDADO */
 	/* 2. LANCADO */
