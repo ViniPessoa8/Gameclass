@@ -82,7 +82,12 @@
 <div class="etapa">
 	<CircularIcon backgroundColor="var(--cor-secundaria)" type="text" text={iconText} />
 	<div class="titulo-etapa">
-		<h3>{titulo}</h3>
+		<div class="titulo-etapa-col">
+			<h3>{titulo}</h3>
+			<h5>
+				Avaliação: <b>{itemAtividade.tipo_avaliacao_nota == 1 ? 'Inidividual' : 'Em grupos'}</b>
+			</h5>
+		</div>
 		<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 	</div>
 	<div class="column info">
@@ -133,12 +138,22 @@
 		display: flex;
 	}
 
-	.titulo-etapa > h3 {
+	.titulo-etapa-col {
 		margin-right: 8px;
 		margin-left: 8px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.titulo-etapa-col > h3 {
 		word-wrap: break-word;
 		display: inline-block;
 		white-space: normal;
+	}
+
+	.titulo-etapa-col > h5 {
+		font-weight: 400;
+		font-size: 16px;
 	}
 
 	.column .info {
