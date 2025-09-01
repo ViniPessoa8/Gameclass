@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
+	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
 	import Comentario from '$lib/components/Comentario.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Anexo from '$lib/components/Anexo.svelte';
@@ -65,6 +66,12 @@
 		}
 	}
 
+	function abrePerfilDoUsuario(estudante) {
+		console.debug('estudante => ', estudante);
+		const url = `/professor/turmas/${data.idTurma}/membros/${estudante.id}`;
+		goto(url);
+	}
+
 	onMount(async () => {
 		await fetchComentarios(data.entrega.id);
 
@@ -114,7 +121,21 @@
 		{#if data.etapa.em_grupos}
 			<h2>Grupo: {data.nome}</h2>
 		{:else}
-			<h2>Estudante: {data.nome}</h2>
+			<h2>Estudante:</h2>
+			<button
+				class="membro-container"
+				on:click={() => {
+					abrePerfilDoUsuario(data.estudante);
+				}}
+			>
+				<div class="membro-icon">
+					<CircularTextIcon backgroundColor="#{data.estudante.cor}"
+						>{data.estudante.nome[0]}</CircularTextIcon
+					>
+				</div>
+				<p class="membro-nome">{data.estudante.nome}</p>
+			</button>
+			<!-- <h2>Estudante: {data.nome}</h2> -->
 		{/if}
 		<div class="resposta-container">
 			<div class="top-content">
@@ -186,6 +207,7 @@
 		flex-direction: column;
 		padding-left: 48px;
 		padding-right: 12px;
+		align-items: center;
 	}
 
 	.left-column {
@@ -289,5 +311,41 @@
 		background-color: #a1a1a1;
 		transition: 0.3s;
 		cursor: pointer;
+	}
+
+	.membro-container {
+		margin-bottom: 12px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: fit-content;
+		max-width: 400px;
+		border-radius: 48px;
+		background-color: var(--cor-primaria);
+		padding: 12px 12px 12px 0px;
+		border: none;
+		cursor: pointer;
+	}
+
+	.membro-icon {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		text-align: center;
+		padding: 0px 12px;
+	}
+
+	.membro-nome {
+		text-align: start;
+		font-family: var(--font);
+		color: white;
+		font-size: 24px;
+		font-weight: 600;
+		margin: 0;
+		width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>
