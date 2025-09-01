@@ -29,9 +29,9 @@
 			{/if}
 
 			{#if dados.entrega.avaliacao}
-				<p class="status"><b>Avaliado</b></p>
+				<p class="status">Avaliado</p>
 			{:else}
-				<p class="avaliacao-pendente">Avaliação Pendente</p>
+				<p class="avaliacao-pendente"><b>Avaliação Pendente</b></p>
 			{/if}
 
 			<p class="data">{new Entrega(dados.entrega).formataDataEntrega()}</p>
@@ -88,8 +88,7 @@
 
 	.sem-resposta {
 		font-size: 16px;
-		font-weight: bold;
-		color: var(--cor-secundaria-2);
+		color: var(--cor-secundaria-1);
 		align-self: flex-end;
 		margin-top: auto;
 	}
