@@ -1,8 +1,21 @@
 <script>
-	export let color = 'white';
-	export let size = 60;
-	export let fontSize = 30;
-	export let backgroundColor = getComputedStyle(document.body).getPropertyValue('--cor-primaria');
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [color]
+	 * @property {number} [size]
+	 * @property {number} [fontSize]
+	 * @property {any} [backgroundColor]
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let {
+		color = 'white',
+		size = 60,
+		fontSize = 30,
+		backgroundColor = getComputedStyle(document.body).getPropertyValue('--cor-primaria'),
+		children
+	} = $props();
 </script>
 
 <div
@@ -15,7 +28,7 @@
 		"
 >
 	<h1 class="info" style="font-size: {fontSize}px;">
-		<slot></slot>
+		{@render children?.()}
 	</h1>
 </div>
 

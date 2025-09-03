@@ -6,15 +6,21 @@
 	import { LIMITE_NUMERO_DE_ETAPAS } from '$lib/constants';
 
 	// TODO: Tornar etapas dinamicas
-	// TODO: Fazer o input do título da etapa atualizar em tempo real o titulo da etapa na barra lateral
-	export let etapas;
-	export let selectedEtapa;
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} etapas - TODO: Fazer o input do título da etapa atualizar em tempo real o titulo da etapa na barra lateral
+	 * @property {any} selectedEtapa
+	 */
+
+	/** @type {Props} */
+	let { etapas = $bindable(), selectedEtapa = $bindable() } = $props();
 
 	let backgroundColor = 'var(--cor-secundaria)';
 	let textColor = 'white';
 	let selectedBackgroundColor = 'var(--cor-primaria)';
 	let selectedTextColor = 'white';
-	let etapasContainer;
+	let etapasContainer = $state();
 	let erroEtapa = [false, ''];
 	function onRemoveEtapa(etapa) {
 		selectedEtapa = selectedEtapa - 1;
@@ -45,7 +51,7 @@
 				min-height: 48px;
 				min-width: 200px;
 				"
-					on:click={() => {
+					onclick={() => {
 						if (etapasContainer) {
 							for (var i = 0, len = Array.from(etapasContainer.children).length; i < len; i++) {
 								(function (index) {

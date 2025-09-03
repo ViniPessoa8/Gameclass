@@ -1,8 +1,19 @@
 <script>
-	export let visible = false;
-	export let title = '';
-	export let message = '';
-	export let buttons = []; // [{ label: 'Ok', onClick: fn, color: 'blue' }]
+	/**
+	 * @typedef {Object} Props
+	 * @property {boolean} [visible]
+	 * @property {string} [title]
+	 * @property {string} [message]
+	 * @property {any} [buttons] - [{ label: 'Ok', onClick: fn, color: 'blue' }]
+	 */
+
+	/** @type {Props} */
+	let {
+		visible = false,
+		title = '',
+		message = '',
+		buttons = []
+	} = $props();
 
 	if (buttons.length < 1 || buttons.length > 3) {
 		throw new Error('O modal deve ter entre 1 e 3 botões.');
@@ -22,7 +33,7 @@
 					<button
 						class="btn"
 						style="background-color: {button.color || 'gray'}"
-						on:click={button.onClick}
+						onclick={button.onClick}
 					>
 						{button.label}
 					</button>

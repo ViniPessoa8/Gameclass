@@ -1,5 +1,5 @@
 <script>
-	export let data;
+	let { data } = $props();
 
 	const keys = Object.keys(data);
 	const values = Object.values(data);

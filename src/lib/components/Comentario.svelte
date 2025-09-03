@@ -1,10 +1,21 @@
 <script>
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 
-	export let nome = '';
-	export let data = '';
-	export let texto = '';
-	export let cor = '';
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [nome]
+	 * @property {string} [data]
+	 * @property {string} [texto]
+	 * @property {string} [cor]
+	 */
+
+	/** @type {Props} */
+	let {
+		nome = '',
+		data = '',
+		texto = '',
+		cor = ''
+	} = $props();
 </script>
 
 <div class="container">

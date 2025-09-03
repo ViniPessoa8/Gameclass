@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 
-	export let data;
+	let { data } = $props();
 
 	onMount(async () => {
 		if (data.toast === 'login') {

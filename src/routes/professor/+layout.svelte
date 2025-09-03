@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import '../../static/app.css';
 	import Header from '$lib/components/Header.svelte';
 	import SideBar from '$lib/components/SideBar.svelte';
@@ -8,18 +10,18 @@
 	import BackButton from '../../lib/components/BackButton.svelte';
 	import selectedTurma from '$src/stores/selectedTurma.js';
 
-	export let data;
+	let { data, children } = $props();
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
 
 	// Declaração reativa: Executa sempre que $page mudar.
-	$: {
+	run(() => {
 		const turmaIdFromUrl = $page.params.id;
 
 		if (turmaIdFromUrl) {
 			// Atualiza a store com o ID vindo da URL.
 			$selectedTurma = turmaIdFromUrl;
 		}
-	}
+	});
 
 	afterNavigate(() => {
 		const currentStack = $historyStack;
@@ -42,7 +44,7 @@
 			{#if !BACK_SKIP.includes($page.url.pathname)}
 				<BackButton />
 			{/if}
-			<slot></slot>
+			{@render children?.()}
 		</div>
 	</div>
 </div>

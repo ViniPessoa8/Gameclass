@@ -1,16 +1,30 @@
 <script>
-	export let optionList;
-	export let inputHandler;
-	export let value;
-	export let name = '';
-	export let borded = false;
-	export let unselectedText = '';
-	export let width;
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} optionList
+	 * @property {any} inputHandler
+	 * @property {any} value
+	 * @property {string} [name]
+	 * @property {boolean} [borded]
+	 * @property {string} [unselectedText]
+	 * @property {any} width
+	 */
+
+	/** @type {Props} */
+	let {
+		optionList,
+		inputHandler,
+		value = $bindable(),
+		name = '',
+		borded = false,
+		unselectedText = '',
+		width
+	} = $props();
 </script>
 
 {#if borded}
 	<!-- <div class="board"> -->
-	<select class="boarded" style="width: {width}px;" on:change={inputHandler} bind:value {name}>
+	<select class="boarded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
 		{#if unselectedText != ''}
 			<option value="" disabled selected>{unselectedText}</option>
 		{/if}
@@ -20,7 +34,7 @@
 	</select>
 	<!-- </div> -->
 {:else}
-	<select class="unborded" style="width: {width}px;" on:change={inputHandler} bind:value {name}>
+	<select class="unborded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
 		{#if unselectedText != ''}
 			<option value="" disabled selected>{unselectedText}</option>
 		{/if}

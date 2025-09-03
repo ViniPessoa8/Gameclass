@@ -1,8 +1,14 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-	/** @type {{id: string, nome: string}} */
-	export let student;
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {{id: string, nome: string}} student
+	 */
+
+	/** @type {Props} */
+	let { student } = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -13,7 +19,7 @@
 
 <div class="student-pill" title={student.nome}>
 	<span class="student-name">{student.nome}</span>
-	<button class="remove-btn" on:click={remove} aria-label="Remover {student.nome}">×</button>
+	<button class="remove-btn" onclick={remove} aria-label="Remover {student.nome}">×</button>
 </div>
 
 <style>

@@ -1,14 +1,32 @@
 <script>
-	export let value,
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} value
+	 * @property {any} inputHandler
+	 * @property {any} name
+	 * @property {string} [backgroundColor]
+	 * @property {string} [textColor]
+	 * @property {boolean} [borded]
+	 * @property {any} width
+	 * @property {any} height
+	 * @property {any} fontSize
+	 * @property {string} [placeholder]
+	 */
+
+	/** @type {Props & { [key: string]: any }} */
+	let {
+		value = $bindable(),
 		inputHandler,
 		name,
-		backgroundColor = 'transparent',
+		backgroundColor = $bindable('transparent'),
 		textColor = 'var(--text-1)',
 		borded = false,
 		width,
 		height,
 		fontSize,
-		placeholder = '';
+		placeholder = '',
+		...rest
+	} = $props();
 
 	if (borded) {
 		backgroundColor = 'var(--cor-primaria)';
@@ -28,7 +46,7 @@
 		{name}
 		{placeholder}
 		bind:value
-		on:input={inputHandler}
+		oninput={inputHandler}
 		style="
 			width: 100%;
 			heigth: {height};
@@ -36,8 +54,8 @@
 			background-color: {backgroundColor};
 			font-size:{fontSize}
 		"
-		{...$$restProps}
-	/>
+		{...rest}
+	></textarea>
 </div>
 
 <style>

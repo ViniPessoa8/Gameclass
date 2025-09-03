@@ -1,10 +1,23 @@
 <script>
-	export let placeholder = '';
-	export let value;
-	export let inputHandler = null;
-	export let onFocusOut = null;
-	export let autocomplete = 'new-password';
-	export let name = '';
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [placeholder]
+	 * @property {any} value
+	 * @property {any} [inputHandler]
+	 * @property {any} [onFocusOut]
+	 * @property {string} [autocomplete]
+	 * @property {string} [name]
+	 */
+
+	/** @type {Props} */
+	let {
+		placeholder = '',
+		value = $bindable(),
+		inputHandler = null,
+		onFocusOut = null,
+		autocomplete = 'new-password',
+		name = ''
+	} = $props();
 </script>
 
 <input
@@ -14,8 +27,8 @@
 	{name}
 	{placeholder}
 	bind:value
-	on:input={inputHandler}
-	on:focusout={onFocusOut}
+	oninput={inputHandler}
+	onfocusout={onFocusOut}
 />
 
 <style>

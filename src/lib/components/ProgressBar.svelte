@@ -1,38 +1,37 @@
 <script>
-	/**
-	 * O nível atual do usuário.
-	 * @type {number}
-	 */
-	export let currentLevel = 3;
+	
 
-	/**
-	 * A quantidade de XP que o usuário possui atualmente.
-	 * @type {number}
-	 */
-	export let currentXp = 376;
+	
 
-	/**
-	 * A quantidade de XP necessária para alcançar o nível atual.
-	 * @type {number}
-	 */
-	export let xpForCurrentLevel = 300;
+	
 
+	
 	/**
-	 * A quantidade de XP necessária para avançar para o próximo nível.
-	 * @type {number}
+	 * @typedef {Object} Props
+	 * @property {number} [currentLevel] - O nível atual do usuário.
+	 * @property {number} [currentXp] - A quantidade de XP que o usuário possui atualmente.
+	 * @property {number} [xpForCurrentLevel] - A quantidade de XP necessária para alcançar o nível atual.
+	 * @property {number} [xpForNextLevel] - A quantidade de XP necessária para avançar para o próximo nível.
 	 */
-	export let xpForNextLevel = 400;
 
-	$: nextLevel = currentLevel + 1;
+	/** @type {Props} */
+	let {
+		currentLevel = 3,
+		currentXp = 376,
+		xpForCurrentLevel = 300,
+		xpForNextLevel = 400
+	} = $props();
+
+	let nextLevel = $derived(currentLevel + 1);
 
 	// Calcula a faixa de XP para o nível atual
-	$: xpRange = xpForNextLevel - xpForCurrentLevel;
+	let xpRange = $derived(xpForNextLevel - xpForCurrentLevel);
 
 	// Calcula quanto XP o usuário progrediu dentro do nível atual
-	$: xpProgressInLevel = currentXp - xpForCurrentLevel;
+	let xpProgressInLevel = $derived(currentXp - xpForCurrentLevel);
 
 	// Calcula a porcentagem de progresso e garante que ela fique entre 0 e 100
-	$: progressPercentage = Math.max(0, Math.min(100, (xpProgressInLevel / xpRange) * 100));
+	let progressPercentage = $derived(Math.max(0, Math.min(100, (xpProgressInLevel / xpRange) * 100)));
 </script>
 
 <div class="progress-container">

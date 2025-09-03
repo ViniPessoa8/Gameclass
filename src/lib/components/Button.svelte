@@ -1,13 +1,35 @@
 <script>
-	export let type = '';
-	export let width = '';
-	export let height = '';
-	export let color = '';
-	export let backgroundColor = '';
-	export let marginTop = '';
-	export let fontSize = '24px';
-	export let disabled = false;
-	export let fontWeight = 'bold';
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [type]
+	 * @property {string} [width]
+	 * @property {string} [height]
+	 * @property {string} [color]
+	 * @property {string} [backgroundColor]
+	 * @property {string} [marginTop]
+	 * @property {string} [fontSize]
+	 * @property {boolean} [disabled]
+	 * @property {string} [fontWeight]
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props & { [key: string]: any }} */
+	let {
+		type = '',
+		width = '',
+		height = '',
+		color = '',
+		backgroundColor = '',
+		marginTop = '',
+		fontSize = '24px',
+		disabled = false,
+		fontWeight = 'bold',
+		children,
+		...rest
+	} = $props();
 </script>
 
 <button
@@ -21,10 +43,10 @@
 	style:width
 	style:height
 	style:font-weight={fontWeight}
-	on:click
-	{...$$restProps}
+	onclick={bubble('click')}
+	{...rest}
 >
-	<slot></slot>
+	{@render children?.()}
 </button>
 
 <style>

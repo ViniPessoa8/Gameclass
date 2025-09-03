@@ -1,7 +1,7 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 
@@ -19,7 +19,7 @@
 		if (etapasSessionStorage) {
 			etapasString = etapasSessionStorage;
 		} else {
-			goto(`/professor/turmas/${$page.params.id}/atividades`);
+			goto(`/professor/turmas/${page.params.id}/atividades`);
 		}
 	});
 
@@ -80,7 +80,7 @@
 	<div class="botoes">
 		<Button
 			on:click={() => {
-				const novaUrl = $page.url.href.replace(/\/[^\/]*$/, '');
+				const novaUrl = page.url.href.replace(/\/[^\/]*$/, '');
 				goto(novaUrl);
 			}}>Voltar</Button
 		>

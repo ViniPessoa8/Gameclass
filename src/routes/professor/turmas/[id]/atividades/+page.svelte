@@ -7,14 +7,14 @@
 	import ButtonRedirect from '$lib/components/ButtonRedirect.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
-	export let data;
-	let atividades;
-	let id;
-	let url;
+	let { data } = $props();
+	let atividades = $derived(data.atividades);
+	let id = $derived($page.params.id);
+	let url = $derived(`/${data.perfil}/turmas/${id}/atividades/create`);
 
-	$: atividades = data.atividades;
-	$: id = $page.params.id;
-	$: url = `/${data.perfil}/turmas/${id}/atividades/create`;
+	
+	
+	
 
 	$selectedTurmaTabBar = 1;
 

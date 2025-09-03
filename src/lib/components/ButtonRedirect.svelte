@@ -1,12 +1,31 @@
 <script>
-	export let href;
-	export let backgroundColor = 'var(--cor-secundaria)';
-	export let color = 'var(--cor-primaria)';
-	export let borderRadius;
-	export let disabled = false;
-	export let size;
+	import { createBubbler } from 'svelte/legacy';
 
-	$: width = size ? `${size}px` : undefined;
+	const bubble = createBubbler();
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} href
+	 * @property {string} [backgroundColor]
+	 * @property {string} [color]
+	 * @property {any} borderRadius
+	 * @property {boolean} [disabled]
+	 * @property {any} size
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props & { [key: string]: any }} */
+	let {
+		href,
+		backgroundColor = 'var(--cor-secundaria)',
+		color = 'var(--cor-primaria)',
+		borderRadius,
+		disabled = false,
+		size,
+		children,
+		...rest
+	} = $props();
+
+	let width = $derived(size ? `${size}px` : undefined);
 </script>
 
 <a {href}>
@@ -14,15 +33,15 @@
 		class="button"
 		class:disabled
 		{disabled}
-		{...$$restProps}
+		{...rest}
 		style:width
 		style:height={width}
 		style:color
 		style:background-color={backgroundColor}
 		style:border-radius={borderRadius}
-		on:click
+		onclick={bubble('click')}
 	>
-		<slot />
+		{@render children?.()}
 	</button>
 </a>
 

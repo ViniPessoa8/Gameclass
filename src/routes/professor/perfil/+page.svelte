@@ -8,7 +8,7 @@
 	import { goto } from '$app/navigation';
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 
-	export let data;
+	let { data } = $props();
 	console.debug('data =>', data);
 
 	const usuario = data.usuario;

@@ -2,18 +2,17 @@
 	import { createEventDispatcher } from 'svelte';
 	import StudentPill from '$lib/components/StudentPill.svelte';
 
-	export let group;
-	export let estudantesSemGrupo;
+	let { group, estudantesSemGrupo } = $props();
 
-	let searchTerm = '';
-	let mostraSugestoes = false;
+	let searchTerm = $state('');
+	let mostraSugestoes = $state(false);
 	let inputFocused = false;
 
 	const dispatch = createEventDispatcher();
 
-	$: suggestedStudents = estudantesSemGrupo
+	let suggestedStudents = $derived(estudantesSemGrupo
 		.filter((student) => student.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-		.slice(0, 5);
+		.slice(0, 5));
 
 	function adicionaEstudante(student) {
 		if (group.integrantes.length >= group.maxIntegrantes) {
@@ -54,17 +53,17 @@
 				: 'Pesquisar e adicionar aluno...'}
 			bind:value={searchTerm}
 			disabled={group.maxIntegrantes == group.integrantes.length}
-			on:focus={handleFocus}
-			on:blur={handleBlur}
-			on:input={() => (mostraSugestoes = true)}
+			onfocus={handleFocus}
+			onblur={handleBlur}
+			oninput={() => (mostraSugestoes = true)}
 		/>
 
 		{#if mostraSugestoes && suggestedStudents.length > 0}
 			<ul class="suggestions-list">
 				{#each suggestedStudents as estudante (estudante.id)}
 					<li
-						on:mousedown={() => adicionaEstudante(estudante)}
-						on:keydown={(e) => e.key === 'Enter' && adicionaEstudante(estudante)}
+						onmousedown={() => adicionaEstudante(estudante)}
+						onkeydown={(e) => e.key === 'Enter' && adicionaEstudante(estudante)}
 						tabindex="0"
 					>
 						{estudante.nome}

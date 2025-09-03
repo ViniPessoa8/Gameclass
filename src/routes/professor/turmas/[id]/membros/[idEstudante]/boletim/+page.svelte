@@ -3,11 +3,11 @@
 	import TurmaTabBar from '$lib/components/TurmaTabBar.svelte';
 	import { onMount } from 'svelte';
 
-	export let data;
+	let { data } = $props();
 
 	const estudante = data.estudante;
 	const turma = data.turma;
-	const atividades = data.atividades;
+	const atividades = $state(data.atividades);
 
 	onMount(() => {
 		for (let i = 0; i < atividades.length; i++) {

@@ -7,19 +7,19 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 
-	export let data;
+	let { data = $bindable() } = $props();
 
-	let id;
-	let idAtividade;
-	let idEtapa;
+	let id = $derived($page.params.id);
+	let idAtividade = $derived($page.params.idAtividade);
+	let idEtapa = $derived($page.params.idEtapa);
 	let status, corStatus;
-	let listaComentarios;
+	let listaComentarios = $derived(comentarios);
 	let alunoParaAvaliar = null;
 
-	$: id = $page.params.id;
-	$: idAtividade = $page.params.idAtividade;
-	$: idEtapa = $page.params.idEtapa;
-	$: listaComentarios = comentarios;
+	
+	
+	
+	
 
 	async function calculaStatusEntrega() {
 		if (data.entrega.avaliada) {

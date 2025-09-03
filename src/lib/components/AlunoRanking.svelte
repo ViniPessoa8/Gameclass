@@ -2,12 +2,25 @@
 	import CircularTextIcon from './CircularTextIcon.svelte';
 	import { goto } from '$app/navigation';
 
-	export let nome = '',
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [nome]
+	 * @property {number} [pontos]
+	 * @property {number} [posicao]
+	 * @property {string} [cor]
+	 * @property {number} [idEstudante]
+	 * @property {number} [idTurma]
+	 */
+
+	/** @type {Props} */
+	let {
+		nome = '',
 		pontos = 0,
 		posicao = 0,
 		cor = 'var(--cor-primaria)',
 		idEstudante = 0,
-		idTurma = 0;
+		idTurma = 0
+	} = $props();
 
 	function onClick() {
 		const url = `/professor/turmas/${idTurma}/membros/${idEstudante}`;
@@ -15,7 +28,7 @@
 	}
 </script>
 
-<button class="container" on:click={onClick}>
+<button class="container" onclick={onClick}>
 	<CircularTextIcon backgroundColor={cor}>{posicao}°</CircularTextIcon>
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{nome}</b></p>

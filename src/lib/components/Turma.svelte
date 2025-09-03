@@ -8,8 +8,7 @@
 	import ButtonRedirect from './ButtonRedirect.svelte';
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 
-	export let turma;
-	export let width;
+	let { turma, width = $bindable() } = $props();
 
 	console.debug('turma => ', turma);
 

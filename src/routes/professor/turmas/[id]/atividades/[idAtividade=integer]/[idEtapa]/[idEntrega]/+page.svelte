@@ -12,23 +12,23 @@
 	import { TIPO_ARQUIVO, TIPO_COMENTARIO, AVALIACAO } from '$lib/constants.js';
 	import { Toaster, toast } from 'svelte-sonner';
 
-	export let data;
+	let { data = $bindable() } = $props();
 
 	const descricaoEtapa =
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus. Quisque mollis dui vel nisi commodo, nec aliquet ante tempor. Suspendisse at eros tristique, volutpat mi faucibus, viverra nibh. Nullam sagittis, sem in viverra blandit, nulla felis sollicitudin arcu, eu maximus ligula justo non tortor. Mauris sollicitudin scelerisque sapien tempor maximus. Sed in cursus magna. Suspendisse potenti. Nulla dolor nisl, tristique sit amet bibendum nec, auctor nec risus. Aenean tincidunt mi purus, at mollis quam faucibus in. Sed dictum erat arcu, vitae feugiat justo gravida ut.';
 
-	let id;
-	let idAtividade;
-	let idEtapa;
+	let id = $derived($page.params.id);
+	let idAtividade = $derived($page.params.idAtividade);
+	let idEtapa = $derived($page.params.idEtapa);
 	let status, corStatus;
-	let textoComentario;
-	let arquivo;
-	let listaComentarios;
+	let textoComentario = $state();
+	let arquivo = $state();
+	let listaComentarios = $derived(comentarios);
 
-	$: id = $page.params.id;
-	$: idAtividade = $page.params.idAtividade;
-	$: idEtapa = $page.params.idEtapa;
-	$: listaComentarios = comentarios;
+	
+	
+	
+	
 
 	const dateOptions = {
 		day: '2-digit',
@@ -124,7 +124,7 @@
 			<h2>Estudante:</h2>
 			<button
 				class="membro-container"
-				on:click={() => {
+				onclick={() => {
 					abrePerfilDoUsuario(data.estudante);
 				}}
 			>

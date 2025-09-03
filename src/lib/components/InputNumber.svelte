@@ -1,9 +1,25 @@
 <script>
-	export let placeholder = '';
-	export let value;
-	export let name;
-	export let width;
-	export let borded = false;
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [placeholder]
+	 * @property {any} value
+	 * @property {any} name
+	 * @property {any} width
+	 * @property {boolean} [borded]
+	 */
+
+	/** @type {Props & { [key: string]: any }} */
+	let {
+		placeholder = '',
+		value = $bindable(),
+		name,
+		width,
+		borded = false,
+		...rest
+	} = $props();
 </script>
 
 {#if borded}
@@ -14,10 +30,10 @@
 			{name}
 			{placeholder}
 			bind:value
-			on:input
-			on:blur
+			oninput={bubble('input')}
+			onblur={bubble('blur')}
 			style="width: {width};"
-			{...$$restProps}
+			{...rest}
 		/>
 	</div>
 {:else}
@@ -27,10 +43,10 @@
 		{name}
 		{placeholder}
 		bind:value
-		on:input
-		on:blur
+		oninput={bubble('input')}
+		onblur={bubble('blur')}
 		style="width: {width};"
-		{...$$restProps}
+		{...rest}
 	/>
 {/if}
 

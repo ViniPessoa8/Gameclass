@@ -1,10 +1,23 @@
 <script>
-	export let arquivo = '';
-	export let nomeArquivo = '';
-	export let width = 'fit-content';
-	export let height = '48px';
-	export let fontSize = '20px';
-	export let maxWidth = '400px';
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [arquivo]
+	 * @property {string} [nomeArquivo]
+	 * @property {string} [width]
+	 * @property {string} [height]
+	 * @property {string} [fontSize]
+	 * @property {string} [maxWidth]
+	 */
+
+	/** @type {Props} */
+	let {
+		arquivo = '',
+		nomeArquivo = '',
+		width = 'fit-content',
+		height = '48px',
+		fontSize = '20px',
+		maxWidth = '400px'
+	} = $props();
 
 	let tipoDoArquivo = nomeArquivo.split('.').pop().toLowerCase(); // Extrai a extensão do arquivo
 
@@ -78,7 +91,7 @@
 
 <button
 	class="anexo-container"
-	on:click={handleDownload}
+	onclick={handleDownload}
 	style="width: {width}; height: {height}; max-width: {maxWidth}"
 >
 	<p class="tipo">{tipoDoArquivo}</p>

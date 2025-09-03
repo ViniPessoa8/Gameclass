@@ -1,12 +1,11 @@
 <script>
 	import { COLORS } from '../constants';
-	export let width;
-	export let input = [1, 2, 3]; // input[0] > input[1] > input[2] > ....
+	let { width, input = [1, 2, 3] } = $props();
 
 	checkInput(input);
 
-	let input_step;
-	$: input_step = width / input.length;
+	let input_step = $derived(width / input.length);
+	
 	const colors = [COLORS.secundaria_1, COLORS.secundaria_2, COLORS.secundaria_3];
 
 	function checkInput(input) {

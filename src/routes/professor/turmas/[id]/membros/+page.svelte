@@ -5,10 +5,10 @@
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 	import { goto } from '$app/navigation';
 
-	export let data;
+	let { data } = $props();
 
 
-	let estudantes = data.estudantes;
+	let estudantes = $state(data.estudantes);
 	if (!$selectedTurmaTabBar) {
 		$selectedTurmaTabBar = 3;
 	}
@@ -17,7 +17,7 @@
 		const url = `/professor/turmas/${data.idTurma}/membros/${estudante.id_estudante}`;
 		goto(url);
 	}
-	let sortBy = 'points'; // 'points' ou 'name'
+	let sortBy = $state('points'); // 'points' ou 'name'
 
 	function ordenaPorPontos() {
 		sortBy = 'points';
@@ -38,8 +38,8 @@
 	<h1>Membros da turma</h1>
 	<div class="sort-buttons">
 		<span>Ordenar por:</span>
-		<button on:click={ordenaPorNome} class:active={sortBy === 'name'}> Nome (A-Z) </button>
-		<button on:click={ordenaPorPontos} class:active={sortBy === 'points'}>
+		<button onclick={ordenaPorNome} class:active={sortBy === 'name'}> Nome (A-Z) </button>
+		<button onclick={ordenaPorPontos} class:active={sortBy === 'points'}>
 			Pontos (Decrescente)
 		</button>
 	</div>
@@ -47,7 +47,7 @@
 		{#each estudantes as estudante}
 			<button
 				class="membro-container"
-				on:click={() => {
+				onclick={() => {
 					abrePerfilDoUsuario(estudante);
 				}}
 			>

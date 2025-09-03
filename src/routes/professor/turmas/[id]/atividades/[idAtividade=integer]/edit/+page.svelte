@@ -7,18 +7,18 @@
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 
-	export let data;
+	let { data } = $props();
 
 	console.debug('data => ', data);
 
-	let titulo = data.atividade.titulo;
-	let descricao = data.atividade.descricao;
-	let prazo = showISOAsGMT4(data.atividade.prazo);
+	let titulo = $state(data.atividade.titulo);
+	let descricao = $state(data.atividade.descricao);
+	let prazo = $state(showISOAsGMT4(data.atividade.prazo));
 
 	let tags = [];
 	let tagsAutocomplete = [];
-	let tagsColors = {};
-	let tituloEmpty, descricaoEmpty, prazoEmpty;
+	let tagsColors = $state({});
+	let tituloEmpty = $state(), descricaoEmpty = $state(), prazoEmpty = $state();
 
 	function showISOAsGMT4(isoUTC) {
 		const offsetMinutes = -4 * 60; // GMT-4

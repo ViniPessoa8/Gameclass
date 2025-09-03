@@ -4,7 +4,7 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	import selectedTurma from '$src/stores/selectedTurma';
 
-	export let data;
+	let { data } = $props();
 
 	let turmasLista = data.turmas;
 

@@ -8,8 +8,14 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { onMount } from 'svelte';
 
-	/** @type {import('./$types').ActionData} */
-	export let data;
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('./$types').ActionData} data
+	 */
+
+	/** @type {Props} */
+	let { data } = $props();
 
 	onMount(async () => {
 		if (data.toast === 'cadastro') {
@@ -22,9 +28,9 @@
 	});
 
 	let loginRes = '';
-	let userLogin, userPassword;
-	let loginErrorVisibility = false;
-	let passwordErrorVisibility = false;
+	let userLogin = $state(), userPassword = $state();
+	let loginErrorVisibility = $state(false);
+	let passwordErrorVisibility = $state(false);
 
 	function loginInputHandler(e) {
 		if (e.target.value.length > 0) loginErrorVisibility = false;

@@ -1,9 +1,7 @@
 <script>
 	import AlunoRanking from './AlunoRanking.svelte';
 
-	export let listaAlunos;
-	export let idEstudante;
-	export let idTurma;
+	let { listaAlunos, idEstudante, idTurma } = $props();
 </script>
 
 <div class="container">

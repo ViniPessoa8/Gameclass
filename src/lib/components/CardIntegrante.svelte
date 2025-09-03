@@ -1,9 +1,12 @@
 <script>
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import CircularTextIcon from './CircularTextIcon.svelte';
 
-	export let integrante;
+	let { integrante } = $props();
 
-	let mediaNotas;
+	let mediaNotas = $state();
 
 	if (integrante.notas) {
 		const somaNotas = integrante.notas.reduce((acc, n) => n.nota_atribuida + acc, 0);
@@ -11,7 +14,7 @@
 	}
 </script>
 
-<button class="container" class:corrigido={mediaNotas} on:click>
+<button class="container" class:corrigido={mediaNotas} onclick={bubble('click')}>
 	<CircularTextIcon backgroundColor={'#' + integrante.cor}>{integrante.nome[0]}</CircularTextIcon>
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{integrante.nome} </b></p>

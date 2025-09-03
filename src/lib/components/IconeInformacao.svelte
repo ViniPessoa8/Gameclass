@@ -2,7 +2,7 @@
 	import icon_info from '$lib/assets/icon_info.png';
 	import { Tooltip } from '@svelte-plugins/tooltips';
 
-	export let text, alt;
+	let { text, alt } = $props();
 </script>
 
 <Tooltip content={text} style={{ backgroundColor: 'var(--cor-primaria)' }}>

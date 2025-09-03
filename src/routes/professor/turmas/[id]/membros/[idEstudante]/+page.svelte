@@ -7,7 +7,7 @@
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 	import { goto } from '$app/navigation';
 
-	export let data;
+	let { data } = $props();
 
 	const estudante = data.estudante;
 	const turma = data.turma;

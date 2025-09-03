@@ -8,8 +8,8 @@
 	import icon_menos from '$lib/assets/icon_menos.png';
 	import { slide } from 'svelte/transition';
 
-	export let data;
-	let mostraAtividades = data.atividades.map(() => false);
+	let { data } = $props();
+	let mostraAtividades = $state(data.atividades.map(() => false));
 	const dateOptions = {
 		day: '2-digit',
 		month: '2-digit',
@@ -66,7 +66,7 @@
 						<button
 							class="titulo-atividade"
 							style=""
-							on:click={() => (mostraAtividades[index] = !mostraAtividades[index])}
+							onclick={() => (mostraAtividades[index] = !mostraAtividades[index])}
 						>
 							<div class="titulo-atividade-content">
 								<h3>{atividade.titulo}</h3>

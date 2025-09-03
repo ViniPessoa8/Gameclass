@@ -14,9 +14,9 @@
 	import Page from '../atividades/+page.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
-	let textoPublicacao = '';
-	let arquivos = [];
-	export let data;
+	let textoPublicacao = $state('');
+	let arquivos = $state([]);
+	let { data } = $props();
 
 	if (!$selectedTurmaTabBar) {
 		$selectedTurmaTabBar = 0;
@@ -31,7 +31,7 @@
 		timezone: 'America/Manaus'
 	};
 
-	$: publicacoes = data.publicacoes;
+	let publicacoes = $derived(data.publicacoes);
 
 	function validaFormPublicacao() {
 		if (!textoPublicacao || textoPublicacao == '') {
@@ -96,7 +96,7 @@
 					<input
 						id="inputFiles"
 						name="inputFiles"
-						on:change={handleArquivos}
+						onchange={handleArquivos}
 						accept="image/*, .pdf, .doc, .docx, .py, .c, cpp, .js, .html, .css"
 						type="file"
 						style="display: none;"

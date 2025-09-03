@@ -4,7 +4,7 @@
 	import CircularIcon from './CircularIcon.svelte';
 	import { goto } from '$app/navigation';
 
-	export let session;
+	let { session } = $props();
 
 	// Constrói um array de segmentos da URL atual
 	const segments = derived(page, ($page) => {
@@ -71,7 +71,7 @@
 			{/if}
 		{/each}
 	</nav>
-	<button class="logged-user" on:click={onClickUsuario}>
+	<button class="logged-user" onclick={onClickUsuario}>
 		<div class="info">
 			<h4 class="logged-user-name">{session.login}</h4>
 			<p class="logged-user-role">{session.perfil}</p>

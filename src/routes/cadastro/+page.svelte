@@ -10,8 +10,7 @@
 	import { onMount } from 'svelte';
 	import InputTextArea from '$lib/components/InputTextArea.svelte';
 
-	export let data;
-	export let form;
+	let { data, form = $bindable() } = $props();
 
 	onMount(async () => {
 		if (data.message) {
@@ -19,27 +18,27 @@
 		}
 	});
 
-	let nomeCompleto,
-		login,
-		senha,
-		repetirSenha,
-		instituicao,
-		dtNasc,
-		bio,
-		email,
-		matriculaAluno = '';
+	let nomeCompleto = $state(),
+		login = $state(),
+		senha = $state(),
+		repetirSenha = $state(),
+		instituicao = $state(),
+		dtNasc = $state(),
+		bio = $state(),
+		email = $state(),
+		matriculaAluno = $state('');
 
-	let nomeCompletoEmpty,
-		loginEmpty,
-		senhaEmpty,
-		repetirSenhaEmpty,
-		instituicaoEmpty,
-		dtNascEmpty,
-		emailEmpty,
-		matriculaAlunoEmpty = false;
+	let nomeCompletoEmpty = $state(),
+		loginEmpty = $state(),
+		senhaEmpty = $state(),
+		repetirSenhaEmpty = $state(),
+		instituicaoEmpty = $state(),
+		dtNascEmpty = $state(),
+		emailEmpty = $state(),
+		matriculaAlunoEmpty = $state(false);
 
-	let senhasIncompativeis = false;
-	let erroSenhaTamanhoMinimo, erroSenhaTamanhoMaximo, erroSenhaCaracteres;
+	let senhasIncompativeis = $state(false);
+	let erroSenhaTamanhoMinimo = $state(), erroSenhaTamanhoMaximo = $state(), erroSenhaCaracteres = $state();
 
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);

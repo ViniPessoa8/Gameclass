@@ -2,11 +2,9 @@
 	import { onMount } from 'svelte';
 	import Entrega from '$lib/models/Entrega.js';
 
-	export let dados;
-	export let receberAposPrazo;
-	export let onClick;
+	let { dados, receberAposPrazo, onClick } = $props();
 
-	let corCard;
+	let corCard = $state();
 
 	onMount(() => {
 		if (dados && dados.entrega && dados.entrega.avaliacao) {
@@ -35,7 +33,7 @@
 			{/if}
 
 			<p class="data">{new Entrega(dados.entrega).formataDataEntrega()}</p>
-			<button on:click={onClick} class="botao">Visualizar</button>
+			<button onclick={onClick} class="botao">Visualizar</button>
 		</div>
 	{:else if dados.estudante || dados.grupo}
 		<div class="item off">

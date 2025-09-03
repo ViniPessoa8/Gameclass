@@ -4,26 +4,25 @@
 	import Select from '$lib/components/Select.svelte';
 	import { enhance } from '$app/forms';
 
-	export let data;
-	export let form;
+	let { data, form = $bindable() } = $props();
 
-	let codigo,
-		disciplina,
-		nome,
-		descricao,
-		ano,
-		periodo,
-		local,
-		instituicao = '';
+	let codigo = $state(),
+		disciplina = $state(),
+		nome = $state(),
+		descricao = $state(),
+		ano = $state(),
+		periodo = $state(),
+		local = $state(),
+		instituicao = $state('');
 
-	let codigoEmpty,
-		disciplinaEmpty,
-		nomeEmpty,
-		descricaoEmpty,
-		anoEmpty,
-		periodoEmpty,
-		localEmpty,
-		instituicaoEmpty = false;
+	let codigoEmpty = $state(),
+		disciplinaEmpty = $state(),
+		nomeEmpty = $state(),
+		descricaoEmpty = $state(),
+		anoEmpty = $state(),
+		periodoEmpty = $state(),
+		localEmpty = $state(),
+		instituicaoEmpty = $state(false);
 
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);

@@ -136,7 +136,7 @@
 	<div
 		class="atividade-info"
 		aria-hidden="true"
-		on:click={() => {
+		onclick={() => {
 			toggled = toggled ? false : true;
 		}}
 	>

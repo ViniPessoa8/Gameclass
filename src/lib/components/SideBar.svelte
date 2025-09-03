@@ -5,7 +5,7 @@
 	import SideBarTurma from './SideBarTurma.svelte';
 	import { goto } from '$app/navigation';
 
-	export let perfil, turmas;
+	let { perfil, turmas } = $props();
 	console.log(`[/Autenticado/Turmas] (${perfil})`);
 
 	async function logout() {

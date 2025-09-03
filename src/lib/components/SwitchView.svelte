@@ -1,12 +1,15 @@
 <script>
 	import { createEventDispatcher, onMount } from 'svelte';
 
+	
 	/**
-	 * Define a visualização inicial. Pode ser 'lista' ou 'grade'.
-	 * @type {'lista' | 'grade'}
+	 * @typedef {Object} Props
+	 * @property {'lista' | 'grade'} [view] - Define a visualização inicial. Pode ser 'lista' ou 'grade'.
+	 * @property {number} [size]
 	 */
-	export let view = 'grade';
-	export let size = 30;
+
+	/** @type {Props} */
+	let { view = $bindable('grade'), size = 30 } = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -43,7 +46,7 @@
 		aria-checked={view === 'lista'}
 		class="option"
 		class:active={view === 'lista'}
-		on:click={() => selectView('lista')}
+		onclick={() => selectView('lista')}
 	>
 		Lista
 	</button>
@@ -52,7 +55,7 @@
 		aria-checked={view === 'grade'}
 		class="option"
 		class:active={view === 'grade'}
-		on:click={() => selectView('grade')}
+		onclick={() => selectView('grade')}
 	>
 		Grade
 	</button>

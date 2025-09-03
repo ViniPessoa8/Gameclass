@@ -1,17 +1,18 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import CircularIcon from './CircularIcon.svelte';
 	import selectedTurma from '$src/stores/selectedTurma.js';
 	import { goto } from '$app/navigation';
 	import { Tooltip } from '@svelte-plugins/tooltips';
 
-	export let turma;
-	export let perfil;
+	let { turma, perfil } = $props();
 
 	const acronym = turma.nome[0];
 	const color = turma.cor;
 
-	let backgroundColor, disciplinaCor;
-	$: {
+	let backgroundColor = $state(), disciplinaCor = $state();
+	run(() => {
 		if ($selectedTurma === turma.id) {
 			backgroundColor = 'var(--cor-secundaria)';
 			disciplinaCor = 'var(--cor-primaria)';
@@ -19,7 +20,7 @@
 			backgroundColor = '';
 			disciplinaCor = 'var(--cor-secundaria)';
 		}
-	}
+	});
 </script>
 
 <Tooltip content="This is my tooltip message." delay="1000">
@@ -27,7 +28,7 @@
 		class="turma"
 		aria-hidden="true"
 		style="background-color: {backgroundColor};"
-		on:click={() => {
+		onclick={() => {
 			const url = `/${perfil}/turmas/${turma.id}/atividades`;
 			goto(url);
 		}}

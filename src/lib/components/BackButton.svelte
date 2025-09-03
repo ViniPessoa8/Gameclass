@@ -26,7 +26,7 @@
 	// Condição para exibir o botão:
 	// Só mostra o botão se houver mais de uma página no histórico.
 	// A primeira página é a entrada inicial, então não há para onde "voltar".
-	$: showButton = $historyStack.length > 1;
+	let showButton = $derived($historyStack.length > 1);
 </script>
 
 {#if showButton}

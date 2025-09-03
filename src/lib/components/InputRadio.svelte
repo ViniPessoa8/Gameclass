@@ -1,21 +1,35 @@
 <script>
-	/** {options}
-	* Lista de opções a serem escolhidas.
+	import { createBubbler } from 'svelte/legacy';
 
-	* Dicionário no seguinte formato:
-	* {
-	* 	name: str, // identificador do campo.
-	*	text: str  // texto que será mostrado como opção.
-	* }
-	*/
-	export let options = [];
+	const bubble = createBubbler();
+	
 
-	// Variável de controle da tag input
-	export let group = [];
-	export let selected = '';
-	export let requerConfirmacao = false;
-	export let disabled = false;
-	export let onClickOption = () => {};
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} [options] - {options}
+Lista de opções a serem escolhidas.
+Dicionário no seguinte formato:
+{
+name: str, // identificador do campo.
+text: str  // texto que será mostrado como opção.
+}
+	 * @property {any} [group] - Variável de controle da tag input
+	 * @property {string} [selected]
+	 * @property {boolean} [requerConfirmacao]
+	 * @property {boolean} [disabled]
+	 * @property {any} [onClickOption]
+	 */
+
+	/** @type {Props} */
+	let {
+		options = [],
+		group = $bindable([]),
+		selected = '',
+		requerConfirmacao = false,
+		disabled = false,
+		onClickOption = () => {}
+	} = $props();
 
 	if (options) {
 		group = options[0].text;
@@ -32,9 +46,9 @@
 					type="radio"
 					value={option.text}
 					checked={selected.trim() == option.text}
-					on:change
+					onchange={bubble('change')}
 					{disabled}
-					on:click={(e) => {
+					onclick={(e) => {
 						if (requerConfirmacao) {
 							e.preventDefault();
 						}
@@ -48,9 +62,9 @@
 					type="radio"
 					value={option.text}
 					checked={selected.trim() == option.text}
-					on:change
+					onchange={bubble('change')}
 					{disabled}
-					on:click={(e) => {
+					onclick={(e) => {
 						if (requerConfirmacao) {
 							e.preventDefault();
 						}

@@ -1,15 +1,23 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import GroupCard from '$lib/components/GroupCard.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('./$types').PageData} data
+	 */
+
+	/** @type {Props} */
+	let { data } = $props();
 
 	// Estados reativos
-	let grupos = data.groups;
+	let grupos = $state(data.groups);
 	let estudantesTurma = data.estudantes;
-	let estudantesSemGrupo = [];
+	let estudantesSemGrupo = $state([]);
 
 	// Função para calcular os alunos não alocados
 	function calculateUnassigned() {
@@ -19,7 +27,9 @@
 	}
 
 	// Recalcula sempre que os grupos mudarem
-	$: calculateUnassigned(grupos);
+	run(() => {
+		calculateUnassigned(grupos);
+	});
 
 	function handleAddStudent(event) {
 		const { studentId, groupId } = event.detail;

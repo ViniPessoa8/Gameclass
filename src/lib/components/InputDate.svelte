@@ -1,10 +1,23 @@
 <script>
-	export let placeholder = '';
-	export let value;
-	export let inputHandler;
-	export let name = '';
-	export let borded = false;
-	export let disabled = false;
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [placeholder]
+	 * @property {any} value
+	 * @property {any} inputHandler
+	 * @property {string} [name]
+	 * @property {boolean} [borded]
+	 * @property {boolean} [disabled]
+	 */
+
+	/** @type {Props} */
+	let {
+		placeholder = '',
+		value = $bindable(),
+		inputHandler,
+		name = '',
+		borded = false,
+		disabled = false
+	} = $props();
 </script>
 
 {#if borded}
@@ -15,7 +28,7 @@
 			type="date"
 			{placeholder}
 			bind:value
-			on:change={inputHandler}
+			onchange={inputHandler}
 			{name}
 		/>
 	</div>
@@ -26,7 +39,7 @@
 		class="unborded"
 		{placeholder}
 		bind:value
-		on:change={inputHandler}
+		onchange={inputHandler}
 		{name}
 	/>
 {/if}

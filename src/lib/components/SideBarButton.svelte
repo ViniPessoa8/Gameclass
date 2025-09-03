@@ -1,17 +1,29 @@
 <script>
-	export let img = '';
-	export let type = '';
 
-	export let onClick = (x) => {
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [img]
+	 * @property {string} [type]
+	 * @property {any} [onClick] - console.log(x);
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let {
+		img = '',
+		type = '',
+		onClick = (x) => {
 		// console.log(x);
-	};
+	},
+		children
+	} = $props();
 </script>
 
-<button on:click={onClick} {type}>
+<button onclick={onClick} {type}>
 	{#await import(`$lib/assets/${img}.svg`) then src}
 		<img src={src.default} alt="" />
 	{/await}
-	<h1><slot></slot></h1>
+	<h1>{@render children?.()}</h1>
 </button>
 
 <style>

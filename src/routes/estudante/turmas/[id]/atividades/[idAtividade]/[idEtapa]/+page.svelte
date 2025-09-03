@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 	import Comentario from '$lib/components/Comentario.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -7,13 +9,13 @@
 	import { TIPO_ARQUIVO } from '$lib/constants.js';
 	import { page } from '$app/stores';
 
-	export let data;
+	let { data } = $props();
 
 	const statusColor = 'blue';
 	const iconColor = 'red';
 	const descricaoEtapa =
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus. Quisque mollis dui vel nisi commodo, nec aliquet ante tempor. Suspendisse at eros tristique, volutpat mi faucibus, viverra nibh. Nullam sagittis, sem in viverra blandit, nulla felis sollicitudin arcu, eu maximus ligula justo non tortor. Mauris sollicitudin scelerisque sapien tempor maximus. Sed in cursus magna. Suspendisse potenti. Nulla dolor nisl, tristique sit amet bibendum nec, auctor nec risus. Aenean tincidunt mi purus, at mollis quam faucibus in. Sed dictum erat arcu, vitae feugiat justo gravida ut.';
-	let comentarios = [
+	let comentarios = $state([
 		{
 			nome: 'Vinícius Pessoa',
 			texto:
@@ -26,20 +28,22 @@
 				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lacinia felis. Quisque maximus sit amet magna quis dapibus.',
 			data: '06/12/1999'
 		}
-	];
+	]);
 	const statusResposta = 'Concluída';
 
-	let id;
-	let idAtividade;
-	let idEtapa;
-	let textoComentario;
-	let arquivos = [];
-	let arquivo = 'teste';
+	let id = $derived($page.params.id);
+	let idAtividade = $derived($page.params.idAtividade);
+	let idEtapa = $derived($page.params.idEtapa);
+	let textoComentario = $state();
+	let arquivos = $state([]);
+	let arquivo = $state('teste');
 
-	$: id = $page.params.id;
-	$: idAtividade = $page.params.idAtividade;
-	$: idEtapa = $page.params.idEtapa;
-	$: arquivos = [...arquivos, arquivo];
+	
+	
+	
+	run(() => {
+		arquivos = [...arquivos, arquivo];
+	});
 
 	// Gambiarra pra mostrar a data no dia certo (diferença de timezone)
 	const prazoEtapa = new Date(data.etapa.data_entrega_final.toISOString());
@@ -87,7 +91,7 @@
 			<p class="titulo-etapa"><b>Nome da Etapa</b></p>
 			<div class="prazo-status-etapa">
 				<p class="prazo-etapa">Prazo: {dataFormatada}</p>
-				<p style="color: {statusColor}; font-size: 20px"><b>Status<b /></b></p>
+				<p style="color: {statusColor}; font-size: 20px"><b>Status<b></b></b></p>
 			</div>
 		</div>
 		<hr />

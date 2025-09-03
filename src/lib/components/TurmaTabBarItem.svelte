@@ -1,12 +1,24 @@
 <script>
-	export let icon,
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} icon
+	 * @property {any} alt
+	 * @property {string} [text]
+	 * @property {boolean} [underline]
+	 * @property {any} onClick
+	 */
+
+	/** @type {Props} */
+	let {
+		icon,
 		alt,
-		text = '';
-	export let underline = false;
-	export let onClick;
+		text = '',
+		underline = false,
+		onClick
+	} = $props();
 </script>
 
-<button class="tab" on:click={onClick}>
+<button class="tab" onclick={onClick}>
 	<div class="tab-content">
 		<img src={icon} {alt} />
 		<h2>{text}</h2>

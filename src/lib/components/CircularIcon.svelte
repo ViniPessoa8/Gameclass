@@ -1,12 +1,27 @@
 <script>
-	export let color = 'white';
-	export let backgroundColor = 'var(--cor-primaria)';
-	export let size = 60;
-	export let fontSize = 30;
-	export let src,
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [color]
+	 * @property {string} [backgroundColor]
+	 * @property {number} [size]
+	 * @property {number} [fontSize]
+	 * @property {any} src
+	 * @property {any} alt
+	 * @property {string} [text]
+	 * @property {string} [type]
+	 */
+
+	/** @type {Props} */
+	let {
+		color = 'white',
+		backgroundColor = 'var(--cor-primaria)',
+		size = 60,
+		fontSize = 30,
+		src,
 		alt,
-		text = '';
-	export let type = 'img';
+		text = '',
+		type = 'img'
+	} = $props();
 </script>
 
 <div
