@@ -7,6 +7,7 @@
 	import icon_mais from '$lib/assets/icon_mais.png';
 	import icon_menos from '$lib/assets/icon_menos.png';
 	import { slide } from 'svelte/transition';
+	import { formataData } from '$lib/utils/util';
 
 	let { data } = $props();
 	let mostraAtividades = $state(data.atividades.map(() => false));
@@ -36,7 +37,8 @@
 					<div class="info">
 						<img src={icon_calendario} alt="ícone de calendário" />
 						<p>Criada em:</p>
-						<h3>{data.turma.data_criacao.toLocaleString('pt-BR', dateOptions)}</h3>
+						<!-- <h3>{data.turma.data_criacao.toLocaleString('pt-BR', dateOptions)}</h3> -->
+						<h3>{formataData(data.turma.data_criacao)}</h3>
 					</div>
 				</div>
 			</div>
