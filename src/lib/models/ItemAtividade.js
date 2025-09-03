@@ -15,6 +15,23 @@ export default class ItemAtividade {
 
 	}
 
+	formataDataInicial() {
+		const dateOptions = {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+			timezone: 'America/Manaus'
+		};
+
+		const dataInicial = new Date(this.data_entrega_inicial.toISOString());
+		const dataInicialStr = dataInicial.toLocaleString('pt-BR', dateOptions);
+
+		return dataInicialStr
+
+	}
+
 	formataDataFinal() {
 		const dateOptions = {
 			day: '2-digit',

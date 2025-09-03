@@ -12,10 +12,6 @@
 	let id = $derived($page.params.id);
 	let url = $derived(`/${data.perfil}/turmas/${id}/atividades/create`);
 
-	
-	
-	
-
 	$selectedTurmaTabBar = 1;
 
 	onMount(async () => {

@@ -21,6 +21,11 @@ export async function load({ params, cookies }) {
 
 	for (let i = 0; i <= atividades.length - 1; i += 1) {
 		let itensAtividade = await itemAtividadeController.listaPorIdAtividade(atividades[i].id)
+
+		for (const item of itensAtividade) {
+			item.avaliacoesPendentes = parseInt(await itemAtividadeController.possuiAvaliacoesPendentes(item.id))
+		}
+
 		atividades[i].itens_atividade = itensAtividade
 	}
 

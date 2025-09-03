@@ -22,7 +22,7 @@
 	const segments = [];
 
 	const total_etapas_concluidas = atividade.itens_atividade.filter(
-		(i) => i.data_entrega_final <= Date.now()
+		(i) => i.data_entrega_final <= Date.now() && i.avaliacoesPendentes == 0
 	).length;
 	if (total_etapas_concluidas > 0) {
 		segments.push({
@@ -34,15 +34,31 @@
 		});
 	}
 
+	const total_etapas_pendentes = atividade.itens_atividade.filter(
+		(i) => i.avaliacoesPendentes > 0
+	).length;
+	if (total_etapas_pendentes > 0) {
+		segments.push({
+			name: 'etapas_pendentes',
+			descricao: 'Etapas com avaliações pendentes',
+			backgroundColor: 'var(--cor-secundaria-2)',
+			color: 'black',
+			value: total_etapas_pendentes
+		});
+	}
+
 	const total_etapas_abertas = atividade.itens_atividade.filter(
-		(i) => i.data_entrega_inicial <= Date.now() && i.data_entrega_final >= Date.now()
+		(i) =>
+			i.data_entrega_inicial <= Date.now() &&
+			i.data_entrega_final >= Date.now() &&
+			i.avaliacoesPendentes == 0
 	).length;
 	if (total_etapas_abertas > 0) {
 		segments.push({
 			name: 'etapas_abertas',
-			descricao: 'Etapas em andamento',
-			backgroundColor: 'var(--cor-secundaria-2)',
-			color: 'black',
+			descricao: 'Etapas abertas para envio',
+			backgroundColor: 'var(--cor-primaria)',
+			color: 'white',
 			value: total_etapas_abertas
 		});
 	}
@@ -54,8 +70,8 @@
 		segments.push({
 			name: 'etapas_a_lancar',
 			descricao: 'Etapas agendadas para o futuro',
-			backgroundColor: 'var(--cor-primaria)',
-			color: 'white',
+			backgroundColor: 'var(--cor-secundaria)',
+			color: 'black',
 			value: total_etapas_a_lancar
 		});
 	}
@@ -284,7 +300,7 @@
 	}
 
 	.etapas-container {
-		width: 90%;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-self: center;

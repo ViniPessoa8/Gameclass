@@ -96,6 +96,9 @@
 			<h3 class="status-text-{STATUS_ID[status]}">
 				{#if page.url.pathname.includes('professor')}
 					{STATUS_ITEM_ATIVIDADE.professor[status]}
+					{STATUS_ITEM_ATIVIDADE.professor[status] == 'Agendado'
+						? `(${itemAtividade.formataDataInicial()})`
+						: ''}
 				{:else}
 					{STATUS_ITEM_ATIVIDADE.estudante[status]}
 				{/if}
