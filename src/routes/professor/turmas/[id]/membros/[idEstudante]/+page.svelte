@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CardTurma from '$lib/components/CardTurma.svelte';
+	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 	import { goto } from '$app/navigation';
 
@@ -31,21 +32,30 @@
 			<h3>{estudante.nome}</h3>
 		</div>
 
-		<ProgressBar
-			currentLevel={estudante.nivel}
-			currentXp={estudante.acumulo_xp}
-			xpForCurrentLevel={Math.trunc(estudante.acumulo_xp / 100) * 100}
-			xpForNextLevel={Math.trunc(estudante.acumulo_xp / 100) * 100 + 100}
-		/>
+		<div class="barra-xp">
+			<ProgressBar
+				currentLevel={estudante.nivel}
+				currentXp={estudante.acumulo_xp}
+				xpForCurrentLevel={Math.trunc(estudante.acumulo_xp / 100) * 100}
+				xpForNextLevel={Math.trunc(estudante.acumulo_xp / 100) * 100 + 100}
+			/>
+
+			<IconeInformacao
+				text="Estudantes adiquirem XP por meio de ações como: realizar comentários, entregar atividades, tirar notas boas, etc."
+			/>
+		</div>
 
 		<div class="button-container">
 			<Button on:click={onClick}
-				><img src={icon_relatorio} alt="icone boletim" /> Ver Boletim</Button
+				><div class="button-content">
+					<img src={icon_relatorio} alt="icone boletim" />
+					<p>Ver Boletim</p>
+				</div></Button
 			>
 		</div>
 
 		<div class="descricao-estudante">
-			<h2>Descrição</h2>
+			<h2>Bio</h2>
 			<p>{estudante.bio}</p>
 		</div>
 
@@ -114,7 +124,15 @@
 	}
 
 	.button-container {
-		align-self: end;
+		align-self: start;
+		margin-bottom: 36px;
+	}
+
+	.button-content {
+		display: flex;
+		flex-direction: row;
+		gap: 8px;
+		align-items: center;
 	}
 
 	.descricao-estudante {
@@ -144,7 +162,7 @@
 	}
 
 	.outras-turmas {
-		justify-content: center;
+		justify-content: start;
 		display: flex;
 		flex-wrap: wrap;
 	}
@@ -206,5 +224,12 @@
 	.conquista-descricao {
 		font-weight: 300;
 		font-size: 20px;
+	}
+
+	.barra-xp {
+		display: flex;
+		width: 100%;
+		flex-direction: row;
+		align-items: center;
 	}
 </style>
