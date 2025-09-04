@@ -40,6 +40,7 @@
 		"pg": "^8.16.0",
 		"svelte-feather-icons": "^4.2.0",
 		"svelte-input-mask": "^1.1.0",
+		"svelte-select": "^5.8.3",
 		"svelte-sonner": "^1.0.1",
 		"svelte-tags-input": "^6.0.2"
 	}
