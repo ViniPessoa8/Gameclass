@@ -7,7 +7,7 @@ export const conquistas = [
 	},
 	{
 		nome: 'Quebrando o gelo',
-		descricao: 'Foi o primeiro aluno da turma a fazer um comentário em uma publicação do professor.',
+		descricao: 'Primeiro comentário da turma em uma publicação do professor.',
 		pontos_xp: 10,
 		arquivo_icone: 'quebrando_o_gelo.png'
 	}
