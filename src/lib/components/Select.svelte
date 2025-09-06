@@ -1,16 +1,4 @@
 <script>
-	/**
-	 * @typedef {Object} Props
-	 * @property {any} optionList
-	 * @property {any} inputHandler
-	 * @property {any} value
-	 * @property {string} [name]
-	 * @property {boolean} [borded]
-	 * @property {string} [unselectedText]
-	 * @property {any} width
-	 */
-
-	/** @type {Props} */
 	let {
 		optionList,
 		inputHandler,
@@ -24,7 +12,7 @@
 
 {#if borded}
 	<!-- <div class="board"> -->
-	<select class="boarded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
+	<select class="borded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
 		{#if unselectedText != ''}
 			<option value="" disabled selected>{unselectedText}</option>
 		{/if}
@@ -45,7 +33,7 @@
 {/if}
 
 <style>
-	.boarded {
+	.borded {
 		background-color: var(--cor-primaria);
 		padding: 14px;
 		border-radius: 12px;

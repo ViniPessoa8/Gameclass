@@ -5,6 +5,7 @@
 	import InputDate from '$lib/components/InputDate.svelte';
 	import InputPassword from '$lib/components/InputPassword.svelte';
 	import Select from '$lib/components/Select.svelte';
+	import SelectSearch from '$lib/components/SelectSearch.svelte';
 	import { PASSWORD_MAX_CHARACTERS, PASSWORD_MIN_CHARACTERS } from '$lib/constants.js';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
@@ -38,7 +39,9 @@
 		matriculaAlunoEmpty = $state(false);
 
 	let senhasIncompativeis = $state(false);
-	let erroSenhaTamanhoMinimo = $state(), erroSenhaTamanhoMaximo = $state(), erroSenhaCaracteres = $state();
+	let erroSenhaTamanhoMinimo = $state(),
+		erroSenhaTamanhoMaximo = $state(),
+		erroSenhaCaracteres = $state();
 
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
@@ -308,7 +311,7 @@
 		</div>
 
 		<div style="display:flex; flex-direction: column;">
-			<Select
+			<SelectSearch
 				name="instituicao"
 				optionList={selectOptionList}
 				inputHandler={instituicaoInputHandler}
