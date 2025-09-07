@@ -22,7 +22,7 @@
 	let { data } = $props();
 	console.debug('data=>', data);
 
-	const atividade = data.atividade
+	const atividade = data.atividade;
 
 	let novoCriterioTitulo = $state('');
 	let novoCriterioNota = $state('');
@@ -342,7 +342,6 @@
 
 		return unsubscribe; // limpa quando sair da página
 	});
-
 </script>
 
 <Modal
@@ -368,6 +367,9 @@
 />
 <Toaster richColors expand position="top-center" closeButton />
 {#if !carregando}
+	<div class="caminho-de-pao-criacao">
+		<p>Criar Atividade > <b><u>Definir Etapa / Critérios</u></b></p>
+	</div>
 	<div class="page-container">
 		<!-- <EtapasBarraLateral bind:etapas={etapasData} bind:selectedEtapa={$selectedEtapa} /> -->
 		<div class="content-container">
@@ -815,5 +817,18 @@
 	.btn-add-formacao {
 		display: flex;
 		justify-content: center;
+	}
+
+	.caminho-de-pao-criacao {
+		margin-left: 128px;
+		margin-top: 24px;
+		color: gray;
+		font-size: 24px;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.caminho-de-pao-criacao b {
+		color: var(--cor-primaria);
 	}
 </style>

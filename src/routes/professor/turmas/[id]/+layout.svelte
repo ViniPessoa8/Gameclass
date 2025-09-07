@@ -20,7 +20,6 @@
 <style>
 	.page-layout {
 		display: flex;
-		min-height: 100vh;
 	}
 
 	.content {

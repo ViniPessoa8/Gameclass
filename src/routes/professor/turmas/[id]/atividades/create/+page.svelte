@@ -18,7 +18,9 @@
 		tags = [];
 	let tagsAutocomplete = [];
 	let tagsColors = $state({});
-	let tituloEmpty = $state(), descricaoEmpty = $state(), prazoEmpty = $state();
+	let tituloEmpty = $state(),
+		descricaoEmpty = $state(),
+		prazoEmpty = $state();
 
 	function showISOAsGMT4(isoUTC) {
 		const offsetMinutes = -4 * 60; // GMT-4
@@ -134,6 +136,9 @@
 		};
 	}}
 >
+	<div class="caminho-de-pao-criacao">
+		<p><b><u>Criar Atividade</u></b> > Definir Etapa / Critérios</p>
+	</div>
 	<h1>{data.nomeTurma}</h1>
 	<h2>Criação de Atividade</h2>
 	<!-- Titulo da Atividade -->
@@ -226,5 +231,19 @@
 		color: red;
 		font-weight: 700;
 		margin-right: 12px;
+	}
+
+	.caminho-de-pao-criacao {
+		width: 90%;
+		margin-left: 110px;
+		margin-top: 14px;
+		color: gray;
+		font-size: 24px;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.caminho-de-pao-criacao b {
+		color: var(--cor-primaria);
 	}
 </style>
