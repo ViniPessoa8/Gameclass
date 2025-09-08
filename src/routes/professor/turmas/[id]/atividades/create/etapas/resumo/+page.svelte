@@ -33,6 +33,7 @@
 <form
 	class="content-etapa"
 	method="POST"
+	hidden="hidden"
 	use:enhance={() => {
 		return async ({ update }) => {
 			sessionStorage.removeItem('etapas');

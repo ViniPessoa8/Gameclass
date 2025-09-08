@@ -16,13 +16,13 @@
 	import { etapas } from '$src/stores/etapas';
 	import { onMount } from 'svelte';
 	import { Toaster, toast } from 'svelte-sonner';
-	import { FORMACAO_GRUPO } from '../../../../../../../../lib/constants';
+	import { FORMACAO_GRUPO } from '$lib/constants';
 
 	// export let data;
 	let { data } = $props();
 	console.debug('data=>', data);
 
-	const atividade = data.atividade;
+	let atividade = data.atividade;
 
 	let novoCriterioTitulo = $state('');
 	let novoCriterioNota = $state('');

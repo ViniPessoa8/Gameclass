@@ -6,8 +6,46 @@
 	import Tags from 'svelte-tags-input';
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
+	import Modal from '$lib/components/Modal.svelte';
+	import { navigationGuard } from '$src/stores/navigationGuard.js';
+	import { onDestroy, onMount } from 'svelte';
 
-	let { data } = $props();
+	let { data, children } = $props();
+	const BACK_SKIP = [`/${data.perfil}/turmas`];
+
+	let showModalCancelarAtividade = $state(false);
+	let resolvePromise;
+
+	// 1. A função que será colocada na store.
+	// Ela mostra o modal e retorna uma Promise que espera a decisão do usuário.
+	function requestConfirmation() {
+		showModalCancelarAtividade = true;
+		return new Promise((resolve) => {
+			// Guardamos a função resolve para que os botões do modal possam chamá-la.
+			resolvePromise = resolve;
+		});
+	}
+
+	// 3. Limpa a guarda quando o componente é destruído.
+	// Isso é CRUCIAL para que outras páginas não acionem a confirmação.
+	onDestroy(() => {
+		navigationGuard.set(null);
+	});
+
+	// Funções chamadas pelos botões do modal
+	function handleConfirm() {
+		showModalCancelarAtividade = false;
+		if (resolvePromise) {
+			resolvePromise(true); // Confirma a navegação
+		}
+	}
+
+	function handleCancel() {
+		showModalCancelarAtividade = false;
+		if (resolvePromise) {
+			resolvePromise(false); // Cancela a navegação
+		}
+	}
 
 	let titulo = $state(null),
 		descricao = $state(null),
@@ -105,7 +143,36 @@
 		if (e.target.value.length != undefined) prazoEmpty = false;
 		// form.already_registered = false;
 	}
+
+	onMount(() => {
+		navigationGuard.set(requestConfirmation);
+		console.debug('data.atividade =>', data.atividade);
+		if (data.atividade) {
+			console.debug('TEM ATIVIDADE');
+			titulo = data.atividade.titulo;
+			descricao = data.atividade.descricao;
+			prazo = showISOAsGMT4(data.atividade.prazo);
+		}
+	});
 </script>
+
+<Modal
+	visible={showModalCancelarAtividade}
+	title="Atenção"
+	message="Deseja realmente cancelar a criação de atividade? Todos os dados preenchidos serão perdidos."
+	buttons={[
+		{
+			label: 'Sim, Cancelar',
+			onClick: handleConfirm, // Chama a função que resolve a Promise com 'true'
+			color: 'green'
+		},
+		{
+			label: 'Não, Continuar',
+			onClick: handleCancel, // Chama a função que resolve a Promise com 'false'
+			color: 'red'
+		}
+	]}
+/>
 
 <Toaster richColors expand position="top-center" closeButton />
 <form

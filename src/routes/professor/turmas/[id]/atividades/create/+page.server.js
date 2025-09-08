@@ -5,15 +5,23 @@ import AtividadeController from "$lib/server/controllers/atividade"
 import Atividade from "$lib/models/Atividade"
 
 const turmaController = new TurmaController()
-const atividadeController = new AtividadeController()
+// const atividadeController = new AtividadeController()
 
-export async function load({ params }) {
+export async function load({ params, cookies }) {
+	let returnData = {}
+
 	const turmaId = params.id
 	const turma = await turmaController.buscaPorId(turmaId)
-
 	console.assert(turma != null, `Turma ${turmaId} não encontrada.`)
+	returnData.nomeTurma = turma.nome
 
-	return { "nomeTurma": turma.nome }
+	let atividade = cookies.get("atividade")
+	if (atividade) {
+		atividade = JSON.parse(atividade)
+		returnData.atividade = atividade
+	}
+
+	return returnData
 }
 
 export const actions = {
@@ -29,49 +37,53 @@ export const actions = {
 		let prazoAtividade = data.get('prazo')
 		let tags = JSON.parse(data.get("tags"))
 
-		// Salva tags do usuário
-		// TODO: Verificar se tag ja existe antes de salvar
-		for (const [key, value] of Object.entries(tags)) {
-			let tituloTag = key
-			let corTag = value
-			let erro
-			try {
-				await cadastraTag(tituloTag, corTag, idProfessor)
-			} catch (e) {
-				erro = e
-			}
-			if (erro) fail(400, `POST /atividades/create ERROR: ${erro}`)
-		}
+		// // Salva tags do usuário
+		// // TODO Verificar se tag ja existe antes de salvar
+		// for (const [key, value] of Object.entries(tags)) {
+		// 	let tituloTag = key
+		// 	let corTag = value
+		// 	let erro
+		// 	try {
+		// 		await cadastraTag(tituloTag, corTag, idProfessor)
+		// 	} catch (e) {
+		// 		erro = e
+		// 	}
+		// 	if (erro) fail(400, `POST /atividades/create ERROR: ${erro}`)
+		// }
 
 		// Cria atividade
-		let idAtividade;
-		let erro;
-		try {
-			const atividade = new Atividade({
-				titulo: tituloAtividade,
-				descricao: descricaoAtividade,
-				prazo: prazoAtividade,
-				id_turma: idTurma
-			});
+		// TODO: Invés de cadastrar, salvar no objeto no sessionStorage
 
-			const idAtividadeRes = await atividadeController.cadastra(atividade)
+		// let idAtividade;
+		// let erro;
+		// try {
+		const atividade = new Atividade({
+			titulo: tituloAtividade,
+			descricao: descricaoAtividade,
+			prazo: prazoAtividade,
+			id_turma: idTurma
+		});
 
-			idAtividade = idAtividadeRes.id
-		} catch (e) {
-			erro = e
-		}
+		cookies.set("atividade", JSON.stringify(atividade.toObject()), { path: '/' })
 
-		if (erro) {
-			console.error(erro)
-			if (erro.hasOwnProperty("message") && erro.message.includes("Uma atividade com o mesmo nome já existe nessa turma")) {
-				return fail(400, { duplicated: true, e: erro.message })
+		// const idAtividadeRes = await atividadeController.cadastra(atividade)
 
-			} else {
-				error(400, `POST /atividades/create ERROR: ${erro}`)
-			}
-		}
+		// idAtividade = idAtividadeRes.id
+		// } catch (e) {
+		// 	erro = e
+		// }
 
-		redirect(307, request.url + '/etapas/' + idAtividade)
+		// if (erro) {
+		// 	console.error(erro)
+		// 	if (erro.hasOwnProperty("message") && erro.message.includes("Uma atividade com o mesmo nome já existe nessa turma")) {
+		// 		return fail(400, { duplicated: true, e: erro.message })
+		//
+		// 	} else {
+		// 		error(400, `POST /atividades/create ERROR: ${erro}`)
+		// 	}
+		// }
+
+		redirect(307, request.url + '/etapas/')
 
 	}
 

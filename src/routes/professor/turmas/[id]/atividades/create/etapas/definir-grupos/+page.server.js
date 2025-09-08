@@ -11,9 +11,10 @@ export let actions = {
 }
 
 export async function load({ cookies, params }) {
-	const atividadeController = new AtividadeController()
-	const idAtividade = params.idAtividade
-	const atividade = await atividadeController.buscaPorId(idAtividade)
+	// const atividadeController = new AtividadeController()
+	// const idAtividade = params.idAtividade
+	// const atividade = await atividadeController.buscaPorId(idAtividade)
+	const atividade = JSON.parse(cookies.get("atividade"))
 	const item_atividade = JSON.parse(cookies.get("item_atividade"))
 	item_atividade.etapa = JSON.parse(item_atividade["etapas"])[0]
 	delete item_atividade.etapas
@@ -22,7 +23,7 @@ export async function load({ cookies, params }) {
 	const formacaoController = new FormacaoGrupoController()
 
 	const alunosDaTurma = await turmaController.listaAlunos(params.id)
-	const formacoes = await formacaoController.listaPorIdItemAtividade(params.idAtividade)
+	const formacoes = await formacaoController.listaPorIdItemAtividade(atividade.id)
 
 	// Buscar os grupos e seus integrantes para o `item_atividade`.
 	let grupos = [];

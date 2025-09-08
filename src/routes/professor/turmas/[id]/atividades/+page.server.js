@@ -5,6 +5,9 @@ const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
 
 export async function load({ params, cookies }) {
+	cookies.set("atividade", "", { path: "/" })
+	cookies.set("etapas", "", { path: "/" })
+
 	let data = {}
 	let atividades = await atividadeController.listaPorIdTurma(params.id)
 

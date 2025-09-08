@@ -5,8 +5,44 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO } from '$lib/constants.js';
+	import Modal from '$lib/components/Modal.svelte';
+	import { navigationGuard } from '$src/stores/navigationGuard.js';
+	import { onDestroy, onMount } from 'svelte';
 
-	const { data } = $props();
+	let { data } = $props();
+
+	let showModalCancelarAvaliacao = $state(false);
+	let resolvePromise;
+
+	function requestConfirmation() {
+		showModalCancelarAvaliacao = true;
+		return new Promise((resolve) => {
+			resolvePromise = resolve;
+		});
+	}
+
+	onMount(() => {
+		navigationGuard.set(requestConfirmation);
+	});
+
+	onDestroy(() => {
+		navigationGuard.set(null);
+	});
+
+	// Funções chamadas pelos botões do modal
+	function handleConfirm() {
+		showModalCancelarAvaliacao = false;
+		if (resolvePromise) {
+			resolvePromise(true); // Confirma a navegação
+		}
+	}
+
+	function handleCancel() {
+		showModalCancelarAvaliacao = false;
+		if (resolvePromise) {
+			resolvePromise(false); // Cancela a navegação
+		}
+	}
 
 	const notas = $state(
 		data.entrega.notas.length != 0
@@ -95,6 +131,23 @@
 			: 'grid-template-columns: 1fr auto auto';
 </script>
 
+<Modal
+	visible={showModalCancelarAvaliacao}
+	title="Atenção"
+	message="Deseja realmente cancelar a avaliação da etapa? Todos os dados preenchidos serão perdidos."
+	buttons={[
+		{
+			label: 'Sim, Cancelar',
+			onClick: handleConfirm, // Chama a função que resolve a Promise com 'true'
+			color: 'green'
+		},
+		{
+			label: 'Não, Continuar',
+			onClick: handleCancel, // Chama a função que resolve a Promise com 'false'
+			color: 'red'
+		}
+	]}
+/>
 <Toaster richColors expand position="top-center" closeButton />
 <div class="container">
 	<p class="titulo-atividade">{data.atividade.titulo}</p>
