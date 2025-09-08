@@ -8,8 +8,10 @@
 	const estudante = data.estudante;
 	const turma = data.turma;
 	const atividades = $state(data.atividades);
+	let mediaFinal = $state();
 
 	onMount(() => {
+		let somaMediasAtividades = 0;
 		for (let i = 0; i < atividades.length; i++) {
 			if (atividades[i].itens_atividade.length == 0) {
 				atividades[i].media_obtida = '-';
@@ -27,6 +29,8 @@
 					}, 0) / atividades[i].itens_atividade.length
 				).toFixed(1);
 
+				somaMediasAtividades += atividades[i].media_obtida;
+
 				atividades[i].media_max = (
 					atividades[i].itens_atividade.reduce(
 						(acc, ia) => acc + ia.criterios.reduce((acc2, c) => c.pontuacao_max + acc2, 0),
@@ -35,6 +39,7 @@
 				).toFixed(1);
 			}
 		}
+		mediaFinal = somaMediasAtividades / atividades.length;
 	});
 </script>
 
@@ -49,6 +54,7 @@
 			</div>
 			<p>{turma.nome} - {turma.disciplina}</p>
 			<p>Posição no ranking da turma: <b>{estudante.posicao_ranking}</b></p>
+			<p>Média final: {mediaFinal}</p>
 		</div>
 		<h1>Atividades</h1>
 		<hr />
