@@ -7,7 +7,7 @@
 		value = $bindable(),
 		name = '',
 		borded = false,
-		unselectedText = 'Selecione uma opção',
+		placeholder = 'Selecione uma opção',
 		width = '100%'
 	} = $props();
 
@@ -42,7 +42,7 @@
 	function handleFocus() {
 		isOpen = true;
 	}
-	
+
 	function handleInput(event) {
 		searchTerm = event.target.value;
 		// Se o usuário apagar o texto, o valor selecionado deve ser limpo
@@ -62,7 +62,7 @@
 			}
 		}
 	}
-	
+
 	// Adiciona px se a largura for um número
 	const componentWidth = $derived(typeof width === 'number' ? `${width}px` : width);
 </script>
@@ -75,7 +75,7 @@
 		{name}
 		class:borded
 		class:unborded={!borded}
-		placeholder={unselectedText}
+		{placeholder}
 		bind:value={searchTerm}
 		on:focus={handleFocus}
 		on:input={handleInput}
@@ -114,7 +114,7 @@
 	input:focus {
 		outline: none;
 	}
-	
+
 	/* Estilos mantidos do seu componente original */
 	.borded {
 		background-color: var(--cor-primaria);

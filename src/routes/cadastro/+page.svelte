@@ -315,6 +315,7 @@
 				name="instituicao"
 				optionList={selectOptionList}
 				inputHandler={instituicaoInputHandler}
+				placeholder="Selecione uma instituição"
 				bind:value={instituicao}
 			/>
 			{#if instituicaoEmpty}

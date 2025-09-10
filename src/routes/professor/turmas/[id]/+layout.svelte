@@ -32,9 +32,8 @@
 		margin-bottom: 64px;
 	}
 
-	/* 3. Estilize a nova barra lateral */
 	.sidebar {
-		height: fit-content; /* 4. Garante que a altura do container seja baseada no seu conteúdo */
+		height: fit-content;
 		display: flex;
 		flex-direction: column;
 	}

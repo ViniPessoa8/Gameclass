@@ -229,13 +229,15 @@
 		width: 325px;
 		height: 64px;
 		position: sticky;
-
 		display: flex;
 		bottom: 0px;
 		justify-content: center;
 		align-items: center;
 		z-index: 999;
 		background-color: var(--cor-secundaria);
+		border-bottom-right-radius: 32px;
+		border-bottom-left-radius: 32px;
+		padding-bottom: 10px;
 	}
 
 	.popup-overlay {
