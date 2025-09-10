@@ -42,6 +42,8 @@
 		background-color: var(--cor-secundaria);
 		width: 325px;
 		overflow-y: auto;
+		position: sticky;
+		top: inherit;
 	}
 
 	.ranking {

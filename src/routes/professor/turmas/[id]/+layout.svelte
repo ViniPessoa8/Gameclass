@@ -25,7 +25,6 @@
 <style>
 	.page-layout {
 		display: flex;
-		gap: 24px; /* Adiciona um espaço entre o conteúdo e a sidebar */
 	}
 
 	.content {
@@ -38,7 +37,5 @@
 		height: fit-content; /* 4. Garante que a altura do container seja baseada no seu conteúdo */
 		display: flex;
 		flex-direction: column;
-		gap: 16px; /* Espaço entre o ranking e o botão de convite */
-		padding-bottom: 64px;
 	}
 </style>
