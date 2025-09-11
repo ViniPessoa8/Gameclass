@@ -189,22 +189,15 @@
 								></svg
 							>
 						</a>
-						<a href="#" aria-label="Compartilhar no WhatsApp">
-							<svg
+						<a
+							title="WhatsApp, Public domain, via Wikimedia Commons"
+							href="https://commons.wikimedia.org/wiki/File:WhatsApp.svg"
+							><img
 								width="32"
-								height="32"
-								viewBox="0 0 32 32"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-								><path
-									d="M16 0C7.163 0 0 7.163 0 16C0 24.837 7.163 32 16 32C24.837 32 32 24.837 32 16C32 7.163 24.837 0 16 0Z"
-									fill="#25D366"
-								/><path
-									d="M25.438 6.562C22.782 3.9 19.5 2.563 16 2.563C9.15 2.563 3.563 8.15 3.563 15C3.563 17.625 4.313 20.125 5.688 22.25L3.375 28.625L10 26.375C12.063 27.625 14.438 28.438 17 28.438H17.063C23.85 28.438 29.438 22.85 29.438 16C29.438 12.563 28.038 9.25 25.438 6.562ZM17.063 26.063H17C14.75 26.063 12.563 25.313 10.75 24.125L10.313 23.813L6.375 24.875L7.5 21L7.188 20.563C5.938 18.625 5.25 16.375 5.25 14C5.25 9.188 9.25 5.188 14 5.188C16.313 5.188 18.5 6.063 20.188 7.75C21.875 9.438 22.75 11.625 22.75 13.938C22.75 18.75 18.75 22.75 14 22.75L13.813 23.438L17.063 26.063Z"
-									fill="#FAFAFA"
-								/></svg
-							>
-						</a>
+								alt="WhatsApp"
+								src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png?20220228223904"
+							/></a
+						>
 						<a href="#" aria-label="Compartilhar no Twitter">
 							<svg
 								width="32"
