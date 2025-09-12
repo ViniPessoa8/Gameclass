@@ -24,9 +24,10 @@
 	let arquivo = 'teste';
 	let currentView = $state(data.visualizacao_entregas);
 
-	
-	
-	
+	if (!currentView) {
+		currentView = null;
+	}
+
 	run(() => {
 		arquivos = [...arquivos, arquivo];
 	});
