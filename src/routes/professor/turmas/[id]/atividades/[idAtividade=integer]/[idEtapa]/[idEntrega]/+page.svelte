@@ -58,6 +58,7 @@
 		if (response.ok) {
 			fetchComentarios(idEntrega);
 			textoComentario = '';
+			toast.success('Comentário criado');
 		}
 	}
 
