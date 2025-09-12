@@ -10,7 +10,8 @@
 		"format": "prettier --write .",
 		"test": "vitest --sequence.setupfiles='list'",
 		"db:seed": "node src/lib/seeders/seed.js",
-		"start:dev": "npm run db:seed && npm run dev"
+		"start:dev": "npm run db:seed && npm run dev",
+		"start:preview": "npm run db:seed && npm run build && npm run preview"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^6.0.1",

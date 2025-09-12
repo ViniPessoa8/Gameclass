@@ -6,7 +6,8 @@
  * */
 
 import { error } from "@sveltejs/kit";
-import { registerNewUser } from "$controllers/auth";
+import { registra } from "$controllers/usuario";
+import ControllerUsuario from "$controllers/usuario";
 
 /* Cadastra um novo usuário no banco de dados.
  *
@@ -24,7 +25,8 @@ export async function POST(event) {
 		error(400, "Missing Data")
 	}
 
-	let registered = await registerNewUser(data.nome, data.login, data.password);
+	const controllerUsuario = new ControllerUsuario()
+	const registered = await controllerUsuario.registra(data.nome, data.login, data.password);
 
 	if (!registered) {
 		console.log("\t", 500, "Erro no registro do usuário")

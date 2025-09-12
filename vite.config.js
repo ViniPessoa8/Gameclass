@@ -8,5 +8,9 @@ export default defineConfig({
 	},
 	server: {
 		port: process.env.VITE_SERVER_PORT
+	},
+	preview: {
+		allowedHosts: true
 	}
+
 });

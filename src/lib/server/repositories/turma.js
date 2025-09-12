@@ -31,7 +31,7 @@ export async function isTurmaRegisteredDB(codigo, instituicaoId) {
 	}
 }
 
-export async function listaTurmaPorIdBD(codigo) {
+export async function listaTurmaPorCodigoBD(codigo) {
 	const db = getPool()
 	const query = {
 		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE codigo = $1;`,

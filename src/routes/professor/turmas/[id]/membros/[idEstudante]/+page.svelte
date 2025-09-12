@@ -7,6 +7,7 @@
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 	import { goto } from '$app/navigation';
+	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
 
 	let { data } = $props();
 
@@ -38,6 +39,7 @@
 <div class="container">
 	<div class="content-estudante">
 		<div class="estudante-nome-login">
+			<CircularTextIcon backgroundColor="#{estudante.cor}">{estudante.nome[0]}</CircularTextIcon>
 			<h1>{estudante.login}</h1>
 			<h3>{estudante.nome}</h3>
 		</div>

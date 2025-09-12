@@ -1,4 +1,4 @@
-import { cadastraIntegranteEmGrupoBD, listaIntegrantesPorIdGrupo } from "../repositories/integranteGrupo"
+import { cadastraIntegranteEmGrupoBD, listaPorIdGrupoBD } from "../repositories/integranteGrupo"
 
 export default class IntegranteGrupoController {
 	async cadastra(idEstudante, idGrupo) {
@@ -6,7 +6,7 @@ export default class IntegranteGrupoController {
 	}
 
 	async listaPorIdGrupo(idGrupo) {
-		let res = await listaIntegrantesPorIdGrupo(idGrupo)
+		let res = await listaPorIdGrupoBD(idGrupo)
 		return res.rows
 	}
 

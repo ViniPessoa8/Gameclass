@@ -17,7 +17,7 @@ export async function cadastraIntegranteEmGrupoBD(idEstudante, idGrupo) {
 	}
 }
 
-export async function listaPorIdGrupo(idGrupo) {
+export async function listaPorIdGrupoBD(idGrupo) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 
@@ -40,4 +40,3 @@ export async function listaPorIdGrupo(idGrupo) {
 		throw (`Erro ao listar integrantes do grupo: ${e}`)
 	}
 }
-listaPorIdGrupo

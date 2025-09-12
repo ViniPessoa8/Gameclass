@@ -69,7 +69,6 @@ export async function buscaEntregaPorIdBD(idEntrega) {
 	}
 }
 
-
 export async function listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega) {
 	const db = getPool()
 	try {
