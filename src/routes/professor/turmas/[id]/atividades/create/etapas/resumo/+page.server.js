@@ -127,9 +127,10 @@ export let actions = {
 
 		cookies.set("atividade", "", { path: "/" })
 		cookies.set("etapas", "", { path: "/" })
-		if (cookies.get("toast") != "atividade_criada") {
-			cookies.set("toast", 'etapas_criadas', { path: "/" })
-		}
+		cookies.set("toast", 'atividade_criada', { path: "/" })
+		// if (cookies.get("toast") != "atividade_criada") {
+		// 	cookies.set("toast", 'etapas_criadas', { path: "/" })
+		// }
 
 		redirect(300, `/professor/turmas/${params.id}/atividades/`)
 	}
