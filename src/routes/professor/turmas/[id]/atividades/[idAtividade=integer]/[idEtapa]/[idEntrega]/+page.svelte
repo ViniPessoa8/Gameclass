@@ -25,11 +25,6 @@
 	let arquivo = $state();
 	let listaComentarios = $derived(comentarios);
 
-	
-	
-	
-	
-
 	const dateOptions = {
 		day: '2-digit',
 		month: '2-digit',
@@ -98,6 +93,13 @@
 		<hr />
 		<div class="descricao-etapa">{descricaoEtapa}</div>
 		<hr />
+		<div class="comentario-input">
+			<CircularIcon backgroundColor={'#' + data.cor} text="V" type="text" />
+			<InputText bind:value={textoComentario} borded placeholder="Deixe um comentário" />
+			<Button type="text" backgroundColor="var(--cor-secundaria)" on:click={adicionarComentario}
+				>Enviar</Button
+			>
+		</div>
 		<div class="comentarios-etapa">
 			<p style="font-size:22px">{$listaComentarios.length} Comentários</p>
 			{#each $listaComentarios as comentario}
@@ -108,13 +110,6 @@
 					cor={'#' + comentario.cor}
 				/>
 			{/each}
-		</div>
-		<div class="comentario-input">
-			<CircularIcon backgroundColor={'#' + data.cor} text="V" type="text" />
-			<InputText bind:value={textoComentario} borded placeholder="Deixe um comentário" />
-			<Button type="text" backgroundColor="var(--cor-secundaria)" on:click={adicionarComentario}
-				>Enviar</Button
-			>
 		</div>
 	</div>
 	<div class="right-column">
@@ -243,6 +238,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 32px;
+		margin-top: 24px;
+		width: 90%;
 	}
 
 	.comentario-input {
