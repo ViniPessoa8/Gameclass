@@ -19,6 +19,16 @@
 		goto(url);
 	}
 
+	function formatarDataUTC(isoUTC) {
+		const data = new Date(isoUTC);
+		return data.toLocaleDateString('pt-BR', {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+			timeZone: 'UTC' // Garante que a data seja interpretada como UTC
+		});
+	}
+
 	onMount(() => {
 		console.debug('conquistas => ', estudante.conquistas);
 	});
@@ -30,6 +40,14 @@
 		<div class="estudante-nome-login">
 			<h1>{estudante.login}</h1>
 			<h3>{estudante.nome}</h3>
+		</div>
+		<div class="estudante-info">
+			{#if estudante.dtNasc != undefined}
+				<p>Data de Nascimento: <b>{formatarDataUTC(estudante.dtNasc)}</b></p>
+			{/if}
+			<p>Email: <b>{estudante.email}</b></p>
+			<p>Matrícula: <b>{estudante.matricula}</b></p>
+			<p>Último acesso: <b>{formatarDataUTC(estudante.ultimo_acesso)}</b></p>
 		</div>
 
 		<div class="barra-xp">
@@ -152,6 +170,11 @@
 
 	.estudante-nome-login > h3 {
 		font-weight: 500;
+	}
+
+	.estudante-info {
+		width: 100%;
+		font-size: 18px;
 	}
 
 	.outras-turmas-container {
