@@ -11,7 +11,9 @@
 		<div class="top-3">
 			{#each listaAlunos.slice(0, 3) as pontoAluno, index}
 				<AlunoRanking
+					login={pontoAluno.login}
 					nome={pontoAluno.nome}
+					email={pontoAluno.email}
 					pontos={pontoAluno.pontos}
 					posicao={index + 1}
 					cor={'#' + pontoAluno.cor}
@@ -23,8 +25,11 @@
 		<hr />
 		<div class="other-ranking">
 			{#each listaAlunos.slice(3) as pontoAluno, index}
+				{console.debug('pontoaluno =>', pontoAluno)}
 				<AlunoRanking
+					login={pontoAluno.login}
 					nome={pontoAluno.nome}
+					email={pontoAluno.email}
 					pontos={pontoAluno.pontos}
 					posicao={index + 4}
 					cor={'#' + pontoAluno.cor}
