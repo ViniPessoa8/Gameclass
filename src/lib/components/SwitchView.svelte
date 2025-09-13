@@ -1,41 +1,41 @@
 <script>
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 
-	
 	/**
 	 * @typedef {Object} Props
-	 * @property {'lista' | 'grade'} [view] - Define a visualização inicial. Pode ser 'lista' ou 'grade'.
-	 * @property {number} [size]
+	 * @property {'lista' | 'grade'} [view]
+	 * @property {string} [preferenceKey] - O nome do cookie a ser salvo.
 	 */
 
 	/** @type {Props} */
-	let { view = $bindable('grade'), size = 30 } = $props();
+	let { view = $bindable('grade'), preferenceKey = '' } = $props();
 
 	const dispatch = createEventDispatcher();
 
 	async function selectView(newView) {
 		if (view !== newView) {
 			view = newView;
-			// Dispara um evento 'change' com o novo valor
 			dispatch('change', { value: view });
 		}
 
-		// Envia o novo valor para o backend
+		// Só tenta salvar o cookie se uma chave de preferência foi fornecida
+		if (!preferenceKey) return;
+
 		try {
+			// Envia a chave e o novo valor para o endpoint genérico
 			const response = await fetch('/api/set-cookie', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ newView: view })
+				body: JSON.stringify({ key: preferenceKey, value: view })
 			});
 
 			if (!response.ok) {
 				throw new Error('Falha ao salvar o cookie');
 			}
-			console.log('Cookie salvo com sucesso!');
 		} catch (error) {
-			console.error('Erro ao enviar o valor para o servidor:', error);
+			console.error('Erro ao salvar preferência:', error);
 		}
 	}
 </script>

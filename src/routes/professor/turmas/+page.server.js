@@ -5,6 +5,7 @@ const turmaController = new TurmaController()
 const atividadeController = new AtividadeController()
 
 export async function load({ cookies }) {
+	const visualizacao = cookies.get('turmas_view_preference') || 'grade';
 	const message = cookies.get("toast");
 	let sessionRaw = cookies.get('session')
 	const session = JSON.parse(sessionRaw)
@@ -21,6 +22,7 @@ export async function load({ cookies }) {
 	}
 
 	data.turmas = turmas
+	data.visualizacao = visualizacao
 
 	if (message === 'turma_criada') {
 		cookies.set("toast", "", { path: '/' });

@@ -2,19 +2,26 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }) {
 	try {
-		const { newView } = await request.json();
+		const { key, value } = await request.json();
 
-		if (!newView) {
-			return json({ message: 'Valor não fornecido' }, { status: 400 });
+		if (!key || !value) {
+			return json({ message: 'A chave (key) e o valor (value) são obrigatórios.' }, { status: 400 });
 		}
 
-		// Define o cookie com o novo valor
-		cookies.set('visualizacao_entregas', newView, {
+		// Lista de chaves permitidas para segurança
+		const allowedKeys = ['visualizacao_entregas', 'turmas_view_preference'];
+		if (!allowedKeys.includes(key)) {
+			return json({ message: 'Chave de preferência não permitida.' }, { status: 403 });
+		}
+
+		cookies.set(key, value, {
 			path: '/',
-			maxAge: 60 * 60 * 24 * 7 // 7 dias
+			maxAge: 60 * 60 * 24 * 365,
+			httpOnly: true,
+			sameSite: 'lax'
 		});
 
-		return json({ message: 'Cookie salvo com sucesso' });
+		return json({ message: `Cookie '${key}' salvo com sucesso.` });
 
 	} catch (error) {
 		console.error('Erro ao salvar o cookie:', error);

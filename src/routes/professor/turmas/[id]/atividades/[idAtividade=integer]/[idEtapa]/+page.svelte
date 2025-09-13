@@ -22,11 +22,8 @@
 	let idEtapa = $derived($page.params.idEtapa);
 	let arquivos = $state([]);
 	let arquivo = 'teste';
-	let currentView = $state(data.visualizacao_entregas);
 
-	if (!currentView) {
-		currentView = null;
-	}
+	let currentView = $state(data.visualizacao_entregas || 'grade');
 
 	run(() => {
 		arquivos = [...arquivos, arquivo];
@@ -143,7 +140,7 @@
 		<AtividadeInfo data={atividadeInfo} />
 		<div class="container-entregas">
 			<div class="entregas-header">
-				<SwitchView bind:view={currentView} />
+				<SwitchView bind:view={currentView} preferenceKey="visualizacao_entregas" />
 				<p>Entregas:</p>
 			</div>
 			{#if currentView == 'grade'}

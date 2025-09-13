@@ -87,7 +87,7 @@
 		box-sizing: border-box;
 		width: 420px;
 		height: 278px;
-		border-radius: 20px;
+		border-radius: 12px;
 		padding: 35px 16px;
 	}
 
