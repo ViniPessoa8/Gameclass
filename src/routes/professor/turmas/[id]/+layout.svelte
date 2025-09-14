@@ -30,11 +30,14 @@
 	.content {
 		flex: 3;
 		margin-bottom: 64px;
+		overflow-x: auto;
 	}
 
 	.sidebar {
+		position: sticky;
 		height: fit-content;
 		display: flex;
 		flex-direction: column;
+		flex-shrink: 0;
 	}
 </style>
