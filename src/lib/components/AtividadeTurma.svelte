@@ -202,7 +202,7 @@
 				<Button
 					on:click={() => {
 						// TODO: Get id disponivel para etapa
-						goto(`atividades/create/etapas/${atividade.id}/`); // TODO: utilziar id dinamico da turma e da etapa
+						goto(`atividades/create/etapas/?idAtividade=${atividade.id}`); // TODO: utilziar id dinamico da turma e da etapa
 					}}
 					color="white"
 					backgroundColor="var(--cor-primaria)"

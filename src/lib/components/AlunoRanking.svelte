@@ -57,8 +57,9 @@
 
 <style>
 	.container {
+		box-sizing: border-box;
 		border: none;
-		width: 301px;
+		width: 100%;
 		display: flex;
 		flex-direction: row;
 		align-items: center;

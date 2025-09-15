@@ -14,16 +14,12 @@ const grupoController = new GrupoController()
 const integranteGrupoController = new IntegranteGrupoController()
 
 export async function load({ cookies }) {
-	// TODO: tirar id da url, pegar informações da atividade direto do Session Storage
-	// const idAtividade = params.id
-	// const atividade = (await atividadeController.buscaPorId(idAtividade)).toObject()
 	const atividade = JSON.parse(cookies.get("atividade"))
-
 	return { "atividade": atividade }
 }
 
 export let actions = {
-	default: async ({ cookies, params, request, url }) => {
+	default: async ({ cookies, params, request }) => {
 		let idUsuario = JSON.parse(await cookies.get("session"));
 		idUsuario = idUsuario.id
 
@@ -31,7 +27,6 @@ export let actions = {
 		let atividade = JSON.parse(cookies.get("atividade"))
 		let grupos = data.get("grupos")
 		grupos = grupos == "" ? "" : JSON.parse(grupos)
-		debug("teste")
 		let etapasData = JSON.parse(data.get('etapas'))
 		const etapas = etapasData;
 
@@ -52,7 +47,13 @@ export let actions = {
 			fail(401, "Erro ao cadastrar atividade: atividade vazia")
 		}
 
-		const idAtividadePai = (await atividadeController.cadastra(atividade)).id
+		// Checa se a atividade ja existe
+		let idAtividadePai
+		if (!await atividadeController.buscaPorId(atividade.id)) {
+			idAtividadePai = (await atividadeController.cadastra(atividade)).id
+		} else {
+			idAtividadePai = JSON.parse(cookies.get("atividade")).id
+		}
 
 		if (!etapas) {
 			fail(401, "Erro ao carregar etapas: lista vazia")

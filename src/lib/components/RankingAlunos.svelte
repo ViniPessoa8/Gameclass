@@ -8,7 +8,7 @@
 	<div class="ranking">
 		<p class="titulo"><b>Ranking de Alunos - {listaAlunos.length}</b></p>
 		<hr />
-		<div class="top-3">
+		<div class="estudante top-3">
 			{#each listaAlunos.slice(0, 3) as pontoAluno, index}
 				<AlunoRanking
 					login={pontoAluno.login}
@@ -23,7 +23,7 @@
 			{/each}
 		</div>
 		<hr />
-		<div class="other-ranking">
+		<div class="estudante other-ranking">
 			{#each listaAlunos.slice(3) as pontoAluno, index}
 				{console.debug('pontoaluno =>', pontoAluno)}
 				<AlunoRanking
@@ -45,17 +45,22 @@
 	.container {
 		float: right;
 		background-color: var(--cor-secundaria);
-		width: 325px;
+		width: 300px;
 		overflow-y: auto;
 	}
 
 	.ranking {
-		margin: 0 auto;
+		box-sizing: border-box;
 	}
 
 	.titulo {
 		font-size: 24px;
 		text-align: center;
 		padding: 24px 0px;
+	}
+
+	.estudante {
+		box-sizing: border-box;
+		width: 95%;
 	}
 </style>
