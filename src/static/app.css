@@ -32,3 +32,79 @@ body{
     color:var(--cor-primaria);
     height: 100vh;
 }
+
+/* =================================================================== */
+/* CSS ADICIONAL PARA AJUSTES RESPONSIVOS                     */
+/* =================================================================== */
+
+/* Regra geral para imagens e vídeos.
+  Garante que nunca "quebrem" o layout saindo do seu contêiner.
+  É uma boa prática ter isso globalmente.
+*/
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* MEDIA QUERIES - A MÁGICA ACONTECE AQUI 
+*/
+
+/* Para telas de notebooks e tablets maiores (até 1440px de largura) */
+@media (max-width: 1440px) {
+    :root {
+        /* Aqui podemos redefinir suas variáveis globais para telas menores.
+           Por exemplo, se você tivesse uma variável para padding, poderia diminuí-la.
+           --padding-geral: 20px; 
+        */
+    }
+
+    html {
+        /* Reduz o tamanho da fonte base. Se você usou unidades 'rem' no seu projeto,
+           MUITOS textos e elementos diminuirão proporcionalmente de uma só vez! */
+        font-size: 15px; /* O padrão é 16px, uma pequena redução já ajuda. */
+    }
+
+    /* SUGESTÃO: Procure no seu projeto por containers principais ou grids
+      que tenham largura fixa em 'px' e ajuste-os aqui para usarem '%'.
+      Exemplo:
+      .container-da-pagina, .layout-principal {
+          width: 95%;
+          max-width: 1200px; // Um limite máximo é bom
+      }
+    */
+}
+
+
+/* Para telas de notebooks menores e tablets (até 1024px de largura) */
+@media (max-width: 1024px) {
+    html {
+        /* Podemos reduzir ainda mais a fonte se necessário */
+        font-size: 14px;
+    }
+
+    /*
+      Aqui você pode fazer ajustes mais drásticos, como por exemplo:
+      - Mudar um layout de 3 colunas para 2 colunas.
+      - Esconder elementos menos importantes.
+      - Diminuir paddings e margins de forma mais agressiva.
+
+      Exemplo:
+      .barra-lateral {
+          display: none; // Esconde a barra lateral
+      }
+      .conteudo-principal {
+          width: 100%; // Faz o conteúdo principal ocupar todo o espaço
+      }
+    */
+}
+
+/* Para telas de celular (até 768px de largura) */
+@media (max-width: 768px) {
+    /*
+      Ajustes para mobile:
+      - Layouts de coluna única.
+      - Menus que viram "hambúrguer".
+      - Fontes e botões maiores para facilitar o toque.
+    */
+}
