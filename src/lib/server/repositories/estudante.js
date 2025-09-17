@@ -72,3 +72,28 @@ export async function listaConquistasEstudantePorIdBD(idEstudante) {
 		throw (`Erro ao listar conquistas do estudante (${idEstudante}): ${e}`)
 	}
 }
+
+export async function listaConquistasEstudantePorIdTurmaBD(idEstudante, idTurma) {
+	const db = getPool()
+	const query = {
+		text: `	SELECT 
+							c.*
+						FROM 
+							${DB_INFO.tables.conquista} c,
+							${DB_INFO.tables.conquista_estudante} ec,
+							${DB_INFO.tables.estudante} e
+						WHERE 
+							c.id = ec.id_conquista
+							AND ec.id_estudante = e.id
+							AND e.id = $1
+							AND ec.id_turma = $2`,
+		values: [parseInt(idEstudante), parseInt(idTurma)]
+	}
+
+	try {
+		const res = await db.query(query)
+		return res
+	} catch (e) {
+		throw (`Erro ao listar conquistas do estudante (${idEstudante}): ${e}`)
+	}
+}

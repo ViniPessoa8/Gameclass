@@ -101,7 +101,7 @@
 	</div>
 	<div class="conquistas-container">
 		<div class="conquistas-header">
-			<h2>Conquistas</h2>
+			<h2>Conquistas nessa turma</h2>
 		</div>
 		<div class="conquistas-content">
 			{#if estudante.conquistas.length > 0}
@@ -210,7 +210,7 @@
 
 	.conquistas-header h2 {
 		text-align: center;
-		font-size: 36px;
+		font-size: 30px;
 	}
 
 	.conquista {

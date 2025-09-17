@@ -1,4 +1,4 @@
-import { buscaEstudantePorIdBD, buscaEstudantePorIdGrupoBD, listaConquistasEstudantePorIdBD } from "../repositories/estudante"
+import { buscaEstudantePorIdBD, buscaEstudantePorIdGrupoBD, listaConquistasEstudantePorIdBD, listaConquistasEstudantePorIdTurmaBD } from "../repositories/estudante"
 
 export default class EstudanteController {
 	async buscaPorId(idEstudante) {
@@ -16,6 +16,13 @@ export default class EstudanteController {
 	async listaConquistasPorId(idEstudante) {
 		console.debug(`listaConquistasPorId(${idEstudante})`)
 		let res = await listaConquistasEstudantePorIdBD(idEstudante)
+
+		return res.rows
+	}
+
+	async listaConquistasPorIdTurma(idEstudante, idTurma) {
+		console.debug(`listaConquistasPorId(${idEstudante}, ${idTurma})`)
+		let res = await listaConquistasEstudantePorIdTurmaBD(idEstudante, idTurma)
 
 		return res.rows
 	}

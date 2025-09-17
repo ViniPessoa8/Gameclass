@@ -16,7 +16,8 @@ export async function load({ params, cookies }) {
 
 	data.turma = await turmaController.buscaPorCodigo(idTurma)
 	data.estudante = await estudanteController.buscaPorId(idEstudante)
-	data.estudante.conquistas = await estudanteController.listaConquistasPorId(idEstudante)
+	// data.estudante.conquistas = await estudanteController.listaConquistasPorId(idEstudante)
+	data.estudante.conquistas = await estudanteController.listaConquistasPorIdTurma(idEstudante, idTurma)
 	let ranking = await rankingController.listaRankingPorIdTurma(idTurma)
 	ranking = ranking.sort((a, b) => a.pontos > b.pontos).map((e, i) => {
 		e.index = i + 1
