@@ -237,3 +237,9 @@ CREATE TABLE conquista_estudante (
 	PRIMARY KEY ("id")
 );
 
+CREATE TABLE config (
+	"chave" VARCHAR(255) NOT NULL,
+	"valor" VARCHAR(255) NOT NULL,
+	PRIMARY KEY ("chave")
+);
+

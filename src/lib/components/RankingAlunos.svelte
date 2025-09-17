@@ -25,7 +25,6 @@
 		<hr />
 		<div class="estudante other-ranking">
 			{#each listaAlunos.slice(3) as pontoAluno, index}
-				{console.debug('pontoaluno =>', pontoAluno)}
 				<AlunoRanking
 					login={pontoAluno.login}
 					nome={pontoAluno.nome}

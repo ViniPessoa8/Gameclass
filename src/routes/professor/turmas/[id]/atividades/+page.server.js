@@ -1,16 +1,19 @@
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade"
 import AtividadeController from "$lib/server/controllers/atividade"
+import ConfigController from "$lib/server/controllers/config"
+import { CONFIG } from "$lib/constants"
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
+const configController = new ConfigController()
 
 export async function load({ params, cookies }) {
 	cookies.set("atividade", "", { path: "/" })
 	cookies.set("etapas", "", { path: "/" })
 
 	let data = {}
-	let atividades = await atividadeController.listaPorIdTurma(params.id)
 
+	let atividades = await atividadeController.listaPorIdTurma(params.id)
 	const perfil = cookies.get("perfil")
 	const toast = cookies.get("toast")
 	if (toast) {
@@ -34,6 +37,9 @@ export async function load({ params, cookies }) {
 
 	data["atividades"] = atividades.map((a) => a.toObject())
 	data["perfil"] = perfil
+
+	data.config = {}
+	data.config.max_etapas = await configController.carregaConfig(CONFIG.max_etapas)
 
 	return data
 }

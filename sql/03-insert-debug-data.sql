@@ -475,3 +475,6 @@ INSERT INTO avaliacao_criterio("nota_atribuida", "id_realizar_avaliacao", "id_cr
 (5, 6, 6);
 ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 13;
 
+INSERT INTO config("chave", "valor") VALUES
+('MAX_ETAPAS_POR_ATIVIDADE', '5');
+

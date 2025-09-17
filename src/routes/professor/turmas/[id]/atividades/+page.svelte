@@ -11,6 +11,7 @@
 	let atividades = $derived(data.atividades);
 	let id = $derived($page.params.id);
 	let url = $derived(`/${data.perfil}/turmas/${id}/atividades/create`);
+	const maxEtapas = parseInt(data.config.max_etapas);
 
 	$selectedTurmaTabBar = 1;
 
@@ -38,7 +39,7 @@
 		<p>(Não há atividades nessa turma)</p>
 	{:else}
 		{#each atividades.sort(comparaAtividade) as atividade}
-			<AtividadeTurma {atividade} idTurma={id} />
+			<AtividadeTurma {atividade} idTurma={id} {maxEtapas} />
 		{/each}
 	{/if}
 	<ButtonRedirect href={url}>Criar nova atividade</ButtonRedirect>

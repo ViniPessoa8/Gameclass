@@ -36,8 +36,9 @@
 	{type}
 	class="button"
 	{disabled}
-	style:background-color={backgroundColor}
-	style:color
+	title={disabled ? 'Número máximo de etapas atingido.' : 'Criar nova etapa'}
+	style:background-color={disabled ? 'lightgray' : backgroundColor}
+	style:color={disabled ? 'darkgray' : color}
 	style:margin-top={marginTop}
 	style:font-size={fontSize}
 	style:width
@@ -62,8 +63,6 @@
 	}
 
 	.button:disabled {
-		color: darkgray;
-		background-color: lightgray;
 		cursor: default;
 	}
 

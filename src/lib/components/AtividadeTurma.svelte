@@ -12,7 +12,7 @@
 	import ButtonRedirect from './ButtonRedirect.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 
-	let { atividade, idTurma } = $props();
+	let { atividade, idTurma, maxEtapas } = $props();
 	let showModal = $state(false);
 	let atividadeParaArquivar = $state();
 	let width = $state(0);
@@ -207,6 +207,7 @@
 					color="white"
 					backgroundColor="var(--cor-primaria)"
 					marginTop="24px"
+					disabled={atividade.itens_atividade.length >= maxEtapas}
 					fontSize="16px">+ Adicionar Etapa</Button
 				>
 			</div>
