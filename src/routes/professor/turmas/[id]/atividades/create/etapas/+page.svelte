@@ -568,6 +568,11 @@
 							<h1>Critérios</h1>
 							<div class="column">
 								<!-- TODO: Limitar input de dados com mascaras  -->
+								<div class="row">
+									<Button type="button" on:click={console.debug('teste')}
+										>Copiar critérios de outra etapa</Button
+									>
+								</div>
 								<div class="column">
 									<div class="row">
 										<InputText
