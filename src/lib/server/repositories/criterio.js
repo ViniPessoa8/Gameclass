@@ -34,3 +34,27 @@ export async function removeCriterioPorIdItemAtividadeBD(idItemAtividade) {
 	const res = await db.query(query)
 	return res
 }
+
+export async function listaCriteriosPorIdProfessorBD(idProfessor) {
+	const db = getPool()
+	const query = {
+		text: `SELECT DISTINCT
+							c.* 
+						FROM 
+							${DB_INFO.tables.criterio} c,
+							${DB_INFO.tables.item_atividade} i,
+							${DB_INFO.tables.atividade} a,
+							${DB_INFO.tables.turma} t,
+							${DB_INFO.tables.usuario} u
+						WHERE 
+							c.id_item_atividade = i.id 
+							AND i.id_atividade = a.id 
+							AND a.id_turma = t.id 
+							AND t.id_professor = $1`,
+		values: [idProfessor]
+	}
+
+	const res = await db.query(query)
+	return res
+
+}
