@@ -104,6 +104,7 @@ CREATE TABLE criterio (
 	"descricao" VARCHAR(255) NOT NULL,
 	"pontuacao_max" FLOAT NOT NULL,
 	"peso" FLOAT ,
+	"copias" INT DEFAULT 0,
 	"id_item_atividade" BIGINT REFERENCES item_atividade(id) NOT NULL,
 	PRIMARY KEY ("id")
 );
