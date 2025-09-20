@@ -2,13 +2,18 @@ import { redirect } from "@sveltejs/kit"
 import AtividadeController from "$lib/server/controllers/atividade"
 import { FORMACAO_GRUPO } from "$lib/constants";
 import { page } from '$app/stores';
+import CriterioController from "$lib/server/controllers/criterio";
 
 export async function load({ url, params, cookies }) {
+	const session = JSON.parse(cookies.get("session"));
 	const atividadeController = new AtividadeController();
+	const criterioController = new CriterioController();
 	let idAtividade;
 	let atividade;
+	let idProfessor = session.id
 
-	console.debug(url.searchParams)
+	const criteriosDoProfessor = await criterioController.listaPorIdProfessor(idProfessor)
+
 	if (url.searchParams.has("idAtividade")) {
 		idAtividade = url.searchParams.get("idAtividade")
 		atividade = (await atividadeController.buscaPorId(idAtividade)).toObject()
@@ -19,7 +24,7 @@ export async function load({ url, params, cookies }) {
 
 	console.assert(atividade != null, `Turma ${idAtividade} não encontrada.`)
 
-	return { "atividade": atividade }
+	return { "atividade": atividade, "criteriosDoProfessor": criteriosDoProfessor }
 }
 
 export let actions = {

@@ -9,6 +9,7 @@
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import ModalImportarCriterios from '$lib/components/ModalImportarCriterios.svelte';
 	// import Tags from 'svelte-tags-input';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
@@ -20,7 +21,6 @@
 
 	// export let data;
 	let { data } = $props();
-	console.debug('data=>', data);
 
 	let atividade = data.atividade;
 
@@ -44,6 +44,7 @@
 	let formacoesGrupo = $state();
 	let showModal = $state(false);
 	let proximoValor = $state();
+	let isModalOpen = $state(false);
 
 	// $: {
 	// 	if (atribuicaoOpcoes) {
@@ -91,7 +92,7 @@
 		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
 
 		let notaMax = etapasData[$selectedEtapa].criterios
-			.map((criterio) => parseFloat(criterio.nota_max))
+			.map((criterio) => parseFloat(criterio.pontuacao_max))
 			.reduce((item, acc) => item + acc);
 		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
 			throw new Error('Nota total passa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos');
@@ -148,14 +149,14 @@
 		let novoCriterio = {
 			titulo: novoCriterioTitulo,
 			descricao: novoCriterioDescricao,
-			nota_max: novoCriterioNota,
+			pontuacao_max: novoCriterioNota,
 			peso: novoCriterioPeso
 		};
 
 		let totalPontos;
 		if (etapasData[$selectedEtapa].criterios.length !== 0) {
 			totalPontos = etapasData[$selectedEtapa].criterios
-				.map((elem) => elem.nota_max)
+				.map((elem) => elem.pontuacao_max)
 				.reduce((i, acc) => acc + i);
 		} else {
 			totalPontos = 0;
@@ -261,6 +262,10 @@
 		etapasData[$selectedEtapa].tipoAvaliacaoNotasGroup = valor.trim();
 	}
 
+	function handleCopiarCriterio() {
+		showModal = true;
+	}
+
 	// function onTagAdicionada(tag, index) {
 	// 	tagsColors[tag] = 'black';
 	// }
@@ -274,6 +279,22 @@
 	// 		}
 	// 	});
 	// }
+
+	// Função que será chamada quando o evento 'import' for disparado pelo modal
+	function handleCriteriosImportados(event) {
+		const novosCriterios = event.detail;
+
+		// Evita adicionar critérios duplicados
+		const criteriosNaoDuplicados = novosCriterios.filter(
+			(novo) => !etapasData[$selectedEtapa].criterios.some((atual) => atual.id === novo.id)
+		);
+
+		// Adiciona os novos critérios à lista atual
+		etapasData[$selectedEtapa].criterios = [
+			...etapasData[$selectedEtapa].criterios,
+			...criteriosNaoDuplicados
+		];
+	}
 
 	onMount(() => {
 		if (!$selectedEtapa) {
@@ -346,8 +367,8 @@
 
 <Modal
 	visible={showModal}
-	title="Atenção"
-	message="Alterar a atribuição de notas irá remover os critérios existentes. Deseja continuar?"
+	title="Copiar critérios de outra etapa"
+	message="Selecione qual critérios deseja copiar para a etapa atual."
 	buttons={[
 		{
 			label: 'Sim',
@@ -364,6 +385,13 @@
 			color: 'red'
 		}
 	]}
+/>
+<ModalImportarCriterios
+	bind:isOpen={isModalOpen}
+	criteriosDisponiveis={data.criteriosDoProfessor}
+	criteriosAtuais={etapasData[$selectedEtapa]?.criterios}
+	on:import={handleCriteriosImportados}
+	on:close={() => (isModalOpen = false)}
 />
 <Toaster richColors expand position="top-center" closeButton />
 {#if !carregando}
@@ -569,8 +597,8 @@
 							<div class="column">
 								<!-- TODO: Limitar input de dados com mascaras  -->
 								<div class="row">
-									<Button type="button" on:click={console.debug('teste')}
-										>Copiar critérios de outra etapa</Button
+									<Button type="button" on:click={() => (isModalOpen = true)}>
+										Copiar critérios de outra etapa</Button
 									>
 								</div>
 								<div class="column">
@@ -636,7 +664,7 @@
 											<h2>{criterio.titulo}</h2>
 											<IconeInformacao text={criterio.descricao} />
 										</div>
-										<h2>{parseFloat(criterio.nota_max).toFixed(1)}</h2>
+										<h2>{parseFloat(criterio.pontuacao_max).toFixed(1)}</h2>
 										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
 											<h2>{parseFloat(criterio.peso).toFixed(1)}</h2>
 										{/if}
@@ -659,7 +687,7 @@
 											{:else}
 												{parseFloat(
 													etapasData[$selectedEtapa].criterios
-														.map((x) => parseFloat(x.nota_max))
+														.map((x) => parseFloat(x.pontuacao_max))
 														.reduce((a, b) => a + b)
 												).toFixed(1)}
 											{/if}
