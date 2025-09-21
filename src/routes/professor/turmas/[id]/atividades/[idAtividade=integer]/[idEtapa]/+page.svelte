@@ -133,8 +133,8 @@
 
 <div class="content-etapa">
 	<div class="content-header">
-		<h1>{data.atividade.titulo}</h1>
-		<h2>Etapa: {data.etapa.titulo}</h2>
+		<h1>{data.etapa.titulo}</h1>
+		<h2>Atividade: {data.atividade.titulo}</h2>
 	</div>
 	<div class="content-data">
 		<p>{data.etapa.descricao}</p>
