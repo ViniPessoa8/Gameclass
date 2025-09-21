@@ -63,7 +63,7 @@ export let actions = {
 			criterios = etapa.criterios
 			titulo = etapa.titulo
 			descricao = etapa.descricao
-			notaMax = parseFloat(etapa.criterios.map((elem) => elem.nota_max).reduce((elem, acc) => (elem + acc)))
+			notaMax = parseFloat(etapa.criterios.map((elem) => elem.pontuacao_max).reduce((elem, acc) => (elem + acc)))
 			dtEntregaMin = new Date(etapa.dtEntregaMin)
 			dtEntregaMax = new Date(etapa.dtEntregaMax)
 			atribuicaoNotas = etapa.atribuicaoNotasGroup

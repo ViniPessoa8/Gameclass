@@ -23,7 +23,8 @@
 		color: #fff;
 		text-align: center;
 		margin: auto;
-		max-width: 50rem;
+		max-width: 80rem;
+		min-width: 50rem;
 	}
 
 	.col {

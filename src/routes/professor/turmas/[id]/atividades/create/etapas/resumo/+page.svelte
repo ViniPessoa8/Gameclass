@@ -64,12 +64,12 @@
 						<div class="criterio-container">
 							<p class="titulo-criterio">{criterio.titulo}</p>
 							<p class="descricao-criterio">{criterio.descricao}</p>
-							<p class="nota-criterio">{criterio.nota_max}</p>
+							<p class="nota-criterio">{criterio.pontuacao_max}</p>
 						</div>
 					{/each}
 					<p class="nota-total">
 						Nota total: {etapa.criterios.reduce((previous, current) => {
-							return previous + parseFloat(current.nota_max);
+							return previous + parseFloat(current.pontuacao_max);
 						}, 0)}
 					</p>
 				</div>

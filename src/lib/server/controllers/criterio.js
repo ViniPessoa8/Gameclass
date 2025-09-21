@@ -4,7 +4,7 @@ import { cadastraCriterioBD, listaCriteriosPorIdProfessorBD, removeCriterioPorId
 export default class CriterioController {
 	async cadastra(titulo, descricao = '', notaMax, peso, idItemAtividade) {
 		if (!titulo || !notaMax || !idItemAtividade) {
-			throw new Error("Dados obrigatórios não foram preenchidos. (Critério)");
+			throw new Error("Dados obrigatórios não foram preenchidos.");
 		}
 
 		if (peso === '') {

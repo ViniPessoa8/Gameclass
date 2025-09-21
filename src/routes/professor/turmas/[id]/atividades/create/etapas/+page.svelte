@@ -88,10 +88,10 @@
 		atribuicaoNotas =
 			atribuicaoNotas === 'Média Simples' ? ATRIBUICAO.media_simples : ATRIBUICAO.media_ponderada;
 
-		let criterios = etapasData[$selectedEtapa].criterios;
+		let criterios = etapasData[$selectedEtapa]?.criterios;
 		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
 
-		let notaMax = etapasData[$selectedEtapa].criterios
+		let notaMax = etapasData[$selectedEtapa]?.criterios
 			.map((criterio) => parseFloat(criterio.pontuacao_max))
 			.reduce((item, acc) => item + acc);
 		if (notaMax > LIMITE_DE_PONTOS_DA_ETAPA)
@@ -154,8 +154,8 @@
 		};
 
 		let totalPontos;
-		if (etapasData[$selectedEtapa].criterios.length !== 0) {
-			totalPontos = etapasData[$selectedEtapa].criterios
+		if (etapasData[$selectedEtapa]?.criterios.length !== 0) {
+			totalPontos = etapasData[$selectedEtapa]?.criterios
 				.map((elem) => elem.pontuacao_max)
 				.reduce((i, acc) => acc + i);
 		} else {
@@ -188,7 +188,7 @@
 	}
 
 	function onRemoveCriterio(criterio) {
-		etapasData[$selectedEtapa].criterios = etapasData[$selectedEtapa].criterios.filter((elem) => {
+		etapasData[$selectedEtapa].criterios = etapasData[$selectedEtapa]?.criterios.filter((elem) => {
 			return elem !== criterio;
 		});
 	}
@@ -286,7 +286,7 @@
 
 		// Evita adicionar critérios duplicados
 		const criteriosNaoDuplicados = novosCriterios.filter(
-			(novo) => !etapasData[$selectedEtapa].criterios.some((atual) => atual.id === novo.id)
+			(novo) => !etapasData[$selectedEtapa]?.criterios.some((atual) => atual.id === novo.id)
 		);
 
 		// Adiciona os novos critérios à lista atual
@@ -658,7 +658,7 @@
 							</div>
 							<div class="criterios-definidos">
 								<hr />
-								{#each etapasData[$selectedEtapa].criterios as criterio}
+								{#each etapasData[$selectedEtapa]?.criterios as criterio}
 									<div class="criterio-container">
 										<div class="titulo-criterio">
 											<h2>{criterio.titulo}</h2>
@@ -682,11 +682,11 @@
 									<div class="total-de-pontos">
 										<h2>Total de pontos:&emsp;</h2>
 										<h2>
-											{#if etapasData[$selectedEtapa].criterios.length === 0}
+											{#if etapasData[$selectedEtapa]?.criterios.length === 0}
 												0.0
 											{:else}
 												{parseFloat(
-													etapasData[$selectedEtapa].criterios
+													etapasData[$selectedEtapa]?.criterios
 														.map((x) => parseFloat(x.pontuacao_max))
 														.reduce((a, b) => a + b)
 												).toFixed(1)}
@@ -697,11 +697,11 @@
 										<div class="total-de-pesos">
 											<h2>Total de pesos:&emsp;</h2>
 											<h2>
-												{#if etapasData[$selectedEtapa].criterios.length === 0}
+												{#if etapasData[$selectedEtapa]?.criterios.length === 0}
 													0.0
 												{:else}
 													{parseFloat(
-														etapasData[$selectedEtapa].criterios
+														etapasData[$selectedEtapa]?.criterios
 															.map((x) => parseFloat(x.peso))
 															.reduce((a, b) => a + b)
 													).toFixed(1)}

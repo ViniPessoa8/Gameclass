@@ -14,6 +14,7 @@
 	import SwitchView from '$lib/components/SwitchView.svelte';
 	import EnvioEntregaGrade from '$lib/components/EnvioEntregaGrade.svelte';
 	import EnvioEntregaLista from '$lib/components/EnvioEntregaLista.svelte';
+	import CriteriosPopover from '$lib/components/CriteriosPopover.svelte';
 
 	let { data } = $props();
 
@@ -138,6 +139,7 @@
 	<div class="content-data">
 		<p>{data.etapa.descricao}</p>
 		<AtividadeInfo data={atividadeInfo} />
+		<CriteriosPopover criterios={data.etapa.criterios} />
 		<div class="container-entregas">
 			<div class="entregas-header">
 				<SwitchView bind:view={currentView} preferenceKey="visualizacao_entregas" />
@@ -204,9 +206,12 @@
 	}
 
 	.content-data {
+		display: flex;
+		flex-direction: column;
 		padding-top: 36px;
 		padding-left: 96px;
 		padding-right: 96px;
+		gap: 8px;
 	}
 
 	.content-data > p {
