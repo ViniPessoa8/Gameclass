@@ -30,7 +30,6 @@
 
 	if (borded) {
 		backgroundColor = 'var(--cor-primaria)';
-		backgroundColor = 'var(--cor-primaria)';
 	}
 </script>
 
@@ -49,10 +48,10 @@
 		oninput={inputHandler}
 		style="
 			width: 100%;
-			heigth: {height};
+			min-height: {height};
 			color: {textColor};
 			background-color: {backgroundColor};
-			font-size:{fontSize}
+			font-size:{fontSize};
 		"
 		{...rest}
 	></textarea>
@@ -63,7 +62,6 @@
 		border: none;
 		font-family: var(--font);
 		font-size: 24px;
-		height: 100%;
 		max-height: 100px;
 		resize: none;
 	}
