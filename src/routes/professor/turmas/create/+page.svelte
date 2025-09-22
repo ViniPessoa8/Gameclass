@@ -26,7 +26,7 @@
 
 	let selectOptionDict = data['instituicoes'];
 	let selectOptionList = selectOptionDict.map((instituicao) => instituicao.nome);
-	let anoOptionList = [2024, 2023, 2022]; // TODO: Automatizar lista
+	let anoOptionList = gerarListaDeAnos(20);
 	let periodoOptionList = [1, 2];
 
 	function checkInputs() {
@@ -116,6 +116,17 @@
 
 		return true;
 	}
+
+	function gerarListaDeAnos(quantidade) {
+		const anoAtual = new Date().getFullYear();
+		const listaDeAnos = [];
+
+		for (let i = 0; i < quantidade; i++) {
+			listaDeAnos.push(anoAtual + i);
+		}
+
+		return listaDeAnos;
+	}
 </script>
 
 <div class="form-container">
@@ -200,7 +211,6 @@
 		<div class="row">
 			<h2>Ano letivo:</h2>
 			<div style="display:flex; flex-direction: column;">
-				<!-- <InputText borded name="ano" bind:value={ano} inputHandler={anoInputHandler} /> -->
 				<Select
 					borded
 					name="ano"
@@ -261,7 +271,6 @@
 			>
 		{/if}
 
-		<!-- TODO: Fazer botão aparecer -->
 		<div class="row" style="align-self: center;">
 			<Button backgroundColor="var(--cor-secundaria)" color="var(--cor-primaria)"
 				>Criar Turma</Button

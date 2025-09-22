@@ -11,7 +11,6 @@
 </script>
 
 {#if borded}
-	<!-- <div class="board"> -->
 	<select class="borded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
 		{#if unselectedText != ''}
 			<option value="" disabled selected>{unselectedText}</option>
@@ -20,7 +19,6 @@
 			<option class="option">{opt}</option>
 		{/each}
 	</select>
-	<!-- </div> -->
 {:else}
 	<select class="unborded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
 		{#if unselectedText != ''}

@@ -15,12 +15,13 @@
 	import { ATRIBUICAO, REALIZACAO, LIMITE_DE_PONTOS_DA_ETAPA } from '$lib/constants';
 	import selectedEtapa from '$src/stores/selectedEtapa.js';
 	import { etapas } from '$src/stores/etapas';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import { navigationGuard } from '$src/stores/navigationGuard.js';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { FORMACAO_GRUPO } from '$lib/constants';
 
 	// export let data;
-	let { data } = $props();
+	let { data, children } = $props();
 
 	let atividade = data.atividade;
 
@@ -45,6 +46,9 @@
 	let showModal = $state(false);
 	let proximoValor = $state();
 	let isModalOpen = $state(false);
+	const BACK_SKIP = [`/${data.perfil}/turmas`];
+	let showModalCancelarAtividade = $state(false);
+	let resolvePromise;
 
 	// $: {
 	// 	if (atribuicaoOpcoes) {
@@ -296,7 +300,36 @@
 		];
 	}
 
+	function requestConfirmation() {
+		showModalCancelarAtividade = true;
+		return new Promise((resolve) => {
+			resolvePromise = resolve;
+		});
+	}
+
+	onDestroy(() => {
+		navigationGuard.set(null);
+	});
+
+	function handleConfirm() {
+		showModalCancelarAtividade = false;
+		if (resolvePromise) {
+			resolvePromise(true); // Confirma a navegação
+		}
+	}
+
+	function handleCancel() {
+		showModalCancelarAtividade = false;
+		if (resolvePromise) {
+			resolvePromise(false); // Cancela a navegação
+		}
+	}
+
 	onMount(() => {
+		if (data.hasOwnProperty('parametroIdAtividade')) {
+			navigationGuard.set(requestConfirmation);
+		}
+
 		if (!$selectedEtapa) {
 			$selectedEtapa = 0;
 		}
@@ -366,22 +399,18 @@
 </script>
 
 <Modal
-	visible={showModal}
-	title="Copiar critérios de outra etapa"
-	message="Selecione qual critérios deseja copiar para a etapa atual."
+	visible={showModalCancelarAtividade}
+	title="Atenção"
+	message="Deseja realmente cancelar a criação da etapa? Todos os dados preenchidos serão perdidos."
 	buttons={[
 		{
-			label: 'Sim',
-			onClick: () => {
-				confirmaModalAtribuicaoDeNotas();
-			},
+			label: 'Sim, Cancelar',
+			onClick: handleConfirm, // Chama a função que resolve a Promise com 'true'
 			color: 'green'
 		},
 		{
-			label: 'Não',
-			onClick: () => {
-				showModal = false;
-			},
+			label: 'Não, Continuar',
+			onClick: handleCancel, // Chama a função que resolve a Promise com 'false'
 			color: 'red'
 		}
 	]}

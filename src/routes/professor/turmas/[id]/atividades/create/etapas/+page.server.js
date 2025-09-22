@@ -11,6 +11,7 @@ export async function load({ url, params, cookies }) {
 	let idAtividade;
 	let atividade;
 	let idProfessor = session.id
+	let retorno = {}
 
 	const criteriosDoProfessor = await criterioController.listaPorIdProfessor(idProfessor)
 
@@ -24,7 +25,14 @@ export async function load({ url, params, cookies }) {
 
 	console.assert(atividade != null, `Turma ${idAtividade} não encontrada.`)
 
-	return { "atividade": atividade, "criteriosDoProfessor": criteriosDoProfessor }
+	retorno.atividade = atividade
+	retorno.criteriosDoProfessor = criteriosDoProfessor
+
+	if (url.searchParams.has("idAtividade")) {
+		retorno.parametroIdAtividade = idAtividade
+	}
+
+	return retorno
 }
 
 export let actions = {
