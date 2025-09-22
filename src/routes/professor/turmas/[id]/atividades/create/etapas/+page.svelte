@@ -108,10 +108,9 @@
 			let realizacao = etapa.realizacaoGroup;
 			let formacoes = JSON.parse(JSON.stringify(etapa.formacoes));
 
-			if (!isValidDate(dataInicial))
-				throw new Error(`Data inicial inválida (Etapa "${tituloEtapa}")`);
+			if (!isValidDate(dataInicial)) throw new Error(`Data de início inválida`);
 
-			if (!isValidDate(dataFinal)) throw new Error(`Data final inválida (Etapa "${tituloEtapa}")`);
+			if (!isValidDate(dataFinal)) throw new Error(`Data máxima de entrega inválida`);
 
 			// Formação de grupos da etapa
 			const filter = formacoes.filter((e) => e.nGrupos === null && realizacao == 'Em Grupos');

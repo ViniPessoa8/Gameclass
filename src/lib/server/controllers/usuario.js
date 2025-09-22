@@ -6,17 +6,18 @@ import { Usuario } from "../../models/Usuario";
 const instituicaoController = new InstituicaoController()
 
 export default class UsuarioController {
-	async registra(nome, login, password, instituicao, dtNasc, bio, email, matricula_aluno, cor) {
-		if (!nome || !login || !password || !instituicao || !dtNasc || !email) {
+	async registra(nome, login, password, dtNasc, bio, email, cor) {
+		console.debug(nome, login, password, dtNasc, bio, email, cor)
+		if (!nome || !login || !password || !dtNasc || !email) {
 			throw ("Dados obrigatórios não foram preenchidos.")
 		}
 
-		if (await this.buscaPorLogin(login)) {
+		let existeLogin = await this.buscaPorLogin(login)
+		console.debug("existeLogin => ", existeLogin)
+		if (existeLogin) {
 			throw ("Já existe usuário com o mesmo login cadastrado.")
 		}
 
-		const instituicaoRes = await instituicaoController.buscaPorNome(instituicao);
-		const idInstituicao = instituicaoRes.id
 		const nivelInicial = 0
 		const acumuloXpInicial = 0
 		let dataCriacao = new Date()
@@ -26,7 +27,7 @@ export default class UsuarioController {
 		let hash = bcrypt.hashSync(password, salt)
 
 		try {
-			let res = await registraUsuarioBD(nome, login, hash, salt, idInstituicao, dtNasc, bio, email, matricula_aluno, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso, cor)
+			let res = await registraUsuarioBD(nome, login, hash, salt, dtNasc, bio, email, nivelInicial, acumuloXpInicial, dataCriacao, ultimoAcesso, cor)
 
 			if (res.rowCount > 0) {
 				return res.rows
@@ -60,7 +61,7 @@ export default class UsuarioController {
 	async buscaPorLogin(login) {
 		const res = await buscaPorLoginBD(login);
 
-		return new Usuario({ ...res });
+		return res ? new Usuario({ ...res }) : res
 	}
 
 }

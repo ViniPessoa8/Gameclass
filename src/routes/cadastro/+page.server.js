@@ -11,8 +11,14 @@ export const actions = {
 	default: async ({ request, cookies }) => {
 		const data = await request.formData();
 		let res;
+		console.debug("data => ", data)
 
-		if (!data.get("login") || !data.get("password") || !data.get("nome") || !data.get("instituicao") || !data.get("dtNasc") || !data.get("email") || !data.get("matriculaAluno")) {
+		if (!data.get("login")
+			|| !data.get("password")
+			|| !data.get("nome")
+			|| !data.get("dtEntregaMin")
+			|| !data.get("email")
+		) {
 			error(400, "Missing Data")
 		}
 
@@ -21,9 +27,20 @@ export const actions = {
 		try {
 
 			const cor = CORES_PERFIL[getRandomInt(CORES_PERFIL.length)].slice(1)
-			res = await usuarioController.registra(data.get("nome"), data.get("login"), data.get("password"), data.get("instituicao"), data.get("dtNasc"), bio, data.get("email"), data.get("matriculaAluno"), cor)
+			res = await usuarioController.registra(
+				data.get("nome"),
+				data.get("login"),
+				data.get("password"),
+				// data.get("instituicao"),
+				data.get("dtEntregaMin"),
+				bio,
+				data.get("email"),
+				// data.get("matriculaAluno"),
+				cor
+			)
 		} catch (e) {
 			// TODO: Verificar se é mesmo esse erro
+			console.debug("erro => ", e)
 			return fail(400, { already_registered: true })
 		}
 

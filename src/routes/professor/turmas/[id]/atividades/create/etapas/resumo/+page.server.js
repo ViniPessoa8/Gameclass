@@ -127,6 +127,7 @@ export let actions = {
 		}
 
 		cookies.set("atividade", "", { path: "/" })
+		cookies.set("item_atividade", "", { path: "/" })
 		cookies.set("etapas", "", { path: "/" })
 		cookies.set("toast", 'atividade_criada', { path: "/" })
 		// if (cookies.get("toast") != "atividade_criada") {

@@ -2,11 +2,11 @@ import bcrypt from "bcryptjs"
 import { DB_INFO } from "../../constants";
 import { getPool } from "$config/database.js"
 
-export async function registraUsuarioBD(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor) {
+export async function registraUsuarioBD(nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor) {
 	const db = getPool()
 	const query = {
-		text: `INSERT INTO ${DB_INFO.tables.usuario}(nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, data_criacao, ultimo_acesso, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id`,
-		values: [nome, login, hash, salt, id_instituicao, dt_nasc, bio, email, matricula_aluno, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor]
+		text: `INSERT INTO ${DB_INFO.tables.usuario}(nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_XP, data_criacao, ultimo_acesso, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
+		values: [nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor]
 	}
 
 	try {
@@ -24,15 +24,11 @@ export async function buscaPorLoginBD(login) {
 		values: [login]
 	}
 
-	try {
-		const queryRes = await db.query(query)
-		if (queryRes.rowCount > 0) {
-			return queryRes.rows[0]
-		} else {
-			return false
-		}
-	} catch (e) {
-
+	const queryRes = await db.query(query)
+	if (queryRes.rowCount > 0) {
+		return queryRes.rows[0]
+	} else {
+		return false
 	}
 }
 

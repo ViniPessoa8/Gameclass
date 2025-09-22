@@ -9,21 +9,19 @@ CREATE TABLE instituicao (
 );
 
 CREATE TABLE usuario (
-    "id" BIGSERIAL UNIQUE,
+	"id" BIGSERIAL UNIQUE,
 	"nome" VARCHAR(100) NOT NULL,
-    "login" VARCHAR(100) NOT NULL, -- TODO: Rename login -> nickname 
-    "hash" VARCHAR(255) NOT NULL,-- TODO: Rename hash -> senha_hash 
-    "salt" VARCHAR(255) NOT NULL,
+	"login" VARCHAR(100) NOT NULL, -- TODO: Rename login -> nickname 
+	"hash" VARCHAR(255) NOT NULL,-- TODO: Rename hash -> senha_hash 
+	"salt" VARCHAR(255) NOT NULL,
 	"bio" VARCHAR(100),
 	"email" VARCHAR(100) NOT NULL,
 	"acumulo_xp" INT NOT NULL,
 	"nivel" INT NOT NULL,
-	"matricula_aluno" VARCHAR(12) NOT NULL,-- TODO: Renomear no diagrama
 	"dt_nasc" DATE NOT NULL,-- TODO: Rename dt_nasc -> data_nascimento 
 	"data_criacao" DATE NOT NULL,
 	"ultimo_acesso" TIMESTAMP NOT NULL, 
 	"cor" varchar(6) NOT NULL, 
-	"id_instituicao" BIGINT REFERENCES instituicao(id),
 	PRIMARY KEY ("id")
 );
 

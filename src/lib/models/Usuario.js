@@ -9,12 +9,10 @@ export class Usuario {
 		email,
 		acumulo_xp,
 		nivel,
-		matricula_aluno,
 		dt_nasc,
 		data_criacao,
 		ultimo_acesso,
 		cor,
-		id_instituicao
 	}) {
 		this.id = id;
 		this.nome = nome;
@@ -25,12 +23,10 @@ export class Usuario {
 		this.email = email;
 		this.acumulo_xp = acumulo_xp;
 		this.nivel = nivel;
-		this.matricula_aluno = matricula_aluno;
 		this.data_nascimento = dt_nasc;
 		this.data_criacao = data_criacao;
 		this.ultimo_acesso = ultimo_acesso;
 		this.cor = cor;
-		this.id_instituicao = id_instituicao;
 	}
 
 	getResumo() {
@@ -48,12 +44,10 @@ export class Usuario {
 			email: this.email,
 			acumulo_xp: this.acumulo_xp,
 			nivel: this.nivel,
-			matricula_aluno: this.matricula_aluno,
 			data_nascimento: this.data_nascimento,
 			data_criacao: this.data_criacao,
 			ultimo_acesso: this.ultimo_acesso,
 			cor: this.cor,
-			id_instituicao: this.id_instituicao
 		};
 	}
 
