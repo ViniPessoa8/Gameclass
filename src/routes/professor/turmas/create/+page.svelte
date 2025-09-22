@@ -2,6 +2,7 @@
 	import InputText from '$lib/components/InputText.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Select from '$lib/components/Select.svelte';
+	import SelectSearch from '$lib/components/SelectSearch.svelte';
 	import { enhance } from '$app/forms';
 
 	let { data, form = $bindable() } = $props();
@@ -246,10 +247,10 @@
 		<div class="row">
 			<h2>Instituição:</h2>
 			<div style="display:flex; flex-direction: column;">
-				<Select
+				<SelectSearch
 					borded
 					name="instituicao"
-					unselectedText="--Selecione sua Instituição--"
+					placeholder="Selecione sua Instituição"
 					optionList={selectOptionList}
 					inputHandler={instituicaoInputHandler}
 					bind:value={instituicao}
