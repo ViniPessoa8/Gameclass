@@ -112,10 +112,16 @@
 
 			if (!isValidDate(dataFinal)) throw new Error(`Data máxima de entrega inválida`);
 
-			// Formação de grupos da etapa
-			const filter = formacoes.filter((e) => e.nGrupos === null && realizacao == 'Em Grupos');
-			if (filter.length > 0) {
-				throw new Error(`Formação de grupos com dados incompletos`);
+			for (const formacao of formacoes) {
+				if (
+					realizacao == 'Em Grupos' &&
+					(formacao.nGrupos === null ||
+						formacao.nAlunos === null ||
+						formacao.nGrupos === '' ||
+						formacao.nAlunos === '')
+				) {
+					throw new Error(`Formação de grupos com dados incompletos`);
+				}
 			}
 		}
 
@@ -509,6 +515,7 @@
 							</div>
 							<hr />
 							<div class="row">
+								<IconeInformacao text={'Forma que a nota da etapa será calculada'} />
 								<h2>Atribuição de Notas:</h2>
 								<InputRadio
 									id="inputAtribuicaoNotasEtapa"
@@ -521,6 +528,9 @@
 							</div>
 							<hr />
 							<div class="row">
+								<IconeInformacao
+									text={'"Individual": Entregas serão feitas individualmente por cada estudante.\n"Em Grupos": Estudantes se juntarão em grupos para realizar uma só entrega.'}
+								/>
 								<h2>Realização:</h2>
 								<InputRadio
 									borded
@@ -532,6 +542,9 @@
 							<hr />
 							{#if etapasData[$selectedEtapa].realizacaoGroup == 'Em Grupos'}
 								<div class="row">
+									<IconeInformacao
+										text={'"Individual": cada aluno será avaliado individualmente.\n "Em Grupos": Uma nota para o grupo todo'}
+									/>
 									<h2>Tipo de Avaliação</h2>
 									<InputRadio
 										id="inputTipoAvaliacaoNotas"
@@ -543,6 +556,7 @@
 								</div>
 								<hr />
 								<div class="row">
+									<IconeInformacao text={'Forma que os grupos de estudantes de formarão'} />
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
 										id="formacaoGrupos"
@@ -560,7 +574,7 @@
 									{#each etapasData[$selectedEtapa].formacoes as formacao, index}
 										<div class="row">
 											<p>{index + 1}.</p>
-											<InputText
+											<InputNumber
 												id="inputNGruposEtapa{index}"
 												borded
 												width="24px"
@@ -570,7 +584,7 @@
 												name="nGrupos"
 											/>
 											<p>Grupos de</p>
-											<InputText
+											<InputNumber
 												id="inputNAluno{index}"
 												borded
 												width="24px"
