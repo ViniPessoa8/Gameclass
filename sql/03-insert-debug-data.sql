@@ -251,11 +251,10 @@ VALUES
 	(2,
 	'Atividade Exemplo 2',
 	'Atividade de exemplo.',
-	'2025-09-01T00:00:00.000Z', 1);
+	'2025-11-01T00:00:00.000Z', 1);
 ALTER SEQUENCE atividade_id_seq RESTART WITH 3;
 
 INSERT INTO item_atividade(
-	"id", 
 	"titulo",
 	"descricao",
 	"nota_max",
@@ -269,23 +268,19 @@ INSERT INTO item_atividade(
 	"id_atividade",
 	"tipo_formacao_grupo") 
 VALUES
-	(1, 
-	'Exemplo Média Simples',
+	('Exemplo Média Simples',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-10-13T20:00:00.000Z',
 	'2025-10-13T20:00:00.000Z', 1, 1, false, false, 1, 1, NULL),
-	(2,
-	'Exemplo Média Ponderada',
+	('Exemplo Média Ponderada',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-07-13T20:00:00.000Z',
 	'2026-07-28T20:00:00.000Z', 2, 1, false, false, 2, 1, NULL),
-	(3,
-	'Exemplo em Grupos',
+	('Exemplo em Grupos',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-03-20T20:00:00.000Z',
 	'2025-03-28T20:00:00.000Z', 1, 2, true, false, 3, 1, NULL),
-	(4,
-	'Exemplo em Grupos (aval. individual)',
+	('Exemplo em Grupos (aval. individual)',
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nisi ipsum, pulvinar vel felis at, finibus malesuada erat. Proin nulla neque, pretium eget purus quis, dapibus aliquet ex. Proin porta vitae lacus ut varius. Nam tincidunt accumsan aliquet. Donec eu nunc imperdiet, sollicitudin ante in, finibus ligula. Mauris et erat sed arcu faucibus vestibulum. Vivamus metus ex, bibendum nec elit at, rutrum porta magna. Duis dapibus ligula ut libero viverra porta. Praesent mi risus, imperdiet sit amet molestie at, fringilla eget dolor. Quisque eu finibus turpis.', 4,
 	'2025-03-20T20:00:00.000Z',
 	'2025-03-28T20:00:00.000Z', 1, 1, true, false, 3, 1, NULL);

@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
+	import { etapas } from '$src/stores/etapas';
 
 	const { data } = $props();
 
@@ -33,11 +34,11 @@
 <form
 	class="content-etapa"
 	method="POST"
-	hidden="hidden"
 	use:enhance={() => {
 		return async ({ update }) => {
 			sessionStorage.removeItem('etapas');
 			update();
+			$etapas = [];
 		};
 	}}
 >
@@ -109,6 +110,7 @@
 		padding-top: 126px;
 		padding-left: 96px;
 		padding-right: 96px;
+		visibility: hidden;
 	}
 
 	.content-etapa > h1 {
