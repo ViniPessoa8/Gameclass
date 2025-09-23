@@ -54,7 +54,7 @@ export async function listaCriteriosPorIdProfessorBD(idProfessor) {
 	// 	values: [idProfessor]
 	// }
 	const query = {
-		text: `SELECT DISTINCT ON (a.titulo, t.nome, t.ano, c.titulo, c.pontuacao_max, c.peso)
+		text: `SELECT DISTINCT ON (t.nome, t.ano, c.titulo, c.pontuacao_max, c.peso)
                 c.*, 
                 t.nome AS nome_turma, 
                 a.titulo AS nome_atividade, 
@@ -67,7 +67,7 @@ export async function listaCriteriosPorIdProfessorBD(idProfessor) {
             WHERE 
                 t.id_professor = $1
             ORDER BY 
-                a.titulo, t.nome, t.ano, c.titulo, c.pontuacao_max, c.peso, c.id DESC`,
+                t.nome, t.ano, c.titulo, c.pontuacao_max, c.peso, c.id DESC`,
 		values: [idProfessor]
 	};
 
