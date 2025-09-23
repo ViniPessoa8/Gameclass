@@ -158,7 +158,7 @@ CREATE TABLE integrante_grupo_de_alunos (
 
 CREATE TABLE publicacao_mural (
 	"id" BIGSERIAL UNIQUE,
-	"conteudo" VARCHAR(255) NOT NULL,
+	"conteudo" TEXT NOT NULL,
 	"data_publicacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_turma" BIGINT REFERENCES turma(id) NOT NULL,
 	"id_usuario" BIGINT REFERENCES usuario(id) NOT NULL,

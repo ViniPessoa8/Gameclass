@@ -194,6 +194,7 @@
 
 <style scoped>
 	.content-mural {
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -236,6 +237,7 @@
 
 	.publicacao-container,
 	.comentario-container {
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: row;
 		width: 100%;
@@ -260,7 +262,11 @@
 
 	.publicacao-content,
 	.comentario-content {
+		word-wrap: break-word;
+		overflow: hidden;
+		box-sizing: border-box;
 		width: 100%;
+		text-wrap: pretty;
 	}
 
 	.data-publicacao,
