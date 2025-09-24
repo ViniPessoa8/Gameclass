@@ -11,7 +11,7 @@
 	let atividades = $derived(data.atividades);
 	let id = $derived($page.params.id);
 	let url = $derived(`/${data.perfil}/turmas/${id}/atividades/create`);
-	const maxEtapas = parseInt(data.config.max_etapas);
+	const maxEtapas = parseInt(data.config?.max_etapas);
 
 	$selectedTurmaTabBar = 1;
 
