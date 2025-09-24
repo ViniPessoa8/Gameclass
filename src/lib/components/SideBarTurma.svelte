@@ -11,7 +11,8 @@
 	const acronym = turma.nome[0];
 	const color = turma.cor;
 
-	let backgroundColor = $state(), disciplinaCor = $state();
+	let backgroundColor = $state(),
+		disciplinaCor = $state();
 	run(() => {
 		if ($selectedTurma === turma.id) {
 			backgroundColor = 'var(--cor-secundaria)';
@@ -21,9 +22,11 @@
 			disciplinaCor = 'var(--cor-secundaria)';
 		}
 	});
+
+	const tooltipMsg = `<b>Nome da turma:</b> ${turma.nome}<br><b>Disciplina:</b> ${turma.disciplina}<br><b>Ano</b>: ${turma.ano}<br><b>Periodo:</b> ${turma.periodo}`;
 </script>
 
-<Tooltip content="This is my tooltip message." delay="1000">
+<Tooltip content={tooltipMsg} delay="2000">
 	<div
 		class="turma"
 		aria-hidden="true"
