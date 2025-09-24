@@ -618,6 +618,7 @@
 											type="button"
 											fontSize="20px"
 											fontWeight="500"
+											disabled={etapasData[$selectedEtapa].formacoes.length > 2}
 											on:click={onAdicionaFormacao}>Nova Formação</Button
 										>
 									</div>
