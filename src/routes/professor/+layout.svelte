@@ -1,6 +1,4 @@
 <script>
-	import { run } from 'svelte/legacy';
-
 	import '../../static/app.css';
 	import Header from '$lib/components/Header.svelte';
 	import SideBar from '$lib/components/SideBar.svelte';
@@ -13,12 +11,10 @@
 	let { data, children } = $props();
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
 
-	// Declaração reativa: Executa sempre que $page mudar.
-	run(() => {
+	$effect(() => {
 		const turmaIdFromUrl = $page.params.id;
 
 		if (turmaIdFromUrl) {
-			// Atualiza a store com o ID vindo da URL.
 			$selectedTurma = turmaIdFromUrl;
 		}
 	});
@@ -26,10 +22,12 @@
 	afterNavigate(() => {
 		const currentStack = $historyStack;
 		const lastPage = currentStack[currentStack.length - 1];
-
 		const currentPage = $page.url.pathname;
 
-		if (lastPage !== currentPage) {
+		if (currentStack.length > 0 && lastPage.includes(currentPage)) {
+			historyStack.update((stack) => [...stack.slice(0, -1)]);
+		} else {
+			console.debug('5');
 			historyStack.update((stack) => [...stack, currentPage]);
 		}
 	});

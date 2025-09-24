@@ -6,8 +6,7 @@
 	import Button from './Button.svelte';
 
 	function performNavigation() {
-		$historyStack.pop();
-		const previousPage = $historyStack[$historyStack.length - 1];
+		const previousPage = $historyStack[$historyStack.length - 2];
 		historyStack.set($historyStack);
 
 		if (previousPage) {
