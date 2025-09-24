@@ -4,7 +4,7 @@
 	import InputDatetime from '$lib/components/InputDatetime.svelte';
 	import InputRadio from '$lib/components/InputRadio.svelte';
 	import InputCheckbox from '$lib/components/InputCheckbox.svelte';
-	import InputNumber from '$lib/components/InputText.svelte';
+	import InputNumber from '$lib/components/InputNumber.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
 	import EtapasBarraLateral from '$lib/components/EtapasBarraLateral.svelte';
@@ -577,21 +577,25 @@
 											<InputNumber
 												id="inputNGruposEtapa{index}"
 												borded
-												width="24px"
+												width="42px"
 												padding="10px"
 												fontWeight="500"
 												bind:value={etapasData[$selectedEtapa].formacoes[index].nGrupos}
 												name="nGrupos"
+												min="1"
+												max={data.nAlunosTurma - 1}
 											/>
 											<p>Grupos de</p>
 											<InputNumber
 												id="inputNAluno{index}"
 												borded
-												width="24px"
+												width="42px"
 												padding="10px"
 												fontWeight="500"
 												bind:value={etapasData[$selectedEtapa].formacoes[index].nAlunos}
 												name="nAluno"
+												min="1"
+												max={data.nAlunosTurma - 1}
 											/>
 											<p>alunos</p>
 											{#if etapasData[$selectedEtapa].formacoes.length > 1}
