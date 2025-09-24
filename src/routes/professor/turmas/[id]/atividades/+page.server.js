@@ -35,8 +35,8 @@ export async function load({ params, cookies }) {
 		atividades[i].itens_atividade = itensAtividade
 	}
 
-	data["atividades"] = atividades.map((a) => a.toObject())
-	data["perfil"] = perfil
+	data.atividades = atividades.map((a) => a.toObject())
+	data.perfil = perfil
 
 	data.config = {}
 	data.config.max_etapas = await configController.carregaConfig(CONFIG.max_etapas)
