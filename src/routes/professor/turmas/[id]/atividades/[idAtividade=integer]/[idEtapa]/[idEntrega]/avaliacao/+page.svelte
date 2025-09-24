@@ -2,6 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
+	import InputNumber from '$lib/components/InputNumber.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO } from '$lib/constants.js';
@@ -12,6 +13,8 @@
 	let { data } = $props();
 
 	let showModalCancelarAvaliacao = $state(false);
+	let novoCriterioNota = $state('');
+	let oldCriterioNota = $state('');
 	let resolvePromise;
 
 	function requestConfirmation() {
@@ -19,6 +22,26 @@
 		return new Promise((resolve) => {
 			resolvePromise = resolve;
 		});
+	}
+
+	function onChangeCriterioNota(nota, index) {
+		// Máscara de input (0.0 [max: 10.0])
+		nota = String(nota)
+			.replace(/(?<=^[0-9]{1})[0-9]$/g, '.$&')
+			.replace(/(?<=^[0-9])(\.)([0-9])([0-9])$/g, '$2$1$3')
+			.replace(/(?<=^[0-9]{2})\.$/g, '')
+			.replace(/(?<=^[0-9])\.$/g, '')
+			.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
+			.replace(/^(1)(0)$/g, '$1.$2')
+			.replace(/[^\d.]/g, ''); // Remove tudo que não for número
+
+		if (parseFloat(nota) > data.etapa.criterios[index].pontuacao_max) {
+			nota = oldCriterioNota;
+		} else {
+			oldCriterioNota = nota;
+		}
+
+		notas[index].nota = nota;
 	}
 
 	onMount(() => {
@@ -52,6 +75,7 @@
 				}))
 			: data.etapa.criterios.map((c) => ({ id_criterio: c.id, nota: null }))
 	);
+	console.debug('notas => ', notas);
 
 	function validarNotas() {
 		const inputs = document.querySelectorAll('.input-container input');
@@ -190,17 +214,14 @@
 					<IconeInformacao text={criterio.descricao} />
 				</div>
 				<div class="input-container">
-					<InputText
+					<InputNumber
+						id="inputNotaMaxCriterio"
 						borded
 						name={criterio.titulo}
-						placeholder="Nota"
 						width="80px"
+						placeholder="Nota"
+						oninput={() => onChangeCriterioNota(notas[index].nota, index)}
 						bind:value={notas[index].nota}
-						inputHandler={(e) => formatarNota(notas[index].nota, index, e)}
-						on:blur={() => formatarNotaFinal(index, criterio)}
-						step="0.1"
-						min="0"
-						max="10"
 					/>
 				</div>
 				<div class="nota-max">
