@@ -67,51 +67,56 @@
 <div class="content-membros">
 	<h1>Membros da turma</h1>
 
-	<div class="filtros">
-		<!-- Container para todos os controles de filtro e visualização -->
-		<div class="controls-container">
-			<div class="sort-buttons">
-				<span>Ordenar por:</span>
-				<button onclick={() => (sortBy = 'name')} class:active={sortBy === 'name'}>
-					Nome (A-Z)
-				</button>
-				<button onclick={() => (sortBy = 'points')} class:active={sortBy === 'points'}>
-					Pontos (Decrescente)
-				</button>
-			</div>
+	{#if data.estudantes.length == 0}
+		<h2>(Não há estudantes na turma)</h2>
+	{:else}
+		<div class="filtros">
+			<!-- Container para todos os controles de filtro e visualização -->
+			<div class="controls-container">
+				<div class="sort-buttons">
+					<span>Ordenar por:</span>
+					<button onclick={() => (sortBy = 'name')} class:active={sortBy === 'name'}>
+						Nome (A-Z)
+					</button>
+					<button onclick={() => (sortBy = 'points')} class:active={sortBy === 'points'}>
+						Pontos (Decrescente)
+					</button>
+				</div>
 
-			<div class="view-buttons">
-				<span>Exibir como:</span>
-				<button onclick={() => (viewMode = 'grid')} class:active={viewMode === 'grid'}>
-					Grade
-				</button>
-				<button onclick={() => (viewMode = 'list')} class:active={viewMode === 'list'}>
-					Lista
-				</button>
+				<div class="view-buttons">
+					<span>Exibir como:</span>
+					<button onclick={() => (viewMode = 'grid')} class:active={viewMode === 'grid'}>
+						Grade
+					</button>
+					<button onclick={() => (viewMode = 'list')} class:active={viewMode === 'list'}>
+						Lista
+					</button>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- Container dos membros com classe dinâmica para o modo de visualização -->
-	<div class="membros-container" class:list={viewMode === 'list'}>
-		{#each estudantes as estudante}
-			<button
-				class="membro-container"
-				onclick={() => {
-					abrePerfilDoUsuario(estudante);
-				}}
-			>
-				<div class="membro-icon">
-					<CircularTextIcon backgroundColor="#{estudante.cor}">{estudante.nome[0]}</CircularTextIcon
-					>
-				</div>
-				<div class="membro-info">
-					<p class="membro-nome">{estudante.nome}</p>
-					<p class="membro-pontuacao">{estudante.pontos} pontos</p>
-				</div>
-			</button>
-		{/each}
-	</div>
+		<!-- Container dos membros com classe dinâmica para o modo de visualização -->
+		<div class="membros-container" class:list={viewMode === 'list'}>
+			{#each estudantes as estudante}
+				<button
+					class="membro-container"
+					onclick={() => {
+						abrePerfilDoUsuario(estudante);
+					}}
+				>
+					<div class="membro-icon">
+						<CircularTextIcon backgroundColor="#{estudante.cor}"
+							>{estudante.nome[0]}</CircularTextIcon
+						>
+					</div>
+					<div class="membro-info">
+						<p class="membro-nome">{estudante.nome}</p>
+						<p class="membro-pontuacao">{estudante.pontos} pontos</p>
+					</div>
+				</button>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style scoped>
