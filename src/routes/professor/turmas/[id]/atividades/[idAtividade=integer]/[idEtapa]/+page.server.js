@@ -57,13 +57,14 @@ export async function load({ cookies, params }) {
 			const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
 			if (avaliacao) {
 				entregaAvaliada = true
+				entrega.avaliacao = avaliacao.toObject()
 			} else {
 				entregaAvaliada = false
 			}
 
 		}
 
-		entrega.avaliacao = entregaAvaliada
+		entrega.avaliada = entregaAvaliada
 
 	}
 

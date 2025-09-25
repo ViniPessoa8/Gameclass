@@ -27,7 +27,7 @@
 			{/if}
 
 			{#if dados.entrega.avaliacao}
-				<p class="status">Avaliado</p>
+				<p class="status">Avaliada (<b>{dados.entrega.avaliacao.media}</b>)</p>
 			{:else}
 				<p class="avaliacao-pendente"><b>Avaliação Pendente</b></p>
 			{/if}

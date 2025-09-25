@@ -16,6 +16,13 @@ export default class Avaliacao {
 		) {
 			this.criterios_avaliados = criterios_avaliados ? criterios_avaliados.map((ca) => new AvaliacaoCriterio(ca).toObject()) : [];
 		}
+
+		this.media = criterios_avaliados ? (
+			this.criterios_avaliados.reduce(
+				(acc, c) => acc + c.nota_atribuida
+				, 0.0) / this.criterios_avaliados.length
+		).toFixed(1) : 0.0;
+		console.debug("media =>", this.media)
 	}
 
 	toObject() {
@@ -23,7 +30,8 @@ export default class Avaliacao {
 			id: this.id,
 			data_avaliacao: this.data_avaliacao ? this.data_avaliacao.toISOString() : null,
 			id_entrega: this.id_entrega,
-			criterios_avaliados: this.criterios_avaliados
+			criterios_avaliados: this.criterios_avaliados,
+			media: this.media
 		};
 	}
 }
