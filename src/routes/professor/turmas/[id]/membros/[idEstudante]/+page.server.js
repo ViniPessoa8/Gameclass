@@ -25,7 +25,7 @@ export async function load({ params, cookies }) {
 	})
 
 	const estudante = ranking.filter((e) => e.id == idEstudante)
-	data.estudante.posicao_ranking = estudante[0].index
+	data.estudante.posicao_ranking = estudante[0]?.index
 
 	data.outras_turmas = await turmaController.listaPorEstudanteProfessor(idEstudante, idProfessor)
 	data.outras_turmas = data.outras_turmas.filter((t) => t.id != idTurma)
