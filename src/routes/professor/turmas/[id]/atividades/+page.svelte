@@ -8,9 +8,11 @@
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
 
 	let { data } = $props();
+
 	let atividades = $derived(data.atividades);
 	let id = $derived($page.params.id);
 	let url = $derived(`/${data.perfil}/turmas/${id}/atividades/create`);
+
 	const maxEtapas = parseInt(data.config?.max_etapas);
 
 	$selectedTurmaTabBar = 1;
@@ -39,7 +41,7 @@
 	{#if atividades.length == 0}
 		<p>(Não há atividades nessa turma)</p>
 	{:else}
-		{#each atividades.sort(comparaAtividade) as atividade}
+		{#each atividades.sort(comparaAtividade) as atividade (atividade.id)}
 			<AtividadeTurma {atividade} idTurma={id} {maxEtapas} />
 		{/each}
 	{/if}
