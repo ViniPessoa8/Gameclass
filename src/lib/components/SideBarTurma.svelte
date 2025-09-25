@@ -66,17 +66,15 @@
 	}
 
 	.info {
-		max-width: 90%;
+		min-width: 0;
 		display: flex;
 		flex-direction: column;
 	}
 
 	.info > h1 {
 		font-size: 20px;
-
 		overflow: hidden;
 		white-space: nowrap;
-		text-wrap: nowrap;
 		text-overflow: ellipsis;
 	}
 
