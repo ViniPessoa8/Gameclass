@@ -16,7 +16,7 @@
 	itemAtividade = new ItemAtividade(itemAtividade);
 
 	// Props
-	let titulo = itemAtividade.titulo;
+	let titulo = $state(itemAtividade.titulo);
 	let status = itemAtividade.status;
 
 	// calculated variables

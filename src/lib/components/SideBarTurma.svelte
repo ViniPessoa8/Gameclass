@@ -8,12 +8,12 @@
 
 	let { turma, perfil } = $props();
 
-	const acronym = turma.nome[0];
-	const color = turma.cor;
+	const acronym = $derived(turma.nome[0]);
+	const color = $derived(turma.cor);
 
 	let backgroundColor = $state(),
 		disciplinaCor = $state();
-	run(() => {
+	$effect(() => {
 		if ($selectedTurma === turma.id) {
 			backgroundColor = 'var(--cor-secundaria)';
 			disciplinaCor = 'var(--cor-primaria)';
