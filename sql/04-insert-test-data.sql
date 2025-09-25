@@ -72,7 +72,7 @@ ALTER SEQUENCE instituicao_id_seq RESTART WITH 2;
 INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "dt_nasc", "data_criacao", "ultimo_acesso", "cor")
 VALUES
     -- Professor (será referenciado em 'turma' pelo id_usuario = 1)
-		(1, 'Prof. Alan Turing', 'alan.turing', '$2a$10$j8.A.sY43oUnp0z9aB5rAuq4a2yE2i.6N.jS12a1u3i2b4c5d6e7f', '$2a$10$j8.A.sY43oUnp0z9aB5rAu', 'Pai da computação e apaixonado por decifrar enigmas.', 'alan.turing@uea.edu.br', 1250, 15, '1912-06-23', '2024-08-01', '2025-09-23T08:00:00.000Z', '3D5A80'),
+		(1, 'Prof. Alan Turing', 'alan.turing', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Pai da computação e apaixonado por decifrar enigmas.', 'alan.turing@uea.edu.br', 1250, 15, '1912-06-23', '2024-08-01', '2025-09-23T08:00:00.000Z', '3D5A80'),
     -- Estudantes
     (2, 'Ada Lovelace', 'ada.lovelace', '$2a$10$XyZABCD12345KJHsdUqPObFlh123Ghv67YPLOpWZXQ', '$2a$10$XyZABCD12345KJHsdUqPO', 'Estudante de Sistemas de Informação.', 'ada.lovelace@uea.edu.br', 320, 4, '2003-12-10', '2024-08-15', '2025-09-22T10:00:00.000Z', 'C75B5B'),
     (3, 'Grace Hopper', 'grace.hopper', '$2a$10$MNOPQRST9876543JHKLZXVBNMP', '$2a$10$MNOPQRST9876543JHKLZX', 'Futura engenheira de software.', 'grace.hopper@uea.edu.br', 450, 5, '2002-09-09', '2024-08-15', '2025-09-21T14:30:00.000Z', '6A4CA3'),
@@ -144,77 +144,104 @@ INSERT INTO comentario("texto", "id_publicacao_mural", "id_usuario", "data_criac
 ('Eu, Tim! A cláusula JOIN está um pouco confusa.', 3, 3, (CURRENT_DATE - INTERVAL '5 days') + TIME '18:15:00'),
 ('Podemos marcar um horário para estudarmos juntos, se quiser.', 3, 4, (CURRENT_DATE - INTERVAL '5 days') + TIME '18:20:00');
 
--- Atividade e Itens (Turma 1)
-INSERT INTO atividade("titulo", "descricao", "prazo", "id_turma") VALUES
-('Modelagem e SQL', 'Exercícios sobre modelagem ER e consultas SQL.', '2026-10-15T23:59:59.000Z', 1);
 
-INSERT INTO item_atividade("titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade") VALUES
-('Lista de Exercícios 1: SQL Básico', 'Resolva as 10 questões de SQL propostas.', 10, '2025-09-20T08:00:00.000Z', '2025-09-30T23:59:59.000Z', 1, 1, false, false, 'ENCERRADO', 1);
+-- ========= TURMA 1 (BANCO DE DADOS): FOCO EM ATIVIDADES INDIVIDUAIS =========
 
--- Critérios da Atividade (Item 1)
-INSERT INTO criterio("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES
-('Correção das Consultas', 'As queries SQL retornam o resultado esperado.', 5, 1, 1),
-('Boas Práticas', 'Uso de indentação, nomes de alias e clareza do código.', 5, 1, 1);
+-- --- Atividade 1: Individual, Encerrada e Avaliada ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (1, 'Modelagem Relacional Avançada', '2025-10-01T23:59:59.000Z', 1);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (1, 'Lista de Exercícios: Normalização', 'Aplique as formas normais (1FN, 2FN, 3FN) nos modelos de dados apresentados.', 10, '2025-09-20T08:00:00.000Z', '2025-09-30T23:59:59.000Z', 1, 1, false, false, 'ENCERRADO', 1);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+(1, 'Aplicação da 1FN e 2FN', 'Identificação e correção de anomalias.', 5, 1), 
+(2, 'Aplicação da 3FN', 'Remoção de dependências transitivas.', 5, 1);
+INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (1, 1, 1), (2, 2, 1);
+INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (1, 1), (2, 2);
+INSERT INTO avaliacao_criterio ("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
+(1, 1, 1, 5.0), (2, 1, 2, 4.5), -- Notas Estudante 1
+(3, 2, 1, 4.0), (4, 2, 2, 3.5); -- Notas Estudante 2
 
--- Entregas dos Alunos (Item 1)
-INSERT INTO entrega("id_estudante", "id_item_atividade", "data_entrega") VALUES
-(1, 1, '2025-09-28 10:00:00'), -- Ada
-(2, 1, '2025-09-29 15:30:00'), -- Grace
-(3, 1, '2025-09-30 23:50:00'); -- Margaret
-
--- Avaliações feitas pelo professor (Item 1)
-INSERT INTO realizar_avaliacao(data_avaliacao, id_entrega) VALUES
-(now(), 1), -- Avaliação da Ada
-(now(), 2); -- Avaliação da Grace
-
-INSERT INTO avaliacao_criterio (id_realizar_avaliacao, id_criterio, nota_atribuida) VALUES
-(1, 1, 4.5), (1, 2, 5.0), -- Notas da Ada
-(2, 1, 4.0), (2, 2, 3.5); -- Notas da Grace
+-- --- Atividade 2: Individual, Liberada, Aguardando Entregas ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (2, 'Consultas SQL Complexas', '2025-10-16T23:59:59.000Z', 1);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (2, 'Desafio: Otimização de Queries', 'Refatore as consultas SQL fornecidas para melhorar o desempenho, utilizando índices e joins eficientes.', 10, '2025-10-05T08:00:00.000Z', '2025-10-15T23:59:59.000Z', 1, 1, false, false, 'LIBERADO', 2);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+(3, 'Uso de Índices', 'Criação de índices adequados para as consultas.', 4, 2), 
+(4, 'Refatoração de Joins', 'Substituição de subqueries por joins quando aplicável.', 4, 2),
+(5, 'Plano de Execução', 'Análise e justificativa da melhoria do plano de execução.', 2, 2);
 
 
--- ==========================================================
--- == CENÁRIO 2: TURMA DE ENGENHARIA DE SOFTWARE (ID 2)
--- == Foco: Atividade em grupo com avaliação por grupo.
--- ==========================================================
+-- ========= TURMA 2 (ENGENHARIA DE SOFTWARE): FOCO EM ATIVIDADES EM GRUPO =========
 
-INSERT INTO publicacao_mural("conteudo", "data_publicacao", "id_turma", "id_usuario") VALUES
-('Turma, a data de entrega do trabalho sobre Padrões de Projeto foi prorrogada. Verifiquem no sistema.', (CURRENT_DATE - INTERVAL '7 days') + TIME '14:00:00', 2, 1);
+-- --- Atividade 3: Em Grupo, Nota Coletiva, Encerrada e Avaliada ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (3, 'Padrões de Projeto (GoF)', '2025-11-01T23:59:59.000Z', 2);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-20T08:00:00.000Z', '2025-10-30T23:59:59.000Z', 1, 2, true, false, 'ENCERRADO', 3);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+(6, 'Clareza Conceitual', 'Apresentação clara da finalidade e estrutura do padrão.', 5, 3), 
+(7, 'Qualidade do Exemplo', 'O código de exemplo é funcional e didático.', 5, 3);
+INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (1, 2, 3, 3);
+INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (1, 'Grupo Design Patterns', 3);
+INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (2, 1), (3, 1);
+INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (3, 1, 3);
+INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (3, 3);
+INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
+(5, 3, 6, 4.5), (6, 3, 7, 5.0); -- Nota coletiva para o grupo
 
-INSERT INTO atividade("titulo", "descricao", "prazo", "id_turma") VALUES
-('Padrões de Projeto', 'Implementação de Padrões de Projeto GoF.', '2026-11-20T23:59:59.000Z', 2);
-
-INSERT INTO item_atividade("titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade", "tipo_formacao_grupo") VALUES
-('Seminário: Design Patterns', 'Apresentar um padrão de projeto para a turma.', 10, '2026-10-10T08:00:00.000Z', '2026-10-25T23:59:59.000Z', 1, 2, true, false, 'LIBERADO', 2, 1);
-
-INSERT INTO criterio("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES
-('Domínio do Conteúdo', 'Demonstração de entendimento profundo do padrão.', 5, 1, 2),
-('Qualidade da Apresentação', 'Clareza, didática e qualidade dos slides.', 5, 1, 2);
-
-INSERT INTO grupo_de_alunos (nome, id_item_atividade) VALUES ('Grupo Singleton', 2), ('Grupo Factory', 2);
-INSERT INTO integrante_grupo_de_alunos (id_estudante, id_grupo_de_alunos) VALUES (2, 1), (5, 1), (6, 2), (8, 2), (9, 2);
-INSERT INTO entrega ("id_grupo_de_alunos", "id_item_atividade", "data_entrega") VALUES (1, 2, '2026-10-24 20:00:00');
-INSERT INTO realizar_avaliacao(data_avaliacao, id_entrega) VALUES (now(), 4);
-INSERT INTO avaliacao_criterio (id_realizar_avaliacao, id_criterio, nota_atribuida) VALUES (3, 3, 4.0), (3, 4, 4.5);
+-- --- Atividade 4: Em Grupo, Nota Individual, Entregue e Aguardando Avaliação ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (4, 'Metodologias Ágeis', '2025-11-21T23:59:59.000Z', 2);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (4, 'Simulação de Sprint (Scrum)', 'Planejar e executar uma Sprint de uma semana para um projeto fictício, entregando o Sprint Backlog e a Review.', 10, '2025-11-10T08:00:00.000Z', '2025-11-20T23:59:59.000Z', 1, 1, true, false, 'LIBERADO', 4);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+(8, 'Qualidade do Planejamento', 'O Sprint Backlog está bem definido e estimado.', 5, 4), 
+(9, 'Execução e Entrega', 'As tarefas foram concluídas e apresentadas na Review.', 5, 4);
+INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (2, 2, 3, 4);
+INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (2, 'Scrum Masters', 4);
+INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (4, 2), (5, 2), (7, 2);
+INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (4, 2, 4);
+-- Nenhuma avaliação ainda, para simular trabalho pendente para o professor.
 
 
--- ==========================================================
--- == CENÁRIO 3: TURMA DE ALGORITMOS AVANÇADOS (ID 3)
--- == Foco: Atividade com nota ponderada e uma atividade futura (não liberada).
--- ==========================================================
-INSERT INTO publicacao_mural("conteudo", "data_publicacao", "id_turma", "id_usuario") VALUES
-('Desafio da semana: resolvam o problema do caixeiro viajante usando uma heurística. Não vale nota, mas vale XP!', (CURRENT_DATE - INTERVAL '3 days') + TIME '10:00:00', 3, 1);
+-- ========= TURMA 3 (ALGORITMOS AVANÇADOS): CENÁRIOS MISTOS =========
 
-INSERT INTO atividade("titulo", "descricao", "prazo", "id_turma") VALUES
-('Análise de Complexidade', 'Atividades práticas sobre complexidade de algoritmos.', '2026-12-01T23:59:59.000Z', 3);
+-- --- Atividade 5: Individual, Ponderada, Encerrada e Parcialmente Avaliada ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (5, 'Análise de Complexidade', '2025-10-21T23:59:59.000Z', 3);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (5, 'Prova 1: Notação Big-O', 'Análise de complexidade de algoritmos iterativos e recursivos.', 10, '2025-10-10T08:00:00.000Z', '2025-10-20T23:59:59.000Z', 2, 1, false, false, 'ENCERRADO', 5);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES 
+(10, 'Questões Teóricas', 'Definições de Big-O, Omega e Theta.', 10, 3, 5), -- Peso 3
+(11, 'Questões Práticas', 'Análise de código e cálculo de complexidade.', 10, 7, 5); -- Peso 7
+INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (5, 1, 5), (6, 3, 5);
+INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (4, 5);
+INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
+(7, 4, 10, 8.0), (8, 4, 11, 9.5); -- Apenas o estudante 1 foi avaliado.
 
-INSERT INTO item_atividade("titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade") VALUES
-('Prova 1: Análise Assintótica', 'Prova sobre notações Big-O, Omega e Theta.', 10, '2026-11-05T08:00:00.000Z', '2026-11-12T23:59:59.000Z', 2, 1, false, false, 'LIBERADO', 3),
-('Trabalho Final: Grafos', 'Implementação de um algoritmo de caminho mínimo.', 10, '2026-11-20T08:00:00.000Z', '2026-12-05T23:59:59.000Z', 1, 1, false, false, 'NÃO LIBERADO', 3);
+-- --- Atividade 6: Em Grupo, Liberada, Aguardando Entregas ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (6, 'Estruturas de Dados Avançadas', '2025-11-16T23:59:59.000Z', 3);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (6, 'Implementação: Grafos e Caminho Mínimo', 'Implementar o algoritmo de Dijkstra para encontrar o menor caminho em um grafo.', 10, '2025-11-05T08:00:00.000Z', '2025-11-15T23:59:59.000Z', 1, 2, true, false, 'LIBERADO', 6);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+(12, 'Corretude da Implementação', 'O algoritmo produz o resultado correto para os casos de teste.', 7, 6), 
+(13, 'Performance', 'O código é eficiente e não possui gargalos óbvios.', 3, 6);
+INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (3, 2, 2, 6);
+INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (3, 'Team Dijkstra', 6), (4, 'Grafos Masters', 6);
+INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (1, 3), (3, 3), (5, 4), (8, 4);
 
-INSERT INTO criterio("titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES
-('Questões Teóricas', 'Definições e conceitos.', 10, 3, 3), ('Questões Práticas', 'Análise de algoritmos.', 10, 7, 3);
-INSERT INTO entrega("id_estudante", "id_item_atividade", "data_entrega") VALUES (5, 3, '2026-11-10 12:00:00'), (9, 3, '2026-11-11 09:45:00');
+-- --- Atividade 7: Individual, Futura/Agendada ---
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (7, 'Algoritmos de Ordenação', '2025-12-01T23:59:59.000Z', 3);
+INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "status", "id_atividade")
+VALUES (7, 'Comparativo: QuickSort vs. MergeSort', 'Implemente ambos os algoritmos e compare seus tempos de execução para diferentes tamanhos de entrada.', 10, '2025-11-20T08:00:00.000Z', '2025-11-30T23:59:59.000Z', 1, 1, false, false, 'NÃO LIBERADO', 7);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+(14, 'Implementação do QuickSort', 'O código deve ser funcional e correto.', 5, 7), 
+(15, 'Implementação do MergeSort', 'O código deve ser funcional e correto.', 5, 7);
 
+-- ========= INSERÇÃO DE ANEXOS PARA TODAS AS ENTREGAS =========
+INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") VALUES
+('entrega_1.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-09-28 10:00:00', 1, NULL),
+('entrega_2.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-09-29 15:30:00', 2, NULL),
+('entrega_3.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-29 20:00:00', 3, NULL),
+('entrega_4.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-11-20 10:00:00', 4, NULL),
+('entrega_5.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-19 09:00:00', 5, NULL),
+('entrega_6.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-20 11:30:00', 6, NULL);
 
 -- ========= CONFIGURAÇÕES E ATUALIZAÇÃO DE SEQUENCES =========
 
