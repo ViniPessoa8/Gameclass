@@ -22,9 +22,9 @@ async function seedDatabase() {
 				// Turma 2
 				{ estudanteId: 1, turmaId: 2 },
 				{ estudanteId: 9, turmaId: 2 },
-				// Turma 3
-				{ estudanteId: 3, turmaId: 3 },
-				{ estudanteId: 7, turmaId: 3 }
+				// // Turma 3
+				// { estudanteId: 3, turmaId: 3 },
+				// { estudanteId: 7, turmaId: 3 }
 			],
 			'Quebrando o gelo': [
 				// Turma 1
@@ -33,9 +33,9 @@ async function seedDatabase() {
 				// Turma 2
 				{ estudanteId: 1, turmaId: 2 },
 				{ estudanteId: 9, turmaId: 2 },
-				// Turma 3
-				{ estudanteId: 3, turmaId: 3 },
-				{ estudanteId: 7, turmaId: 3 }
+				// // Turma 3
+				// { estudanteId: 3, turmaId: 3 },
+				// { estudanteId: 7, turmaId: 3 }
 			]
 		};
 

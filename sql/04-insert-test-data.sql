@@ -103,8 +103,8 @@ ALTER SEQUENCE estudante_id_seq RESTART WITH 10;
 
 INSERT INTO turma("codigo", "nome", "disciplina", "ano", "periodo", "cor", "descricao", "numero_alunos", "id_professor", "id_instituicao") VALUES
 ('TIN2025BD1', 'Banco de Dados', 'Sistemas de Informação', 2025, 2, '4682B4', 'Turma focada em modelagem, SQL e NoSQL.', 5, 1, 1),
-('TIN2025ES2', 'Engenharia de Software II', 'Engenharia de Software', 2025, 2, '6B8E23', 'Foco em padrões de projeto, arquitetura e testes.', 5, 1, 1),
-('TIN2025AA1', 'Algoritmos Avançados', 'Ciência da Computação', 2025, 2, 'CD5C5C', 'Análise de complexidade e estruturas de dados complexas.', 5, 1, 1);
+('TIN2025ES2', 'Engenharia de Software II', 'Engenharia de Software', 2025, 2, '6B8E23', 'Foco em padrões de projeto, arquitetura e testes.', 5, 1, 1);
+-- ('TIN2025AA1', 'Algoritmos Avançados', 'Ciência da Computação', 2025, 2, 'CD5C5C', 'Análise de complexidade e estruturas de dados complexas.', 5, 1, 1);
 ALTER SEQUENCE turma_id_seq RESTART WITH 4;
 
 
@@ -119,8 +119,8 @@ INSERT INTO estudante_turma("id_estudante", "id_turma", "pontos") VALUES
 (2, 2, 220), (5, 2, 350), (6, 2, 150), (8, 2, 200), (9, 2, 450);
 
 -- Estudantes em Algoritmos Avançados (Turma 3)
-INSERT INTO estudante_turma("id_estudante", "id_turma", "pontos") VALUES
-(1, 3, 100), (3, 3, 150), (5, 3, 200), (7, 3, 50), (9, 3, 300);
+-- INSERT INTO estudante_turma("id_estudante", "id_turma", "pontos") VALUES
+-- (1, 3, 100), (3, 3, 150), (5, 3, 200), (7, 3, 50), (9, 3, 300);
 ALTER SEQUENCE estudante_turma_id_seq RESTART WITH 20; -- Valor arbitrário para segurança
 
 
@@ -204,36 +204,36 @@ INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (4, 
 
 -- ========= TURMA 3 (ALGORITMOS AVANÇADOS): CENÁRIOS MISTOS =========
 
--- --- Atividade 5: Individual, Ponderada, Encerrada e Parcialmente Avaliada ---
-INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (5, 'Análise de Complexidade', '2025-10-21T23:59:59.000Z', 3);
-INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (5, 'Prova 1: Notação Big-O', 'Análise de complexidade de algoritmos iterativos e recursivos.', 10, '2025-09-10T08:00:00.000Z', '2025-10-20T23:59:59.000Z', 2, 1, false, false, 5);
-INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES 
-(10, 'Questões Teóricas', 'Definições de Big-O, Omega e Theta.', 10, 3, 5), -- Peso 3
-(11, 'Questões Práticas', 'Análise de código e cálculo de complexidade.', 10, 7, 5); -- Peso 7
-INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (5, 1, 5), (6, 3, 5);
-INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (4, 5);
-INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
-(7, 4, 10, 8.0), (8, 4, 11, 9.5); -- Apenas o estudante 1 foi avaliado.
-
--- --- Atividade 6: Em Grupo, Liberada, Aguardando Entregas ---
-INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (6, 'Estruturas de Dados Avançadas', '2025-11-16T23:59:59.000Z', 3);
-INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (6, 'Implementação: Grafos e Caminho Mínimo', 'Implementar o algoritmo de Dijkstra para encontrar o menor caminho em um grafo.', 10, '2025-11-05T08:00:00.000Z', '2025-11-15T23:59:59.000Z', 1, 2, true, false, 6);
-INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
-(12, 'Corretude da Implementação', 'O algoritmo produz o resultado correto para os casos de teste.', 7, 6), 
-(13, 'Performance', 'O código é eficiente e não possui gargalos óbvios.', 3, 6);
-INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (3, 2, 2, 6);
-INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (3, 'Team Dijkstra', 6), (4, 'Grafos Masters', 6);
-INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (1, 3), (3, 3), (5, 4), (8, 4);
-
--- --- Atividade 7: Individual, Futura/Agendada ---
-INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (7, 'Algoritmos de Ordenação', '2025-12-01T23:59:59.000Z', 3);
-INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (7, 'Comparativo: QuickSort vs. MergeSort', 'Implemente ambos os algoritmos e compare seus tempos de execução para diferentes tamanhos de entrada.', 10, '2025-11-20T08:00:00.000Z', '2025-11-30T23:59:59.000Z', 1, 1, false, false, 7);
-INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
-(14, 'Implementação do QuickSort', 'O código deve ser funcional e correto.', 5, 7), 
-(15, 'Implementação do MergeSort', 'O código deve ser funcional e correto.', 5, 7);
+-- -- --- Atividade 5: Individual, Ponderada, Encerrada e Parcialmente Avaliada ---
+-- INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (5, 'Análise de Complexidade', '2025-10-21T23:59:59.000Z', 3);
+-- INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
+-- VALUES (5, 'Prova 1: Notação Big-O', 'Análise de complexidade de algoritmos iterativos e recursivos.', 10, '2025-09-10T08:00:00.000Z', '2025-10-20T23:59:59.000Z', 2, 1, false, false, 5);
+-- INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES 
+-- (10, 'Questões Teóricas', 'Definições de Big-O, Omega e Theta.', 10, 3, 5), -- Peso 3
+-- (11, 'Questões Práticas', 'Análise de código e cálculo de complexidade.', 10, 7, 5); -- Peso 7
+-- INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (5, 1, 5), (6, 3, 5);
+-- INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (4, 5);
+-- INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
+-- (7, 4, 10, 8.0), (8, 4, 11, 9.5); -- Apenas o estudante 1 foi avaliado.
+--
+-- -- --- Atividade 6: Em Grupo, Liberada, Aguardando Entregas ---
+-- INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (6, 'Estruturas de Dados Avançadas', '2025-11-16T23:59:59.000Z', 3);
+-- INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
+-- VALUES (6, 'Implementação: Grafos e Caminho Mínimo', 'Implementar o algoritmo de Dijkstra para encontrar o menor caminho em um grafo.', 10, '2025-11-05T08:00:00.000Z', '2025-11-15T23:59:59.000Z', 1, 2, true, false, 6);
+-- INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+-- (12, 'Corretude da Implementação', 'O algoritmo produz o resultado correto para os casos de teste.', 7, 6), 
+-- (13, 'Performance', 'O código é eficiente e não possui gargalos óbvios.', 3, 6);
+-- INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (3, 2, 2, 6);
+-- INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (3, 'Team Dijkstra', 6), (4, 'Grafos Masters', 6);
+-- INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (1, 3), (3, 3), (5, 4), (8, 4);
+--
+-- -- --- Atividade 7: Individual, Futura/Agendada ---
+-- INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (7, 'Algoritmos de Ordenação', '2025-12-01T23:59:59.000Z', 3);
+-- INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
+-- VALUES (7, 'Comparativo: QuickSort vs. MergeSort', 'Implemente ambos os algoritmos e compare seus tempos de execução para diferentes tamanhos de entrada.', 10, '2025-11-20T08:00:00.000Z', '2025-11-30T23:59:59.000Z', 1, 1, false, false, 7);
+-- INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
+-- (14, 'Implementação do QuickSort', 'O código deve ser funcional e correto.', 5, 7), 
+-- (15, 'Implementação do MergeSort', 'O código deve ser funcional e correto.', 5, 7);
 
 -- =====================================================================
 -- == INÍCIO: COMPLEMENTO COM 4 CENÁRIOS DE ETAPAS EM UMA SÓ ATIVIDADE
@@ -259,7 +259,6 @@ VALUES (
     'Etapa 1: Modelagem Lógica e Relacional',
     'Entregar o diagrama Entidade-Relacionamento (MER) e o Modelo Relacional derivado (tabelas e chaves).',
     10,
-    -- Datas totalmente no passado
     '2025-08-20T08:00:00.000Z',
     '2025-09-05T23:59:59.000Z',
     1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
@@ -267,13 +266,9 @@ VALUES (
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES
 (16, 'Qualidade do MER', 'O diagrama representa corretamente as entidades e relacionamentos.', 5, 8),
 (17, 'Correção do Modelo Relacional', 'As tabelas, chaves primárias e estrangeiras estão corretamente definidas.', 5, 8);
--- Entregas realizadas
 INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (7, 1, 8), (8, 2, 8);
--- Anexos das entregas
 INSERT INTO anexo ("titulo", "conteudo_texto", "id_entrega") VALUES ('MER_Ada.pdf', NULL, 7), ('Modelo_Relacional_Grace.zip', NULL, 8);
--- Avaliações realizadas
 INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (5, 7), (6, 8);
--- Notas atribuídas
 INSERT INTO avaliacao_criterio ("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES
 (9, 5, 16, 5.0), (10, 5, 17, 4.5), -- Notas da Entrega 7 (Ada)
 (11, 6, 16, 4.0), (12, 6, 17, 4.0); -- Notas da Entrega 8 (Grace)
@@ -288,7 +283,6 @@ VALUES (
     'Etapa 2: Implementação e Carga de Dados',
     'Entregar os scripts SQL (DDL) para criação do banco de dados e (DML) para inserção de dados de teste.',
     10,
-    -- Datas totalmente no passado, posteriores à Etapa 1
     '2025-09-06T08:00:00.000Z',
     '2025-09-20T23:59:59.000Z',
     1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
@@ -296,9 +290,7 @@ VALUES (
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES
 (18, 'Correção do Script DDL', 'O script cria todas as tabelas e restrições conforme o modelo.', 5, 9),
 (19, 'Qualidade dos Dados (DML)', 'Os dados inseridos são coerentes e cobrem diversos cenários.', 5, 9);
--- Entregas realizadas
 INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (9, 1, 9), (10, 2, 9);
--- Anexos das entregas
 INSERT INTO anexo ("titulo", "conteudo_texto", "id_entrega") VALUES ('scripts_ddl_dml_ada.sql', NULL, 9), ('carga_dados_grace.sql', NULL, 10);
 -- NENHUMA avaliação é criada para simular a pendência.
 
@@ -351,9 +343,9 @@ INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_
 ('entrega_1.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-09-28 10:00:00', 1, NULL),
 ('entrega_2.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-09-29 15:30:00', 2, NULL),
 ('entrega_3.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-29 20:00:00', 3, NULL),
-('entrega_4.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-11-20 10:00:00', 4, NULL),
-('entrega_5.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-19 09:00:00', 5, NULL),
-('entrega_6.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-20 11:30:00', 6, NULL);
+('entrega_4.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-11-20 10:00:00', 4, NULL);
+-- ('entrega_5.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-19 09:00:00', 5, NULL),
+-- ('entrega_6.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-20 11:30:00', 6, NULL);
 
 -- ========= CONFIGURAÇÕES E ATUALIZAÇÃO DE SEQUENCES =========
 
