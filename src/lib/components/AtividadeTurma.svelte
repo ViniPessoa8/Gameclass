@@ -156,7 +156,7 @@
 		<div class="atividade-info-content">
 			<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
 			<div class="column">
-				<h2>{atividade.titulo}</h2>
+				<h2 class="titulo">{atividade.titulo}</h2>
 			</div>
 			<div class="column right">
 				<span>Prazo: {prazoFinalStr}</span>
@@ -268,6 +268,10 @@
 
 	.atividade-info-content > img {
 		margin-left: 12px;
+	}
+
+	.titulo {
+		max-width: 500px;
 	}
 
 	.column {
