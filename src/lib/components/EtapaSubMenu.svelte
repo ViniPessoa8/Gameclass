@@ -88,7 +88,6 @@
 				Avaliação: <b>{itemAtividade.tipo_avaliacao_nota == 1 ? 'Inidividual' : 'Em grupos'}</b>
 			</h5>
 		</div>
-		<IconeInformacao text="Título da etapa da atividade" alt="mais informações" />
 	</div>
 	<div class="column info">
 		<span class="prazo">Prazo: {itemAtividade.formataDataFinal()}</span>

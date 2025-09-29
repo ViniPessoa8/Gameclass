@@ -197,7 +197,6 @@
 		flex-direction: column;
 		text-align: center;
 		padding-top: 64px;
-		padding-right: 96px;
 	}
 
 	.content-header {
