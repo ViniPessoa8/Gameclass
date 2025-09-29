@@ -51,7 +51,11 @@
 				{/if}
 			{/if}
 
-			<p class="sem-resposta">Aguardando Resposta</p>
+			{#if dados.em_grupos && dados.inicio > new Date()}
+				<p class="data">Grupo Formado</p>
+			{:else}
+				<p class="sem-resposta">Aguardando Resposta</p>
+			{/if}
 		</div>
 	{:else}
 		<div class="card off">

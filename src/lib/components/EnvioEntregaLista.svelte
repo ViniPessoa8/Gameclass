@@ -7,7 +7,7 @@
 	let corCard = $state();
 
 	onMount(() => {
-		if (dados && dados.entrega && dados.entrega.avaliacao) {
+		if (dados && dados.entrega && dados.entrega.avaliada) {
 			corCard = 'green';
 		} else if (dados && !dados.entrega && dados.prazo < new Date()) {
 			corCard = 'var(--cor-secundaria-2)';
@@ -26,7 +26,7 @@
 				<p class="nome">{dados.estudante.nome}</p>
 			{/if}
 
-			{#if dados.entrega.avaliacao}
+			{#if dados.entrega.avaliada}
 				<p class="status">Avaliada (<b>{dados.entrega.avaliacao.media}</b>)</p>
 			{:else}
 				<p class="avaliacao-pendente"><b>Avaliação Pendente</b></p>
@@ -51,7 +51,11 @@
 				{/if}
 			{/if}
 
-			<p class="sem-resposta">Aguardando Resposta</p>
+			{#if dados.em_grupos && dados.inicio > new Date()}
+				<p class="sem-resposta">Grupo Formado</p>
+			{:else}
+				<p class="sem-resposta">Aguardando Resposta</p>
+			{/if}
 			<p>-</p>
 			<p></p>
 		</div>

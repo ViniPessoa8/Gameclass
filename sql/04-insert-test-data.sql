@@ -183,10 +183,10 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_ativ
 INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (1, 2, 3, 3);
 INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (1, 'Grupo Design Patterns', 3);
 INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (2, 1), (3, 1);
-INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (3, 1, 3);
-INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (3, 3);
-INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
-(5, 3, 6, 4.5), (6, 3, 7, 5.0); -- Nota coletiva para o grupo
+-- INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (3, 1, 3);
+-- INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (3, 3);
+-- INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
+-- (5, 3, 6, 4.5), (6, 3, 7, 5.0); -- Nota coletiva para o grupo
 
 -- --- Atividade 4: Em Grupo, Nota Individual, Entregue e Aguardando Avaliação ---
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (4, 'Metodologias Ágeis', '2025-11-21T23:59:59.000Z', 2);
@@ -342,7 +342,7 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_ativ
 INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_publicacao_mural") VALUES
 ('entrega_1.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-09-28 10:00:00', 1, NULL),
 ('entrega_2.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-09-29 15:30:00', 2, NULL),
-('entrega_3.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-29 20:00:00', 3, NULL),
+-- ('entrega_3.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-29 20:00:00', 3, NULL),
 ('entrega_4.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-11-20 10:00:00', 4, NULL);
 -- ('entrega_5.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-19 09:00:00', 5, NULL),
 -- ('entrega_6.txt', pg_read_file('/var/lib/postgresql/data/teste.txt'), '2025-10-20 11:30:00', 6, NULL);

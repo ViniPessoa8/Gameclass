@@ -54,7 +54,8 @@
 						grupo,
 						em_grupos: true,
 						estudante: null,
-						prazo: data.etapa.data_entrega_final
+						prazo: data.etapa.data_entrega_final,
+						inicio: data.etapa.data_entrega_inicial
 					});
 				} else {
 					entregas_por_grupo.push({
@@ -62,7 +63,8 @@
 						grupo: grupo,
 						em_grupos: true,
 						estudante: null,
-						prazo: data.etapa.data_entrega_final
+						prazo: data.etapa.data_entrega_final,
+						inicio: data.etapa.data_entrega_inicial
 					});
 				}
 			} else {
@@ -71,7 +73,8 @@
 					grupo: null,
 					em_grupos: true,
 					estudante: null,
-					prazo: data.etapa.data_entrega_final
+					prazo: data.etapa.data_entrega_final,
+					inicio: data.etapa.data_entrega_inicial
 				});
 			}
 		}
@@ -86,7 +89,8 @@
 						entrega: entrega,
 						grupo: null,
 						em_grupos: false,
-						prazo: data.etapa.data_entrega_final
+						prazo: data.etapa.data_entrega_final,
+						inicio: data.etapa.data_entrega_inicial
 					};
 				}
 
@@ -95,7 +99,8 @@
 					entrega: null,
 					grupo: null,
 					em_grupos: false,
-					prazo: data.etapa.data_entrega_final
+					prazo: data.etapa.data_entrega_final,
+					inicio: data.etapa.data_entrega_inicial
 				};
 			})
 			.sort((a, b) => a.estudante.nome.localeCompare(b.estudante.nome));
