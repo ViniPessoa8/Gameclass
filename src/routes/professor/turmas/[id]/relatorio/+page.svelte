@@ -177,7 +177,8 @@
 	}
 
 	.titulo-atividade {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 28px;
 		width: 400px;
 		flex-direction: row;
 		justify-content: space-between;
@@ -190,9 +191,15 @@
 	}
 
 	.titulo-atividade-content {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1;
 		flex-direction: row;
 		gap: 8px;
+	}
+
+	.titulo-atividade > img {
+		width: 28px;
+		height: 28px;
 	}
 
 	.atividade-content {

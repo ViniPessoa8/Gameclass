@@ -47,6 +47,8 @@ export async function load({ cookies, params }) {
 
 					if (grupos[i].integrantes.length == nAvaliacoes) {
 						entregaAvaliada = true
+						entrega.avaliacao = {}
+						entrega.avaliacao.media = avaliacao.reduce((acc, a) => acc + a.nota_atribuida, 0) / avaliacao.length
 					} else {
 						entregaAvaliada = false
 					}

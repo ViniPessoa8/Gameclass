@@ -259,10 +259,12 @@
 		font-size: 20px;
 		font-weight: 500;
 		padding-left: 8px;
+		padding-right: 16px;
 		min-width: 126px;
 		max-width: 250px;
 		word-break: break-word;
 		white-space: normal;
+		text-align: left;
 	}
 
 	.criterio-titulo-descricao {
