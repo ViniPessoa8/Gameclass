@@ -87,13 +87,7 @@
 	}
 
 	function comparaItemAtividade(a, b) {
-		if (a.id < b.id) {
-			return -1;
-		}
-		if (a.id > b.id) {
-			return 1;
-		}
-		return 0;
+		return a.id - b.id;
 	}
 
 	function handleArquivaAtividade(item) {
