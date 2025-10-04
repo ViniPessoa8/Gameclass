@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import { buscaPorLoginBD, removePorLoginBD, registraUsuarioBD, loginBD } from "../repositories/usuario";
+import { buscaPorLoginBD, buscaPorEmailBD, removePorLoginBD, registraUsuarioBD, loginBD } from "../repositories/usuario";
 import InstituicaoController from "./instituicao";
 import { Usuario } from "../../models/Usuario";
 
@@ -42,7 +42,7 @@ export default class UsuarioController {
 			throw ("Preencha o login e a senha")
 		}
 
-		if (!await this.buscaPorLogin(login)) {
+		if (!await this.buscaPorLogin(login) && !await this.buscaPorEmail(login)) {
 			throw ("Usuário não cadastrado")
 		}
 
@@ -60,6 +60,12 @@ export default class UsuarioController {
 
 	async buscaPorLogin(login) {
 		const res = await buscaPorLoginBD(login);
+
+		return res ? new Usuario({ ...res }) : res
+	}
+
+	async buscaPorEmail(email) {
+		const res = await buscaPorEmailBD(email);
 
 		return res ? new Usuario({ ...res }) : res
 	}

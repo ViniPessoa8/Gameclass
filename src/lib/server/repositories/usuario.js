@@ -32,11 +32,26 @@ export async function buscaPorLoginBD(login) {
 	}
 }
 
+export async function buscaPorEmailBD(email) {
+	const db = getPool()
+	const query = {
+		text: `SELECT * FROM ${DB_INFO.tables.usuario} WHERE email = $1`,
+		values: [email]
+	}
+
+	const queryRes = await db.query(query)
+	if (queryRes.rowCount > 0) {
+		return queryRes.rows[0]
+	} else {
+		return false
+	}
+}
+
 export async function loginBD(login, password) {
 	const db = getPool()
 	// Get salt from login
 	const saltQuery = {
-		text: `SELECT salt FROM ${DB_INFO.tables.usuario} WHERE login = $1`,
+		text: `SELECT salt FROM ${DB_INFO.tables.usuario} WHERE login = $1 OR email = $1`,
 		values: [login]
 	}
 
@@ -50,7 +65,7 @@ export async function loginBD(login, password) {
 		const hash = await bcrypt.hash(password, saltText)
 		const query = {
 			text: `SELECT * FROM ${DB_INFO.tables.usuario}\
-					WHERE login = $1 and hash=$2`,
+					WHERE login = $1 OR email = $1 and hash=$2`,
 			values: [login, hash]
 		}
 
