@@ -212,23 +212,72 @@
 		return !isNaN(new Date(dateStr));
 	}
 
-	function onChangeCriterioNota() {
-		// Máscara de input (0.0 [max: 10.0])
-		novoCriterioNota = String(novoCriterioNota)
-			.replace(/(?<=^[0-9]{1})[0-9]$/g, '.$&')
-			.replace(/(?<=^[0-9])(\.)([0-9])([0-9])$/g, '$2$1$3')
-			.replace(/(?<=^[0-9]{2})\.$/g, '')
-			.replace(/(?<=^[0-9])\.$/g, '')
-			.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
-			.replace(/^(1)(0)$/g, '$1.$2')
-			.replace(/[^\d.]/g, ''); // Remove tudo que não for número
+	// function onChangeCriterioNota() {
+	// 	// Máscara de input (0.0 [max: 10.0])
+	// 	novoCriterioNota = String(novoCriterioNota)
+	// 		.replace(/(?<=^[0-9]{1})[0-9]$/g, '.$&')
+	// 		.replace(/(?<=^[0-9])(\.)([0-9])([0-9])$/g, '$2$1$3')
+	// 		.replace(/(?<=^[0-9]{2})\.$/g, '')
+	// 		.replace(/(?<=^[0-9])\.$/g, '')
+	// 		.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
+	// 		.replace(/^(1)(0)$/g, '$1.$2')
+	// 		.replace(/[^\d.]/g, ''); // Remove tudo que não for número
+	//
+	// 	if (parseFloat(novoCriterioNota) > 10.0) {
+	// 		novoCriterioNota = oldCriterioNota;
+	// 	} else {
+	// 		oldCriterioNota = novoCriterioNota;
+	// 	}
 
-		if (parseFloat(novoCriterioNota) > 10.0) {
-			novoCriterioNota = oldCriterioNota;
-		} else {
-			oldCriterioNota = novoCriterioNota;
-		}
-	}
+function formatarNota(valor) {
+  // 1. Remove tudo que não for número para termos uma base limpa
+  let digitsOnly = String(valor).replace(/\D/g, '');
+
+  // Se não houver dígitos, retorna uma string vazia
+  if (!digitsOnly) {
+    return '';
+  }
+
+  // 2. Lógica de formatação
+  let formattedValue;
+
+  // Trata o caso específico de "100" para virar "10.0"
+  if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
+    formattedValue = '10.0';
+  }
+  // Trata o caso de "10" para continuar "10" (não virar "1.0")
+  else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
+     formattedValue = '10';
+  }
+  // Se tiver 2 ou mais dígitos (ex: "75" -> "7.5"), insere o ponto
+  else if (digitsOnly.length >= 2) {
+    formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
+  }
+  // Se for apenas um dígito (ex: "7" -> "7")
+  else {
+    formattedValue = digitsOnly;
+  }
+  
+  return formattedValue;
+}
+
+// Sua função de onChange adaptada para usar o novo formatador
+function onChangeCriterioNota() {
+  // Formata o valor usando a nova função
+  novoCriterioNota = formatarNota(novoCriterioNota);
+
+  // Validação: Garante que a nota não seja maior que 10.0
+  // E também impede entradas inválidas como "0.0" que parseFloat transforma em 0
+  if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
+    novoCriterioNota = oldCriterioNota;
+  } else {
+    oldCriterioNota = novoCriterioNota;
+  }
+
+  // Exemplo de como atualizar um campo de input (descomente e adapte)
+  // document.getElementById('seuInputId').value = novoCriterioNota;
+  console.log('Valor formatado:', novoCriterioNota);
+}// }
 
 	function onChangeCriterioPeso() {
 		novoCriterioPeso = String(novoCriterioPeso)
@@ -663,7 +712,7 @@
 											name="notaMaxCriterio"
 											width="150px"
 											placeholder="Nota max."
-											inputHandler={onChangeCriterioNota}
+											oninput={onChangeCriterioNota}
 											bind:value={novoCriterioNota}
 										/>
 										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}

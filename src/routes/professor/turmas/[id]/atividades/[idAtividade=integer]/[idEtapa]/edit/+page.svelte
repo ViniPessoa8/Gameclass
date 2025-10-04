@@ -178,23 +178,40 @@
 		return !isNaN(new Date(dateStr));
 	}
 
-	function onChangeCriterioNota() {
-		// Máscara de input (0.0 [max: 10.0])
-		novoCriterioNota = String(novoCriterioNota)
-			.replace(/(?<=^[0-9]{1})[0-9]$/g, '.$&')
-			.replace(/(?<=^[0-9])(\.)([0-9])([0-9])$/g, '$2$1$3')
-			.replace(/(?<=^[0-9]{2})\.$/g, '')
-			.replace(/(?<=^[0-9])\.$/g, '')
-			.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
-			.replace(/^(1)(0)$/g, '$1.$2')
-			.replace(/[^\d.]/g, ''); // Remove tudo que não for número
+function formatarNota(valor) {
+  let digitsOnly = String(valor).replace(/\D/g, '');
 
-		if (parseFloat(novoCriterioNota) > 10.0) {
-			novoCriterioNota = oldCriterioNota;
-		} else {
-			oldCriterioNota = novoCriterioNota;
-		}
-	}
+  if (!digitsOnly) {
+    return '';
+  }
+
+  let formattedValue;
+
+  if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
+    formattedValue = '10.0';
+  }
+  else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
+     formattedValue = '10';
+  }
+  else if (digitsOnly.length >= 2) {
+    formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
+  }
+  else {
+    formattedValue = digitsOnly;
+  }
+  
+  return formattedValue;
+}
+
+function onChangeCriterioNota() {
+  novoCriterioNota = formatarNota(novoCriterioNota);
+
+  if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
+    novoCriterioNota = oldCriterioNota;
+  } else {
+    oldCriterioNota = novoCriterioNota;
+  }
+}
 
 	function onChangeCriterioPeso() {
 		novoCriterioPeso = String(novoCriterioPeso)
