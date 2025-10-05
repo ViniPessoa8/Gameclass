@@ -160,7 +160,12 @@ export default class ItemAtividadeController {
 		}
 
 		const res = await buscaItemAtividadePorTituloBD(titulo, idAtividadePai);
-		return res.map((item) => new ItemAtividade(item));
+		console.debug("res => ", res)
+		if (res) {
+			return res.map((item) => new ItemAtividade(item));
+		}
+
+		return [];
 	}
 
 	async listaPorIdAtividade(idAtividadePai) {

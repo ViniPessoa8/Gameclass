@@ -21,7 +21,7 @@
 	import { FORMACAO_GRUPO } from '$lib/constants';
 
 	// export let data;
-	let { data, children } = $props();
+	let { data, children, form } = $props();
 
 	let atividade = data.atividade;
 
@@ -50,12 +50,36 @@
 	let showModalCancelarAtividade = $state(false);
 	let resolvePromise;
 
-	// $: {
-	// 	if (atribuicaoOpcoes) {
-	// 		console.debug('ENTROU', atribuicaoOpcoes);
-	// 		etapasData[$selectedEtapa].criterios = [];
-	// 	}
-	// }
+	let toastMessage = $state({ type: null, text: null });
+
+	$effect.pre(() => {
+		// O `form` é indefinido no carregamento inicial, então verificamos sua existência.
+		if (!form) return;
+
+		// Se o `form` tiver um erro, colocamos uma mensagem de erro na fila.
+		if (form.erro) {
+			toastMessage = { type: 'error', text: form.erro };
+		}
+		// Se tivesse uma mensagem de sucesso, faríamos o mesmo.
+		else if (form.success) {
+			toastMessage = { type: 'success', text: 'Atividade adicionada com sucesso!' };
+		}
+	});
+
+	$effect(() => {
+		// Se não houver texto na mensagem, não faça nada.
+		if (!toastMessage.text) return;
+
+		// Mostra o toast com base no tipo e no texto da mensagem.
+		if (toastMessage.type === 'error') {
+			toast.error(toastMessage.text);
+		} else if (toastMessage.type === 'success') {
+			toast.success(toastMessage.text);
+		}
+
+		// Imediatamente após mostrar o toast, limpe a fila.
+		toastMessage = { type: null, text: null };
+	});
 
 	if (!$selectedEtapa) {
 		$selectedEtapa = 0;
@@ -229,55 +253,37 @@
 	// 		oldCriterioNota = novoCriterioNota;
 	// 	}
 
-function formatarNota(valor) {
-  // 1. Remove tudo que não for número para termos uma base limpa
-  let digitsOnly = String(valor).replace(/\D/g, '');
+	function formatarNota(valor) {
+		let digitsOnly = String(valor).replace(/\D/g, '');
 
-  // Se não houver dígitos, retorna uma string vazia
-  if (!digitsOnly) {
-    return '';
-  }
+		if (!digitsOnly) {
+			return '';
+		}
 
-  // 2. Lógica de formatação
-  let formattedValue;
+		let formattedValue;
 
-  // Trata o caso específico de "100" para virar "10.0"
-  if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
-    formattedValue = '10.0';
-  }
-  // Trata o caso de "10" para continuar "10" (não virar "1.0")
-  else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
-     formattedValue = '10';
-  }
-  // Se tiver 2 ou mais dígitos (ex: "75" -> "7.5"), insere o ponto
-  else if (digitsOnly.length >= 2) {
-    formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
-  }
-  // Se for apenas um dígito (ex: "7" -> "7")
-  else {
-    formattedValue = digitsOnly;
-  }
-  
-  return formattedValue;
-}
+		if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
+			formattedValue = '10.0';
+		} else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
+			formattedValue = '10';
+		} else if (digitsOnly.length >= 2) {
+			formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
+		} else {
+			formattedValue = digitsOnly;
+		}
 
-// Sua função de onChange adaptada para usar o novo formatador
-function onChangeCriterioNota() {
-  // Formata o valor usando a nova função
-  novoCriterioNota = formatarNota(novoCriterioNota);
+		return formattedValue;
+	}
 
-  // Validação: Garante que a nota não seja maior que 10.0
-  // E também impede entradas inválidas como "0.0" que parseFloat transforma em 0
-  if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
-    novoCriterioNota = oldCriterioNota;
-  } else {
-    oldCriterioNota = novoCriterioNota;
-  }
+	function onChangeCriterioNota() {
+		novoCriterioNota = formatarNota(novoCriterioNota);
 
-  // Exemplo de como atualizar um campo de input (descomente e adapte)
-  // document.getElementById('seuInputId').value = novoCriterioNota;
-  console.log('Valor formatado:', novoCriterioNota);
-}// }
+		if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
+			novoCriterioNota = oldCriterioNota;
+		} else {
+			oldCriterioNota = novoCriterioNota;
+		}
+	}
 
 	function onChangeCriterioPeso() {
 		novoCriterioPeso = String(novoCriterioPeso)
@@ -380,7 +386,9 @@ function onChangeCriterioNota() {
 	}
 
 	onMount(() => {
-		if (data.hasOwnProperty('parametroIdAtividade')) {
+		console.debug('DATA => ', data);
+		console.debug('DATA => ', data.teste);
+		if (data.parametroIdAtividade != undefined) {
 			navigationGuard.set(requestConfirmation);
 		}
 
@@ -564,7 +572,7 @@ function onChangeCriterioNota() {
 							</div>
 							<hr />
 							<div class="row">
-								<IconeInformacao text={'Forma que a nota da etapa será calculada'} />
+								<IconeInformacao text="Forma que a nota da etapa será calculada" />
 								<h2>Atribuição de Notas:</h2>
 								<InputRadio
 									id="inputAtribuicaoNotasEtapa"
@@ -605,7 +613,7 @@ function onChangeCriterioNota() {
 								</div>
 								<hr />
 								<div class="row">
-									<IconeInformacao text={'Forma que os grupos de estudantes de formarão'} />
+									<IconeInformacao text="Forma que os grupos de estudantes de formarão" />
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
 										id="formacaoGrupos"

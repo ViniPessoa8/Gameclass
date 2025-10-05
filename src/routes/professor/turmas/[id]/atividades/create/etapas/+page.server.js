@@ -1,5 +1,6 @@
-import { redirect } from "@sveltejs/kit"
+import { redirect, fail } from "@sveltejs/kit"
 import AtividadeController from "$lib/server/controllers/atividade"
+import ItemAtividadeController from "$lib/server/controllers/itemAtividade"
 import { FORMACAO_GRUPO } from "$lib/constants";
 import CriterioController from "$lib/server/controllers/criterio";
 import TurmaController from "$lib/server/controllers/turma";
@@ -18,6 +19,7 @@ export async function load({ url, params, cookies }) {
 	const criteriosDoProfessor = await criterioController.listaPorIdProfessor(idProfessor)
 	const nAlunosTurma = (await turmaController.listaAlunos(params.id)).length
 	console.debug("Numero de alunos da turma: ", nAlunosTurma)
+
 
 	if (url.searchParams.has("idAtividade")) {
 		idAtividade = url.searchParams.get("idAtividade")
@@ -42,15 +44,46 @@ export async function load({ url, params, cookies }) {
 
 export let actions = {
 	default: async ({ cookies, params, request, url }) => {
+		const session = JSON.parse(cookies.get("session"));
 		const atividadeController = new AtividadeController();
 		const formData = await request.formData()
 		const realizacao = formData.get("realizacao_grupos")
 		const formacao = formData.get(FORMACAO_GRUPO.professor_escolhe)
 
+		let idProfessor = session.id
+
 		if (url.searchParams.has("idAtividade")) {
 			const idAtividade = url.searchParams.get("idAtividade")
-			const atividade = (await atividadeController.buscaPorId(parseInt(idAtividade))).toObject()
-			cookies.set("atividade", JSON.stringify(atividade), { path: '/' })
+			try {
+				const atividade = (await atividadeController.buscaPorId(parseInt(idAtividade))).toObject()
+				cookies.set("atividade", JSON.stringify(atividade), { path: '/' })
+
+			} catch (e) {
+				console.debug("Error: ", e)
+				
+			}
+		}
+
+		// TODO: Validar se etapa com o mesmo nome ja existe
+		const itemAtividadeController = new ItemAtividadeController()
+		const titulo = formData.get("titulo")
+		console.debug("Verificando a existência de um item de atividade com o título: ", titulo)
+		let etapa
+		try {
+			etapa = await itemAtividadeController.buscaPorTitulo(titulo, idProfessor)
+		} catch (e) {
+			console.debug("Erro ao buscar item de atividade por titulo: ", e)
+			
+		}
+
+		console.debug("etapa: ", etapa)
+		const etapaExiste = etapa.length > 0
+		if (etapaExiste) {
+			// console.debug("Etapa ja existe com esse nome")
+			return fail(400, { 
+				erro: "Já existe uma etapa com o mesmo nome nessa atividade." 
+			});
+			// throw Error("Já existe uma etapa com o mesmo nome nessa atividade.")
 		}
 
 		cookies.set("item_atividade", JSON.stringify(Object.fromEntries(formData)), { path: '/' })
