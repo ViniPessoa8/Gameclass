@@ -43,7 +43,7 @@
 	let tipoAvaliacaoOpcoes = $state();
 	let formacaoGrupoOpcoes = $state();
 	let formacoesGrupo = $state();
-	let showModal = $state(false);
+	let showModalAtribuicaoNotas = $state(false);
 	let proximoValor = $state();
 	let isModalOpen = $state(false);
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
@@ -308,13 +308,14 @@
 	}
 
 	function handleAtribuicaoDeNotas(valor) {
+		console.debug('[handleAtribuicaoDeNotas] valor = ', valor);
 		proximoValor = valor;
-		showModal = true;
+		showModalAtribuicaoNotas = true;
 	}
 
 	function confirmaModalAtribuicaoDeNotas() {
 		etapasData[$selectedEtapa].criterios = [];
-		showModal = false;
+		showModalAtribuicaoNotas = false;
 		etapasData[$selectedEtapa].atribuicaoNotasGroup = proximoValor;
 	}
 
@@ -327,7 +328,7 @@
 	}
 
 	function handleCopiarCriterio() {
-		showModal = true;
+		showModalAtribuicaoNotas = true;
 	}
 
 	// function onTagAdicionada(tag, index) {
@@ -473,6 +474,23 @@
 		{
 			label: 'Não, Continuar',
 			onClick: handleCancel, // Chama a função que resolve a Promise com 'false'
+			color: 'red'
+		}
+	]}
+/>
+<Modal
+	visible={showModalAtribuicaoNotas}
+	title="Atenção"
+	message="Deseja realmente alterar a atribuição de notas? Todos os critérios preenchidos serão perdidos."
+	buttons={[
+		{
+			label: 'Sim, mudar atribuição',
+			onClick: confirmaModalAtribuicaoDeNotas,
+			color: 'green'
+		},
+		{
+			label: 'Não, manter critérios',
+			onClick: handleCancel,
 			color: 'red'
 		}
 	]}
@@ -762,7 +780,7 @@
 							</div>
 							<div class="criterios-definidos">
 								<hr />
-								{#each etapasData[$selectedEtapa]?.criterios as criterio}
+								{#each etapasData[$selectedEtapa]?.criterios as criterio (criterio.titulo)}
 									<div class="criterio-container">
 										<div class="titulo-criterio">
 											<h2>{criterio.titulo}</h2>
