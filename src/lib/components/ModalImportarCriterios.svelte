@@ -2,34 +2,13 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 
-	/**
-	 * @type {boolean}
-	 * Controla a visibilidade do modal.
-	 */
 	export let isOpen = false;
-
-	/**
-	 * @type {Array<Object>}
-	 * A lista de todos os critérios disponíveis para importação.
-	 */
 	export let criteriosDisponiveis = [];
-
-	/**
-	 * @type {Array<Object>}
-	 * @description A lista de critérios que JÁ EXISTEM na atividade atual.
-	 * Esta lista será usada para desabilitar as opções já adicionadas.
-	 * Ex: [{id: 1, titulo: 'Ortografia', ...}]
-	 */
 	export let criteriosAtuais = []; // /** NOVO */
 
 	const dispatch = createEventDispatcher();
 	let idCriteriosSelecionados = new Set();
 
-	/**
-	 * @type {Set<number>}
-	 * @description Um Set com os IDs dos critérios atuais para uma verificação rápida e eficiente.
-	 * Esta variável é reativa e será atualizada sempre que `criteriosAtuais` mudar.
-	 */
 	$: idCriteriosAtuais = new Set(criteriosAtuais.map((c) => c.id)); // /** NOVO */
 
 	function toggleSelecao(criterioId, checked) {
@@ -64,7 +43,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if isOpen}
-	<div class="modal-overlay" on:click={handleClose} role="presentation" />
+	<div class="modal-overlay" on:click={handleClose} role="presentation"></div>
 
 	<div class="modal-container" role="dialog" aria-modal="true">
 		<header class="modal-header">
