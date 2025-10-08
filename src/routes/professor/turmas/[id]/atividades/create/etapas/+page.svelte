@@ -497,7 +497,9 @@
 />
 <ModalImportarCriterios
 	bind:isOpen={isModalOpen}
-	criteriosDisponiveis={data.criteriosDoProfessor}
+	criteriosDisponiveis={etapasData[$selectedEtapa]?.atribuicaoNotasGroup == 'Média Simples'
+		? data.criteriosDoProfessor.filter((e) => e.peso == null)
+		: data.criteriosDoProfessor.filter((e) => e.peso != null)}
 	criteriosAtuais={etapasData[$selectedEtapa]?.criterios}
 	on:import={handleCriteriosImportados}
 	on:close={() => (isModalOpen = false)}
@@ -646,7 +648,7 @@
 								<hr />
 								<div class="tamanho-grupos">
 									<h2>Tamanho dos grupos:</h2>
-									{#each etapasData[$selectedEtapa].formacoes as formacao, index}
+									{#each etapasData[$selectedEtapa].formacoes as formacao, index (index)}
 										<div class="row">
 											<p>{index + 1}.</p>
 											<InputNumber

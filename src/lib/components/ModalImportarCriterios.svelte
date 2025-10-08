@@ -69,7 +69,7 @@
 								/>
 								<div class="criterio-info">
 									<span class="criterio-titulo">
-										{#if criterio.hasOwnProperty('peso')}
+										{#if criterio.peso != null}
 											{criterio.titulo} - <strong>{criterio.pontuacao_max} pts </strong> (Peso {criterio.peso})
 										{:else}
 											{criterio.titulo} - <strong>{criterio.pontuacao_max} pts</strong>
