@@ -65,6 +65,7 @@ export async function load({ params, cookies }) {
 	// Menor nota da turma
 	const notasAtribuidas = notasTurma.flatMap((nota) => nota.nota_atribuida)
 	data.menorNota = notasTurma.length != 0 ? Math.min(...notasAtribuidas) : 0.0
+	data.maiorNota = notasTurma.length != 0 ? Math.max(...notasAtribuidas) : 0.0
 
 	for (const [indexA, atividade] of data.atividades.entries()) {
 		console.info("\n[Calculando estatísticas] Atividade ", atividade.id)

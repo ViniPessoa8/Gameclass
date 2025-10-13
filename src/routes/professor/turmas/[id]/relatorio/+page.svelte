@@ -57,6 +57,12 @@
 							{data.menorNota.toFixed(1)}
 						</h3>
 					</div>
+					<div class="info">
+						<p>Maior nota da turma:</p>
+						<h3>
+							{data.maiorNota?.toFixed(1)}
+						</h3>
+					</div>
 				</div>
 			</div>
 		</div>
