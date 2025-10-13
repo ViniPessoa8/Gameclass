@@ -24,31 +24,31 @@
 		});
 	}
 
-	function formatarNota(valor) {
-		let digitsOnly = String(valor).replace(/\D/g, '');
-
-		if (!digitsOnly) {
-			return '';
-		}
-
-		let formattedValue;
-
-		if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
-			formattedValue = '10.0';
-		}
-		else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
-			 formattedValue = '10';
-		}
-		else if (digitsOnly.length >= 2) {
-			formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
-		}
-		else {
-			formattedValue = digitsOnly;
-		}
-		
-		return formattedValue;
-	}
-
+	// function formatarNota(valor) {
+	// 	let digitsOnly = String(valor).replace(/\D/g, '');
+	//
+	// 	if (!digitsOnly) {
+	// 		return '';
+	// 	}
+	//
+	// 	let formattedValue;
+	//
+	// 	if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
+	// 		formattedValue = '10.0';
+	// 	}
+	// 	else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
+	// 		 formattedValue = '10';
+	// 	}
+	// 	else if (digitsOnly.length >= 2) {
+	// 		formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
+	// 	}
+	// 	else {
+	// 		formattedValue = digitsOnly;
+	// 	}
+	//
+	// 	return formattedValue;
+	// }
+	//
 	function onChangeCriterioNota() {
 		novoCriterioNota = formatarNota(novoCriterioNota);
 
@@ -244,7 +244,7 @@
 				</div>
 				{#if data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada}
 					<div class="peso">
-						<p>{criterio.peso.toFixed(0)}</p>
+						<p>{criterio.peso?.toFixed(0)}</p>
 					</div>
 				{/if}
 			</div>

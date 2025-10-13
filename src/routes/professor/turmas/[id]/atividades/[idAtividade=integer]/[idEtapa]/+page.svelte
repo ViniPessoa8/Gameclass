@@ -153,7 +153,7 @@
 			{#if currentView == 'grade'}
 				<div class="entregas grade">
 					{#if data.etapa.em_grupos}
-						{#each entregas_por_grupo as dados}
+						{#each entregas_por_grupo as dados, index (index)}
 							<EnvioEntregaGrade
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
@@ -161,7 +161,7 @@
 							/>
 						{/each}
 					{:else}
-						{#each entregas_por_estudante as dados}
+						{#each entregas_por_estudante as dados, index (index)}
 							<EnvioEntregaGrade
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
@@ -173,7 +173,7 @@
 			{:else}
 				<div class="entregas lista">
 					{#if data.etapa.em_grupos}
-						{#each entregas_por_grupo as dados}
+						{#each entregas_por_grupo as dados, index (index)}
 							<EnvioEntregaLista
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
@@ -181,7 +181,7 @@
 							/>
 						{/each}
 					{:else}
-						{#each entregas_por_estudante as dados}
+						{#each entregas_por_estudante as dados, index (index)}
 							<EnvioEntregaLista
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
