@@ -7,7 +7,8 @@ export default defineConfig({
 		target: 'es2022'
 	},
 	server: {
-		port: process.env.VITE_SERVER_PORT
+		port: process.env.VITE_SERVER_PORT,
+		allowedHosts: true
 	},
 	preview: {
 		allowedHosts: true
