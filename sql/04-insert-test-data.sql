@@ -287,9 +287,9 @@ VALUES (
     '2025-09-20T23:59:59.000Z',
     1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
 );
-INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES
-(18, 'Correção do Script DDL', 'O script cria todas as tabelas e restrições conforme o modelo.', 5, 9),
-(19, 'Qualidade dos Dados (DML)', 'Os dados inseridos são coerentes e cobrem diversos cenários.', 5, 9);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES
+(18, 'Correção do Script DDL', 'O script cria todas as tabelas e restrições conforme o modelo.', 5, 2, 9),
+(19, 'Qualidade dos Dados (DML)', 'Os dados inseridos são coerentes e cobrem diversos cenários.', 5, 1, 9);
 INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (9, 1, 9), (10, 2, 9);
 INSERT INTO anexo ("titulo", "conteudo_texto", "id_entrega") VALUES ('scripts_ddl_dml_ada.sql', NULL, 9), ('carga_dados_grace.sql', NULL, 10);
 -- NENHUMA avaliação é criada para simular a pendência.
