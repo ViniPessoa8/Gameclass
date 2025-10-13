@@ -27,6 +27,7 @@
 		fontSize = '24px',
 		disabled = false,
 		fontWeight = 'bold',
+		title = '',
 		children,
 		...rest
 	} = $props();
@@ -36,7 +37,6 @@
 	{type}
 	class="button"
 	{disabled}
-	title={disabled ? 'Número máximo de etapas atingido.' : 'Criar nova etapa'}
 	style:background-color={disabled ? 'lightgray' : backgroundColor}
 	style:color={disabled ? 'darkgray' : color}
 	style:margin-top={marginTop}
@@ -45,6 +45,7 @@
 	style:height
 	style:font-weight={fontWeight}
 	onclick={bubble('click')}
+	{title}
 	{...rest}
 >
 	{@render children?.()}

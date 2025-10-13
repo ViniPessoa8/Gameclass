@@ -162,13 +162,17 @@
 				<span>Prazo: {prazoFinalStr}</span>
 				<div class="botoes">
 					{#if toggled}
-						<ButtonRedirect href="atividades/{atividade.id}/edit" color="white"
-							><EditIcon size="24" /></ButtonRedirect
+						<ButtonRedirect
+							title="Editar Atividade"
+							href="atividades/{atividade.id}/edit"
+							color="white"><EditIcon size="24" /></ButtonRedirect
 						>
 						<Button
+							title="Arquivar Atividade"
 							backgroundColor="var(--cor-secundaria)"
 							on:click={() => handleArquivaAtividade(atividade.id)}
-							color="white"><ArchiveIcon size="24" /></Button
+							color="white"
+							placeholder="Arquivar atividade"><ArchiveIcon size="24" /></Button
 						>
 					{/if}
 				</div>

@@ -19,6 +19,7 @@
 		backgroundColor = 'var(--cor-secundaria)',
 		color = 'var(--cor-primaria)',
 		borderRadius,
+		title = '',
 		disabled = false,
 		size,
 		children,
@@ -32,6 +33,7 @@
 	<button
 		class="button"
 		class:disabled
+		{title}
 		{disabled}
 		{...rest}
 		style:width
