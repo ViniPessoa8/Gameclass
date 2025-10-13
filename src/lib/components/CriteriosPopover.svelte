@@ -62,15 +62,17 @@
 			window.removeEventListener('click', handleClickOutside, true);
 		}
 	});
+
+	console.debug('criterios => ', criterios);
 </script>
 
-<div class="popover-wrapper" bind:this={wrapperNode} >
+<div class="popover-wrapper" bind:this={wrapperNode}>
 	<button
 		class="trigger"
 		on:click={toggleSticky}
 		aria-haspopup="true"
 		aria-expanded={isVisible}
-		on:mouseenter={show} 
+		on:mouseenter={show}
 		on:mouseleave={hide}
 	>
 		Critérios
@@ -93,17 +95,51 @@
 
 	{#if isVisible}
 		<div class="popover-content {position}" role="tooltip">
-			<div class="popover-arrow" />
+			<div class="popover-arrow"></div>
 			<h4 class="popover-title">Critérios de Avaliação</h4>
 			{#if criterios && criterios.length > 0}
 				<ul class="criterios-list">
+					<li>
+						<strong>Título</strong>
+						<strong>Descrição</strong>
+						<strong>Nota máx.</strong>
+						{#if criterios[0]?.peso != null}
+							<strong>Peso</strong>
+						{/if}
+					</li>
+					<hr />
 					{#each criterios as criterio (criterio.id)}
 						<li>
 							<span>{criterio.titulo}</span>
-							<span>{criterio.descricao}</span>
-							<strong>{criterio.pontuacao_max} pts</strong>
+							<span class="criterio-descricao">{criterio.descricao}</span>
+							<span>{criterio.pontuacao_max} pts</span>
+							{#if criterio.peso != null}
+								<span>{criterio.peso}</span>
+							{/if}
 						</li>
+						<hr />
 					{/each}
+					<li>
+						<span></span>
+						<span></span>
+						<strong>{criterios.reduce((acc, c) => c.pontuacao_max + acc, 0)} pts</strong>
+						{#if criterios[0]?.peso != null}
+							<strong>{criterios.reduce((acc, c) => c.peso + acc, 0)}</strong>
+						{/if}
+					</li>
+					{#if criterios[0]?.peso != null}
+						<li class="total-ponderada">
+							<span></span>
+							<span></span>
+							<span></span>
+							<span
+								>Nota máxima da etapa: <strong
+									>{criterios.reduce((acc, c) => c.pontuacao_max * c.peso + acc, 0) /
+										criterios.reduce((acc, c) => c.peso + acc, 0)} pts</strong
+								></span
+							>
+						</li>
+					{/if}
 				</ul>
 			{:else}
 				<p class="no-criterios">Nenhum critério definido.</p>
@@ -152,7 +188,6 @@
 		transform: rotate(180deg);
 	}
 	/* ** FIM DAS ALTERAÇÕES DE ESTILO ** */
-
 
 	.popover-content {
 		position: absolute;
@@ -210,16 +245,16 @@
 	}
 
 	.criterios-list {
-		list-style: none;
 		padding: 0;
 		margin: 0;
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 8px;
 	}
 
 	.criterios-list li {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 2fr 0.4fr 0.4fr;
 		justify-content: space-between;
 		align-items: center;
 		font-size: 1.2rem;
@@ -227,12 +262,23 @@
 
 	.criterios-list li span {
 		color: #555;
-		margin-right: 16px;
+		white-space: nowrap;
 	}
 
 	.criterios-list li strong {
 		color: #333;
 		white-space: nowrap;
+	}
+
+	.criterio-descricao {
+		max-width: 600px;
+		overflow-wrap: break-word;
+		text-wrap: balance;
+	}
+
+	.total-ponderada {
+		display: grid;
+		grid-template-columns: 1fr 2fr 1fr;
 	}
 
 	.no-criterios {
