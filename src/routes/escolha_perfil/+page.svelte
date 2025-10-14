@@ -18,7 +18,7 @@
 	<span>escolha seu perfil</span>
 	<div class="button-container">
 		<form method="POST" action="?/perfil_estudante" class="button-estudante" use:enhance>
-			<button class="button-estudante">
+			<button id="btnEstudante" class="button-estudante">
 				<div>
 					{#await import('$lib/assets/icone-aluno.svg') then module}
 						<img class="icon" alt="Ícone do perfil de aluno" src={module.default} />
@@ -28,7 +28,7 @@
 			</button>
 		</form>
 		<form method="POST" action="?/perfil_professor" class="button-professor" use:enhance>
-			<button class="button-professor">
+			<button id="btnProfessor" class="button-professor">
 				<div>
 					{#await import('$lib/assets/icone-professor.svg') then module}
 						<img class="icon" alt="Ícone do perfil de professor" src={module.default} />

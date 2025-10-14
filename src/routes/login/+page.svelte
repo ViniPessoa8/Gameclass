@@ -8,7 +8,6 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { onMount } from 'svelte';
 
-	
 	/**
 	 * @typedef {Object} Props
 	 * @property {import('./$types').ActionData} data
@@ -28,7 +27,8 @@
 	});
 
 	let loginRes = '';
-	let userLogin = $state(), userPassword = $state();
+	let userLogin = $state(),
+		userPassword = $state();
 	let loginErrorVisibility = $state(false);
 	let passwordErrorVisibility = $state(false);
 
@@ -98,6 +98,7 @@
 
 		<div style="display:flex; flex-direction: column;">
 			<InputPassword
+				id="passwordInput"
 				type="password"
 				name="password"
 				bind:value={userPassword}
@@ -112,8 +113,8 @@
 			{/if}
 		</div>
 
-		<Button width="fit-content" type="submit" onclick={checkInputs}>Login</Button>
-		<ButtonRedirect href="/cadastro">Criar Conta</ButtonRedirect>
+		<Button id="btnLogin" width="fit-content" type="submit" onclick={checkInputs}>Login</Button>
+		<ButtonRedirect id="btnCadastro" href="/cadastro">Criar Conta</ButtonRedirect>
 	</form>
 </div>
 
