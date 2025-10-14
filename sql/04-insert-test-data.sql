@@ -177,9 +177,9 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_ativ
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (3, 'Padrões de Projeto (GoF)', '2025-11-01T23:59:59.000Z', 2);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
 VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-20T08:00:00.000Z', '2025-10-30T23:59:59.000Z', 1, 2, true, false, 3);
-INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
-(6, 'Clareza Conceitual', 'Apresentação clara da finalidade e estrutura do padrão.', 5, 3), 
-(7, 'Qualidade do Exemplo', 'O código de exemplo é funcional e didático.', 5, 3);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade", "peso") VALUES 
+(6, 'Clareza Conceitual', 'Apresentação clara da finalidade e estrutura do padrão.', 5, 3, 3), 
+(7, 'Qualidade do Exemplo', 'O código de exemplo é funcional e didático.', 5, 3, 2);
 INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (1, 2, 3, 3);
 INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (1, 'Grupo Design Patterns', 3);
 INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (2, 1), (3, 1);
@@ -192,9 +192,9 @@ INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VAL
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (4, 'Metodologias Ágeis', '2025-11-21T23:59:59.000Z', 2);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
 VALUES (4, 'Simulação de Sprint (Scrum)', 'Planejar e executar uma Sprint de uma semana para um projeto fictício, entregando o Sprint Backlog e a Review.', 10, '2025-09-10T08:00:00.000Z', '2025-11-20T23:59:59.000Z', 1, 1, true, false, 4);
-INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
-(8, 'Qualidade do Planejamento', 'O Sprint Backlog está bem definido e estimado.', 5, 4), 
-(9, 'Execução e Entrega', 'As tarefas foram concluídas e apresentadas na Review.', 5, 4);
+INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade", "peso") VALUES 
+(8, 'Qualidade do Planejamento', 'O Sprint Backlog está bem definido e estimado.', 5, 4, 3), 
+(9, 'Execução e Entrega', 'As tarefas foram concluídas e apresentadas na Review.', 5, 4, 2);
 INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (2, 2, 3, 4);
 INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (2, 'Scrum Masters', 4);
 INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (4, 2), (5, 2), (7, 2);
