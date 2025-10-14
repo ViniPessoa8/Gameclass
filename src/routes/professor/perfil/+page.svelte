@@ -36,10 +36,6 @@
 		</div>
 	</div>
 
-	<div class="button-container">
-		<Button on:click={onClick}><img src={icon_relatorio} alt="icone boletim" /> Ver Boletim</Button>
-	</div>
-
 	<div class="descricao-estudante">
 		<h2>Descrição</h2>
 		<p>{usuario.bio}</p>
@@ -48,7 +44,7 @@
 	<hr style="border-color:var(--cor-primaria); width:100%" />
 
 	<div class="itens-pendentes-container">
-		<h2>Outras turmas do estudante em que você é professor</h2>
+		<h2>Turmas com pendências</h2>
 		<div class="itens-pendentes">
 			{#if itensPendentes.length != 0}
 				{#each itensPendentes as item}

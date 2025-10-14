@@ -16,7 +16,8 @@
 		inputHandler = null,
 		onFocusOut = null,
 		autocomplete = 'new-password',
-		name = ''
+		name = '',
+		...rest
 	} = $props();
 </script>
 
@@ -29,6 +30,7 @@
 	bind:value
 	oninput={inputHandler}
 	onfocusout={onFocusOut}
+	{...rest}
 />
 
 <style>
