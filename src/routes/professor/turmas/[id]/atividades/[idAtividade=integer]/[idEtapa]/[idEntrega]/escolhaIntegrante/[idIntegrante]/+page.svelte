@@ -2,11 +2,17 @@
 	import Button from '$lib/components/Button.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import IconeInformacao from '$lib/components/IconeInformacao.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO } from '$lib/constants.js';
 
 	const { data } = $props();
+
+	let showModalCancelarAtividade = $state(false);
+	let showModalAvaliarTodos = $state(false);
+	let resolvePromise;
+	let avaliarTodosSubmitButton;
 
 	const notas = $state(
 		data.entrega.notas.length != 0
@@ -67,6 +73,21 @@
 		}
 	}
 
+	function handleAplicarEquipeClick() {
+		showModalAvaliarTodos = true;
+	}
+
+	function handleConfirmAplicarEquipe() {
+		if (avaliarTodosSubmitButton) {
+			avaliarTodosSubmitButton.click(); // Clica no botão oculto para submeter o form
+		}
+		showModalAvaliarTodos = false; // Fecha o modal
+	}
+
+	function handleCancelAplicarEquipe() {
+		showModalAvaliarTodos = false;
+	}
+
 	let pontuacaoFinal = $derived.by(() => {
 		if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
 			let pontuacaoFinal =
@@ -96,6 +117,23 @@
 </script>
 
 <Toaster richColors expand position="top-center" closeButton />
+<Modal
+	visible={showModalAvaliarTodos}
+	title="Atenção"
+	message="Deseja realmente replicar a nota para todos os integrantes do grupo? Notas preenchidas anteriormente serão sobrescritas."
+	buttons={[
+		{
+			label: 'Sim, atribuir para todos',
+			onClick: handleConfirmAplicarEquipe,
+			color: 'green'
+		},
+		{
+			label: 'Cancelar',
+			onClick: handleCancelAplicarEquipe,
+			color: 'red'
+		}
+	]}
+/>
 <div class="container">
 	<p class="titulo-atividade">{data.atividade.titulo}</p>
 	<p class="titulo-etapa">Etapa: {data.etapa.titulo}</p>
@@ -151,7 +189,7 @@
 				</div>
 				{#if data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada}
 					<div class="peso">
-						<p>{criterio.peso.toFixed(0)}</p>
+						<p>{criterio.peso?.toFixed(0)}</p>
 					</div>
 				{/if}
 			</div>
@@ -163,12 +201,20 @@
 			</div>
 			<div class="btn-finalizar">
 				<Button
-					type="submit"
-					formaction="?/avaliarTodos"
+					type="button"
+					on:click={handleAplicarEquipeClick}
 					backgroundColor="var(--cor-secundaria)"
 					color="white"
 					>Aplicar para toda a equipe
 				</Button>
+
+				<button
+					bind:this={avaliarTodosSubmitButton}
+					type="submit"
+					formaction="?/avaliarTodos"
+					style="display: none;"
+					aria-hidden="true"
+				></button>
 				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white"
 					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 				>

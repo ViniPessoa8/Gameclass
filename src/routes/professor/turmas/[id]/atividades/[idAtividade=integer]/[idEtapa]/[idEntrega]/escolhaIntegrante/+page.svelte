@@ -16,11 +16,6 @@
 	let listaComentarios = $derived(comentarios);
 	let alunoParaAvaliar = null;
 
-	
-	
-	
-	
-
 	async function calculaStatusEntrega() {
 		if (data.entrega.avaliada) {
 			status = STATUS_ENTREGA['2'];
