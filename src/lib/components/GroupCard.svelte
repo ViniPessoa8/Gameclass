@@ -10,9 +10,11 @@
 
 	const dispatch = createEventDispatcher();
 
-	let suggestedStudents = $derived(estudantesSemGrupo
-		.filter((student) => student.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-		.slice(0, 5));
+	let suggestedStudents = $derived(
+		estudantesSemGrupo
+			.filter((student) => student.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+			.slice(0, 5)
+	);
 
 	function adicionaEstudante(student) {
 		if (group.integrantes.length >= group.maxIntegrantes) {
@@ -59,12 +61,12 @@
 		/>
 
 		{#if mostraSugestoes && suggestedStudents.length > 0}
-			<ul class="suggestions-list">
-				{#each suggestedStudents as estudante (estudante.id)}
+			<ul id="suggestions-list" class="suggestions-list">
+				{#each suggestedStudents as estudante, index (index)}
 					<li
+						id="estudante-{index}"
 						onmousedown={() => adicionaEstudante(estudante)}
 						onkeydown={(e) => e.key === 'Enter' && adicionaEstudante(estudante)}
-						tabindex="0"
 					>
 						{estudante.nome}
 					</li>

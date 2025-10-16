@@ -71,7 +71,7 @@
 
 	function codigoInputHandler(e) {
 		if (e.target.value.length > 0) codigoEmpty = false;
-		form.already_registered = false;
+		if (form) form.already_registered = false;
 	}
 
 	function disciplinaInputHandler(e) {
@@ -100,7 +100,7 @@
 
 	function instituicaoInputHandler(e) {
 		if (e.target.value.length > 0) instituicaoEmpty = false;
-		form.already_registered = false;
+		if (form) form.already_registered = false;
 	}
 
 	function aoCriarTurma() {
@@ -147,7 +147,13 @@
 		<div class="row">
 			<h2>Código da turma:</h2>
 			<div style="display:flex; flex-direction: column;">
-				<InputText borded name="codigo" bind:value={codigo} inputHandler={codigoInputHandler} />
+				<InputText
+					id="inputCodigo"
+					borded
+					name="codigo"
+					bind:value={codigo}
+					inputHandler={codigoInputHandler}
+				/>
 				{#if codigoEmpty}
 					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 				{:else}
@@ -159,6 +165,7 @@
 			<h2>Disciplina:</h2>
 			<div style="display:flex; flex-direction: column;">
 				<InputText
+					id="inputDisciplina"
 					borded
 					name="disciplina"
 					bind:value={disciplina}
@@ -174,7 +181,13 @@
 		<div class="row">
 			<h2>Nome da turma:</h2>
 			<div style="display:flex; flex-direction: column;">
-				<InputText borded name="nome" bind:value={nome} inputHandler={nomeInputHandler} />
+				<InputText
+					id="inputNome"
+					borded
+					name="nome"
+					bind:value={nome}
+					inputHandler={nomeInputHandler}
+				/>
 				{#if nomeEmpty}
 					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 				{:else}
@@ -186,6 +199,7 @@
 			<h2>Descrição:</h2>
 			<div style="display:flex; flex-direction: column;">
 				<InputText
+					id="inputDescricao"
 					borded
 					name="descricao"
 					bind:value={descricao}
@@ -201,7 +215,13 @@
 		<div class="row">
 			<h2>Local:</h2>
 			<div style="display:flex; flex-direction: column;">
-				<InputText borded name="local" bind:value={local} inputHandler={localInputHandler} />
+				<InputText
+					id="inputLocal"
+					borded
+					name="local"
+					bind:value={local}
+					inputHandler={localInputHandler}
+				/>
 				{#if localEmpty}
 					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
 				{:else}
@@ -213,6 +233,7 @@
 			<h2>Ano letivo:</h2>
 			<div style="display:flex; flex-direction: column;">
 				<Select
+					id="inputAno"
 					borded
 					name="ano"
 					width="100"
@@ -230,6 +251,7 @@
 			<div style="display:flex; flex-direction: column;">
 				<!-- <InputText borded name="periodo" bind:value={periodo} inputHandler={periodoInputHandler} /> -->
 				<Select
+					id="inputPeriodo"
 					borded
 					name="periodo"
 					width="60"
@@ -248,6 +270,7 @@
 			<h2>Instituição:</h2>
 			<div style="display:flex; flex-direction: column;">
 				<SelectSearch
+					id="inputInstituicao"
 					borded
 					name="instituicao"
 					placeholder="Selecione sua Instituição"

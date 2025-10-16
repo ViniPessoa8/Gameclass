@@ -65,7 +65,8 @@ export default class AtividadeController {
 	async buscaPorId(id) {
 		const res = await buscaPorIdBD(id);
 		if (res.rowCount === 0) {
-			throw new Error("Não foi encontrada atividade com esse id.");
+			return false
+			// throw new Error("Não foi encontrada atividade com esse id.");
 		}
 		return new Atividade(res.rows[0]);
 	}

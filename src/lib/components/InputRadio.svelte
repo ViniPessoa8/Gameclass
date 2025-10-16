@@ -2,9 +2,7 @@
 	import { createBubbler } from 'svelte/legacy';
 
 	const bubble = createBubbler();
-	
 
-	
 	/**
 	 * @typedef {Object} Props
 	 * @property {any} [options] - {options}
@@ -28,7 +26,8 @@ text: str  // texto que será mostrado como opção.
 		selected = '',
 		requerConfirmacao = false,
 		disabled = false,
-		onClickOption = () => {}
+		onClickOption = () => {},
+		...rest
 	} = $props();
 
 	if (options) {
@@ -48,6 +47,7 @@ text: str  // texto que será mostrado como opção.
 					checked={selected.trim() == option.text}
 					onchange={bubble('change')}
 					{disabled}
+					{...rest}
 					onclick={(e) => {
 						if (requerConfirmacao) {
 							e.preventDefault();
@@ -64,6 +64,7 @@ text: str  // texto que será mostrado como opção.
 					checked={selected.trim() == option.text}
 					onchange={bubble('change')}
 					{disabled}
+					{...rest}
 					onclick={(e) => {
 						if (requerConfirmacao) {
 							e.preventDefault();

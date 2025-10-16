@@ -45,7 +45,7 @@
 			<AtividadeTurma {atividade} idTurma={id} {maxEtapas} />
 		{/each}
 	{/if}
-	<ButtonRedirect href={url}>Criar nova atividade</ButtonRedirect>
+	<ButtonRedirect id="btnCriarAtividade" href={url}>Criar nova atividade</ButtonRedirect>
 </div>
 
 <style>

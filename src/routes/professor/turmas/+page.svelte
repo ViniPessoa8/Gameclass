@@ -34,7 +34,7 @@
 				<p>Não há turmas cadastradas</p>
 			</div>
 		{:else}
-			{#each turmasLista as turma}
+			{#each turmasLista as turma (turma.id)}
 				{#if currentView === 'grade'}
 					<TurmaGrade {turma} />
 				{:else}

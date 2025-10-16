@@ -8,7 +8,8 @@
 		name = '',
 		borded = false,
 		placeholder = 'Selecione uma opção',
-		width = '100%'
+		width = '100%',
+		...rest
 	} = $props();
 
 	let searchTerm = $state('');
@@ -79,6 +80,7 @@
 		bind:value={searchTerm}
 		on:focus={handleFocus}
 		on:input={handleInput}
+		{...rest}
 	/>
 
 	{#if isOpen}

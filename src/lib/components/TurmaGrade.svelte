@@ -8,7 +8,7 @@
 	import ButtonRedirect from './ButtonRedirect.svelte';
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 
-	let { turma, width = $bindable() } = $props();
+	let { turma, width = $bindable(), ...rest } = $props();
 
 	console.debug('turma => ', turma);
 
@@ -47,7 +47,7 @@
 	}
 </script>
 
-<div class="turma">
+<div class="turma" {...rest}>
 	<div class="turma-info" bind:clientWidth={width}>
 		<div class="turma-icon">
 			<CircularIcon type="text" backgroundColor="#{turma.cor}" text={turma.nome[0]} />

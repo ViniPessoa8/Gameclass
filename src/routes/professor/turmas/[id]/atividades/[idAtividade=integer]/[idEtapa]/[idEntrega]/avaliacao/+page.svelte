@@ -235,7 +235,7 @@
 						name={criterio.titulo}
 						width="80px"
 						placeholder="Nota"
-						oninput={() => onChangeCriterioNota(notas[index].nota, index)}
+						on:input={(event) => formatarNota(notas[index].nota, index, event)}
 						bind:value={notas[index].nota}
 					/>
 				</div>

@@ -350,16 +350,17 @@ INSERT INTO anexo ("titulo", "conteudo_texto", "data_upload", "id_entrega", "id_
 -- ========= CONFIGURAÇÕES E ATUALIZAÇÃO DE SEQUENCES =========
 
 -- Reinicia as sequências para evitar conflitos futuros
-ALTER SEQUENCE atividade_id_seq RESTART WITH 4;
-ALTER SEQUENCE item_atividade_id_seq RESTART WITH 5;
-ALTER SEQUENCE criterio_id_seq RESTART WITH 10;
-ALTER SEQUENCE publicacao_mural_id_seq RESTART WITH 5;
-ALTER SEQUENCE comentario_id_seq RESTART WITH 5;
-ALTER SEQUENCE entrega_id_seq RESTART WITH 7;
-ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 4;
-ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 5;
-ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 3;
-ALTER SEQUENCE integrante_grupo_de_alunos_id_seq RESTART WITH 6;
+ALTER SEQUENCE atividade_id_seq RESTART WITH 100;
+ALTER SEQUENCE item_atividade_id_seq RESTART WITH 100;
+ALTER SEQUENCE criterio_id_seq RESTART WITH 100;
+ALTER SEQUENCE publicacao_mural_id_seq RESTART WITH 100;
+ALTER SEQUENCE comentario_id_seq RESTART WITH 100;
+ALTER SEQUENCE entrega_id_seq RESTART WITH 100;
+ALTER SEQUENCE realizar_avaliacao_id_seq RESTART WITH 100;
+ALTER SEQUENCE avaliacao_criterio_id_seq RESTART WITH 100;
+ALTER SEQUENCE grupo_de_alunos_id_seq RESTART WITH 100;
+ALTER SEQUENCE integrante_grupo_de_alunos_id_seq RESTART WITH 100;
+ALTER SEQUENCE formacao_grupo_id_seq RESTART WITH 100;
 
 -- Configurações gerais do sistema
 INSERT INTO config("chave", "valor") VALUES ('MAX_ETAPAS_POR_ATIVIDADE', '5');

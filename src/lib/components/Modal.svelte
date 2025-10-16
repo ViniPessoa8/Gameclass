@@ -8,12 +8,7 @@
 	 */
 
 	/** @type {Props} */
-	let {
-		visible = false,
-		title = '',
-		message = '',
-		buttons = []
-	} = $props();
+	let { visible = false, title = '', message = '', buttons = [] } = $props();
 
 	if (buttons.length < 1 || buttons.length > 3) {
 		throw new Error('O modal deve ter entre 1 e 3 botões.');
@@ -29,8 +24,9 @@
 			<p>{message}</p>
 
 			<div class="buttons">
-				{#each buttons as button}
+				{#each buttons as button, index (index)}
 					<button
+						id="btn-{index}"
 						class="btn"
 						style="background-color: {button.color || 'gray'}"
 						onclick={button.onClick}

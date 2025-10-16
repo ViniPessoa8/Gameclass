@@ -6,12 +6,20 @@
 		name = '',
 		borded = false,
 		unselectedText = '',
-		width
+		width,
+		...rest
 	} = $props();
 </script>
 
 {#if borded}
-	<select class="borded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
+	<select
+		class="borded"
+		style="width: {width}px;"
+		onchange={inputHandler}
+		bind:value
+		{name}
+		{...rest}
+	>
 		{#if unselectedText != ''}
 			<option value="" disabled selected>{unselectedText}</option>
 		{/if}
@@ -20,7 +28,14 @@
 		{/each}
 	</select>
 {:else}
-	<select class="unborded" style="width: {width}px;" onchange={inputHandler} bind:value {name}>
+	<select
+		class="unborded"
+		style="width: {width}px;"
+		onchange={inputHandler}
+		bind:value
+		{name}
+		{...rest}
+	>
 		{#if unselectedText != ''}
 			<option value="" disabled selected>{unselectedText}</option>
 		{/if}
