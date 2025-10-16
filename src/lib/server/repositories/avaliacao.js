@@ -10,76 +10,158 @@ const entregaController = new EntregaController();
 export async function avaliaEntregaBD(idEntrega, criteriosAvaliados) {
 
 	try {
-		return await cadastraOuAlteraNotas(idEntrega, criteriosAvaliados, 0)
-	} catch (e) {
-		throw new Error(`Erro ao avaliar entrega (${idEntrega}): ${e}`);
-	}
-}
+		const db = getPool();
+		const entrega = await entregaController.buscaPorId(idEntrega);
 
-export async function alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados) {
-	try {
-		return await cadastraOuAlteraNotas(idEntrega, criteriosAvaliados, 1)
-	} catch (e) {
-		throw new Error(`Erro ao alterar avaliação da entrega (${idEntrega}): ${e}`);
-	}
-}
 
-// tipo 0 = Cadastrar
-// tipo 1 = Alterar
-async function cadastraOuAlteraNotas(idEntrega, criteriosAvaliados, tipo = 0) {
-	const db = getPool();
-	const entrega = await entregaController.buscaPorId(idEntrega);
+		if (!entrega) {
+			throw new Error(`Entrega ${idEntrega} não encontrada`);
+		}
 
-	if (!entrega) {
-		throw new Error(`Entrega ${idEntrega} não encontrada`);
-	}
+		let idRealizarAvaliacao
+		let sql
 
-	let idRealizarAvaliacao
-	let sql
-	if (tipo == 0) {
-		sql = `
-				INSERT INTO ${DB_INFO.tables.avaliacao_criterio}
-				(nota_atribuida, id_realizar_avaliacao, id_criterio)
-				VALUES ($1, $2, $3);
-			`
 		const res = await db.query({
 			text: `INSERT INTO ${DB_INFO.tables.realizar_avaliacao}("id_entrega") VALUES($1) RETURNING id;`,
 			values: [entrega.id]
 		});
 		idRealizarAvaliacao = res.rows[0].id;
+		if (!idRealizarAvaliacao) throw new Error("'Realizar Avaliacao' não pode ser criado.");
 
-	} else {
 		sql = `
 				UPDATE ${DB_INFO.tables.avaliacao_criterio}
 				SET nota_atribuida = $1
-				WHERE id_realizar_avaliacao = $2 AND id_criterio = $3;
-			`
-		const realizarAvaliacao = await buscaAvaliacaoEntregaBD(idEntrega);
-		idRealizarAvaliacao = realizarAvaliacao[0]?.id_realizar_avaliacao;
+				WHERE id_realizar_avaliacao = $2 AND id_criterio = $3 
+				RETURNING id;`
+
+		for (const criterio of criteriosAvaliados) {
+			const model = new AvaliacaoCriterio({
+				nota_atribuida: criterio.nota_atribuida,
+				id_realizar_avaliacao: idRealizarAvaliacao,
+				id_criterio: criterio.id
+			});
+
+			await db.query({
+				text: sql,
+				values: [
+					model.nota_atribuida,
+					model.id_realizar_avaliacao,
+					model.id_criterio
+				]
+			});
+		}
+
+		return true;
+	} catch (e) {
+		throw new Error(`Erro ao avaliar entrega (${idEntrega}): ${e}`);
 	}
-
-	if (!idRealizarAvaliacao) throw new Error("'Realizar Avaliacao' não pode ser criado.");
-
-	for (const criterio of criteriosAvaliados) {
-		const model = new AvaliacaoCriterio({
-			nota_atribuida: criterio.nota_atribuida,
-			id_realizar_avaliacao: idRealizarAvaliacao,
-			id_criterio: criterio.id
-		});
-
-		await db.query({
-			text: sql,
-			values: [
-				model.nota_atribuida,
-				model.id_realizar_avaliacao,
-				model.id_criterio
-			]
-		});
-	}
-
-	return true;
 }
 
+export async function alteraAvaliacaoEntregaBD(idEntrega, criteriosAvaliados, idIntegrante) {
+	try {
+		const db = getPool();
+
+		let res
+		let sql
+		let realizarAvaliacao
+
+		// Verifica se a entrega existe para o id informado
+		const entrega = await entregaController.buscaPorId(idEntrega);
+		if (!entrega) {
+			throw new Error(`Entrega ${idEntrega} não encontrada`);
+		}
+
+		// Prepara a query SQL
+		if (idIntegrante == undefined) {
+			sql = `
+				UPDATE ${DB_INFO.tables.avaliacao_criterio}
+				SET nota_atribuida = $1
+				WHERE id_realizar_avaliacao = $2 AND id_criterio = $3 
+				RETURNING id;`
+
+			// Busca entrega correspondente
+			realizarAvaliacao = await buscaAvaliacaoEntregaBD(idEntrega);
+			if (!realizarAvaliacao) {
+				throw new Error(`Erro ao alterar avaliação da entrega (${idEntrega}): Avaliação não encontrada`);
+			}
+
+			for (const criterio of criteriosAvaliados) {
+				const idRealizarAvaliacao = realizarAvaliacao[0]?.id_realizar_avaliacao
+				const idAvaliacaoCriterio = realizarAvaliacao[0]?.id_avaliacao_criterio
+
+				console.log(`Alterando nota da avaliação ${idRealizarAvaliacao} id ${idAvaliacaoCriterio} no critério ${criterio.id} para ${criterio.nota_atribuida}`)
+				const model = new AvaliacaoCriterio({
+					id: idAvaliacaoCriterio,
+					nota_atribuida: criterio.nota_atribuida,
+					id_realizar_avaliacao: idRealizarAvaliacao,
+					id_criterio: criterio.id
+				});
+
+
+				res = await db.query({
+					text: sql,
+					values: [
+						model.nota_atribuida,
+						model.id_realizar_avaliacao,
+						model.id_criterio,
+					]
+				});
+			}
+
+			return true
+
+		} else {
+			sql = `
+				UPDATE ${DB_INFO.tables.avaliacao_integrante_criterio}
+				SET nota_atribuida = $1
+				WHERE id_realizar_avaliacao = $2 AND id_criterio = $3 and id = $4
+				RETURNING id;`
+
+			// Busca entrega correspondente
+			realizarAvaliacao = await buscaAvaliacaoEntregaIntegranteBD(idEntrega, idIntegrante);
+			if (!realizarAvaliacao) {
+				throw new Error(`Erro ao alterar avaliação da entrega (${idEntrega}): Avaliação não encontrada`);
+			}
+
+
+			for (const criterio of criteriosAvaliados) {
+				let idRealizarAvaliacao
+				let idAvaliacaoCriterio
+				for (const avaliacao of realizarAvaliacao) {
+					if (avaliacao.id_criterio == criterio.id) {
+						idRealizarAvaliacao = avaliacao.id_realizar_avaliacao
+						idAvaliacaoCriterio = avaliacao.id_avaliacao_criterio
+					}
+				}
+
+				console.log(`Alterando nota da avaliação ${idRealizarAvaliacao} id ${idAvaliacaoCriterio} no critério ${criterio.id} para ${criterio.nota_atribuida}`)
+				const model = new AvaliacaoCriterio({
+					id: idAvaliacaoCriterio,
+					nota_atribuida: criterio.nota_atribuida,
+					id_realizar_avaliacao: idRealizarAvaliacao,
+					id_criterio: criterio.id
+				});
+
+
+				res = await db.query({
+					text: sql,
+					values: [
+						model.nota_atribuida,
+						model.id_realizar_avaliacao,
+						model.id_criterio,
+						model.id
+					]
+				});
+			}
+
+			return true
+		}
+
+		// Altera as notas dos critérios
+	} catch (e) {
+		throw new Error(`Erro ao alterar avaliação da entrega (${idEntrega}): ${e}`);
+	}
+}
 
 export async function buscaAvaliacaoEntregaBD(idEntrega) {
 	const db = getPool();
@@ -109,16 +191,35 @@ export async function buscaAvaliacaoEntregaBD(idEntrega) {
 	}
 }
 
-// --- NOVAS FUNÇÕES PARA AVALIAÇÃO INDIVIDUAL DO INTEGRANTE ---
+export async function buscaAvaliacaoEntregaIntegranteBD(idEntrega, idIntegrante) {
+	const db = getPool();
 
-/**
- * Cadastra ou altera a avaliação específica de um integrante de grupo.
- * Presume-se que a avaliação geral da entrega (realizar_avaliacao) já foi criada.
- *
- * @param {number} idEntrega O ID da entrega do grupo.
- * @param {number} idEstudante O ID do estudante a ser avaliado.
- * @param {Array<{id: number, nota_atribuida: number}>} criteriosAvaliados Array com critérios e notas individuais.
- */
+	try {
+		const query = {
+			text: `
+				SELECT 
+					ra.id AS id_realizar_avaliacao,
+					ra.id_entrega,
+					ac.id AS id_avaliacao_criterio,
+					ac.nota_atribuida,
+					ac.id_criterio
+				FROM ${DB_INFO.tables.realizar_avaliacao} ra
+				LEFT JOIN ${DB_INFO.tables.avaliacao_integrante_criterio} ac
+					ON ra.id = ac.id_realizar_avaliacao
+				WHERE ra.id_entrega = $1
+					AND ac.id_estudante = $2;
+			`,
+			values: [idEntrega, idIntegrante]
+		};
+
+		const res = await db.query(query);
+		return res.rows;
+
+	} catch (e) {
+		throw new Error(`Erro ao buscar avaliação da entrega (${idEntrega}) de integrante (${idIntegrante}): ${e}`);
+	}
+}
+
 export async function avaliaIntegranteGrupoBD(idEntrega, idEstudante, criteriosAvaliados) {
 	const db = getPool();
 
@@ -136,7 +237,6 @@ export async function avaliaIntegranteGrupoBD(idEntrega, idEstudante, criteriosA
 		}
 
 		// 2. Deletar notas antigas deste aluno para esta avaliação, para evitar duplicatas ou notas de critérios removidos.
-		//    Isso transforma a função em um "salvar" (cria se não existe, substitui se existe).
 		await db.query({
 			text: `DELETE FROM ${DB_INFO.tables.avaliacao_integrante_criterio} WHERE id_realizar_avaliacao = $1 AND id_estudante = $2;`,
 			values: [idRealizarAvaliacao, idEstudante]
@@ -177,11 +277,6 @@ export async function avaliaIntegranteGrupoBD(idEntrega, idEstudante, criteriosA
 }
 
 
-/**
- * Busca as notas individuais de todos os integrantes para uma dada avaliação.
- *
- * @param {number} idEntrega O ID da entrega do grupo.
- */
 export async function buscaAvaliacaoIntegrantesBD(idEntrega) {
 	const db = getPool();
 	try {

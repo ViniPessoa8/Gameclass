@@ -15,8 +15,8 @@ export default class AvaliacaoController {
 		return await avaliaEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados);
 	}
 
-	async alteraAvaliacao(avaliacao) {
-		return await alteraAvaliacaoEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados);
+	async alteraAvaliacao(avaliacao, idIntegrante) {
+		return await alteraAvaliacaoEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados, idIntegrante);
 	}
 
 	async buscaPorIdEntrega(idEntrega) {

@@ -19,7 +19,7 @@
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{integrante.nome} </b></p>
 		{#if integrante.notas.length != 0}
-			<p>Média: {mediaNotas}</p>
+			<p>Média: {mediaNotas.toFixed(1)}</p>
 		{/if}
 	</div>
 </button>

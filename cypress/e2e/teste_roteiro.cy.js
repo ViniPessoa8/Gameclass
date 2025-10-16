@@ -464,11 +464,36 @@ it('Editar etapa', () => {
 	cy.get('#inputTituloEtapa').type('Etapa Editada!');
 	cy.get('[type="submit"]').click();
 	cy.get(':nth-child(3) > .atividade-info > .atividade-info-content').click();
-	cy.get(':nth-child(2) > [data-layer="Content"]').should("have.text", "Etapa Editada!")
+	cy.get(':nth-child(3) > .etapa > .titulo-etapa > .titulo-etapa-col > h3.s-4pdnWq-6Phrv').should("have.text", "Etapa Editada!")
 });
 
+it('Editar nota da avaliação de um aluno ', () => {
+	cy.viewport(1920, 1080);
+	cy.visit('http://localhost:5173/');
+	cy.wait(500)
+	cy.get('#loginInput').clear('T');
+	cy.get('#loginInput').type('alan.turing');
+	cy.get('#passwordInput').clear('S');
+	cy.get('#passwordInput').type('Senhavalida!1');
+	cy.get('#btnLogin').should("be.visible");
+	cy.get('#btnLogin').click();
+	cy.get('#btnProfessor').should("be.visible");
+	cy.get('#btnProfessor').click();
+	cy.get(':nth-child(1) > .turma-buttons > .s-5xw9RGpuDz7F').click();
+	cy.get(':nth-child(2) > .atividade-info > .atividade-info-content > :nth-child(2) > .titulo').click();
+	cy.get('[href="atividades/1/1"] > .button > .feather').click();
+	cy.get(':nth-child(2) > .botao').click();
+	cy.get('.btn-avaliar > .button').click();
+	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').clear('3.5');
+	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').type('4');
+	cy.get('.criterios-grid').click();
+	cy.get('.btn-finalizar > .button').click();
 
-it('Editar nota de um aluno do grupo', () => {
+	cy.get('.btn-avaliar > .button').click();
+	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').should("have.value", "4.0");
+});
+
+it('Editar nota da avaliação de um aluno do grupo', () => {
 	cy.viewport(1920, 1080);
 	cy.visit('http://localhost:5173/');
 	cy.wait(500)

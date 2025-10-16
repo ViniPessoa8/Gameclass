@@ -54,6 +54,7 @@ export async function load({ url, cookies, params }) {
 
 export const actions = {
 	avaliar: async ({ request, cookies, params }) => {
+		console.log("Avaliando entrega de integrante do grupo")
 		let res;
 
 		const criteriosAvaliados = Array.from(await request.formData());
@@ -79,7 +80,9 @@ export const actions = {
 		} catch (e) {
 			console.error(e)
 		}
+
 		if (res) {
+			console.log("Avaliação realizada com sucesso.")
 			cookies.set("toast", 'avaliacao_realizada', { path: "/" })
 			const novaUrl = request.url.split("/").slice(0, -2).join("/");
 			redirect(301, novaUrl)
@@ -87,11 +90,13 @@ export const actions = {
 	},
 
 	alterar: async ({ request, cookies, params }) => {
+		console.log("Alterando nota de integrante do grupo")
 		let res;
 
 		const criteriosAvaliados = Array.from(await request.formData());
 		const idEntrega = params.idEntrega;
 		const idEtapa = params.idEtapa
+		const idIntegrante = params.idIntegrante;
 
 		const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
 
@@ -104,15 +109,17 @@ export const actions = {
 		});
 
 		const avaliacao = new Avaliacao({ id_entrega: idEntrega, criterios_avaliados: criteriosAvaliadosObj })
-		res = await avaliacaoController.alteraAvaliacao(avaliacao)
+		res = await avaliacaoController.alteraAvaliacao(avaliacao, idIntegrante)
 
 		if (res) {
+			console.log("Nota alterada com sucesso.")
 			cookies.set("toast", 'avaliacao_atualizada', { path: "/" })
 			const novaUrl = request.url.split("/").slice(0, -2).join("/");
 			redirect(301, novaUrl)
 		}
 	},
 	avaliarTodos: async ({ request, cookies, params }) => {
+		console.log("Atribuindo nota a todos os integrantes do grupo")
 		let res;
 
 		const criteriosAvaliados = Array.from(await request.formData());
@@ -138,6 +145,7 @@ export const actions = {
 			console.error(e)
 		}
 		if (res) {
+			console.log("Atribuição de notas aos integrantes realizada com sucesso.")
 			cookies.set("toast", 'avaliacao_realizada', { path: "/" })
 			const novaUrl = request.url.split("/").slice(0, -2).join("/");
 			redirect(301, novaUrl)
