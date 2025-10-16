@@ -1,5 +1,5 @@
 // src/lib/server/controllers/CriterioController.js
-import { cadastraCriterioBD, listaCriteriosPorIdProfessorBD, removeCriterioPorIdItemAtividadeBD } from "../repositories/criterio.js";
+import { cadastraCriterioBD, listaCriteriosPorIdItemAtividadeBD, listaCriteriosPorIdProfessorBD, removeCriterioPorIdItemAtividadeBD } from "../repositories/criterio.js";
 
 export default class CriterioController {
 	async cadastra(titulo, descricao = '', notaMax, peso, idItemAtividade) {
@@ -24,6 +24,18 @@ export default class CriterioController {
 		}
 
 		const res = await removeCriterioPorIdItemAtividadeBD(idItemAtividade);
+
+		if (res.rowCount > 0) {
+			return res.rows;
+		}
+	}
+
+	async listaPorIdItemAtividade(idItemAtividade) {
+		if (!idItemAtividade) {
+			throw new Error("Dados obrigatórios não foram preenchidos. (Critério)");
+		}
+
+		const res = await listaCriteriosPorIdItemAtividadeBD(idItemAtividade);
 
 		if (res.rowCount > 0) {
 			return res.rows;
