@@ -77,6 +77,7 @@
 		</div>
 		<div class="input-content">
 			<InputTextArea
+				id="inputTextoPublicacao"
 				name="textoPublicacao"
 				placeholder="Escreva uma publicação para a sua turma..."
 				borded
@@ -177,6 +178,7 @@
 					>
 						<input type="hidden" name="idPublicacao" value={publicacao.id} />
 						<InputText
+							id="inputTextoComentario"
 							name="textoComentario"
 							fontSize="18px"
 							borded

@@ -90,7 +90,7 @@ export async function listaNotasObtidasDeCriteriosPorIdEntregaBD(idEntrega) {
 		return res.rows
 
 	} catch (e) {
-		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
+		throw (`Erro ao listar notas obtidas dos critérios por entrega (${idEntrega}): ${e}`)
 	}
 }
 
@@ -116,6 +116,6 @@ export async function listaNotasObtidasDeCriteriosIntegrantePorIdEntregaBD(idEnt
 		return res.rows
 
 	} catch (e) {
-		throw (`Erro ao avaliar entrega (${idEntrega}): ${e}`)
+		throw (`Erro ao listar notas obtidas dos critérios por integrante (${idIntegrante}) e entrega (${idEntrega}): ${e}`)
 	}
 }

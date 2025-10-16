@@ -201,6 +201,7 @@
 			</div>
 			<div class="btn-finalizar">
 				<Button
+					id="aplicarParaTodaEquipe"
 					type="button"
 					on:click={handleAplicarEquipeClick}
 					backgroundColor="var(--cor-secundaria)"
@@ -215,7 +216,7 @@
 					style="display: none;"
 					aria-hidden="true"
 				></button>
-				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white"
+				<Button id="avaliar" type="submit" backgroundColor="var(--cor-primaria)" color="white"
 					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
 				>
 			</div>
