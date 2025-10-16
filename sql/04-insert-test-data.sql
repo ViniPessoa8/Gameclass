@@ -151,7 +151,7 @@ INSERT INTO comentario("texto", "id_publicacao_mural", "id_usuario", "data_criac
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (1, 'Modelagem Relacional Avançada', '2025-10-01T23:59:59.000Z', 1);
 -- Etapa 1
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (1, 'Lista de Exercícios: Normalização', 'Aplique as formas normais (1FN, 2FN, 3FN) nos modelos de dados apresentados.', 10, '2025-09-20T08:00:00.000Z', '2025-09-30T23:59:59.000Z', 1, 1, false, false, 1);
+VALUES (1, 'Lista de Exercícios: Normalização', 'Aplique as formas normais (1FN, 2FN, 3FN) nos modelos de dados apresentados.', 10, '2025-09-20T08:00:00.000Z', '2025-09-30T23:59:59.000Z', 0, 1, false, false, 1);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
 (1, 'Aplicação da 1FN e 2FN', 'Identificação e correção de anomalias.', 5, 1), 
 (2, 'Aplicação da 3FN', 'Remoção de dependências transitivas.', 5, 1);
@@ -164,7 +164,7 @@ INSERT INTO avaliacao_criterio ("id", "id_realizar_avaliacao", "id_criterio", "n
 -- --- Atividade 2: Individual, Liberada, Aguardando Entregas ---
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (2, 'Consultas SQL Complexas', '2025-10-16T23:59:59.000Z', 1);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (2, 'Desafio: Otimização de Queries', 'Refatore as consultas SQL fornecidas para melhorar o desempenho, utilizando índices e joins eficientes.', 10, '2025-10-05T08:00:00.000Z', '2025-10-15T23:59:59.000Z', 1, 1, false, false, 2);
+VALUES (2, 'Desafio: Otimização de Queries', 'Refatore as consultas SQL fornecidas para melhorar o desempenho, utilizando índices e joins eficientes.', 10, '2025-10-05T08:00:00.000Z', '2025-10-15T23:59:59.000Z', 0, 1, false, false, 2);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
 (3, 'Uso de Índices', 'Criação de índices adequados para as consultas.', 4, 2), 
 (4, 'Refatoração de Joins', 'Substituição de subqueries por joins quando aplicável.', 4, 2),
@@ -176,7 +176,7 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_ativ
 -- --- Atividade 3: Em Grupo, Nota Coletiva, Encerrada e Avaliada ---
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (3, 'Padrões de Projeto (GoF)', '2025-11-01T23:59:59.000Z', 2);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-20T08:00:00.000Z', '2025-10-30T23:59:59.000Z', 1, 2, true, false, 3);
+VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-20T08:00:00.000Z', '2025-10-30T23:59:59.000Z', 0, 2, true, false, 3);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade", "peso") VALUES 
 (6, 'Clareza Conceitual', 'Apresentação clara da finalidade e estrutura do padrão.', 5, 3, 3), 
 (7, 'Qualidade do Exemplo', 'O código de exemplo é funcional e didático.', 5, 3, 2);
@@ -191,7 +191,7 @@ INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VAL
 -- --- Atividade 4: Em Grupo, Nota Individual, Entregue e Aguardando Avaliação ---
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (4, 'Metodologias Ágeis', '2025-11-21T23:59:59.000Z', 2);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (4, 'Simulação de Sprint (Scrum)', 'Planejar e executar uma Sprint de uma semana para um projeto fictício, entregando o Sprint Backlog e a Review.', 10, '2025-09-10T08:00:00.000Z', '2025-11-20T23:59:59.000Z', 1, 1, true, false, 4);
+VALUES (4, 'Simulação de Sprint (Scrum)', 'Planejar e executar uma Sprint de uma semana para um projeto fictício, entregando o Sprint Backlog e a Review.', 10, '2025-09-10T08:00:00.000Z', '2025-11-20T23:59:59.000Z', 0, 1, true, false, 4);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade", "peso") VALUES 
 (8, 'Qualidade do Planejamento', 'O Sprint Backlog está bem definido e estimado.', 5, 4, 3), 
 (9, 'Execução e Entrega', 'As tarefas foram concluídas e apresentadas na Review.', 5, 4, 2);
@@ -261,7 +261,7 @@ VALUES (
     10,
     '2025-08-20T08:00:00.000Z',
     '2025-09-05T23:59:59.000Z',
-    1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
+    0, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
 );
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES
 (16, 'Qualidade do MER', 'O diagrama representa corretamente as entidades e relacionamentos.', 5, 8),
@@ -307,7 +307,7 @@ VALUES (
     -- Data inicial no passado e final no futuro
     (CURRENT_DATE - INTERVAL '7 days'), -- Liberada há uma semana
     (CURRENT_DATE + INTERVAL '7 days'), -- Prazo termina em uma semana
-    1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
+    0, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
 );
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES
 (20, 'Complexidade das Consultas', 'As consultas demonstram conhecimento avançado de SQL.', 5, 10),
@@ -327,7 +327,7 @@ VALUES (
     -- Datas totalmente no futuro
     (CURRENT_DATE + INTERVAL '8 days'),
     (CURRENT_DATE + INTERVAL '20 days'),
-    1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
+    0, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
 );
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES
 (22, 'Qualidade da Apresentação', 'Clareza, organização e domínio do conteúdo apresentado.', 5, 11),
