@@ -29,7 +29,7 @@
 					}, 0) / atividades[i].itens_atividade.length
 				).toFixed(1);
 
-				somaMediasAtividades += atividades[i].media_obtida;
+				somaMediasAtividades += parseFloat(atividades[i].media_obtida);
 
 				atividades[i].media_max = (
 					atividades[i].itens_atividade.reduce(
@@ -39,6 +39,8 @@
 				).toFixed(1);
 			}
 		}
+		console.debug('somaMediasAtividades => ', somaMediasAtividades);
+		console.debug('atividades.length => ', atividades.length);
 		mediaFinal = somaMediasAtividades / atividades.length;
 	});
 </script>
@@ -54,7 +56,7 @@
 			</div>
 			<p>{turma.nome} - {turma.disciplina}</p>
 			<p>Posição no ranking da turma: <b>{estudante.posicao_ranking}</b></p>
-			<p>Média final: {mediaFinal}</p>
+			<p>Média final: {mediaFinal?.toFixed(1)}</p>
 		</div>
 		<h1>Atividades</h1>
 		<hr />
