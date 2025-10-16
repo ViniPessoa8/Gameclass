@@ -78,7 +78,10 @@
 						>
 							<div class="titulo-atividade-content">
 								<h3>{atividade.titulo}</h3>
-								<p>({atividade.itensAtividade.length} etapas)</p>
+								<p>
+									({atividade.itensAtividade.length}
+									{atividade.itensAtividade.length < 2 ? 'etapa' : 'etapas'})
+								</p>
 							</div>
 							{#if mostraAtividades[index] != false}
 								<img src={icon_menos} alt="icone de soma" />

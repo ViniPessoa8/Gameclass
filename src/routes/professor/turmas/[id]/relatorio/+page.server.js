@@ -13,8 +13,6 @@ export async function load({ params, cookies }) {
 	let data = {}
 	const idTurma = params['id']
 
-	// ----- CARREGA DADOS DO BANCO ----- //
-
 	// Info da turma
 	data.turma = new Turma(await turmaController.buscaPorId(idTurma)).toObject()
 
@@ -94,11 +92,11 @@ export async function load({ params, cookies }) {
 		data.atividades[indexA].mediaNotas = parseFloat(mediaNotas)
 
 		// Nota máxima de cada atividade
-		const notaMaxObtida = Math.max(...notas);
+		const notaMaxObtida = notas.length == 0 ? 0 : Math.max(...notas);
 		data.atividades[indexA].notaMaxObtida = parseFloat(notaMaxObtida)
 
 		// Nota mínima de cada atividade
-		const notaMinObtida = Math.min(...notas);
+		const notaMinObtida = notas.length == 0 ? 0 : Math.min(...notas);
 		data.atividades[indexA].notaMinObtida = parseFloat(notaMinObtida)
 
 		// Entregas de cada atividade
