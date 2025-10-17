@@ -85,6 +85,35 @@ it('Criação de Turma, Atividade e Etapa', () => {
 	cy.get('[type="submit"]').click();
 });
 
+it('Criação de Turma duplicada', () => {
+	cy.viewport(1920, 1080);
+	cy.visit('http://localhost:5173/');
+	cy.wait(500)
+	cy.get('#loginInput').clear('T');
+	cy.get('#loginInput').type('alan.turing');
+	cy.get('#passwordInput').clear('S');
+	cy.get('#passwordInput').type('Senhavalida!1');
+	cy.get('#btnLogin').should("be.visible");
+	cy.get('#btnLogin').click();
+	cy.get('#btnProfessor').should("be.visible");
+	cy.get('#btnProfessor').click();
+	cy.get('.sidebar > .button').click();
+	cy.wait(500)
+	cy.get('#inputCodigo').clear('0');
+	cy.get('#inputCodigo').type('0001');
+	cy.get(':nth-child(2) > div.s-vsi8GcpSRwtX > .board > .borded').clear('M');
+	cy.get(':nth-child(2) > div.s-vsi8GcpSRwtX > .board > .borded').type('Matemática');
+	cy.get(':nth-child(3) > div.s-vsi8GcpSRwtX > .board > .borded').clear('O');
+	cy.get(':nth-child(3) > div.s-vsi8GcpSRwtX > .board > .borded').type('Os Matemáticos 2025');
+	cy.get(':nth-child(4) > div.s-vsi8GcpSRwtX > .board > .borded').clear('t');
+	cy.get(':nth-child(4) > div.s-vsi8GcpSRwtX > .board > .borded').type('turma de matemática');
+	cy.get(':nth-child(5) > div.s-vsi8GcpSRwtX > .board > .borded').clear('A');
+	cy.get(':nth-child(5) > div.s-vsi8GcpSRwtX > .board > .borded').type('A24');
+	cy.get('.select-container > .s-7u07kVIZQDQm').click();
+	cy.get('.options-container > .option').click();
+	cy.get('[style="align-self: center;"] > .button').click();
+	cy.get('[data-content=""] > div').should("have.text", "Você já possui uma turma com o mesmo nome")
+});
 
 it('Criação de Atividade e Etapa em turma já existente', () => {
 	cy.viewport(1920, 1080);
