@@ -90,7 +90,6 @@
 				}))
 			: data.etapa.criterios.map((c) => ({ id_criterio: c.id, nota: null }))
 	);
-	console.debug('notas => ', notas);
 
 	function validarNotas() {
 		const inputs = document.querySelectorAll('.input-container input');

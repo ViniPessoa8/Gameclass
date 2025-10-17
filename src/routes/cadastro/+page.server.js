@@ -11,7 +11,6 @@ export const actions = {
 	default: async ({ request, cookies }) => {
 		const data = await request.formData();
 		let res;
-		console.debug("data => ", data)
 
 		if (!data.get("login")
 			|| !data.get("password")
@@ -40,7 +39,7 @@ export const actions = {
 			)
 		} catch (e) {
 			// TODO: Verificar se é mesmo esse erro
-			console.debug("erro => ", e)
+			console.error("erro => ", e)
 			return fail(400, { already_registered: true })
 		}
 

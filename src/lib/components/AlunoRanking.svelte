@@ -30,7 +30,6 @@
 
 	function onClick() {
 		// Em vez de navegar, agora mostramos o popup
-		console.debug('onclick');
 		showPopup = true;
 	}
 </script>

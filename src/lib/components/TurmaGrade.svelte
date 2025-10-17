@@ -10,8 +10,6 @@
 
 	let { turma, width = $bindable(), ...rest } = $props();
 
-	console.debug('turma => ', turma);
-
 	const segments = [];
 
 	const total_atividades_abertas = turma.atividades.filter((i) => i.prazo >= Date.now()).length;

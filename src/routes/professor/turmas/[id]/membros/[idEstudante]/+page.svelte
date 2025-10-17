@@ -8,6 +8,7 @@
 	import icon_relatorio from '$lib/assets/icon_relatorio.png';
 	import { goto } from '$app/navigation';
 	import CircularTextIcon from '$lib/components/CircularTextIcon.svelte';
+	import { log, debug } from '$lib/utils/logger';
 
 	let { data } = $props();
 
@@ -31,7 +32,7 @@
 	}
 
 	onMount(() => {
-		console.debug('conquistas => ', estudante.conquistas);
+		debug('conquistas => ', estudante.conquistas);
 	});
 </script>
 

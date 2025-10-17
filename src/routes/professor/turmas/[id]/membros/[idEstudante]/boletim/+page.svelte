@@ -39,8 +39,6 @@
 				).toFixed(1);
 			}
 		}
-		console.debug('somaMediasAtividades => ', somaMediasAtividades);
-		console.debug('atividades.length => ', atividades.length);
 		mediaFinal = somaMediasAtividades / atividades.length;
 	});
 </script>

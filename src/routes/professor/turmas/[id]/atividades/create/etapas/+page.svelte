@@ -308,7 +308,6 @@
 	}
 
 	function handleAtribuicaoDeNotas(valor) {
-		console.debug('[handleAtribuicaoDeNotas] valor = ', valor);
 		proximoValor = valor;
 		showModalAtribuicaoNotas = true;
 	}
@@ -387,8 +386,6 @@
 	}
 
 	onMount(() => {
-		console.debug('DATA => ', data);
-		console.debug('DATA => ', data.teste);
 		if (data.parametroIdAtividade != undefined) {
 			navigationGuard.set(requestConfirmation);
 		}

@@ -9,7 +9,6 @@
 	import CircularIcon from '$lib/components/CircularIcon.svelte';
 
 	let { data } = $props();
-	console.debug('data =>', data);
 
 	const usuario = data.usuario;
 	const itensPendentes = data.itensPendentes;

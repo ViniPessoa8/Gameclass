@@ -85,7 +85,6 @@ export async function load({ params, cookies }) {
 	for (const [indexA, atividade] of data.atividades.entries()) {
 		console.info("\n[Calculando estatísticas] Atividade ", atividade.id)
 
-		console.debug("itemAtividade =>", atividade.itensAtividade[0])
 
 		// Nota total de cada atividade
 		const somaNotas = atividade.itensAtividade

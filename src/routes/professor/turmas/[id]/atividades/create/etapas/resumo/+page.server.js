@@ -5,7 +5,7 @@ import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
 import GrupoController from '$lib/server/controllers/grupo';
 import IntegranteGrupoController from '$lib/server/controllers/integranteGrupo';
 import { AVALIACAO, ATRIBUICAO, FORMACAO_GRUPO } from "$lib/constants";
-import { log, info, debug } from '$lib/utils/logger';
+import { log, info, debug, error } from '$lib/utils/logger';
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -104,18 +104,18 @@ export let actions = {
 					if (tipoFormacaoGrupos == "Professor forma os grupos") {
 						for (const grupo of grupos) {
 							const idGrupo = (await grupoController.cadastra(grupo.nome, idItemAtividade)).rows[0].id
-							info(`Grupo (${idGrupo}) criado`)
+							info(`Grupo ${idGrupo} criado`)
 
 							for (const integrante of grupo.integrantes) {
 								await integranteGrupoController.cadastra(integrante.id_estudante, idGrupo)
-								info(`Integrante (${integrante.id_estudante} cadastrado no grupo ${idGrupo})`)
+								info(`Integrante ${integrante.id_estudante} cadastrado no grupo ${idGrupo}`)
 							}
 						}
 
 					}
 				}
 			} catch (e) {
-				console.error("Erro ao cadastrar Item da atividade: ", e)
+				error("Erro ao cadastrar Item da atividade: ", e)
 				const errorMessage = typeof e === 'string' ? e : e.message
 
 				if (errorMessage.includes("Dados obrigatórios não foram preenchidos.")) {
@@ -134,6 +134,8 @@ export let actions = {
 		// 	cookies.set("toast", 'etapas_criadas', { path: "/" })
 		// }
 
-		redirect(300, `/professor/turmas/${params.id}/atividades/`)
+		const url = `/professor/turmas/${params.id}/atividades/`
+		log(`atividades/create/etapas/resumo/+page.server.js redirect to ${url}`)
+		redirect(300, url)
 	}
 }

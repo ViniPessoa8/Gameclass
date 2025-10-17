@@ -160,7 +160,6 @@ export default class ItemAtividadeController {
 		}
 
 		const res = await buscaItemAtividadePorTituloBD(titulo, idAtividadePai);
-		console.debug("res => ", res)
 		if (res) {
 			return new ItemAtividade(res);
 		}

@@ -146,9 +146,7 @@
 
 	onMount(() => {
 		navigationGuard.set(requestConfirmation);
-		console.debug('data.atividade =>', data.atividade);
 		if (data.atividade) {
-			console.debug('TEM ATIVIDADE');
 			titulo = data.atividade.titulo;
 			descricao = data.atividade.descricao;
 			prazo = showISOAsGMT4(data.atividade.prazo);

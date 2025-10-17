@@ -59,13 +59,9 @@
 	}
 
 	function aoCriarConta() {
-		console.debug('teste1');
 		if (!checkInputs()) return false;
-		console.debug('teste2');
 		if (!verificarRequisitosSenha()) return false;
-		console.debug('teste3');
 		if (!checkPasswords()) return false;
-		console.debug('teste4');
 
 		// let instituicao_id = -1;
 
@@ -154,13 +150,10 @@
 	}
 
 	function loginInputHandler(e) {
-		console.debug('entrou');
 		if (e.target.value.length > 0) loginEmpty = false;
 		if (form) {
-			console.debug('entrou2');
 			form.already_registered = false;
 		}
-		console.debug('form.already_registered =>', form?.already_registered);
 	}
 
 	function nomeCompletoInputHandler(e) {
@@ -200,8 +193,6 @@
 
 	function dtNascInputHandler(e) {
 		if (e.target.value.length > 0) dtNascEmpty = false;
-
-		console.debug('dtNasc => ', dtNasc);
 	}
 
 	function emailInputHandler(e) {
@@ -221,7 +212,6 @@
 		method="post"
 		use:enhance={({ cancel }) => {
 			if (!aoCriarConta() || form?.already_registered) {
-				console.debug('CANCELOU');
 				cancel();
 			}
 

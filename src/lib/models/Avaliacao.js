@@ -22,7 +22,6 @@ export default class Avaliacao {
 				(acc, c) => acc + c.nota_atribuida
 				, 0.0) / this.criterios_avaliados.length
 		).toFixed(1) : 0.0;
-		console.debug("media =>", this.media)
 	}
 
 	toObject() {

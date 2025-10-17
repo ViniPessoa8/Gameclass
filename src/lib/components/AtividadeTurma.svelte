@@ -96,7 +96,7 @@
 	}
 
 	async function confirmaModalArquivarItemAtividade() {
-		console.debug('Arquiva item atividade ' + atividadeParaArquivar);
+		console.log('Arquiva item atividade ' + atividadeParaArquivar);
 		try {
 			const response = await fetch(`/api/atividade/${atividadeParaArquivar}/arquivar`, {
 				method: 'POST',

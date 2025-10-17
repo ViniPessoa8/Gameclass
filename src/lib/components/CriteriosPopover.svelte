@@ -62,8 +62,6 @@
 			window.removeEventListener('click', handleClickOutside, true);
 		}
 	});
-
-	console.debug('criterios => ', criterios);
 </script>
 
 <div class="popover-wrapper" bind:this={wrapperNode}>

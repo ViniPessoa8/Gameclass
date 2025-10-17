@@ -27,7 +27,6 @@
 		if (currentStack.length > 0 && lastPage.includes(currentPage)) {
 			historyStack.update((stack) => [...stack.slice(0, -1)]);
 		} else {
-			console.debug('5');
 			historyStack.update((stack) => [...stack, currentPage]);
 		}
 	});

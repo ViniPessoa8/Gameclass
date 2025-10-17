@@ -12,7 +12,7 @@ function formatMessage(prefix, ...args) {
 }
 
 export function log(...args) {
-	const prefix = '[log]';
+	const prefix = '[LOG]';
 	console.log(...formatMessage(prefix, ...args));
 }
 

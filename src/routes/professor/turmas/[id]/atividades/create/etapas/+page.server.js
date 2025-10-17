@@ -4,6 +4,7 @@ import ItemAtividadeController from "$lib/server/controllers/itemAtividade"
 import { FORMACAO_GRUPO } from "$lib/constants";
 import CriterioController from "$lib/server/controllers/criterio";
 import TurmaController from "$lib/server/controllers/turma";
+import { error, info, debug } from "$lib/utils/logger"
 
 export async function load({ url, params, cookies }) {
 	const session = JSON.parse(cookies.get("session"));
@@ -18,8 +19,6 @@ export async function load({ url, params, cookies }) {
 
 	const criteriosDoProfessor = await criterioController.listaPorIdProfessor(idProfessor)
 	const nAlunosTurma = (await turmaController.listaAlunos(params.id)).length
-	console.debug("Numero de alunos da turma: ", nAlunosTurma)
-
 
 	if (url.searchParams.has("idAtividade")) {
 		idAtividade = url.searchParams.get("idAtividade")
@@ -44,6 +43,7 @@ export async function load({ url, params, cookies }) {
 
 export let actions = {
 	default: async ({ cookies, params, request, url }) => {
+		debug("atividades/create/etapas/+page.server.js default action")
 		const session = JSON.parse(cookies.get("session"));
 		const atividadeController = new AtividadeController();
 		const formData = await request.formData()
@@ -59,21 +59,20 @@ export let actions = {
 				cookies.set("atividade", JSON.stringify(atividade), { path: '/' })
 
 			} catch (e) {
-				console.debug("Error: ", e)
-				
+				error("Error: ", e)
+
 			}
 		}
 
 		// TODO: Validar se etapa com o mesmo nome ja existe
 		const itemAtividadeController = new ItemAtividadeController()
 		const titulo = formData.get("titulo")
-		console.debug("Verificando a existência de um item de atividade com o título: ", titulo)
+		info("Verificando a existência de um item de atividade com o título: ", titulo)
 		let etapa
 		try {
 			etapa = await itemAtividadeController.buscaPorTitulo(titulo, idProfessor)
 		} catch (e) {
-			console.debug("Erro ao buscar item de atividade por titulo: ", e)
-			
+			error("Erro ao buscar item de atividade por titulo: ", e)
 		}
 
 		console.debug("etapa: ", etapa)
@@ -89,9 +88,11 @@ export let actions = {
 		cookies.set("item_atividade", JSON.stringify(Object.fromEntries(formData)), { path: '/' })
 
 		if (realizacao == "Em Grupos" && formacao == "Professor forma os grupos") {
+			debug(`atividades/create/etapas/+page.server.js redirect to ${url.pathname}/definir-grupos/`)
 			redirect(300, `${url.pathname}/definir-grupos/`)
 
 		} else {
+			debug(`atividades/create/etapas/+page.server.js ${url.pathname}/resumo/`)
 			redirect(300, `${url.pathname}/resumo/`)
 
 		}

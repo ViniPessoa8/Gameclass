@@ -18,7 +18,6 @@
 
 	async function goBack() {
 		const guard = get(navigationGuard);
-		console.debug('guard => ', guard);
 
 		if (typeof guard === 'function') {
 			const isConfirmed = await guard();

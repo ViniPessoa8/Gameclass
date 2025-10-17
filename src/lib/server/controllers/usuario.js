@@ -7,13 +7,11 @@ const instituicaoController = new InstituicaoController()
 
 export default class UsuarioController {
 	async registra(nome, login, password, dtNasc, bio, email, cor) {
-		console.debug(nome, login, password, dtNasc, bio, email, cor)
 		if (!nome || !login || !password || !dtNasc || !email) {
 			throw ("Dados obrigatórios não foram preenchidos.")
 		}
 
 		let existeLogin = await this.buscaPorLogin(login)
-		console.debug("existeLogin => ", existeLogin)
 		if (existeLogin) {
 			throw ("Já existe usuário com o mesmo login cadastrado.")
 		}

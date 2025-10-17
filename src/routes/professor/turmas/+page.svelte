@@ -11,8 +11,6 @@
 	let turmasLista = data.turmas;
 	let currentView = $state(data.visualizacao);
 
-	console.debug('turmasLista =>', turmasLista);
-
 	onMount(async () => {
 		$selectedTurma = null;
 		if (data.toast === 'turma_criada') {

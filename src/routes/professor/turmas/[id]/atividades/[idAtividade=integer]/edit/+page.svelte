@@ -9,8 +9,6 @@
 
 	let { data } = $props();
 
-	console.debug('data => ', data);
-
 	let titulo = $state(data.atividade.titulo);
 	let descricao = $state(data.atividade.descricao);
 	let prazo = $state(showISOAsGMT4(data.atividade.prazo));
@@ -18,7 +16,9 @@
 	let tags = [];
 	let tagsAutocomplete = [];
 	let tagsColors = $state({});
-	let tituloEmpty = $state(), descricaoEmpty = $state(), prazoEmpty = $state();
+	let tituloEmpty = $state(),
+		descricaoEmpty = $state(),
+		prazoEmpty = $state();
 
 	function showISOAsGMT4(isoUTC) {
 		const offsetMinutes = -4 * 60; // GMT-4

@@ -1,4 +1,5 @@
 import { buscaEstudantePorIdBD, buscaEstudantePorIdGrupoBD, listaConquistasEstudantePorIdBD, listaConquistasEstudantePorIdTurmaBD } from "../repositories/estudante"
+import { log } from "$lib/utils/logger"
 
 export default class EstudanteController {
 	async buscaPorId(idEstudante) {
@@ -14,14 +15,14 @@ export default class EstudanteController {
 	}
 
 	async listaConquistasPorId(idEstudante) {
-		console.debug(`listaConquistasPorId(${idEstudante})`)
+		log(`listaConquistasPorId(${idEstudante})`)
 		let res = await listaConquistasEstudantePorIdBD(idEstudante)
 
 		return res.rows
 	}
 
 	async listaConquistasPorIdTurma(idEstudante, idTurma) {
-		console.debug(`listaConquistasPorId(${idEstudante}, ${idTurma})`)
+		log(`listaConquistasPorId(${idEstudante}, ${idTurma})`)
 		let res = await listaConquistasEstudantePorIdTurmaBD(idEstudante, idTurma)
 
 		return res.rows

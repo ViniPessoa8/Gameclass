@@ -11,6 +11,7 @@
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
 	import { TIPO_ARQUIVO, TIPO_COMENTARIO, AVALIACAO } from '$lib/constants.js';
 	import { Toaster, toast } from 'svelte-sonner';
+	import { log } from '$lib/utils/logger';
 
 	let { data = $bindable() } = $props();
 
@@ -63,7 +64,7 @@
 	}
 
 	function abrePerfilDoUsuario(estudante) {
-		console.debug('estudante => ', estudante);
+		log('estudante => ', estudante);
 		const url = `/professor/turmas/${data.idTurma}/membros/${estudante.id}`;
 		goto(url);
 	}
