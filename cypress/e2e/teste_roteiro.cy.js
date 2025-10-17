@@ -109,7 +109,7 @@ it('Criação de Atividade e Etapa em turma já existente', () => {
 	cy.get(':nth-child(7) > .button').click();
 	/* ==== End Cypress Studio ==== */
 	cy.get('#inputTituloEtapa').clear('T');
-	cy.get('#inputTituloEtapa').type('Título da Etapa 1');
+	cy.get('#inputTituloEtapa').type('Título da Etapa 2');
 	cy.get('#inputDtFimEtapa').click();
 	cy.get('#inputDtFimEtapa').type('2026-01-01T00:00');
 	cy.get('#inputTituloCriterio').clear('T');
@@ -147,7 +147,7 @@ it('Criação de Etapa em Atividade já existente', () => {
 	cy.get('.button.s-o83GZyLGIZKf > .button').click();
 	/* ==== End Cypress Studio ==== */
 	cy.get('#inputTituloEtapa').clear('T');
-	cy.get('#inputTituloEtapa').type('Título da Etapa 1');
+	cy.get('#inputTituloEtapa').type('Título da Etapa 3');
 	cy.get('#inputDtFimEtapa').click();
 	cy.get('#inputDtFimEtapa').type('2025-10-31T00:00');
 	cy.get('#inputTituloCriterio').clear('T');
@@ -165,6 +165,45 @@ it('Criação de Etapa em Atividade já existente', () => {
 	cy.get('#inputDescricaoCriterio').type('Descrição do Critério 2');
 	cy.get('.btn-add-criterio > .button').click();
 	cy.get('[type="submit"]').click();
+	cy.wait(500);
+	cy.get('[data-content=""] > div').should("not.have.text", "Já existe uma etapa com o mesmo nome nessa atividade.");
+});
+
+it('Criação de Etapa duplicada em Atividade já existente', () => {
+	cy.viewport(1920, 1080);
+	cy.visit('http://localhost:5173/');
+	cy.wait(500)
+	cy.get('#loginInput').clear('T');
+	cy.get('#loginInput').type('alan.turing');
+	cy.get('#passwordInput').clear('S');
+	cy.get('#passwordInput').type('Senhavalida!1');
+	cy.get('#btnLogin').should("be.visible");
+	cy.get('#btnLogin').click();
+	cy.get('#btnProfessor').should("be.visible");
+	cy.get('#btnProfessor').click();
+	cy.get(':nth-child(2) > .turma-buttons > .s-5xw9RGpuDz7F').click();
+	cy.get(':nth-child(3) > .atividade-info > .atividade-info-content').click();
+	cy.get('.button.s-o83GZyLGIZKf > .button').click();
+	cy.get('#inputTituloEtapa').clear('T');
+	cy.get('#inputTituloEtapa').type('Título da Etapa 3');
+	cy.get('#inputDtFimEtapa').click();
+	cy.get('#inputDtFimEtapa').type('2025-10-31T00:00');
+	cy.get('#inputTituloCriterio').clear('T');
+	cy.get('#inputTituloCriterio').type('Título do Critério 1');
+	cy.get('#inputNotaMaxCriterio').clear('8');
+	cy.get('#inputNotaMaxCriterio').type('8');
+	cy.get('#inputDescricaoCriterio').clear('D');
+	cy.get('#inputDescricaoCriterio').type('Descrição do Critério 1');
+	cy.get('.btn-add-criterio > .button').click();
+	cy.get('#inputTituloCriterio').clear('T');
+	cy.get('#inputTituloCriterio').type('Título do Critério 2');
+	cy.get('#inputNotaMaxCriterio').clear('2');
+	cy.get('#inputNotaMaxCriterio').type('2');
+	cy.get('#inputDescricaoCriterio').clear('D');
+	cy.get('#inputDescricaoCriterio').type('Descrição do Critério 2');
+	cy.get('.btn-add-criterio > .button').click();
+	cy.get('[type="submit"]').click();
+	cy.get('[data-content=""] > div').should("have.text", "Já existe uma etapa com o mesmo nome nessa atividade.")
 });
 
 it('Criação de Etapa em Atividade já existente, importando critérios', () => {
@@ -183,7 +222,7 @@ it('Criação de Etapa em Atividade já existente, importando critérios', () =>
 	cy.get(':nth-child(3) > .atividade-info > .atividade-info-content').click();
 	cy.get('.button.s-o83GZyLGIZKf > .button').click();
 	cy.get('#inputTituloEtapa').clear('T');
-	cy.get('#inputTituloEtapa').type('Título da Etapa 1');
+	cy.get('#inputTituloEtapa').type('Título da Etapa 5');
 	cy.get('#inputDtFimEtapa').click();
 	cy.get('#inputDtFimEtapa').type('2025-10-31T00:00');
 	cy.get('.criterios-container > :nth-child(2) > :nth-child(1) > .button').click();
@@ -211,7 +250,7 @@ it('Criação de Etapa com Média Ponderada', () => {
 	cy.get('.button.s-o83GZyLGIZKf > .button').click();
 	/* ==== End Cypress Studio ==== */
 	// cy.get('#media_ponderada').click();
-	cy.get(':nth-child(2) > #inputAtribuicaoNotasEtapa').click()
+	cy.get(':nth-child(2) > #inputAtribuicaoNotasEtapa').click() // quebrou aqui
 	cy.get('#btn-0').click();
 	cy.get('#inputTituloEtapa').clear('T');
 	cy.get('#inputTituloEtapa').type('Título da Etapa com Média Ponderada');
@@ -291,7 +330,7 @@ it('Criação de Etapa Em Grupos, com o professor formando os grupos', () => {
 	cy.get('#btnProfessor').should("be.visible");
 	cy.get('#btnProfessor').click();
 	cy.get(':nth-child(2) > .turma-buttons > .s-5xw9RGpuDz7F').click();
-	cy.get(':nth-child(3) > .atividade-info > .atividade-info-content').click();
+	cy.get(':nth-child(2) > .atividade-info > .atividade-info-content').click();
 	cy.get('.button.s-o83GZyLGIZKf > .button').click();
 	cy.get('#inputTituloEtapa').clear('T');
 	cy.get('#inputTituloEtapa').type('Título da Etapa em Grupos 2');
