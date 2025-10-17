@@ -44,8 +44,8 @@ export const actions = {
 
 		} catch (e) {
 			console.log(e)
-			if (e.body.already_registered) {
-				return fail("Turma já registrada", { already_registered: true })
+			if (e.includes("duplicate key")) {
+				return fail(400, { duplicated: true, e: "Você já possui uma turma com o mesmo nome" })
 			}
 		}
 		if (res.id) {
