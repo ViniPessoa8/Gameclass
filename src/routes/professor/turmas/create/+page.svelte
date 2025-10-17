@@ -4,6 +4,7 @@
 	import Select from '$lib/components/Select.svelte';
 	import SelectSearch from '$lib/components/SelectSearch.svelte';
 	import { enhance } from '$app/forms';
+	import { toast, Toaster } from 'svelte-sonner';
 
 	let { data, form = $bindable() } = $props();
 
@@ -130,6 +131,7 @@
 	}
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="form-container">
 	<h1>Criação de nova turma</h1>
 	<form
@@ -139,7 +141,12 @@
 				cancel();
 			}
 
-			return async ({ update }) => {
+			return async ({ result, update }) => {
+				if (result.type == 'failure') {
+					if (result.data.duplicated) {
+						toast.error(result.data.e);
+					}
+				}
 				await update();
 			};
 		}}

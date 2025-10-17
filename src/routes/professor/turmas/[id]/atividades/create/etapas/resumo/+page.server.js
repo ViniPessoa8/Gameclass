@@ -20,6 +20,7 @@ export async function load({ cookies }) {
 
 export let actions = {
 	default: async ({ cookies, params, request }) => {
+		info("Realizando cadastro da nova atividade e sua etapa no banco de dados")
 		let idUsuario = JSON.parse(await cookies.get("session"));
 		idUsuario = idUsuario.id
 
@@ -135,7 +136,7 @@ export let actions = {
 		// }
 
 		const url = `/professor/turmas/${params.id}/atividades/`
-		log(`atividades/create/etapas/resumo/+page.server.js redirect to ${url}`)
+		debug(`atividades/create/etapas/resumo/+page.server.js redirect to ${url}`)
 		redirect(300, url)
 	}
 }

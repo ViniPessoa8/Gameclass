@@ -7,6 +7,7 @@ import EtapaController from "../../lib/server/controllers/itemAtividade";
 import GrupoController from "../../lib/server/controllers/grupo";
 import EstudanteController from "../../lib/server/controllers/estudante";
 import EntregaController from "../../lib/server/controllers/entrega";
+import { info, log } from "$lib/utils/logger"
 
 const turmaController = new TurmaController()
 const usuarioController = new UsuarioController()
@@ -17,6 +18,7 @@ const estudanteController = new EstudanteController()
 const entregaController = new EntregaController()
 
 export async function load({ url, cookies }) {
+	info("Carregando layout do professor")
 	const session_raw = cookies.get("session");
 	const parts = url.pathname.split('/').filter(Boolean); // remove vazios
 

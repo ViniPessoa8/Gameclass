@@ -1,10 +1,12 @@
 import TurmaController from "$lib/server/controllers/turma";
 import AtividadeController from "$lib/server/controllers/atividade";
+import { info, log } from "$lib/utils/logger"
 
 const turmaController = new TurmaController()
 const atividadeController = new AtividadeController()
 
 export async function load({ cookies }) {
+	info("Carregando tela de turmas do professor")
 	const visualizacao = cookies.get('turmas_view_preference') || 'grade';
 	const message = cookies.get("toast");
 	let sessionRaw = cookies.get('session')
@@ -34,16 +36,3 @@ export async function load({ cookies }) {
 	return data
 }
 
-export const actions = {
-	create: async ({ request }) => {
-
-		const data = await request.formData();
-
-		try {
-			await turmaController.registraTurma(data.get('codigo'), data.get('disciplina'), data.get('nome'), data.get('ano'), data.get('periodo'), data.get('local'), data.get('instituicao'));
-		} catch (e) {
-			console.log("Erro [turmas/+page.server.js]: ", e)
-		}
-
-	}
-}

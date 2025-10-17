@@ -2,15 +2,18 @@ import TurmaController from '$lib/server/controllers/turma';
 import FormacaoGrupoController from '$lib/server/controllers/formacaoGrupo';
 import AtividadeController from '$lib/server/controllers/atividade';
 import { redirect } from "@sveltejs/kit";
+import { log, info, debug, error } from '$lib/utils/logger';
 
 export let actions = {
 	default: async ({ url }) => {
+		info("Finalizando definição de grupos")
 		let urlNova = `${url.pathname.split("/").slice(0, -1).join("/")}/resumo`
 		redirect(301, urlNova)
 	}
 }
 
 export async function load({ cookies, params }) {
+	info("Carregando página de definição dos grupos da atividade")
 	// const atividadeController = new AtividadeController()
 	// const idAtividade = params.idAtividade
 	// const atividade = await atividadeController.buscaPorId(idAtividade)
@@ -42,7 +45,6 @@ export async function load({ cookies, params }) {
 
 		}
 	});
-
 
 	return {
 		estudantes: alunosDaTurma,

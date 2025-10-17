@@ -1,14 +1,17 @@
 import { redirect, fail } from "@sveltejs/kit";
 import TurmaController from "$lib/server/controllers/turma";
+import { info, log } from "$lib/utils/logger"
 
 const turmaController = new TurmaController()
 
 export function load() {
-	console.log("turmas/create/server/")
+	info("Carregando tela de criação de turmas")
 }
 
 export const actions = {
 	default: async ({ request, cookies }) => {
+		info("Criando nova turma...");
+
 		let res;
 
 		const data = await request.formData();

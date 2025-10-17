@@ -144,7 +144,7 @@ export default class ItemAtividadeController {
 	}
 
 	async buscaPorId(idItemAtividade) {
-		log(`ItemAtividadeController -> buscaPorId(${id})`)
+		log(`ItemAtividadeController -> buscaPorId(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorId)";
 		}

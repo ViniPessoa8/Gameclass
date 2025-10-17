@@ -92,7 +92,7 @@ export let actions = {
 			redirect(300, `${url.pathname}/definir-grupos/`)
 
 		} else {
-			debug(`atividades/create/etapas/+page.server.js ${url.pathname}/resumo/`)
+			debug(`atividades/create/etapas/+page.server.js redirect to ${url.pathname}/resumo/`)
 			redirect(300, `${url.pathname}/resumo/`)
 
 		}

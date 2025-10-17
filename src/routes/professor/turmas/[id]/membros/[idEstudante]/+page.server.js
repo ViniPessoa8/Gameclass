@@ -1,12 +1,14 @@
 import TurmaController from "$lib/server/controllers/turma"
 import EstudanteController from "$lib/server/controllers/estudante"
 import RankingController from "$lib/server/controllers/ranking"
+import { info, log } from "$lib/utils/logger"
 
 const turmaController = new TurmaController()
 const estudanteController = new EstudanteController()
 const rankingController = new RankingController()
 
 export async function load({ params, cookies }) {
+	info(`Carregando perfil do membro ${params.idEstudante} da turma ${params.id}`)
 	const session = JSON.parse(cookies.get("session"));
 	let data = {}
 

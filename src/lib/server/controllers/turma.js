@@ -10,7 +10,7 @@ import {
 
 import Turma from "$lib/models/Turma.js";
 import InstituicaoController from "./instituicao.js";
-import { log } from "$lib/utils/logger"
+import { log, error } from "$lib/utils/logger"
 
 const instituicaoController = new InstituicaoController()
 
@@ -38,7 +38,8 @@ export default class TurmaController {
 		// Verifica duplicidade
 		const existente = await this.estaRegistrada(dadosTurma.codigo, dadosTurma.instituicao);
 		if (existente) {
-			throw new Error("Turma já registrada.");
+			error("Turma já registrada.")
+			// throw new Error("Turma já registrada.", { already_registered: true });
 		}
 
 		const turma = new Turma({

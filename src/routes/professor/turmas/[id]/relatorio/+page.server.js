@@ -4,6 +4,7 @@ import EntregaController from "$lib/server/controllers/entrega"
 import TurmaController from "$lib/server/controllers/turma"
 import CriterioController from "$lib/server/controllers/criterio"
 import Turma from "$lib/models/Turma"
+import { info, log } from "$lib/utils/logger"
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -12,6 +13,7 @@ const turmaController = new TurmaController()
 const criterioController = new CriterioController()
 
 export async function load({ params, cookies }) {
+	info(`Carregando o relatório da turma ${params.id}`)
 	let data = {}
 	const idTurma = params['id']
 
@@ -45,6 +47,7 @@ export async function load({ params, cookies }) {
 	data.estudantes = await turmaController.listaAlunos(idTurma);
 
 	// ----- CALCULA ESTATISTICAS ----- // 
+	info(`Calculando estatísticas da turma ${idTurma}`)
 
 	// Média da turma
 	//
@@ -83,7 +86,7 @@ export async function load({ params, cookies }) {
 	}
 
 	for (const [indexA, atividade] of data.atividades.entries()) {
-		console.info("\n[Calculando estatísticas] Atividade ", atividade.id)
+		info(`Calculando estatísticas da atividade ${atividade.id}`)
 
 
 		// Nota total de cada atividade

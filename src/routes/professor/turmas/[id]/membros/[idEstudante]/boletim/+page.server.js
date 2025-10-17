@@ -4,6 +4,7 @@ import AtividadeController from "$lib/server/controllers/atividade"
 import ItemAtividadeController from "$lib/server/controllers/itemAtividade"
 import AvaliacaoController from "$lib/server/controllers/avaliacao"
 import RankingController from "$lib/server/controllers/ranking"
+import { info, log } from "$lib/utils/logger"
 
 const turmaController = new TurmaController()
 const estudanteController = new EstudanteController()
@@ -12,8 +13,8 @@ const itemAtividadeController = new ItemAtividadeController()
 const avaliacaoController = new AvaliacaoController()
 const rankingController = new RankingController()
 
-
 export async function load({ params, cookies }) {
+	info(`Carregando página de boletim do estudante ${params.idEstudante} da turma ${params.id}`)
 	let data = {}
 	let idTurma = params.id
 	let idEstudante = params.idEstudante
