@@ -10,6 +10,7 @@ import {
 
 import Turma from "$lib/models/Turma.js";
 import InstituicaoController from "./instituicao.js";
+import { log } from "$lib/utils/logger"
 
 const instituicaoController = new InstituicaoController()
 
@@ -24,6 +25,7 @@ function getRandomCor() {
 
 export default class TurmaController {
 	async registra(dadosTurma) {
+		log(`TurmaController -> registra(${dadosTurma})`)
 		// Adiciona cor aleatória se não for informada
 		if (!dadosTurma.cor) {
 			dadosTurma.cor = getRandomCor();
@@ -67,12 +69,14 @@ export default class TurmaController {
 	}
 
 	async estaRegistrada(codigo, nomeInstituicao) {
+		log(`TurmaController -> estaRegistrada(${codigo}, ${nomeInstituicao})`)
 		const instituicao = await instituicaoController.buscaPorNome(nomeInstituicao);
 		const res = await isTurmaRegisteredDB(codigo, instituicao.id);
 		return res.rows.length > 0;
 	}
 
 	async buscaPorCodigo(codigo) {
+		log(`TurmaController -> buscaPorCodigo(${codigo})`)
 		const res = await listaTurmaPorIdBD(codigo);
 		if (res.rows.length > 0) {
 			return new Turma(res.rows[0]).toObject();
@@ -81,6 +85,7 @@ export default class TurmaController {
 	}
 
 	async buscaPorId(id) {
+		log(`TurmaController -> buscaPorId(${id})`)
 		const res = await listaTurmaPorIdBD(id);
 		if (res.rows.length > 0) {
 			return new Turma(res.rows[0]).toObject();
@@ -89,21 +94,25 @@ export default class TurmaController {
 	}
 
 	async listaPorProfessor(idProfessor) {
+		log(`TurmaController -> listaPorProfessor(${idProfessor})`)
 		const res = await buscaTurmasPorIdProfessorBD(idProfessor);
 		return res.rows.map(row => new Turma(row).toObject());
 	}
 
 	async listaPorEstudanteProfessor(idEstudante, idProfessor) {
+		log(`TurmaController -> listaPorEstudanteProfessor(${idEstudante}, ${idProfessor})`)
 		const res = await buscaTurmasPorIdEstudanteProfessorBD(idEstudante, idProfessor);
 		return res.rows.map(row => new Turma(row).toObject());
 	}
 
 	async listaAlunos(idTurma) {
+		log(`TurmaController -> listaAlunos(${idTurma})`)
 		const res = await listaAlunosPorTurmaIdBD(idTurma);
 		return res.rows;
 	}
 
 	async removePorCodigo(codigo) {
+		log(`TurmaController -> removePorCodigo(${codigo})`)
 		const res = await removeTurmaPorCodigoBD(codigo);
 		if (res.rows.length > 0) {
 			return new Turma(res.rows[0]).toObject();

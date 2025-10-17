@@ -7,14 +7,15 @@ import {
 	atualizaAtividadeBD,
 	arquivarAtividadeBD
 } from "../repositories/atividade.js";
-
 import ItemAtividadeController from "./itemAtividade.js";
 import Atividade from "$lib/models/Atividade.js";
+import { log, info, error, debug } from "$lib/utils/logger"
 
 const itemAtividadeController = new ItemAtividadeController()
 
 export default class AtividadeController {
 	async cadastra(atividade) {
+		log(`AtividadeController -> cadastra(${atividade})`)
 
 		const existente = await this.buscaPorTitulo(atividade.titulo, atividade.id_turma);
 		if (existente) {
@@ -32,6 +33,7 @@ export default class AtividadeController {
 	}
 
 	async atualiza(atividade) {
+		log(`AtividadeController -> atualiza(${atividade})`)
 
 		const existente = await this.buscaPorId(atividade.id);
 		if (!existente) {
@@ -49,6 +51,7 @@ export default class AtividadeController {
 	}
 
 	async remove(titulo, id_turma) {
+		log(`AtividadeController -> remove(${titulo}, ${id_turma})`)
 		const res = await buscaPorTituloBD(titulo, id_turma);
 		const atividade = res.rows[0];
 		if (!atividade) throw new Error("Atividade não encontrada");
@@ -63,6 +66,7 @@ export default class AtividadeController {
 	}
 
 	async buscaPorId(id) {
+		log(`AtividadeController -> buscaPorId(${id})`)
 		const res = await buscaPorIdBD(id);
 		if (res.rowCount === 0) {
 			return false
@@ -72,17 +76,20 @@ export default class AtividadeController {
 	}
 
 	async buscaPorTitulo(titulo, id_turma) {
+		log(`AtividadeController -> buscaPorTitulo(${titulo}, ${id_turma})`)
 		const res = await buscaPorTituloBD(titulo, id_turma);
 		if (res.rowCount === 0) return null;
 		return new Atividade(res.rows[0]);
 	}
 
 	async listaPorIdTurma(id_turma) {
+		log(`AtividadeController -> listaPorIdTurma(${id_turma})`)
 		const res = await listaPorIdTurmaBD(id_turma);
 		return res.rows.map((row) => new Atividade(row));
 	}
 
 	async arquivar(idAtividade) {
+		log(`AtividadeController -> arquivar(${idAtividade})`)
 		return await arquivarAtividadeBD(idAtividade);
 	}
 }

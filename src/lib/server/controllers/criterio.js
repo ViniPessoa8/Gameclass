@@ -1,8 +1,10 @@
 // src/lib/server/controllers/CriterioController.js
 import { cadastraCriterioBD, listaCriteriosPorIdItemAtividadeBD, listaCriteriosPorIdProfessorBD, removeCriterioPorIdItemAtividadeBD } from "../repositories/criterio.js";
+import { log, info, error, debug } from "$lib/utils/logger"
 
 export default class CriterioController {
 	async cadastra(titulo, descricao = '', notaMax, peso, idItemAtividade) {
+		log(`CriterioController -> cadastra(${titulo}, ${descricao}, ${notaMax}, ${peso}, ${idItemAtividade})`)
 		if (!titulo || !notaMax || !idItemAtividade) {
 			throw new Error("Dados obrigatórios não foram preenchidos.");
 		}
@@ -19,6 +21,7 @@ export default class CriterioController {
 	}
 
 	async removePorIdItemAtividade(idItemAtividade) {
+		log(`CriterioController -> removePorIdItemAtividade(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw new Error("Dados obrigatórios não foram preenchidos. (Critério)");
 		}
@@ -31,6 +34,7 @@ export default class CriterioController {
 	}
 
 	async listaPorIdItemAtividade(idItemAtividade) {
+		log(`CriterioController -> listaPorIdItemAtividade(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw new Error("Dados obrigatórios não foram preenchidos. (Critério)");
 		}
@@ -43,6 +47,7 @@ export default class CriterioController {
 	}
 
 	async listaPorIdProfessor(idProfessor) {
+		log(`CriterioController -> listaPorIdProfessor(${idProfessor})`)
 		if (!idProfessor) {
 			throw new Error("Informe o id do professor");
 		}

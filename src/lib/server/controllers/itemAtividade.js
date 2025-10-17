@@ -14,6 +14,7 @@ import {
 import ItemAtividade from "$lib/models/ItemAtividade.js";
 import Criterio from "$lib/models/Criterio.js";
 import CriterioController from "./criterio";
+import { log } from "$lib/utils/logger"
 
 export default class ItemAtividadeController {
 	async cadastra(
@@ -30,6 +31,8 @@ export default class ItemAtividadeController {
 		criterios,
 		status = 1
 	) {
+		log(`ItemAtividadeController -> cadastra(${titulo}, ${descricao}, ${notaMax}, ${dataEntregaInicial}, ${dataEntregaFinal}, ${tipoAtribuicaoNota}, ${tipoAvaliacaoNota}, ${emGrupos}, ${receberAposPrazo}, ${idAtividadePai}, ${criterios}, ${status})`)
+
 		const criterioController = new CriterioController();
 		const camposFaltando = [];
 
@@ -106,6 +109,7 @@ export default class ItemAtividadeController {
 			data_entrega_inicial,
 			data_entrega_final }
 	) {
+		log(`ItemAtividadeController -> altera(${id}, ${titulo}, ${descricao}, ${data_entrega_inicial}, ${data_entrega_final})`)
 		const camposFaltando = [];
 
 		if (!id) {
@@ -140,6 +144,7 @@ export default class ItemAtividadeController {
 	}
 
 	async buscaPorId(idItemAtividade) {
+		log(`ItemAtividadeController -> buscaPorId(${id})`)
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorId)";
 		}
@@ -155,6 +160,7 @@ export default class ItemAtividadeController {
 	}
 
 	async buscaPorTitulo(titulo, idAtividadePai) {
+		log(`ItemAtividadeController -> buscaPorTitulo(${titulo}, ${idAtividadePai})`)
 		if (!titulo || !idAtividadePai) {
 			throw "Dados obrigatórios não foram preenchidos. (buscarItemAtividadePorTitulo)";
 		}
@@ -168,6 +174,7 @@ export default class ItemAtividadeController {
 	}
 
 	async listaPorIdAtividade(idAtividadePai) {
+		log(`ItemAtividadeController -> listaPorIdAtividade(${idAtividadePai})`)
 		if (!idAtividadePai) {
 			throw "Dados obrigatórios não foram preenchidos. (listaItensDaAtividadePorId)";
 		}
@@ -184,6 +191,7 @@ export default class ItemAtividadeController {
 	}
 
 	async removePorId(idItemAtividade) {
+		log(`ItemAtividadeController -> removePorId(${idItemAtividade})`)
 		const criterioController = new CriterioController();
 
 		if (!idItemAtividade) {
@@ -199,6 +207,7 @@ export default class ItemAtividadeController {
 	}
 
 	async calculaStatus(itemAtividade) {
+		log(`ItemAtividadeController -> calculaStatus(${itemAtividade})`)
 		const now = new Date();
 		let status;
 		let possuiAvaliacoesPendentes = await this.possuiAvaliacoesPendentes(itemAtividade.id)
@@ -223,6 +232,7 @@ export default class ItemAtividadeController {
 	}
 
 	async listaCriteriosPorId(idItemAtividade) {
+		log(`ItemAtividadeController -> listaCriteriosPorId(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (listaCriteriosPorIdItemAtividade)";
 		}
@@ -232,6 +242,7 @@ export default class ItemAtividadeController {
 	}
 
 	async listaNotasDeCriteriosPorId(idItemAtividade) {
+		log(`ItemAtividadeController -> listaNotasDeCriteriosPorId(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (listaNotasDeCriteriosPorIdItemAtividade)";
 		}
@@ -240,6 +251,7 @@ export default class ItemAtividadeController {
 	}
 
 	async possuiAvaliacoesPendentes(idItemAtividade) {
+		log(`ItemAtividadeController -> possuiAvaliacoesPendentes(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (possuiAvaliacoesPendentes)";
 		}
@@ -249,6 +261,7 @@ export default class ItemAtividadeController {
 	}
 
 	async arquivar(idItemAtividade) {
+		log(`ItemAtividadeController -> arquivar(${idItemAtividade})`)
 		if (!idItemAtividade) {
 			throw "Dados obrigatórios não foram preenchidos. (possuiAvaliacoesPendentes)";
 		}

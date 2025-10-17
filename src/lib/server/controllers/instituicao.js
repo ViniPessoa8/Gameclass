@@ -1,8 +1,11 @@
 import { listaInstituicoesBD, buscaPorNomeBD, buscaPorIdBD } from "$repositories/instituicao"
 import Instituicao from "../../models/Instituicao";
+import { log } from "$lib/utils/logger"
 
 export default class InstituicaoController {
 	async lista() {
+		log("InstituicaoController -> lista()")
+
 		let res = await listaInstituicoesBD();
 
 		if (res.rows.length > 0) {
@@ -19,6 +22,8 @@ export default class InstituicaoController {
 	}
 
 	async buscaPorNome(nome) {
+		log(`InstituicaoController -> buscaPorNome(${nome})`)
+
 		let res = await buscaPorNomeBD(nome);
 		if (res.rows.length > 0) {
 			return new Instituicao({ ...res.rows[0] })
@@ -28,6 +33,8 @@ export default class InstituicaoController {
 	}
 
 	async buscaPorId(id) {
+		log(`InstituicaoController -> buscaPorId(${id})`)
+
 		let res = await buscaPorIdBD(id);
 		if (res.rows.length > 0) {
 			return new Instituicao({ ...res.rows[0] })

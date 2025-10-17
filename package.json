@@ -34,6 +34,7 @@
 		"@ionited/mask-svelte": "^0.5.0",
 		"@svelte-plugins/tooltips": "^3.0.3",
 		"bcryptjs": "^3.0.2",
+		"chalk": "^5.6.2",
 		"cypress": "^14.4.0",
 		"dotenv": "^16.5.0",
 		"dtrace-provider": "^0.8.8",

@@ -9,17 +9,21 @@ import {
 
 import Avaliacao from "$lib/models/Avaliacao.js";
 import AvaliacaoCriterio from "../../models/AvaliacaoCriterio.js";
+import { log, info, error, debug } from "$lib/utils/logger"
 
 export default class AvaliacaoController {
 	async avalia(avaliacao) {
+		log(`AvaliacaoController -> avalia(${avaliacao})`)
 		return await avaliaEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados);
 	}
 
 	async alteraAvaliacao(avaliacao, idIntegrante) {
+		log(`AvaliacaoController -> alteraAvaliacao(${avaliacao}, ${idIntegrante})`)
 		return await alteraAvaliacaoEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados, idIntegrante);
 	}
 
 	async buscaPorIdEntrega(idEntrega) {
+		log(`AvaliacaoController -> buscaPorIdEntrega(${idEntrega})`)
 		const rows = await buscaAvaliacaoEntregaBD(idEntrega);
 		if (!rows.length) return null;
 
@@ -45,14 +49,17 @@ export default class AvaliacaoController {
 	}
 
 	async avaliaIntegranteGrupo(idEntrega, idEstudante, criteriosAvaliados) {
+		log(`AvaliacaoController -> avaliaIntegranteGrupo(${idEntrega}, ${idEstudante}, ${criteriosAvaliados})`)
 		return await avaliaIntegranteGrupoBD(idEntrega, idEstudante, criteriosAvaliados);
 	}
 
 	async buscaAvaliacaoIntegrantes(idEntrega) {
+		log(`AvaliacaoController -> buscaAvaliacaoIntegrantes(${idEntrega})`)
 		return await buscaAvaliacaoIntegrantesBD(idEntrega);
 	}
 
 	async buscaPorEstudanteItemAtividade(idEstudante, idItemAtividade) {
+		log(`AvaliacaoController -> buscaPorEstudanteItemAtividade(${idEstudante}, ${idItemAtividade})`)
 		return await buscaPorEstudanteItemAtividadeBD(idEstudante, idItemAtividade);
 	}
 }

@@ -1,4 +1,5 @@
 import { format } from "prettier";
+import chalk from 'chalk'
 
 // $lib/utils/logger.js
 function formatMessage(prefix, ...args) {
@@ -12,26 +13,26 @@ function formatMessage(prefix, ...args) {
 }
 
 export function log(...args) {
-	const prefix = '[LOG]';
+	const prefix = chalk.blue('[LOG]');
 	console.log(...formatMessage(prefix, ...args));
 }
 
 export function info(...args) {
-	const prefix = '[INFO]';
+	const prefix = chalk.green('[INFO]');
 	console.info(...formatMessage(prefix, ...args));
 }
 
 export function warn(...args) {
-	const prefix = '[WARN]';
+	const prefix = chalk.bgYellow('[WARN]');
 	console.warn(...formatMessage(prefix, ...args));
 }
 
 export function error(...args) {
-	const prefix = '[ERROR]';
+	const prefix = chalk.bgRed('[ERROR]');
 	console.error(...formatMessage(prefix, ...args));
 }
 
 export function debug(...args) {
-	const prefix = '[DEBUG]';
+	const prefix = chalk.yellow('[DEBUG]');
 	console.debug(...formatMessage(prefix, ...args));
 }

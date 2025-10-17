@@ -2,11 +2,13 @@ import bcrypt from "bcryptjs"
 import { buscaPorLoginBD, buscaPorEmailBD, removePorLoginBD, registraUsuarioBD, loginBD } from "../repositories/usuario";
 import InstituicaoController from "./instituicao";
 import { Usuario } from "../../models/Usuario";
+import { log } from "$lib/utils/logger"
 
 const instituicaoController = new InstituicaoController()
 
 export default class UsuarioController {
 	async registra(nome, login, password, dtNasc, bio, email, cor) {
+		log(`UsuarioController -> registra(${nome}, ${login}, ***********, ${dtNasc}, ${bio}, ${email}, ${cor})`)
 		if (!nome || !login || !password || !dtNasc || !email) {
 			throw ("Dados obrigatórios não foram preenchidos.")
 		}
@@ -36,6 +38,7 @@ export default class UsuarioController {
 	}
 
 	async login(login, password) {
+		log(`UsuarioController -> login(${login}, **********)`)
 		if (!login || !password) {
 			throw ("Preencha o login e a senha")
 		}
@@ -53,16 +56,19 @@ export default class UsuarioController {
 	}
 
 	async removerPorLogin(login) {
+		log(`UsuarioController -> removerPorLogin(${login})`)
 		await removePorLoginBD(login);
 	}
 
 	async buscaPorLogin(login) {
+		log(`UsuarioController -> buscaPorLogin(${login})`)
 		const res = await buscaPorLoginBD(login);
 
 		return res ? new Usuario({ ...res }) : res
 	}
 
 	async buscaPorEmail(email) {
+		log(`UsuarioController -> buscaPorEmail(${email})`)
 		const res = await buscaPorEmailBD(email);
 
 		return res ? new Usuario({ ...res }) : res
