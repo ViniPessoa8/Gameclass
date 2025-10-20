@@ -25,18 +25,12 @@
 
 	let atividade = data.atividade;
 
-	let novoCriterioTitulo = $state('');
-	let novoCriterioNota = $state('');
-	let novoCriterioDescricao = $state('');
-	let novoCriterioPeso = $state('');
-	let oldCriterioNota = $state('');
-	let oldCriterioPeso = $state('');
-	let erroNotaCriterio = $state(false);
 	let etapasData = $state([]);
 	let carregando = $state(true);
 	// let tags = [];
 	// let tagsAutocomplete = [];
 	// let tagsColors = {};
+	let oldValues = {}; // Objeto para guardar valores antigos para validação
 
 	let realizacaoOpcoes = $state();
 	let atribuicaoOpcoes = $state();
@@ -53,31 +47,24 @@
 	let toastMessage = $state({ type: null, text: null });
 
 	$effect.pre(() => {
-		// O `form` é indefinido no carregamento inicial, então verificamos sua existência.
 		if (!form) return;
 
-		// Se o `form` tiver um erro, colocamos uma mensagem de erro na fila.
 		if (form.erro) {
 			toastMessage = { type: 'error', text: form.erro };
-		}
-		// Se tivesse uma mensagem de sucesso, faríamos o mesmo.
-		else if (form.success) {
+		} else if (form.success) {
 			toastMessage = { type: 'success', text: 'Atividade adicionada com sucesso!' };
 		}
 	});
 
 	$effect(() => {
-		// Se não houver texto na mensagem, não faça nada.
 		if (!toastMessage.text) return;
 
-		// Mostra o toast com base no tipo e no texto da mensagem.
 		if (toastMessage.type === 'error') {
 			toast.error(toastMessage.text);
 		} else if (toastMessage.type === 'success') {
 			toast.success(toastMessage.text);
 		}
 
-		// Imediatamente após mostrar o toast, limpe a fila.
 		toastMessage = { type: null, text: null };
 	});
 
@@ -95,6 +82,17 @@
 	}
 
 	function onSubmit(formData) {
+		// Valida o total de pontos antes de submeter
+		const totalPontos = etapasData[$selectedEtapa]?.criterios
+			.map((criterio) => parseFloat(criterio.pontuacao_max) || 0)
+			.reduce((acc, item) => acc + item, 0);
+
+		if (totalPontos > LIMITE_DE_PONTOS_DA_ETAPA) {
+			throw new Error(
+				`A soma dos pontos dos critérios ultrapassa o limite de ${LIMITE_DE_PONTOS_DA_ETAPA}.`
+			);
+		}
+
 		if (validaFormulario()) {
 			formData.set('etapas', JSON.stringify(etapasData));
 			$etapas = etapasData;
@@ -118,6 +116,16 @@
 
 		let criterios = etapasData[$selectedEtapa]?.criterios;
 		if (criterios.length === 0) throw new Error('Etapa sem critérios definidos.');
+
+		// Valida se algum critério está sem preenchimento
+		for (const criterio of criterios) {
+			if (!criterio.titulo || !criterio.pontuacao_max) {
+				throw new Error('Existem critérios com título ou nota não preenchidos.');
+			}
+			if (etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada' && !criterio.peso) {
+				throw new Error('Existem critérios com peso não preenchido no modo de Média Ponderada.');
+			}
+		}
 
 		let notaMax = etapasData[$selectedEtapa]?.criterios
 			.map((criterio) => parseFloat(criterio.pontuacao_max))
@@ -153,71 +161,14 @@
 	}
 
 	function onAdicionaCriterio() {
-		if (
-			!novoCriterioTitulo ||
-			!novoCriterioNota ||
-			(etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada' && !novoCriterioPeso)
-		) {
-			console.error('Definir critério: Dados incompletos');
-			const textErro =
-				etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'
-					? '*Digite o título, a nota e o peso'
-					: '*Digite o título e a nota';
-			erroNotaCriterio = [true, textErro];
-			return;
-		}
-
-		if (Number(novoCriterioNota) === novoCriterioNota && Number(novoCriterioNota) <= 10.0) {
-			console.error('Definir critério: Nota no formato inválido');
-			erroNotaCriterio = [true, `*Formato inválido`];
-			return;
-		}
-
-		if (Number(novoCriterioPeso) === novoCriterioNota && Number(novoCriterioNota) <= 10.0) {
-			console.error('Definir critério: Nota no formato inválido');
-			erroNotaCriterio = [true, `*Formato inválido`];
-			return;
-		}
-
-		let novoCriterio = {
-			titulo: novoCriterioTitulo,
-			descricao: novoCriterioDescricao,
-			pontuacao_max: novoCriterioNota,
-			peso: novoCriterioPeso
+		const novoCriterio = {
+			titulo: '',
+			descricao: '',
+			pontuacao_max: '',
+			peso: ''
 		};
 
-		let totalPontos;
-		if (etapasData[$selectedEtapa]?.criterios.length !== 0) {
-			totalPontos = etapasData[$selectedEtapa]?.criterios
-				.map((elem) => elem.pontuacao_max)
-				.reduce((i, acc) => acc + i);
-		} else {
-			totalPontos = 0;
-		}
-
-		if (totalPontos + novoCriterioNota > LIMITE_DE_PONTOS_DA_ETAPA) {
-			erroNotaCriterio = [
-				true,
-				`*Critério ultrapassa limite de ${LIMITE_DE_PONTOS_DA_ETAPA} pontos`
-			];
-			return;
-		} else {
-			erroNotaCriterio = [false, ''];
-		}
-
-		if (etapasData[$selectedEtapa].criterios.length !== 0) {
-			etapasData[$selectedEtapa].criterios = [
-				...etapasData[$selectedEtapa].criterios,
-				novoCriterio
-			];
-		} else {
-			etapasData[$selectedEtapa].criterios = [novoCriterio];
-		}
-
-		novoCriterioTitulo = '';
-		novoCriterioNota = '';
-		novoCriterioDescricao = '';
-		novoCriterioPeso = '';
+		etapasData[$selectedEtapa].criterios = [...etapasData[$selectedEtapa].criterios, novoCriterio];
 	}
 
 	function onRemoveCriterio(criterio) {
@@ -235,23 +186,6 @@
 	function isValidDate(dateStr) {
 		return !isNaN(new Date(dateStr));
 	}
-
-	// function onChangeCriterioNota() {
-	// 	// Máscara de input (0.0 [max: 10.0])
-	// 	novoCriterioNota = String(novoCriterioNota)
-	// 		.replace(/(?<=^[0-9]{1})[0-9]$/g, '.$&')
-	// 		.replace(/(?<=^[0-9])(\.)([0-9])([0-9])$/g, '$2$1$3')
-	// 		.replace(/(?<=^[0-9]{2})\.$/g, '')
-	// 		.replace(/(?<=^[0-9])\.$/g, '')
-	// 		.replace(/(?<=^[0-9]{1,2}\.0{1})0*$/g, '')
-	// 		.replace(/^(1)(0)$/g, '$1.$2')
-	// 		.replace(/[^\d.]/g, ''); // Remove tudo que não for número
-	//
-	// 	if (parseFloat(novoCriterioNota) > 10.0) {
-	// 		novoCriterioNota = oldCriterioNota;
-	// 	} else {
-	// 		oldCriterioNota = novoCriterioNota;
-	// 	}
 
 	function formatarNota(valor) {
 		let digitsOnly = String(valor).replace(/\D/g, '');
@@ -275,25 +209,34 @@
 		return formattedValue;
 	}
 
-	function onChangeCriterioNota() {
-		novoCriterioNota = formatarNota(novoCriterioNota);
+	function onNotaFocus(value, index) {
+		oldValues[`nota_${index}`] = value;
+	}
 
-		if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
-			novoCriterioNota = oldCriterioNota;
+	function onChangeCriterioNota(index) {
+		let criterio = etapasData[$selectedEtapa].criterios[index];
+		criterio.pontuacao_max = formatarNota(criterio.pontuacao_max);
+
+		if (parseFloat(criterio.pontuacao_max) > 10.0) {
+			criterio.pontuacao_max = oldValues[`nota_${index}`];
 		} else {
-			oldCriterioNota = novoCriterioNota;
+			oldValues[`nota_${index}`] = criterio.pontuacao_max;
 		}
 	}
 
-	function onChangeCriterioPeso() {
-		novoCriterioPeso = String(novoCriterioPeso)
-			.replace(/\D/g, '') // remove tudo que não for dígito
-			.replace(/^0+/, ''); // remove zeros à esquerda
+	function onPesoFocus(value, index) {
+		oldValues[`peso_${index}`] = value;
+	}
 
-		if (parseFloat(novoCriterioPeso) > 10) {
-			novoCriterioPeso = 10;
+	function onChangeCriterioPeso(index) {
+		let criterio = etapasData[$selectedEtapa].criterios[index];
+		let val = String(criterio.peso).replace(/\D/g, '').replace(/^0+/, '');
+
+		if (parseFloat(val) > 10) {
+			criterio.peso = oldValues[`peso_${index}`];
 		} else {
-			oldCriterioPeso = novoCriterioPeso;
+			criterio.peso = val;
+			oldValues[`peso_${index}`] = val;
 		}
 	}
 
@@ -313,7 +256,10 @@
 	}
 
 	function confirmaModalAtribuicaoDeNotas() {
-		etapasData[$selectedEtapa].criterios = [];
+		etapasData[$selectedEtapa].criterios = [
+			// Mantém um critério em branco ao limpar
+			{ titulo: '', descricao: '', pontuacao_max: '', peso: '' }
+		];
 		showModalAtribuicaoNotas = false;
 		etapasData[$selectedEtapa].atribuicaoNotasGroup = proximoValor;
 	}
@@ -330,30 +276,22 @@
 		showModalAtribuicaoNotas = true;
 	}
 
-	// function onTagAdicionada(tag, index) {
-	// 	tagsColors[tag] = 'black';
-	// }
-	//
-	// function onTagRemovida() {
-	// 	// remove a cor correspondente no dicionario de cores
-	// 	let tagsColorsKeys = Object.keys(tagsColors);
-	// 	tagsColorsKeys.forEach((tagKey) => {
-	// 		if (!tags.includes(tagKey)) {
-	// 			delete tagsColors[tagKey];
-	// 		}
-	// 	});
-	// }
-
-	// Função que será chamada quando o evento 'import' for disparado pelo modal
 	function handleCriteriosImportados(event) {
 		const novosCriterios = event.detail;
 
-		// Evita adicionar critérios duplicados
+		// Remove o critério inicial em branco se ele ainda estiver vazio
+		if (
+			etapasData[$selectedEtapa].criterios.length === 1 &&
+			!etapasData[$selectedEtapa].criterios[0].titulo &&
+			!etapasData[$selectedEtapa].criterios[0].pontuacao_max
+		) {
+			etapasData[$selectedEtapa].criterios = [];
+		}
+
 		const criteriosNaoDuplicados = novosCriterios.filter(
 			(novo) => !etapasData[$selectedEtapa]?.criterios.some((atual) => atual.id === novo.id)
 		);
 
-		// Adiciona os novos critérios à lista atual
 		etapasData[$selectedEtapa].criterios = [
 			...etapasData[$selectedEtapa].criterios,
 			...criteriosNaoDuplicados
@@ -374,14 +312,14 @@
 	function handleConfirm() {
 		showModalCancelarAtividade = false;
 		if (resolvePromise) {
-			resolvePromise(true); // Confirma a navegação
+			resolvePromise(true);
 		}
 	}
 
 	function handleCancel() {
 		showModalCancelarAtividade = false;
 		if (resolvePromise) {
-			resolvePromise(false); // Cancela a navegação
+			resolvePromise(false);
 		}
 	}
 
@@ -441,7 +379,8 @@
 						tipoAvaliacaoNotasGroup: 'Individual',
 						formacao: 'Alunos criam seus grupos',
 						receberAposPrazo: true,
-						criterios: [],
+						// *** ALTERAÇÃO AQUI: Inicia com um critério em branco ***
+						criterios: [{ titulo: '', descricao: '', pontuacao_max: '', peso: '' }],
 						formacoes: [
 							{
 								nGrupos: null,
@@ -454,7 +393,7 @@
 			carregando = false;
 		});
 
-		return unsubscribe; // limpa quando sair da página
+		return unsubscribe;
 	});
 </script>
 
@@ -465,12 +404,12 @@
 	buttons={[
 		{
 			label: 'Sim, Cancelar',
-			onClick: handleConfirm, // Chama a função que resolve a Promise com 'true'
+			onClick: handleConfirm,
 			color: 'green'
 		},
 		{
 			label: 'Não, Continuar',
-			onClick: handleCancel, // Chama a função que resolve a Promise com 'false'
+			onClick: handleCancel,
 			color: 'red'
 		}
 	]}
@@ -507,7 +446,6 @@
 		<p>Criar Atividade > <b><u>Definir Etapa / Critérios</u></b></p>
 	</div>
 	<div class="page-container">
-		<!-- <EtapasBarraLateral bind:etapas={etapasData} bind:selectedEtapa={$selectedEtapa} /> -->
 		<div class="content-container">
 			<h1>Calculados</h1>
 			<h2>Definição das etapas da atividade</h2>
@@ -569,7 +507,6 @@
 							</div>
 							<div class="row">
 								<h2>Data máxima de entrega:</h2>
-								<!-- TODO: Adicionar limite maximo sendo a data de entrega da atividade pai -->
 								<InputDatetime
 									id="inputDtFimEtapa"
 									borded
@@ -698,135 +635,98 @@
 									</div>
 								</div>
 							{/if}
-							<!-- Tags -->
-							<!-- <div class="row"> -->
-							<!-- 	<h3>Tags:</h3> -->
-							<!-- 	<!-- TODO Make Tag style editable (https://svelte-tags-input.vercel.app/#:~:text=How%20to%20override%20default%20styles%3F) -->
-							<!-- -->
-							<!-- 	<!-- TODO Generate random colors -->
-							<!-- 	<Tags -->
-							<!-- 		bind:tags -->
-							<!-- 		maxTags={5} -->
-							<!-- 		onlyUnique={true} -->
-							<!-- 		onTagAdded={onTagAdicionada} -->
-							<!-- 		onTagRemoved={onTagRemovida} -->
-							<!-- 	/> -->
-							<!-- </div> -->
 						</div>
 						<div class="criterios-container">
 							<h1>Critérios</h1>
 							<div class="column">
-								<!-- TODO: Limitar input de dados com mascaras  -->
 								<div class="row">
 									<Button type="button" on:click={() => (isModalOpen = true)}>
 										Copiar critérios de outra etapa</Button
 									>
 								</div>
-								<div class="column">
-									<div class="row">
-										<InputText
-											id="inputTituloCriterio"
-											borded
-											name="tituloCriterio"
-											placeholder="Título"
-											bind:value={novoCriterioTitulo}
-										/>
-										<InputNumber
-											id="inputNotaMaxCriterio"
-											borded
-											name="notaMaxCriterio"
-											width="150px"
-											placeholder="Nota max."
-											oninput={onChangeCriterioNota}
-											bind:value={novoCriterioNota}
-										/>
-										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
+								{#each etapasData[$selectedEtapa]?.criterios as criterio, index (index)}
+									<div class="column">
+										<div class="row">
 											<InputText
-												id="inputPesoCriterio"
+												id="inputTituloCriterio-{index}"
 												borded
-												name="pesoCriterio"
-												width="150px"
-												placeholder="Peso"
-												inputHandler={onChangeCriterioPeso}
-												bind:value={novoCriterioPeso}
+												name="tituloCriterio"
+												placeholder="Título"
+												bind:value={criterio.titulo}
 											/>
-										{/if}
-									</div>
-									<div class="row">
-										<InputText
-											id="inputDescricaoCriterio"
-											borded
-											name="descricaoCriterio"
-											placeholder="Descrição"
-											bind:value={novoCriterioDescricao}
-										/>
-									</div>
-									<div class="btn-add-criterio">
-										<Button
-											borded
-											color="var(--cor primaria)"
-											backgroundColor="var(--cor-secundaria)"
-											type="button"
-											on:click={onAdicionaCriterio}>Adicionar Critério</Button
-										>
-									</div>
-								</div>
-								{#if erroNotaCriterio[0]}
-									<p class="erro-criterio">{erroNotaCriterio[1]}</p>
-								{:else}
-									<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
-								{/if}
-							</div>
-							<div class="criterios-definidos">
-								<hr />
-								{#each etapasData[$selectedEtapa]?.criterios as criterio (criterio.titulo)}
-									<div class="criterio-container">
-										<div class="titulo-criterio">
-											<h2>{criterio.titulo}</h2>
-											<IconeInformacao text={criterio.descricao} />
+											<InputNumber
+												id="inputNotaMaxCriterio-{index}"
+												borded
+												name="notaMaxCriterio"
+												width="150px"
+												placeholder="Nota max."
+												bind:value={criterio.pontuacao_max}
+												on:focus={() => onNotaFocus(criterio.pontuacao_max, index)}
+												on:input={() => onChangeCriterioNota(index)}
+											/>
+											{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
+												<InputNumber
+													id="inputPesoCriterio-{index}"
+													borded
+													name="pesoCriterio"
+													width="150px"
+													placeholder="Peso"
+													bind:value={criterio.peso}
+													on:focus={() => onPesoFocus(criterio.peso, index)}
+													on:input={() => onChangeCriterioPeso(index)}
+												/>
+											{/if}
+											{#if index > 0}
+												<Button
+													color="var(--cor primaria)"
+													type="button"
+													on:click={() => onRemoveCriterio(criterio)}>X</Button
+												>
+											{/if}
 										</div>
-										<h2>{parseFloat(criterio.pontuacao_max).toFixed(1)}</h2>
-										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
-											<h2>{parseFloat(criterio.peso).toFixed(1)}</h2>
-										{/if}
-										<Button
-											color="var(--cor primaria)"
-											type="button"
-											on:click={() => {
-												onRemoveCriterio(criterio);
-											}}>X</Button
-										>
+										<div class="row">
+											<InputText
+												id="inputDescricaoCriterio-{index}"
+												borded
+												name="descricaoCriterio"
+												placeholder="Descrição"
+												bind:value={criterio.descricao}
+											/>
+										</div>
 									</div>
 									<hr />
 								{/each}
+								<div class="btn-add-criterio">
+									<Button
+										borded
+										color="var(--cor primaria)"
+										backgroundColor="var(--cor-secundaria)"
+										type="button"
+										on:click={onAdicionaCriterio}>Adicionar Critério</Button
+									>
+								</div>
+							</div>
+							<div class="criterios-definidos">
 								<div class="pontuacao">
 									<div class="total-de-pontos">
 										<h2>Total de pontos:&emsp;</h2>
 										<h2>
-											{#if etapasData[$selectedEtapa]?.criterios.length === 0}
-												0.0
-											{:else}
-												{parseFloat(
-													etapasData[$selectedEtapa]?.criterios
-														.map((x) => parseFloat(x.pontuacao_max))
-														.reduce((a, b) => a + b)
-												).toFixed(1)}
-											{/if}
+											{parseFloat(
+												etapasData[$selectedEtapa]?.criterios
+													.map((x) => parseFloat(x.pontuacao_max) || 0)
+													.reduce((a, b) => a + b, 0)
+											).toFixed(1)}
 										</h2>
 									</div>
 									{#if etapasData[$selectedEtapa].atribuicaoNotasGroup === 'Média Ponderada'}
 										<div class="total-de-pesos">
 											<h2>Total de pesos:&emsp;</h2>
 											<h2>
-												{#if etapasData[$selectedEtapa]?.criterios.length === 0}
-													0.0
-												{:else}
-													{parseFloat(
-														etapasData[$selectedEtapa]?.criterios
-															.map((x) => parseFloat(x.peso))
-															.reduce((a, b) => a + b)
-													).toFixed(1)}
-												{/if}
+												{parseFloat(
+													etapasData[$selectedEtapa]?.criterios
+														.map((x) => parseFloat(x.peso) || 0)
+														.reduce((a, b) => a + b, 0)
+												).toFixed(1)}
 											</h2>
 										</div>
 									{/if}
@@ -877,10 +777,6 @@
 	.column {
 		display: flex;
 		flex-direction: column;
-		/* align-items: center; */
-		/* justify-content: center; */
-		/* gap: 20px; */
-		/* margin-top: 20px; */
 	}
 
 	.info-container {
@@ -905,7 +801,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 60px;
+		gap: 20px; /* Reduzido o gap para acomodar melhor os itens */
 		padding-left: 24px;
 		border-left: 1px solid black;
 	}
@@ -946,6 +842,7 @@
 	.pontuacao {
 		display: flex;
 		flex-direction: column;
+		margin-top: 20px; /* Adicionado espaço acima da pontuação */
 	}
 
 	.total-de-pontos,
