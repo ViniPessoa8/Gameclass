@@ -340,7 +340,7 @@
 		<!-- TODO: Adicionar titulo 'Data de nascimento' -->
 		<div style="display:flex; flex-direction: column;">
 			<span style:color="var(--cor-secundaria)">Data de nascimento:</span>
-			<InputDatetime
+			<InputDate
 				id="inputDtInicioEtapa"
 				borded
 				bind:value={dtNasc}

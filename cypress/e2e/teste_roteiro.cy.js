@@ -17,7 +17,7 @@ it('Cadastro', () => {
 	cy.get('.card-container > :nth-child(5)').click();
 	cy.get(':nth-child(5) > .input').clear('S');
 	cy.get(':nth-child(5) > .input').type('Senhavalida!1');
-	cy.get('#inputDtInicioEtapa').type("2025-10-08T16:37");
+	cy.get('#inputDtInicioEtapa').type("2025-10-08");
 	cy.get('.container > .s-gl8iGQs72fud').click();
 	cy.get('.button').click();
 	cy.get('#loginInput').clear('T');

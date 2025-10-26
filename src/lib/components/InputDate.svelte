@@ -16,7 +16,8 @@
 		inputHandler,
 		name = '',
 		borded = false,
-		disabled = false
+		disabled = false,
+		...rest
 	} = $props();
 </script>
 
@@ -30,6 +31,7 @@
 			bind:value
 			onchange={inputHandler}
 			{name}
+			{...rest}
 		/>
 	</div>
 {:else}
@@ -41,6 +43,7 @@
 		bind:value
 		onchange={inputHandler}
 		{name}
+		{...rest}
 	/>
 {/if}
 
