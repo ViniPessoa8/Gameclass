@@ -93,14 +93,15 @@ export async function load({ params, cookies }) {
 		const somaNotas = atividade.itensAtividade
 			.flatMap((itemAtividade) => itemAtividade.criterios)
 			.flatMap((criterio) => criterio.pontuacao_max)
-			.reduce((total, n) => total + (n.pontuacao_max ?? 0), 0); // inicia em 0
-		data.atividades[indexA].notaMax = parseFloat(somaNotas).toFixed(1)
+		let resultado = Math.max(...somaNotas)
+		// .reduce((total, n) => total + n.pontuacao_max, 0); // inicia em 0
+		data.atividades[indexA].notaMax = parseFloat(resultado).toFixed(1)
 
 		// Soma de notas obtidas de cada atividade
 		const somaNotasObtidas = atividade.itensAtividade
 			.flatMap((itemAtividade) => itemAtividade.entregas)
 			.flatMap((entrega) => entrega.notas)
-			.reduce((total, n) => total + (n.nota_atribuida ?? 0), 0); // inicia em 0
+			.reduce((total, n) => total + (n.nota_atribuida), 0); // inicia em 0
 		data.atividades[indexA].somaNotasObtidas = parseFloat(somaNotasObtidas).toFixed(1)
 
 		const notas = atividade.itensAtividade
@@ -150,8 +151,12 @@ export async function load({ params, cookies }) {
 			// Nota total de cada atividade
 			const somaNotas = itemAtividade.entregas
 				.flatMap((entrega) => entrega.notas)
-				.reduce((total, n) => total + (n.pontuacao_max ?? 0), 0); // inicia em 0
-			data.atividades[indexA].itensAtividade[indexIA].notaMax = parseFloat(somaNotas)
+				.flatMap((nota) => nota.pontuacao_max)
+			console.debug("somaNotas => ", somaNotas)
+			console.debug("math max => ", Math.max(somaNotas))
+			console.debug("parse math max => ", parseFloat(Math.max(somaNotas)))
+			// .reduce((total, n) => total + (n.pontuacao_max), 0); // inicia em 0
+			data.atividades[indexA].itensAtividade[indexIA].notaMax = somaNotas.length > 0 ? parseFloat(Math.max(...somaNotas)).toFixed(1) : "-"
 
 			const somaNotasObtidas = itemAtividade.entregas
 				.flatMap((entrega) => entrega.notas)
