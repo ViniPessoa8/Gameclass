@@ -139,7 +139,8 @@
 				<div class="resposta-header">
 					<p><b>Resposta</b></p>
 					<p class="status-resposta" style="color:{data.entrega.corStatus}">
-						({data.entrega.status})
+						({data.entrega.status}:
+						<b style:color="white">{data.entrega.nota_avaliacao.toFixed(1)}</b>)
 					</p>
 				</div>
 				{#if data.entrega.anexos && data.entrega.anexos.length != 0}
