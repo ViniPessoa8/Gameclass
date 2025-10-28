@@ -21,6 +21,15 @@
 	const prazoFinalStr = new Atividade(atividade).formataPrazo();
 	const segments = [];
 
+	let btnTitle;
+	if (atividade.itens_atividade.length >= maxEtapas) {
+		btnTitle = `Número máximo de etapas atingido (${maxEtapas})`;
+	} else if (atividade.prazo < Date.now()) {
+		btnTitle = `Prazo da atividade já passou`;
+	} else {
+		btnTitle = `Adicionar Etapa`;
+	}
+
 	const total_etapas_concluidas = atividade.itens_atividade.filter(
 		(i) => i.data_entrega_final <= Date.now() && i.avaliacoesPendentes == 0
 	).length;
@@ -205,7 +214,8 @@
 					color="white"
 					backgroundColor="var(--cor-primaria)"
 					marginTop="24px"
-					disabled={atividade.itens_atividade.length >= maxEtapas}
+					disabled={atividade.itens_atividade.length >= maxEtapas || atividade.prazo < Date.now()}
+					title={btnTitle}
 					fontSize="16px">+ Adicionar Etapa</Button
 				>
 			</div>
