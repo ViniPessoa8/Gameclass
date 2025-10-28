@@ -23,15 +23,12 @@
 		color: #fff;
 		text-align: center;
 		margin: auto;
-		max-width: 80rem;
 		min-width: 50rem;
 	}
 
 	.col {
 		display: flex;
 		flex-direction: column;
-		flex: 1;
-		align-items: center;
 		position: relative;
 		padding: 12px;
 	}
