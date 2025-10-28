@@ -84,7 +84,7 @@
 		<div class="titulo-etapa-col">
 			<h3>{titulo}</h3>
 			<h5>
-				Avaliação: <b>{itemAtividade.tipo_avaliacao_nota == 1 ? 'Inidividual' : 'Em grupos'}</b>
+				Realização: <b>{itemAtividade.em_grupos ? 'Em grupos' : 'Individual'}</b>
 			</h5>
 		</div>
 	</div>
