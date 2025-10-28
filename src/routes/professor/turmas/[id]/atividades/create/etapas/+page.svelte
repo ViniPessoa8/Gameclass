@@ -567,7 +567,7 @@
 								</div>
 								<hr />
 								<div class="row">
-									<IconeInformacao text="Forma que os grupos de estudantes de formarão" />
+									<IconeInformacao text="Forma que os grupos de estudantes se formarão" />
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
 										id="formacaoGrupos"
