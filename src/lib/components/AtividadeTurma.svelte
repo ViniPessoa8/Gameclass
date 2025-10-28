@@ -148,10 +148,7 @@
 		}
 	]}
 />
-<div
-	class={toggled ? 'atividade-container-toggled' : 'atividade-container'}
-	bind:clientWidth={width}
->
+<div class="atividade-container" bind:clientWidth={width}>
 	<div
 		class="atividade-info"
 		aria-hidden="true"
@@ -225,15 +222,10 @@
 
 <style>
 	.atividade-container {
-		width: 70%;
-		margin-bottom: 24px;
-	}
-
-	.atividade-container-toggled {
+		border: 2px solid var(--input-border);
 		width: 70%;
 		margin-bottom: 24px;
 		padding: 8px;
-		border: 2px solid var(--input-border);
 		border-radius: 8px;
 	}
 
