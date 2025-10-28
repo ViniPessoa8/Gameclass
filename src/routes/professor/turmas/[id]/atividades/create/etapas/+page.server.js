@@ -49,11 +49,12 @@ export let actions = {
 		const formData = await request.formData()
 		const realizacao = formData.get("realizacao_grupos")
 		const formacao = formData.get(FORMACAO_GRUPO.professor_escolhe)
+		let idAtividade
 
 		let idProfessor = session.id
 
 		if (url.searchParams.has("idAtividade")) {
-			const idAtividade = url.searchParams.get("idAtividade")
+			idAtividade = url.searchParams.get("idAtividade")
 			try {
 				const atividade = (await atividadeController.buscaPorId(parseInt(idAtividade))).toObject()
 				cookies.set("atividade", JSON.stringify(atividade), { path: '/' })
@@ -65,24 +66,22 @@ export let actions = {
 		}
 
 		// TODO: Validar se etapa com o mesmo nome ja existe
+		// FIX: idAtividade == undefined
 		const itemAtividadeController = new ItemAtividadeController()
 		const titulo = formData.get("titulo")
 		info("Verificando a existência de um item de atividade com o título: ", titulo)
 		let etapa
 		try {
-			etapa = await itemAtividadeController.buscaPorTitulo(titulo, idProfessor)
+			etapa = await itemAtividadeController.buscaPorTitulo(titulo, idAtividade)
 		} catch (e) {
 			error("Erro ao buscar item de atividade por titulo: ", e)
 		}
 
-		console.debug("etapa: ", etapa)
-		const etapaExiste = etapa.length > 0
-		if (etapaExiste) {
-			// console.debug("Etapa ja existe com esse nome")
-			return fail(400, { 
-				erro: "Já existe uma etapa com o mesmo nome nessa atividade." 
+		if (etapa) {
+			error("Já existe uma etapa com o mesmo nome nessa atividade.")
+			return fail(400, {
+				erro: "Já existe uma etapa com o mesmo nome nessa atividade."
 			});
-			// throw Error("Já existe uma etapa com o mesmo nome nessa atividade.")
 		}
 
 		cookies.set("item_atividade", JSON.stringify(Object.fromEntries(formData)), { path: '/' })

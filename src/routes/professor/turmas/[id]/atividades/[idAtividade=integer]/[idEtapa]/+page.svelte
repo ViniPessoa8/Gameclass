@@ -1,16 +1,10 @@
 <script>
 	import { run } from 'svelte/legacy';
 
-	import CircularIcon from '$lib/components/CircularIcon.svelte';
-	import Comentario from '$lib/components/Comentario.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import Anexo from '$lib/components/Anexo.svelte';
-	import InputText from '$lib/components/InputText.svelte';
 	import { ATRIBUICAO } from '$lib/constants.js';
 	import AtividadeInfo from '$lib/components/AtividadeInfo.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import Entrega from '$lib/models/Entrega.js';
 	import SwitchView from '$lib/components/SwitchView.svelte';
 	import EnvioEntregaGrade from '$lib/components/EnvioEntregaGrade.svelte';
 	import EnvioEntregaLista from '$lib/components/EnvioEntregaLista.svelte';
@@ -118,15 +112,38 @@
 		goto(`/professor/turmas/${id}/atividades/${idAtividade}/${idEtapa}/${idEntrega}`);
 	};
 
-	let somaPesos = 0;
-	let somaPonderada = 0;
+	let notaMaximaItemAtividade = 0;
+	//TODO:
+	if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
+		let soma = 0;
 
-	data.etapa.criterios.forEach((c) => {
-		somaPesos += c.peso;
-		somaPonderada += c.pontuacao_max * c.peso;
-	});
+		data.etapa.criterios.forEach((c) => {
+			soma += c.pontuacao_max;
+		});
 
-	const notaMaximaItemAtividade = somaPonderada / somaPesos;
+		notaMaximaItemAtividade = soma;
+	} else {
+		let somaPesos = 0;
+		let somaPonderada = 0;
+
+		data.etapa.criterios.forEach((c) => {
+			somaPesos += c.peso;
+			somaPonderada += c.pontuacao_max * c.peso;
+		});
+
+		notaMaximaItemAtividade = somaPonderada / somaPesos;
+	}
+
+	// let somaPesos = 0;
+	// let somaPonderada = 0;
+	//
+	// data.etapa.criterios.forEach((c) => {
+	// 	somaPesos += c.peso;
+	// 	somaPonderada += c.pontuacao_max * c.peso;
+	// });
+	//
+	// const notaMaximaItemAtividade = somaPonderada / somaPesos;
+	// data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples;
 
 	const atividadeInfo = {
 		Realização: data.etapa.em_grupos ? 'Em Grupos' : 'Individual',
