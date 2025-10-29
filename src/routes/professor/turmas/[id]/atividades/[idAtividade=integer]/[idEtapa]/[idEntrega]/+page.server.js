@@ -7,7 +7,8 @@ import ComentarioController from '$lib/server/controllers/comentario';
 import AnexoController from '$lib/server/controllers/anexo';
 import EstudanteController from '$lib/server/controllers/estudante';
 import UsuarioController from '$lib/server/controllers/usuario';
-import { AVALIACAO, STATUS_ENTREGA } from "$lib/constants";
+import CriterioController from '$lib/server/controllers/criterio';
+import { AVALIACAO, STATUS_ENTREGA, ATRIBUICAO } from "$lib/constants";
 
 const atividadeController = new AtividadeController()
 const itemAtividadeController = new ItemAtividadeController()
@@ -18,6 +19,7 @@ const comentarioController = new ComentarioController()
 const anexoController = new AnexoController()
 const estudanteController = new EstudanteController()
 const usuarioController = new UsuarioController()
+const criterioController = new CriterioController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -33,13 +35,16 @@ export async function load({ cookies, params }) {
 	const entrega = (await entregaController.buscaPorId(idEntrega)).toObject()
 	const comentarios_entrega = await comentarioController.listaPorIdEntrega(parseInt(entrega.id))
 	const anexos = (await anexoController.listaPorIdEntrega(idEntrega)).map((e) => e.toObject())
+	const criterios = (await criterioController.listaPorIdItemAtividade(idEtapa))
 
 	let estudante, grupo, entregaAvaliada = false;
+
 	if (etapa.em_grupos) {
 		grupo = await grupoController.buscaPorId(parseInt(entrega.id_grupo_de_alunos))
 		grupo.integrantes = await estudanteController.buscaPorIdGrupo(parseInt(entrega.id_grupo_de_alunos))
 		etapa.grupo = grupo
 
+		// Etapa em grupos - Avaliação Individual
 		if (etapa.tipo_avaliacao_nota == AVALIACAO.individual) {
 			const avaliacoesIntegrantes = await avaliacaoController.buscaAvaliacaoIntegrantes(entrega.id)
 			const nAvaliacoes = avaliacoesIntegrantes.map((value) => value.id_estudante).filter((value, index, _arr) => _arr.indexOf(value) == index).length; // Mapeia os valores por id_estudante único, para contar quantos estudantes foram avaliados.
@@ -50,23 +55,49 @@ export async function load({ cookies, params }) {
 				entregaAvaliada = false
 			}
 
+			// Etapa em grupos - Avaliação em grupos
 		} else {
 			const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
-			if (avaliacao) entregaAvaliada = true
+			if (avaliacao) {
+				entregaAvaliada = true
+			}
 
 		}
 
+		// Etapa Individual
 	} else {
 		estudante = await estudanteController.buscaPorId(parseInt(entrega.id_estudante))
 		const avaliacao = await avaliacaoController.buscaPorIdEntrega(entrega.id)
 		if (avaliacao) {
 			entregaAvaliada = true
-			entrega.nota_avaliacao = avaliacao.criterios_avaliados.reduce((acc, a) => acc + a.nota_atribuida, 0) / avaliacao.criterios_avaliados.length
-
 		}
 	}
 
+	let notaMaximaItemAtividade = 0;
+	if (etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
+		let soma = 0;
 
+		criterios.forEach((c) => {
+			soma += c.pontuacao_max;
+		});
+
+		notaMaximaItemAtividade = soma;
+	} else {
+		let somaPesos = 0;
+		let somaPonderada = 0;
+
+		criterios.forEach((c) => {
+			somaPesos += c.peso;
+			somaPonderada += c.pontuacao_max * c.peso;
+		});
+
+		notaMaximaItemAtividade = somaPonderada / somaPesos;
+	}
+
+	const notas = await entregaController.listaNotasObtidasDeCriterios(idEntrega)
+
+	entrega.criterios = criterios
+	entrega.notas = notas
 	entrega["comentarios"] = comentarios_entrega
 	entrega["anexos"] = anexos
 	entrega["avaliada"] = entregaAvaliada ? true : false
@@ -87,7 +118,8 @@ export async function load({ cookies, params }) {
 		"atividade": atividade,
 		"etapa": etapa,
 		"nome": etapa.em_grupos ? grupo.nome : estudante.nome,
-		"toast": toast
+		"toast": toast,
+		"nota_max": notaMaximaItemAtividade
 	}
 
 	return returnData

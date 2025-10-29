@@ -9,7 +9,7 @@
 	import Anexo from '$lib/components/Anexo.svelte';
 	import InputText from '$lib/components/InputText.svelte';
 	import { comentarios, fetchComentarios } from '$lib/../stores/listaComentarios.js';
-	import { TIPO_ARQUIVO, TIPO_COMENTARIO, AVALIACAO } from '$lib/constants.js';
+	import { TIPO_ARQUIVO, TIPO_COMENTARIO, AVALIACAO, ATRIBUICAO } from '$lib/constants.js';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { log } from '$lib/utils/logger';
 
@@ -82,6 +82,32 @@
 			data.toast = '';
 		}
 	});
+
+	const notas = $state(
+		data.entrega.notas.length != 0
+			? data.entrega.notas.map((nota) => ({
+					id_criterio: nota.id_criterio,
+					nota: nota.nota_atribuida.toFixed(1)
+				}))
+			: data.entrega.criterios.map((c) => ({ id_criterio: c.id, nota: null }))
+	);
+
+	let pontuacaoFinal = $derived.by(() => {
+		if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
+			let pontuacaoFinal =
+				notas.reduce((acc, n) => acc + (n.nota ? parseFloat(n.nota) : 0), 0) / notas.length;
+			return pontuacaoFinal;
+		} else {
+			const somaPesos = data.entrega.criterios.reduce((acc, c) => acc + c.peso, 0);
+			let somaNotasObtidas = 0;
+			data.entrega.criterios.map((c, i) => {
+				somaNotasObtidas += notas[i].nota * c.peso;
+			});
+
+			let pontuacaoFinal = somaNotasObtidas / somaPesos;
+			return pontuacaoFinal;
+		}
+	});
 </script>
 
 <Toaster richColors position="top-center" closeButton />
@@ -139,8 +165,9 @@
 				<div class="resposta-header">
 					<p><b>Resposta</b></p>
 					<p class="status-resposta" style="color:{data.entrega.corStatus}">
-						({data.entrega.status}:
-						<b style:color="white">{data.entrega.nota_avaliacao.toFixed(1)}</b>)
+						({data.entrega.status}{#if pontuacaoFinal}
+							: <b style:color="white">{pontuacaoFinal?.toFixed(1)}</b><span>/{data.nota_max}</span>
+						{/if})
 					</p>
 				</div>
 				{#if data.entrega.anexos && data.entrega.anexos.length != 0}

@@ -6,7 +6,8 @@ import AvaliacaoController from "$lib/server/controllers/avaliacao";
 import GrupoController from "$lib/server/controllers/grupo";
 import FormacaoGrupoController from "$lib/server/controllers/formacaoGrupo";
 import EstudanteController from '$lib/server/controllers/estudante';
-import { AVALIACAO } from "../../../../../../../lib/constants";
+import { AVALIACAO, ATRIBUICAO } from "$lib/constants";
+import CriterioController from "$lib/server/controllers/criterio";
 
 const itemAtividadeController = new ItemAtividadeController()
 const atividadeController = new AtividadeController()
@@ -16,6 +17,7 @@ const avaliacaoController = new AvaliacaoController()
 const grupoController = new GrupoController()
 const formacaoGrupoController = new FormacaoGrupoController()
 const estudanteController = new EstudanteController()
+const criterioController = new CriterioController()
 
 export async function load({ cookies, params }) {
 	const session_raw = cookies.get("session");
@@ -25,7 +27,8 @@ export async function load({ cookies, params }) {
 	const atividade = (await atividadeController.buscaPorId(etapa.id_atividade)).toObject()
 	const estudantes = await turmaController.listaAlunos(atividade.id_turma)
 	const entregas = await entregaController.listaPorItemAtividade(idEtapa)
-	const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
+	// const criterios = await itemAtividadeController.listaCriteriosPorId(idEtapa)
+	const criterios = (await criterioController.listaPorIdItemAtividade(idEtapa))
 	const grupos = await grupoController.listaPorIdItemAtividade(idEtapa)
 	const formacoes = await formacaoGrupoController.listaPorIdItemAtividade(idEtapa)
 
@@ -67,8 +70,32 @@ export async function load({ cookies, params }) {
 		}
 
 		entrega.avaliada = entregaAvaliada
+		let notas = await entregaController.listaNotasObtidasDeCriterios(entrega.id)
 
+		notas =
+			notas.length != 0
+				? notas.map((nota) => ({
+					id_criterio: nota.id_criterio,
+					nota: nota.nota_atribuida.toFixed(1)
+				}))
+				: criterios.map((c) => ({ id_criterio: c.id, nota: null }))
+
+		let pontuacaoFinal = 0;
+		if (etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
+			pontuacaoFinal =
+				notas.reduce((acc, n) => acc + (n.nota ? parseFloat(n.nota) : 0), 0) / notas.length;
+		} else {
+			const somaPesos = criterios.reduce((acc, c) => acc + c.peso, 0);
+			let somaNotasObtidas = 0;
+			criterios.map((c, i) => {
+				somaNotasObtidas += notas[i].nota * c.peso;
+			});
+
+			pontuacaoFinal = somaNotasObtidas / somaPesos;
+		}
+		entrega.nota = pontuacaoFinal
 	}
+
 
 	etapa.criterios = criterios
 	etapa.grupos = grupos

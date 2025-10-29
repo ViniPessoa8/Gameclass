@@ -146,6 +146,7 @@
 	// data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples;
 
 	const atividadeInfo = {
+		Avaliação: data.etapa.tipo_avaliacao_nota == 1 ? 'Individual' : 'Em grupos',
 		Realização: data.etapa.em_grupos ? 'Em Grupos' : 'Individual',
 		Prazo: formatter.format(data.etapa.data_entrega_final),
 		Média: data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples ? 'Simples' : 'Ponderada',
@@ -174,6 +175,7 @@
 							<EnvioEntregaGrade
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
+								tipoAvaliacaoNota={data.etapa.tipo_avaliacao_nota}
 								onClick={() => onClick(dados.entrega?.id)}
 							/>
 						{/each}
@@ -182,6 +184,7 @@
 							<EnvioEntregaGrade
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
+								tipoAvaliacaoNota={data.etapa.tipo_avaliacao_nota}
 								onClick={() => onClick(dados.entrega?.id)}
 							/>
 						{/each}
@@ -194,6 +197,7 @@
 							<EnvioEntregaLista
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
+								tipoAvaliacaoNota={data.etapa.tipo_avaliacao_nota}
 								onClick={() => onClick(dados.entrega?.id)}
 							/>
 						{/each}
@@ -202,6 +206,7 @@
 							<EnvioEntregaLista
 								{dados}
 								receberAposPrazo={data.etapa.receber_apos_prazo}
+								tipoAvaliacaoNota={data.etapa.tipo_avaliacao_nota}
 								onClick={() => onClick(dados.entrega?.id)}
 							/>
 						{/each}

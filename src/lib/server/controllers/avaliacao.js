@@ -19,7 +19,9 @@ export default class AvaliacaoController {
 
 	async alteraAvaliacao(avaliacao, idIntegrante) {
 		log(`AvaliacaoController -> alteraAvaliacao(${avaliacao}, ${idIntegrante})`)
-		return await alteraAvaliacaoEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados, idIntegrante);
+		const res = await alteraAvaliacaoEntregaBD(avaliacao.id_entrega, avaliacao.criterios_avaliados, idIntegrante);
+
+		return res
 	}
 
 	async buscaPorIdEntrega(idEntrega) {

@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 	import Entrega from '$lib/models/Entrega.js';
+	import { AVALIACAO } from '$lib/constants';
 
-	let { dados, receberAposPrazo, onClick } = $props();
+	let { dados, receberAposPrazo, tipoAvaliacaoNota, onClick } = $props();
 
 	let corCard = $state();
 
@@ -15,6 +16,8 @@
 			corCard = 'var(--cor-primaria)';
 		}
 	});
+
+	console.debug('dados.etapa=>', dados.etapa);
 </script>
 
 {#if dados}
@@ -27,7 +30,11 @@
 			{/if}
 
 			{#if dados.entrega.avaliada}
-				<p>Avaliada (<b>{dados.entrega.avaliacao.media}</b>)</p>
+				{#if dados.em_grupos && tipoAvaliacaoNota == AVALIACAO.individual}
+					<p>Avaliada</p>
+				{:else}
+					<p>Avaliada (<b>{dados.entrega.nota.toFixed(1)}</b>)</p>
+				{/if}
 			{:else}
 				<p class="avaliacao-pendente">Avaliação Pendente</p>
 			{/if}

@@ -29,9 +29,8 @@ export async function avaliaEntregaBD(idEntrega, criteriosAvaliados) {
 		if (!idRealizarAvaliacao) throw new Error("'Realizar Avaliacao' não pode ser criado.");
 
 		sql = `
-				UPDATE ${DB_INFO.tables.avaliacao_criterio}
-				SET nota_atribuida = $1
-				WHERE id_realizar_avaliacao = $2 AND id_criterio = $3 
+				INSERT INTO ${DB_INFO.tables.avaliacao_criterio}(nota_atribuida, id_realizar_avaliacao, id_criterio)
+				VALUES($1, $2, $3) 
 				RETURNING id;`
 
 		for (const criterio of criteriosAvaliados) {
