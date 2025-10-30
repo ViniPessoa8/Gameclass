@@ -49,11 +49,13 @@ export let actions = {
 		const formData = await request.formData()
 		const realizacao = formData.get("realizacao_grupos")
 		const formacao = formData.get(FORMACAO_GRUPO.professor_escolhe)
+		let backCount = 0
 		let idAtividade
 
 		let idProfessor = session.id
 
 		if (url.searchParams.has("idAtividade")) {
+			backCount = 1
 			idAtividade = url.searchParams.get("idAtividade")
 			try {
 				const atividade = (await atividadeController.buscaPorId(parseInt(idAtividade))).toObject()
@@ -63,6 +65,8 @@ export let actions = {
 				error("Error: ", e)
 
 			}
+		} else {
+			backCount = 2
 		}
 
 		// TODO: Validar se etapa com o mesmo nome ja existe
@@ -88,11 +92,11 @@ export let actions = {
 
 		if (realizacao == "Em Grupos" && formacao == "Professor forma os grupos") {
 			debug(`atividades/create/etapas/+page.server.js redirect to ${url.pathname}/definir-grupos/`)
-			redirect(300, `${url.pathname}/definir-grupos/`)
+			redirect(300, `${url.pathname}/definir-grupos?backCount=${backCount}`)
 
 		} else {
 			debug(`atividades/create/etapas/+page.server.js redirect to ${url.pathname}/resumo/`)
-			redirect(300, `${url.pathname}/resumo/`)
+			redirect(300, `${url.pathname}/resumo?backCount=${backCount}`)
 
 		}
 	}

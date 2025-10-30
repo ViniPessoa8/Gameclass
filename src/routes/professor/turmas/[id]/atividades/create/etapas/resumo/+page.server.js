@@ -13,9 +13,10 @@ const formacaoGrupoController = new FormacaoGrupoController()
 const grupoController = new GrupoController()
 const integranteGrupoController = new IntegranteGrupoController()
 
-export async function load({ cookies }) {
+export async function load({ url, cookies }) {
 	const atividade = JSON.parse(cookies.get("atividade"))
-	return { "atividade": atividade }
+	const backCount = url.searchParams.get("backCount")
+	return { "atividade": atividade, "backCount": backCount }
 }
 
 export let actions = {
@@ -137,6 +138,7 @@ export let actions = {
 
 		const url = `/professor/turmas/${params.id}/atividades/`
 		debug(`atividades/create/etapas/resumo/+page.server.js redirect to ${url}`)
+
 		redirect(300, url)
 	}
 }

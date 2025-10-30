@@ -1,4 +1,5 @@
 <script>
+	import { historyStack } from '$src/stores/history.js';
 	import Button from '$lib/components/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
@@ -39,6 +40,7 @@
 			sessionStorage.removeItem('etapas');
 			update();
 			$etapas = [];
+			historyStack.set($historyStack.slice(0, -data.backCount));
 		};
 	}}
 >

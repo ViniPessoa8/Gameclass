@@ -4,19 +4,22 @@ import AtividadeController from '$lib/server/controllers/atividade';
 import { redirect } from "@sveltejs/kit";
 import { log, info, debug, error } from '$lib/utils/logger';
 
+let backCount;
+
 export let actions = {
 	default: async ({ url }) => {
 		info("Finalizando definição de grupos")
-		let urlNova = `${url.pathname.split("/").slice(0, -1).join("/")}/resumo`
+		let urlNova = `${url.pathname.split("/").slice(0, -1).join("/")}/resumo?backCount=${backCount + 1}`
 		redirect(301, urlNova)
 	}
 }
 
-export async function load({ cookies, params }) {
+export async function load({ url, cookies, params }) {
 	info("Carregando página de definição dos grupos da atividade")
 	// const atividadeController = new AtividadeController()
 	// const idAtividade = params.idAtividade
 	// const atividade = await atividadeController.buscaPorId(idAtividade)
+	const backCount = url.searchParams.get("backCount")
 	const atividade = JSON.parse(cookies.get("atividade"))
 	const item_atividade = JSON.parse(cookies.get("item_atividade"))
 	item_atividade.etapa = JSON.parse(item_atividade["etapas"])[0]
@@ -50,6 +53,7 @@ export async function load({ cookies, params }) {
 		estudantes: alunosDaTurma,
 		groups: grupos,
 		formacoes: formacoes,
-		activity: { title: atividade.titulo }
+		activity: { title: atividade.titulo },
+		backCount: backCount
 	};
 }
