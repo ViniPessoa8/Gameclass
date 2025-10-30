@@ -173,13 +173,13 @@
 							href="atividades/{atividade.id}/edit"
 							color="white"><EditIcon size="24" /></ButtonRedirect
 						>
-						<Button
-							title="Arquivar Atividade"
-							backgroundColor="var(--cor-secundaria)"
-							on:click={() => handleArquivaAtividade(atividade.id)}
-							color="white"
-							placeholder="Arquivar atividade"><ArchiveIcon size="24" /></Button
-						>
+						<!-- <Button -->
+						<!-- 	title="Arquivar Atividade" -->
+						<!-- 	backgroundColor="var(--cor-secundaria)" -->
+						<!-- 	on:click={() => handleArquivaAtividade(atividade.id)} -->
+						<!-- 	color="white" -->
+						<!-- 	placeholder="Arquivar atividade"><ArchiveIcon size="24" /></Button -->
+						<!-- > -->
 					{/if}
 				</div>
 			</div>

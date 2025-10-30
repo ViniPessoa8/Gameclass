@@ -110,11 +110,11 @@
 		<ButtonRedirect href="atividades/{idAtividade}/{itemAtividade.id}/edit" color="white"
 			><EditIcon size="24" /></ButtonRedirect
 		>
-		<Button
-			backgroundColor="var(--cor-secundaria)"
-			on:click={() => handleArquivaItemAtividade(itemAtividade.id)}
-			color="white"><ArchiveIcon size="24" /></Button
-		>
+		<!-- <Button -->
+		<!-- 	backgroundColor="var(--cor-secundaria)" -->
+		<!-- 	on:click={() => handleArquivaItemAtividade(itemAtividade.id)} -->
+		<!-- 	color="white"><ArchiveIcon size="24" /></Button -->
+		<!-- > -->
 	</div>
 </div>
 
