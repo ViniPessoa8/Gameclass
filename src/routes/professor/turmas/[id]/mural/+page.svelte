@@ -66,6 +66,7 @@
 			return async ({ result, update }) => {
 				if (result.data) {
 					await invalidate();
+					arquivos = [];
 					toast.success('Publicação criada com sucesso!');
 				}
 				await update();
