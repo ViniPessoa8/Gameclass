@@ -3,11 +3,15 @@
 	import { historyStack } from '$src/stores/history.js';
 	import { navigationGuard } from '$src/stores/navigationGuard.js';
 	import { get } from 'svelte/store';
+	import { debug } from '$lib/utils/logger';
 	import Button from './Button.svelte';
 
 	function performNavigation() {
 		const previousPage = $historyStack[$historyStack.length - 2];
-		historyStack.set($historyStack);
+		debug('$historyStack.length => ', $historyStack.length);
+		debug('previousPage => ', previousPage);
+		historyStack.set($historyStack.slice(0, -2));
+		debug('$historyStack.length => ', $historyStack.length);
 
 		if (previousPage) {
 			goto(previousPage, { replaceState: true });
