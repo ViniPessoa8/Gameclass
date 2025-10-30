@@ -65,14 +65,7 @@
 </script>
 
 <div class="popover-wrapper" bind:this={wrapperNode}>
-	<button
-		class="trigger"
-		on:click={toggleSticky}
-		aria-haspopup="true"
-		aria-expanded={isVisible}
-		on:mouseenter={show}
-		on:mouseleave={hide}
-	>
+	<button class="trigger" on:click={toggleSticky} aria-haspopup="true" aria-expanded={isVisible}>
 		Critérios
 		<svg
 			class="trigger-icon"
