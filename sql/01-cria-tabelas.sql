@@ -182,7 +182,7 @@ CREATE TABLE anexo (
 CREATE TABLE comentario (
 	"id" BIGSERIAL UNIQUE,
 	"texto" VARCHAR(255) NOT NULL,
-	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"data_criacao" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 	"id_realizar_avaliacao" BIGINT REFERENCES realizar_avaliacao(id),
 	"id_item_atividade" BIGINT REFERENCES item_atividade(id) ,
 	"id_entrega" BIGINT REFERENCES entrega(id) ,

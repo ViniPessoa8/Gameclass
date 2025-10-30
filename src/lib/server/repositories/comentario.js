@@ -5,7 +5,7 @@ export async function listaComentariosPorIdEntregaBD(idEntrega) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 
-					c.*, u.nome, u.cor
+					c.id, c.texto, c.data_criacao AT TIME ZONE 'America/Manaus' data_criacao, c.id_realizar_avaliacao, c.id_item_atividade, c.id_entrega, c.id_publicacao_mural, c.id_usuario, u.nome, u.cor
  				FROM 
 					${DB_INFO.tables.entrega} e,
 					${DB_INFO.tables.comentario} c,
@@ -29,7 +29,7 @@ export async function listaComentariosPorIdPublicacaoMuralBD(idPublicacao) {
 	const db = getPool()
 	const query = {
 		text: `	SELECT 
-					c.*, u.nome, u.cor
+					c.id, c.texto, c.data_criacao AT TIME ZONE 'America/Manaus' data_criacao, c.id_realizar_avaliacao, c.id_item_atividade, c.id_entrega, c.id_publicacao_mural, c.id_usuario, u.nome, u.cor
  				FROM 
 					${DB_INFO.tables.mural} m,
 					${DB_INFO.tables.comentario} c,
@@ -57,9 +57,9 @@ export async function comentaBD(idUsuario, idEntrega, idPublicacao, idItemAvalia
 
 	const query = {
 		text: `	INSERT INTO  
-					${DB_INFO.tables.comentario}("id_usuario", "id_entrega", "id_publicacao_mural", "id_item_atividade", "id_realizar_avaliacao", "texto", "data_criacao")
+					${DB_INFO.tables.comentario}("id_usuario", "id_entrega", "id_publicacao_mural", "id_item_atividade", "id_realizar_avaliacao", "texto")
 				VALUES
-					($1, $2, $3, $4, $5, $6, NOW()); `,
+					($1, $2, $3, $4, $5, $6); `,
 		values: [
 			parseInt(idUsuario),
 			idEntrega ? parseInt(idEntrega) : null,
