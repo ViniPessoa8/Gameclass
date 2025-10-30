@@ -176,7 +176,7 @@
 							fontSize="20px"
 							width="100%"
 							{arquivo}
-							tipoDoArquivo={TIPO_ARQUIVO.PDF}
+							tipoDoArquivo={arquivo.titulo.split('.')[-1]}
 							nomeArquivo={arquivo.titulo}
 						/>
 					{/each}
