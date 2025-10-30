@@ -9,41 +9,38 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { navigationGuard } from '$src/stores/navigationGuard.js';
 	import { onDestroy, onMount } from 'svelte';
+	import { debug } from '$lib/utils/logger';
 
 	let { data, children } = $props();
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
 
 	let showModalCancelarAtividade = $state(false);
 	let resolvePromise;
+	let tituloJaExiste = $state(false);
+	let verificandoTitulo = $state(false);
 
-	// 1. A função que será colocada na store.
-	// Ela mostra o modal e retorna uma Promise que espera a decisão do usuário.
 	function requestConfirmation() {
 		showModalCancelarAtividade = true;
 		return new Promise((resolve) => {
-			// Guardamos a função resolve para que os botões do modal possam chamá-la.
 			resolvePromise = resolve;
 		});
 	}
 
-	// 3. Limpa a guarda quando o componente é destruído.
-	// Isso é CRUCIAL para que outras páginas não acionem a confirmação.
 	onDestroy(() => {
 		navigationGuard.set(null);
 	});
 
-	// Funções chamadas pelos botões do modal
 	function handleConfirm() {
 		showModalCancelarAtividade = false;
 		if (resolvePromise) {
-			resolvePromise(true); // Confirma a navegação
+			resolvePromise(true);
 		}
 	}
 
 	function handleCancel() {
 		showModalCancelarAtividade = false;
 		if (resolvePromise) {
-			resolvePromise(false); // Cancela a navegação
+			resolvePromise(false);
 		}
 	}
 
@@ -61,7 +58,7 @@
 		prazoEmpty = $state();
 
 	function showISOAsGMT4(isoUTC) {
-		const offsetMinutes = -4 * 60; // GMT-4
+		const offsetMinutes = -4 * 60;
 		const utcDate = new Date(isoUTC);
 		const localDate = new Date(utcDate.getTime() + offsetMinutes * 60000);
 		const datetimeLocal = localDate.toISOString().slice(0, 16);
@@ -77,7 +74,8 @@
 		let hoje = new Date().getTime();
 
 		if (prazoDate <= hoje) {
-			throw Error('Criação de atividade: Prazo inválido.');
+			toast.error('O prazo não pode ser uma data ou hora passada.');
+			return false;
 		}
 
 		return true;
@@ -91,6 +89,10 @@
 			ok = false;
 		}
 
+		if (tituloJaExiste) {
+			ok = false;
+		}
+
 		if (!descricao) {
 			descricaoEmpty = true;
 			ok = false;
@@ -101,16 +103,12 @@
 			ok = false;
 		}
 
-		// TODO: Verificar se não existe outra atividade com o mesmo título na mesma turma
-
 		return ok;
 	}
 
 	function onSubmit() {
-		// TODO: salvar tags no banco do usuário, para sugerir na proxima criação de atividade
-
-		if (!validaInputs()) return false;
 		if (!validaPrazo()) return false;
+		if (!validaInputs()) return false;
 		return true;
 	}
 
@@ -131,17 +129,48 @@
 	// INPUT HANDLERS
 	function tituloInputHandler(e) {
 		if (e.target.value.length > 0) tituloEmpty = false;
-		// form.already_registered = false;
+		tituloJaExiste = false;
 	}
 
 	function descricaoInputHandler(e) {
-		if (e.target.value.length > 0) tituloEmpty = false;
-		// form.already_registered = false;
+		if (e.target.value.length > 0) descricaoEmpty = false;
 	}
 
 	function prazoInputHandler(e) {
 		if (e.target.value.length != undefined) prazoEmpty = false;
 		// form.already_registered = false;
+	}
+
+	async function validarTituloNoServidor() {
+		// Não faz nada se o título estiver vazio
+		if (!titulo || titulo.trim() === '') {
+			return;
+		}
+
+		verificandoTitulo = true;
+		try {
+			// ATENÇÃO: Ajuste `data.idTurma` para a propriedade correta que contém o ID da turma.
+			const idTurma = data.idTurma;
+			const tituloAtividade = titulo.trim();
+			const response = await fetch(
+				`/api/atividade/valida-titulo?titulo=${encodeURIComponent(tituloAtividade)}&id_turma=${idTurma}`
+			);
+
+			if (response.ok) {
+				const result = await response.json();
+				tituloJaExiste = result.exists;
+				if (tituloJaExiste) {
+					toast.error('Este título já está sendo usado em outra atividade da turma.');
+				}
+			} else {
+				toast.error('Não foi possível verificar o título. Tente novamente.');
+			}
+		} catch (error) {
+			toast.error('Erro de conexão ao validar o título.');
+			console.error('Erro ao chamar API de validação:', error);
+		} finally {
+			verificandoTitulo = false;
+		}
 	}
 
 	onMount(() => {
@@ -216,6 +245,7 @@
 				borded="true"
 				bind:value={titulo}
 				inputHandler={tituloInputHandler}
+				on:blur={validarTituloNoServidor}
 			/>
 		</div>
 		{#if tituloEmpty}
