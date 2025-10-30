@@ -162,9 +162,9 @@ INSERT INTO avaliacao_criterio ("id", "id_realizar_avaliacao", "id_criterio", "n
 (3, 2, 1, 4.0), (4, 2, 2, 3.5); -- Notas Estudante 2
 
 -- --- Atividade 2: Individual, Liberada, Aguardando Entregas ---
-INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (2, 'Consultas SQL Complexas', '2025-10-16T23:59:59.000Z', 1);
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (2, 'Consultas SQL Complexas', '2025-11-20T23:59:59.000Z', 1);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (2, 'Desafio: Otimização de Queries', 'Refatore as consultas SQL fornecidas para melhorar o desempenho, utilizando índices e joins eficientes.', 10, '2025-10-05T08:00:00.000Z', '2025-10-15T23:59:59.000Z', 0, 1, false, false, 2);
+VALUES (2, 'Desafio: Otimização de Queries', 'Refatore as consultas SQL fornecidas para melhorar o desempenho, utilizando índices e joins eficientes.', 10, '2025-10-05T08:00:00.000Z', '2025-11-18T23:59:59.000Z', 0, 1, false, false, 2);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade") VALUES 
 (3, 'Uso de Índices', 'Criação de índices adequados para as consultas.', 4, 2), 
 (4, 'Refatoração de Joins', 'Substituição de subqueries por joins quando aplicável.', 4, 2),
@@ -174,9 +174,9 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_ativ
 -- ========= TURMA 2 (ENGENHARIA DE SOFTWARE): FOCO EM ATIVIDADES EM GRUPO =========
 
 -- --- Atividade 3: Em Grupo, Nota Coletiva, Encerrada e Avaliada ---
-INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (3, 'Padrões de Projeto (GoF)', '2025-11-01T23:59:59.000Z', 2);
+INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (3, 'Padrões de Projeto (GoF)', '2025-11-28T23:59:59.000Z', 2);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-20T08:00:00.000Z', '2025-10-30T23:59:59.000Z', 0, 2, true, false, 3);
+VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-28T08:00:00.000Z', '2025-11-28T23:59:59.000Z', 0, 2, true, false, 3);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade", "peso") VALUES 
 (6, 'Clareza Conceitual', 'Apresentação clara da finalidade e estrutura do padrão.', 5, 3, 3), 
 (7, 'Qualidade do Exemplo', 'O código de exemplo é funcional e didático.', 5, 3, 2);
@@ -245,7 +245,7 @@ VALUES (
     8,
     'Projeto Final: Desenvolvimento de um Sistema de Banco de Dados Completo',
     'Este projeto abrange todas as fases do desenvolvimento de um banco de dados, da modelagem à implementação e consulta.',
-    '2025-11-15T23:59:59.000Z', -- Prazo final da última etapa
+    '2025-11-20T23:59:59.000Z', -- Prazo final da última etapa
     1
 );
 
