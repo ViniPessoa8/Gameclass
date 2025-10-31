@@ -6,11 +6,13 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 	import { ATRIBUICAO } from '$lib/constants.js';
+	import InputNumber from '$lib/components/InputNumber.svelte';
 
 	const { data } = $props();
 
 	let showModalCancelarAtividade = $state(false);
 	let showModalAvaliarTodos = $state(false);
+	let oldNotaValues = $state({});
 	let resolvePromise;
 	let avaliarTodosSubmitButton;
 
@@ -23,43 +25,74 @@
 			: data.etapa.criterios.map((c) => ({ id_criterio: c.id, nota: null }))
 	);
 
-	function validarNotas() {
-		const inputs = document.querySelectorAll('.input-container input');
-		let todosPreenchidos = true;
-
-		inputs.forEach((input, index) => {
-			if (!input.value.trim()) {
-				todosPreenchidos = false;
-				notas[index].nota = null;
-			}
-		});
-
-		if (!todosPreenchidos) {
-			toast.error('Preencha a nota de todos os critérios para finalizar a avaliação.');
-			return false;
-		}
-
-		return true;
+	function onNotaFocus(currentValue, index) {
+		oldNotaValues[`nota_${index}`] = currentValue || null;
 	}
 
-	function formatarNota(valor, index, event) {
-		let input = event.target;
-		let cursorPos = input.selectionStart;
+	function onChangeNota(index, pontuacaoMax) {
+		let currentValue = notas[index].nota;
 
-		if (String(valor).includes(',')) {
-			valor = valor.replace(',', '.');
-			cursorPos++;
+		if (currentValue === null || currentValue === undefined) {
+			currentValue = '';
 		}
 
-		// Permitir números no formato "X" ou "X.Y" com até 2 dígitos antes do ponto
-		if (/^\d{0,2}(\.\d{0,1})?$/.test(valor) || valor === '') {
-			notas[index].nota = valor;
+		let valorString = String(currentValue).replace(',', '.');
 
-			// Aguarda a próxima renderização para restaurar a posição do cursor
-			setTimeout(() => {
-				input.setSelectionRange(cursorPos, cursorPos);
-			}, 0);
+		// Regex que permite:
+		// - Um número inteiro (ex: "9", "10")
+		// - Um número com um ponto (ex: "9.", "10.")
+		// - Um número com um ponto e UMA casa decimal (ex: "9.5", "0.1")
+		// - Apenas um ponto (ex: ".")
+		// - Uma string vazia (permitindo apagar)
+		const validRegex = /^(?:[0-9]+(?:[.][0-9]{0,1})?|[.][0-9]{0,1}|[.]|)$/;
+
+		if (!validRegex.test(valorString)) {
+			notas[index].nota = oldNotaValues[`nota_${index}`];
+			return;
 		}
+
+		let valorNum = parseFloat(valorString);
+
+		if (!isNaN(valorNum)) {
+			if (valorNum > pontuacaoMax) {
+				notas[index].nota = String(pontuacaoMax);
+			} else if (valorNum < 0) {
+				notas[index].nota = '0';
+			} else {
+				notas[index].nota = valorString;
+			}
+		} else {
+			notas[index].nota = valorString;
+		}
+
+		oldNotaValues[`nota_${index}`] = notas[index].nota;
+	}
+
+	function onNotaBlur(index, pontuacaoMax) {
+		let valorString = String(notas[index].nota ?? '').replace(',', '.');
+
+		if (valorString.trim() === '' || valorString.trim() === '.') {
+			notas[index].nota = null;
+			oldNotaValues[`nota_${index}`] = null;
+			return;
+		}
+
+		let valorNum = parseFloat(valorString);
+
+		if (isNaN(valorNum)) {
+			notas[index].nota = null;
+			oldNotaValues[`nota_${index}`] = null;
+			return;
+		}
+
+		if (valorNum > pontuacaoMax) {
+			valorNum = pontuacaoMax;
+		} else if (valorNum < 0) {
+			valorNum = 0;
+		}
+
+		notas[index].nota = valorNum.toFixed(1);
+		oldNotaValues[`nota_${index}`] = notas[index].nota;
 	}
 
 	function formatarNotaFinal(index, criterio) {
@@ -114,6 +147,24 @@
 		data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_ponderada
 			? 'grid-template-columns: 0.85fr auto auto auto'
 			: 'grid-template-columns: 1fr auto auto';
+
+	function validarNotas() {
+		let todosPreenchidos = true;
+
+		for (const nota of notas) {
+			if (nota.nota === null || nota.nota === undefined || String(nota.nota).trim() === '') {
+				todosPreenchidos = false;
+				break;
+			}
+		}
+
+		if (!todosPreenchidos) {
+			toast.error('Preencha a nota de todos os critérios para finalizar a avaliação.');
+			return false;
+		}
+
+		return true;
+	}
 </script>
 
 <Toaster richColors expand position="top-center" closeButton />
@@ -171,17 +222,16 @@
 					<IconeInformacao text={criterio.descricao} />
 				</div>
 				<div class="input-container">
-					<InputText
+					<InputNumber
+						id={'inputNota' + index}
 						borded
 						name={criterio.titulo}
 						placeholder="Nota"
 						width="80px"
 						bind:value={notas[index].nota}
-						inputHandler={(e) => formatarNota(notas[index].nota, index, e)}
-						on:blur={() => formatarNotaFinal(index, criterio)}
-						step="0.1"
-						min="0"
-						max="10"
+						onfocus={() => onNotaFocus(notas[index].nota, index)}
+						oninput={() => onChangeNota(index, criterio.pontuacao_max)}
+						onblur={() => onNotaBlur(index, criterio.pontuacao_max)}
 					/>
 				</div>
 				<div class="nota-max">

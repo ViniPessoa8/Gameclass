@@ -238,7 +238,6 @@
 						name={criterio.titulo}
 						width="80px"
 						placeholder="Nota"
-						on:input={(event) => formatarNota(notas[index].nota, index, event)}
 						bind:value={notas[index].nota}
 						onfocus={() => onNotaFocus(notas[index].nota, index)}
 						oninput={() => onChangeNota(index, criterio.pontuacao_max)}

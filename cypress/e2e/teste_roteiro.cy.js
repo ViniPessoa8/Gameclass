@@ -81,7 +81,6 @@ it('Criação de Turma, Atividade e Etapa', () => {
 	cy.get('#inputNotaMaxCriterio-1').type('2');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('[type="submit"]').click();
 });
 
@@ -154,7 +153,6 @@ it('Criação de Atividade e Etapa em turma já existente', () => {
 	cy.get('#inputNotaMaxCriterio-1').type('2');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('[type="submit"]').click();
 });
 
@@ -170,15 +168,13 @@ it('Criação de Etapa em Atividade já existente', () => {
 	cy.get('#btnLogin').click();
 	cy.get('#btnProfessor').should("be.visible");
 	cy.get('#btnProfessor').click();
-	/* ==== Generated with Cypress Studio ==== */
 	cy.get(':nth-child(2) > .turma-buttons > .s-5xw9RGpuDz7F').click();
 	cy.get(':nth-child(3) > .atividade-info > .atividade-info-content').click();
 	cy.get('.button.s-o83GZyLGIZKf > .button').click();
-	/* ==== End Cypress Studio ==== */
 	cy.get('#inputTituloEtapa').clear('T');
 	cy.get('#inputTituloEtapa').type('Título da Etapa 3');
 	cy.get('#inputDtFimEtapa').click();
-	cy.get('#inputDtFimEtapa').type('2025-10-31T00:00');
+	cy.get('#inputDtFimEtapa').type('2025-11-20T23:59');
 	cy.get('#inputTituloCriterio-0').clear('T');
 	cy.get('#inputTituloCriterio-0').type('Título do Critério 1');
 	cy.get('#inputNotaMaxCriterio-0').clear('8');
@@ -192,10 +188,9 @@ it('Criação de Etapa em Atividade já existente', () => {
 	cy.get('#inputNotaMaxCriterio-1').type('2');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('[type="submit"]').click();
 	cy.wait(500);
-	cy.get('[data-content=""] > div').should("not.have.text", "Já existe uma etapa com o mesmo nome nessa atividade.");
+	cy.contains("Já existe uma etapa com o mesmo nome nessa atividade.").should("not.exist")
 });
 
 it('Criação de Etapa duplicada em Atividade já existente', () => {
@@ -216,7 +211,7 @@ it('Criação de Etapa duplicada em Atividade já existente', () => {
 	cy.get('#inputTituloEtapa').clear('T');
 	cy.get('#inputTituloEtapa').type('Título da Etapa 3');
 	cy.get('#inputDtFimEtapa').click();
-	cy.get('#inputDtFimEtapa').type('2025-10-31T00:00');
+	cy.get('#inputDtFimEtapa').type('2025-11-20T23:59');
 	cy.get('#inputTituloCriterio-0').clear('T');
 	cy.get('#inputTituloCriterio-0').type('Título do Critério 1');
 	cy.get('#inputNotaMaxCriterio-0').clear('8');
@@ -230,9 +225,8 @@ it('Criação de Etapa duplicada em Atividade já existente', () => {
 	cy.get('#inputNotaMaxCriterio-1').type('2');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('[type="submit"]').click();
-	cy.get('[data-content=""] > div').should("have.text", "Já existe uma etapa com o mesmo nome nessa atividade.")
+	cy.contains("Já existe uma etapa com o mesmo nome nessa atividade.")
 });
 
 it('Criação de Etapa em Atividade já existente, importando critérios', () => {
@@ -273,13 +267,10 @@ it('Criação de Etapa com Média Ponderada', () => {
 	cy.get('#btnLogin').click();
 	cy.get('#btnProfessor').should("be.visible");
 	cy.get('#btnProfessor').click();
-	/* ==== Generated with Cypress Studio ==== */
 	cy.get(':nth-child(2) > .turma-buttons > .s-5xw9RGpuDz7F').click();
 	cy.get(':nth-child(3) > .atividade-info > .atividade-info-content').click();
 	cy.get('.button.s-o83GZyLGIZKf > .button').click();
-	/* ==== End Cypress Studio ==== */
-	// cy.get('#media_ponderada').click();
-	cy.get(':nth-child(2) > #inputAtribuicaoNotasEtapa').click() // quebrou aqui
+	cy.get(':nth-child(2) > #inputAtribuicaoNotasEtapa').click()
 	cy.get('#btn-0').click();
 	cy.get('#inputTituloEtapa').clear('T');
 	cy.get('#inputTituloEtapa').type('Título da Etapa com Média Ponderada');
@@ -302,7 +293,6 @@ it('Criação de Etapa com Média Ponderada', () => {
 	cy.get('#inputPesoCriterio-1').type('3');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('[type="submit"]').click();
 });
 
@@ -339,7 +329,6 @@ it('Criação de Etapa Em Grupos, com os alunos formando seus grupos', () => {
 	cy.get('#inputNotaMaxCriterio-1').type('2');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('#realizacao_grupos').click();
 	cy.get('#inputNGruposEtapa0').type("4");
 	cy.get('#inputNAluno0').type("4")
@@ -364,7 +353,7 @@ it('Criação de Etapa Em Grupos, com o professor formando os grupos', () => {
 	cy.get('#inputTituloEtapa').clear('T');
 	cy.get('#inputTituloEtapa').type('Título da Etapa em Grupos 2');
 	cy.get('#inputDtFimEtapa').click();
-	cy.get('#inputDtFimEtapa').type('2025-10-31T00:00');
+	cy.get('#inputDtFimEtapa').type('2025-11-20T00:00');
 	cy.get('#inputTituloCriterio-0').clear('T');
 	cy.get('#inputTituloCriterio-0').type('Título do Critério 1');
 	cy.get('#inputNotaMaxCriterio-0').clear('8');
@@ -378,7 +367,6 @@ it('Criação de Etapa Em Grupos, com o professor formando os grupos', () => {
 	cy.get('#inputNotaMaxCriterio-1').type('2');
 	cy.get('#inputDescricaoCriterio-1').clear('D');
 	cy.get('#inputDescricaoCriterio-1').type('Descrição do Critério 2');
-	// cy.get('.btn-add-criterio > .button').click();
 	cy.get('#realizacao_grupos').click();
 	cy.get('#inputNGruposEtapa0').type("3");
 	cy.get('#inputNAluno0').type("2")
@@ -414,16 +402,14 @@ it('Avaliação de uma etapa individual', () => {
 	cy.get('[href="atividades/8/9"] > .button').click();
 	cy.get(':nth-child(1) > .botao').click();
 	cy.get('.btn-avaliar > .button').click();
-	cy.get(':nth-child(3) > .input-container > .board > #inputNotaMaxCriterio').click();
-	cy.get(':nth-child(3) > .input-container > .board > #inputNotaMaxCriterio').clear('4');
-	cy.get(':nth-child(3) > .input-container > .board > #inputNotaMaxCriterio').type('4');
-	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').click();
-	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').clear('5');
-	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').type('5');
+	cy.get('#inputNota0').clear('4');
+	cy.get('#inputNota0').type('4');
+	cy.get('#inputNota1').clear('5');
+	cy.get('#inputNota1').type('5');
 	cy.get('.pontuacao-final').click();
 	cy.get('.btn-finalizar > .button').click();
 	cy.get('.status-resposta').should("be.visible");
-	cy.get('.status-resposta').should("have.text", "(Avaliado)");
+	cy.get('.status-resposta').should("have.text", "(Avaliado: 4.3/5)");
 	cy.get('[data-content=""] > div').should("be.visible")
 	cy.get('[data-content=""] > div').should("have.text", "Avaliação realizada com sucesso!")
 });
@@ -446,14 +432,12 @@ it('Avaliação de uma etapa em grupos', () => {
 	cy.get('.botao').click();
 	cy.get('.btn-avaliar > .button').click();
 	cy.get(':nth-child(1) > .info-container > p.s-BkPa3DTopvmz > .s-BkPa3DTopvmz').click();
-	cy.get(':nth-child(3) > .input-container > .board > .borded').clear('4');
-	cy.get(':nth-child(3) > .input-container > .board > .borded').type('4');
-	cy.get(':nth-child(4) > .input-container > .board > .borded').clear('3');
-	cy.get(':nth-child(4) > .input-container > .board > .borded').type('3');
+	cy.get('#inputNota0').clear('4');
+	cy.get('#inputNota0').type('4');
+	cy.get('#inputNota1').clear('3');
+	cy.get('#inputNota1').type('3');
 	cy.get('.criterios-grid').click();
 	cy.get('#avaliar').click();
-
-	// Asserts
 	cy.get('.corrigido').should("be.visible")
 	cy.get('.corrigido').should("have.css", "background-color", "rgb(0, 128, 0)")
 });
@@ -476,15 +460,13 @@ it('Avaliação de uma etapa em grupos, replicando a nota para todos os alunos',
 	cy.get('.botao').click();
 	cy.get('.btn-avaliar > .button').click();
 	cy.get(':nth-child(1) > .info-container > p.s-BkPa3DTopvmz > .s-BkPa3DTopvmz').click();
-	cy.get(':nth-child(3) > .input-container > .board > .borded').clear('4');
-	cy.get(':nth-child(3) > .input-container > .board > .borded').type('4');
-	cy.get(':nth-child(4) > .input-container > .board > .borded').clear('3');
-	cy.get(':nth-child(4) > .input-container > .board > .borded').type('3');
+	cy.get('#inputNota0').clear('4');
+	cy.get('#inputNota0').type('4');
+	cy.get('#inputNota1').clear('3');
+	cy.get('#inputNota1').type('3');
 	cy.get('.criterios-grid').click();
 	cy.get('#aplicarParaTodaEquipe').click();
 	cy.get('#btn-0').click()
-
-	// Asserts
 	cy.get('.corrigido').should("be.visible")
 	cy.get('.corrigido').should("have.css", "background-color", "rgb(0, 128, 0)")
 	cy.get('[data-content=""] > div').should("have.text", "Avaliação realizada com sucesso!")
@@ -552,13 +534,13 @@ it('Editar nota da avaliação de um aluno ', () => {
 	cy.get('[href="atividades/1/1"] > .button > .feather').click();
 	cy.get(':nth-child(2) > .botao').click();
 	cy.get('.btn-avaliar > .button').click();
-	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').clear('3.5');
-	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').type('4');
+	cy.get('#inputNota1').clear();
+	cy.get('#inputNota1').type('4');
 	cy.get('.criterios-grid').click();
 	cy.get('.btn-finalizar > .button').click();
 
 	cy.get('.btn-avaliar > .button').click();
-	cy.get(':nth-child(4) > .input-container > .board > #inputNotaMaxCriterio').should("have.value", "4.0");
+	cy.get('#inputNota1').should("have.value", "4.0");
 });
 
 it('Editar nota da avaliação de um aluno do grupo', () => {
@@ -579,14 +561,12 @@ it('Editar nota da avaliação de um aluno do grupo', () => {
 	cy.get('.botao').click();
 	cy.get('.btn-avaliar > .button').click();
 	cy.get(':nth-child(1) > .info-container > p.s-BkPa3DTopvmz > .s-BkPa3DTopvmz').click();
-	cy.get(':nth-child(3) > .input-container > .board > .borded').clear('4');
-	cy.get(':nth-child(3) > .input-container > .board > .borded').type('2');
-	cy.get(':nth-child(4) > .input-container > .board > .borded').clear('4');
-	cy.get(':nth-child(4) > .input-container > .board > .borded').type('2');
+	cy.get('#inputNota0').clear();
+	cy.get('#inputNota0').type('2');
+	cy.get('#inputNota1').clear();
+	cy.get('#inputNota1').type('2');
 	cy.get('.criterios-grid').click();
 	cy.get('#avaliar').click();
-
-	// Asserts
 	cy.get('.corrigido').should("be.visible")
 	cy.get('.corrigido').should("have.css", "background-color", "rgb(0, 128, 0)")
 	cy.get(':nth-child(1) > .info-container > :nth-child(2)').should("have.text", "Média: 2.0")
