@@ -9,54 +9,91 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { navigationGuard } from '$src/stores/navigationGuard.js';
 	import { onDestroy, onMount } from 'svelte';
+	import { debug } from '$lib/utils/logger';
 
 	let { data } = $props();
 
 	let showModalCancelarAvaliacao = $state(false);
-	let novoCriterioNota = $state('');
-	let oldCriterioNota = $state('');
+	let oldNotaValues = $state({});
 	let resolvePromise;
+
+	function onNotaFocus(currentValue, index) {
+		oldNotaValues[`nota_${index}`] = currentValue || null;
+	}
+
+	function onChangeNota(index, pontuacaoMax) {
+		debug(`onChangeNota(${index}, ${pontuacaoMax})`);
+		let currentValue = notas[index].nota;
+
+		if (currentValue === null || currentValue === undefined) {
+			currentValue = '';
+		}
+
+		let valorString = String(currentValue).replace(',', '.');
+
+		// Regex que permite:
+		// - Um número inteiro (ex: "9", "10")
+		// - Um número com um ponto (ex: "9.", "10.")
+		// - Um número com um ponto e UMA casa decimal (ex: "9.5", "0.1")
+		// - Apenas um ponto (ex: ".")
+		// - Uma string vazia (permitindo apagar)
+		const validRegex = /^(?:[0-9]+(?:[.][0-9]{0,1})?|[.][0-9]{0,1}|[.]|)$/;
+
+		if (!validRegex.test(valorString)) {
+			notas[index].nota = oldNotaValues[`nota_${index}`];
+			return;
+		}
+
+		let valorNum = parseFloat(valorString);
+
+		if (!isNaN(valorNum)) {
+			if (valorNum > pontuacaoMax) {
+				notas[index].nota = String(pontuacaoMax);
+			} else if (valorNum < 0) {
+				notas[index].nota = '0';
+			} else {
+				notas[index].nota = valorString;
+			}
+		} else {
+			notas[index].nota = valorString;
+		}
+
+		oldNotaValues[`nota_${index}`] = notas[index].nota;
+	}
+
+	function onNotaBlur(index, pontuacaoMax) {
+		debug(`onNotaBlur(${index}, ${pontuacaoMax})`);
+		let valorString = String(notas[index].nota ?? '').replace(',', '.');
+
+		if (valorString.trim() === '' || valorString.trim() === '.') {
+			notas[index].nota = null;
+			oldNotaValues[`nota_${index}`] = null;
+			return;
+		}
+
+		let valorNum = parseFloat(valorString);
+
+		if (isNaN(valorNum)) {
+			notas[index].nota = null;
+			oldNotaValues[`nota_${index}`] = null;
+			return;
+		}
+
+		if (valorNum > pontuacaoMax) {
+			valorNum = pontuacaoMax;
+		} else if (valorNum < 0) {
+			valorNum = 0;
+		}
+
+		notas[index].nota = valorNum.toFixed(1);
+		oldNotaValues[`nota_${index}`] = notas[index].nota;
+	}
 
 	function requestConfirmation() {
 		showModalCancelarAvaliacao = true;
 		return new Promise((resolve) => {
 			resolvePromise = resolve;
 		});
-	}
-
-	// function formatarNota(valor) {
-	// 	let digitsOnly = String(valor).replace(/\D/g, '');
-	//
-	// 	if (!digitsOnly) {
-	// 		return '';
-	// 	}
-	//
-	// 	let formattedValue;
-	//
-	// 	if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
-	// 		formattedValue = '10.0';
-	// 	}
-	// 	else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
-	// 		 formattedValue = '10';
-	// 	}
-	// 	else if (digitsOnly.length >= 2) {
-	// 		formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
-	// 	}
-	// 	else {
-	// 		formattedValue = digitsOnly;
-	// 	}
-	//
-	// 	return formattedValue;
-	// }
-	//
-	function onChangeCriterioNota() {
-		novoCriterioNota = formatarNota(novoCriterioNota);
-
-		if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
-			novoCriterioNota = oldCriterioNota;
-		} else {
-			oldCriterioNota = novoCriterioNota;
-		}
 	}
 
 	onMount(() => {
@@ -67,18 +104,17 @@
 		navigationGuard.set(null);
 	});
 
-	// Funções chamadas pelos botões do modal
 	function handleConfirm() {
 		showModalCancelarAvaliacao = false;
 		if (resolvePromise) {
-			resolvePromise(true); // Confirma a navegação
+			resolvePromise(true);
 		}
 	}
 
 	function handleCancel() {
 		showModalCancelarAvaliacao = false;
 		if (resolvePromise) {
-			resolvePromise(false); // Cancela a navegação
+			resolvePromise(false);
 		}
 	}
 
@@ -92,15 +128,14 @@
 	);
 
 	function validarNotas() {
-		const inputs = document.querySelectorAll('.input-container input');
 		let todosPreenchidos = true;
 
-		inputs.forEach((input, index) => {
-			if (!input.value.trim()) {
+		for (const nota of notas) {
+			if (nota.nota === null || nota.nota === undefined || String(nota.nota).trim() === '') {
 				todosPreenchidos = false;
-				notas[index].nota = null;
+				break;
 			}
-		});
+		}
 
 		if (!todosPreenchidos) {
 			toast.error('Preencha a nota de todos os critérios para finalizar a avaliação.');
@@ -108,37 +143,6 @@
 		}
 
 		return true;
-	}
-
-	function formatarNota(valor, index, event) {
-		let input = event.target;
-		let cursorPos = input.selectionStart;
-
-		if (String(valor).includes(',')) {
-			valor = valor.replace(',', '.');
-			cursorPos++;
-		}
-
-		// Permitir números no formato "X" ou "X.Y" com até 2 dígitos antes do ponto
-		if (/^\d{0,2}(\.\d{0,1})?$/.test(valor) || valor === '') {
-			notas[index].nota = valor;
-
-			// Aguarda a próxima renderização para restaurar a posição do cursor
-			setTimeout(() => {
-				input.setSelectionRange(cursorPos, cursorPos);
-			}, 0);
-		}
-	}
-
-	function formatarNotaFinal(index, criterio) {
-		const num = parseFloat(notas[index].num);
-		if (!isNaN(num)) {
-			notas[index].notas = Math.min(num, criterio.pontuacao_max).toFixed(1);
-			notas[index].id_criterio = criterio.id;
-		} else {
-			notas[index].notas = 0.0;
-			notas[index].id_criterio = criterio.id;
-		}
 	}
 
 	let pontuacaoFinal = $derived.by(() => {
@@ -176,12 +180,12 @@
 	buttons={[
 		{
 			label: 'Sim, Cancelar',
-			onClick: handleConfirm, // Chama a função que resolve a Promise com 'true'
+			onClick: handleConfirm,
 			color: 'green'
 		},
 		{
 			label: 'Não, Continuar',
-			onClick: handleCancel, // Chama a função que resolve a Promise com 'false'
+			onClick: handleCancel,
 			color: 'red'
 		}
 	]}
@@ -229,13 +233,16 @@
 				</div>
 				<div class="input-container">
 					<InputNumber
-						id="inputNotaMaxCriterio"
+						id={'inputNota' + index}
 						borded
 						name={criterio.titulo}
 						width="80px"
 						placeholder="Nota"
 						on:input={(event) => formatarNota(notas[index].nota, index, event)}
 						bind:value={notas[index].nota}
+						onfocus={() => onNotaFocus(notas[index].nota, index)}
+						oninput={() => onChangeNota(index, criterio.pontuacao_max)}
+						onblur={() => onNotaBlur(index, criterio.pontuacao_max)}
 					/>
 				</div>
 				<div class="nota-max">

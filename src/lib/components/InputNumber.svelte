@@ -6,7 +6,8 @@
 	<div class="board">
 		<input
 			class="borded"
-			type="number"
+			type="text"
+			inputmode="decimal"
 			{name}
 			{placeholder}
 			bind:value
@@ -17,7 +18,8 @@
 {:else}
 	<input
 		class="unborded"
-		type="number"
+		type="text"
+		inputmode="decimal"
 		{name}
 		{placeholder}
 		bind:value
