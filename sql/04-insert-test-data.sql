@@ -363,4 +363,4 @@ ALTER SEQUENCE integrante_grupo_de_alunos_id_seq RESTART WITH 100;
 ALTER SEQUENCE formacao_grupo_id_seq RESTART WITH 100;
 
 -- Configurações gerais do sistema
-INSERT INTO config("chave", "valor") VALUES ('MAX_ETAPAS_POR_ATIVIDADE', '5');
+INSERT INTO config("chave", "valor") VALUES ('MAX_ETAPAS_POR_ATIVIDADE', '10');
