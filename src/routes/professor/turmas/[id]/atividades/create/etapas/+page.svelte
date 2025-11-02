@@ -447,7 +447,7 @@
 	</div>
 	<div class="page-container">
 		<div class="content-container">
-			<h1>Calculados</h1>
+			<h1>{atividade.titulo}</h1>
 			<h2>Definição das etapas da atividade</h2>
 			<div class="form-container">
 				<form
@@ -554,9 +554,6 @@
 							<hr />
 							{#if etapasData[$selectedEtapa].realizacaoGroup == 'Em Grupos'}
 								<div class="row">
-									<IconeInformacao
-										text={'"Individual": cada aluno será avaliado individualmente.\n "Em Grupos": Uma nota para o grupo todo'}
-									/>
 									<h2>Tipo de Avaliação</h2>
 									<InputRadio
 										id="inputTipoAvaliacaoNotas"
@@ -565,10 +562,12 @@
 										selected={etapasData[$selectedEtapa].tipoAvaliacaoNotasGroup}
 										onClickOption={handleTipoAvaliacao}
 									/>
+									<IconeInformacao
+										text={'"Individual": cada aluno será avaliado individualmente.\n "Em Grupos": Uma nota para o grupo todo'}
+									/>
 								</div>
 								<hr />
 								<div class="row">
-									<IconeInformacao text="Forma que os grupos de estudantes se formarão" />
 									<h2>Formação dos grupos:</h2>
 									<InputRadio
 										id="formacaoGrupos"
@@ -579,6 +578,7 @@
 											etapasData[$selectedEtapa].formacao = valor.trim();
 										}}
 									/>
+									<IconeInformacao text="Forma que os grupos de estudantes se formarão" />
 								</div>
 								<hr />
 								<div class="tamanho-grupos">
@@ -638,7 +638,7 @@
 							{/if}
 						</div>
 						<div class="criterios-container">
-							<h1>Critérios</h1>
+							<h1 style="align-text: left; width: 100%">Critérios</h1>
 							<div class="column inputs-criterio">
 								<div class="row">
 									<Button type="button" on:click={() => (isModalOpen = true)}>
@@ -791,7 +791,7 @@
 	}
 
 	.info-container hr {
-		width: 90%;
+		width: 100%;
 		height: 1px;
 		border: 0;
 		border-top: 1px solid darkgrey;
