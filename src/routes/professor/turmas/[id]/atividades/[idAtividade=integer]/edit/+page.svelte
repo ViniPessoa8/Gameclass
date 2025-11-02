@@ -162,6 +162,8 @@
 				bind:value={descricao}
 				inputHandler={descricaoInputHandler}
 				backgroundColor="var(--cor-primaria)"
+				width="600px"
+				height="200px"
 			/>
 		</div>
 		{#if descricaoEmpty}
