@@ -291,6 +291,7 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "peso", "id_i
 (18, 'Correção do Script DDL', 'O script cria todas as tabelas e restrições conforme o modelo.', 5, 2, 9),
 (19, 'Qualidade dos Dados (DML)', 'Os dados inseridos são coerentes e cobrem diversos cenários.', 5, 1, 9);
 INSERT INTO entrega("id", "id_estudante", "id_item_atividade") VALUES (9, 1, 9), (10, 2, 9);
+INSERT INTO comentario("texto", "id_entrega", "id_usuario") VALUES ('Não consegui implementar a última parte professor.', 9, 2);
 INSERT INTO anexo ("titulo", "conteudo_texto", "id_entrega") VALUES ('scripts_ddl_dml_ada.sql', 'SHOW TABLES;', 9), ('carga_dados_grace.sql', 'SHOW TABLES;', 10);
 -- NENHUMA avaliação é criada para simular a pendência.
 
