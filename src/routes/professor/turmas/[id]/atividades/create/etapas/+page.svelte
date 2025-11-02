@@ -639,14 +639,14 @@
 						</div>
 						<div class="criterios-container">
 							<h1>Critérios</h1>
-							<div class="column">
+							<div class="column inputs-criterio">
 								<div class="row">
 									<Button type="button" on:click={() => (isModalOpen = true)}>
 										Copiar critérios de outra etapa</Button
 									>
 								</div>
 								{#each etapasData[$selectedEtapa]?.criterios as criterio, index (index)}
-									<div class="column">
+									<div class="column input-criterio">
 										<div class="row">
 											<InputText
 												id="inputTituloCriterio-{index}"
@@ -680,6 +680,7 @@
 											{#if index > 0}
 												<Button
 													color="var(--cor primaria)"
+													backgroundColor="var(--cor-secundaria)"
 													type="button"
 													on:click={() => onRemoveCriterio(criterio)}>X</Button
 												>
@@ -695,7 +696,7 @@
 											/>
 										</div>
 									</div>
-									<hr />
+									<!-- <hr /> -->
 								{/each}
 								<div class="btn-add-criterio">
 									<Button
@@ -882,5 +883,16 @@
 
 	.caminho-de-pao-criacao b {
 		color: var(--cor-primaria);
+	}
+
+	.inputs-criterio {
+		gap: 20px;
+	}
+
+	.input-criterio {
+		padding: 0px 8px;
+		border: 2px solid var(--cor-secundaria);
+		border-radius: 12px;
+		background-color: lightgray;
 	}
 </style>
