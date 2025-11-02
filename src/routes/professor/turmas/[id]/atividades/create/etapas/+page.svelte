@@ -490,7 +490,7 @@
 									borded
 									bind:value={etapasData[$selectedEtapa].descricao}
 									name="descricao"
-									width="400px"
+									width="100%"
 									height="150px"
 								/>
 							</div>
@@ -518,6 +518,7 @@
 							</div>
 							<div class="row">
 								<InputCheckbox
+									fontSize="24px"
 									id="inputReceberAposPrazoEtapa"
 									bind:checked={etapasData[$selectedEtapa].receberAposPrazo}
 									text="Receber após o prazo"
@@ -526,7 +527,6 @@
 							</div>
 							<hr />
 							<div class="row">
-								<IconeInformacao text="Forma que a nota da etapa será calculada" />
 								<h2>Atribuição de Notas:</h2>
 								<InputRadio
 									id="inputAtribuicaoNotasEtapa"
@@ -536,18 +536,19 @@
 									onClickOption={handleAtribuicaoDeNotas}
 									requerConfirmacao
 								/>
+								<IconeInformacao text="Forma que a nota da etapa será calculada" />
 							</div>
 							<hr />
 							<div class="row">
-								<IconeInformacao
-									text={'"Individual": Entregas serão feitas individualmente por cada estudante.\n"Em Grupos": Estudantes se juntarão em grupos para realizar uma só entrega.'}
-								/>
 								<h2>Realização:</h2>
 								<InputRadio
 									borded
 									options={realizacaoOpcoes}
 									selected={etapasData[$selectedEtapa].realizacaoGroup}
 									onClickOption={handleRealizaoEtapa}
+								/>
+								<IconeInformacao
+									text={'"Individual": Entregas serão feitas individualmente por cada estudante.\n"Em Grupos": Estudantes se juntarão em grupos para realizar uma só entrega.'}
 								/>
 							</div>
 							<hr />
@@ -768,7 +769,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+		justify-content: left;
 		gap: 20px;
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -782,7 +783,7 @@
 	.info-container {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: left;
 		justify-content: center;
 		margin-top: 40px;
 		margin-right: 24px;

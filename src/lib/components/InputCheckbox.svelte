@@ -8,18 +8,13 @@
 	 */
 
 	/** @type {Props} */
-	let {
-		text,
-		name,
-		checked = $bindable(),
-		disabled = false
-	} = $props();
+	let { text, name, checked = $bindable(), disabled = false, fontSize } = $props();
 </script>
 
 <div class="container">
 	<div class="row">
 		<input {name} type="checkbox" {disabled} value={text} bind:checked />
-		<p>{text}</p>
+		<p style="font-size: {fontSize}">{text}</p>
 	</div>
 </div>
 
