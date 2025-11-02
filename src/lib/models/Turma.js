@@ -37,7 +37,7 @@ export default class Turma {
 		if (!this.nome) camposFaltando.push('nome');
 		if (!this.ano) camposFaltando.push('ano');
 		if (!this.periodo) camposFaltando.push('periodo');
-		if (!this.local) camposFaltando.push('local');
+		// if (!this.local) camposFaltando.push('local');
 		if (!this.id_instituicao) camposFaltando.push('id_instituicao');
 		if (!this.id_professor) camposFaltando.push('id_professor');
 

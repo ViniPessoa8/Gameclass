@@ -43,7 +43,7 @@ CREATE TABLE turma (
     "ano" SMALLINT NOT NULL,
     "periodo" SMALLINT NOT NULL,
 	"descricao" VARCHAR(255),
-	"local" VARCHAR(255),
+	"local" VARCHAR(255) NULL,
 	"numero_alunos" SMALLINT NOT NULL,
 	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_instituicao" BIGINT REFERENCES instituicao(id),

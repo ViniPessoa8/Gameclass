@@ -23,7 +23,7 @@
 		descricaoEmpty = $state(),
 		anoEmpty = $state(),
 		periodoEmpty = $state(),
-		localEmpty = $state(),
+		// localEmpty = $state(),
 		instituicaoEmpty = $state(false);
 
 	let selectOptionDict = data['instituicoes'];
@@ -58,10 +58,10 @@
 			periodoEmpty = true;
 			ok = false;
 		}
-		if (!local) {
-			localEmpty = true;
-			ok = false;
-		}
+		// if (!local) {
+		// 	localEmpty = true;
+		// 	ok = false;
+		// }
 		if (!instituicao) {
 			instituicaoEmpty = true;
 			ok = false;
@@ -95,9 +95,9 @@
 		if (e.target.value.length > 0) periodoEmpty = false;
 	}
 
-	function localInputHandler(e) {
-		if (e.target.value.length > 0) localEmpty = false;
-	}
+	// function localInputHandler(e) {
+	// 	if (e.target.value.length > 0) localEmpty = false;
+	// }
 
 	function instituicaoInputHandler(e) {
 		if (e.target.value.length > 0) instituicaoEmpty = false;
@@ -222,18 +222,12 @@
 		<div class="row">
 			<h2>Local:</h2>
 			<div style="display:flex; flex-direction: column;">
-				<InputText
-					id="inputLocal"
-					borded
-					name="local"
-					bind:value={local}
-					inputHandler={localInputHandler}
-				/>
-				{#if localEmpty}
-					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
-				{:else}
-					<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
-				{/if}
+				<InputText id="inputLocal" borded name="local" bind:value={local} />
+				<!-- {#if localEmpty} -->
+				<!-- 	<span class="error" style="visibility: visible;">*Campo obrigatório</span> -->
+				<!-- {:else} -->
+				<!-- 	<span class="error" style="visibility: hidden;">*Campo obrigatório</span> -->
+				<!-- {/if} -->
 			</div>
 		</div>
 		<div class="row">
