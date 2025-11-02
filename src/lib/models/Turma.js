@@ -32,7 +32,6 @@ export default class Turma {
 	validar() {
 		const camposFaltando = [];
 
-		if (!this.codigo) camposFaltando.push('codigo');
 		if (!this.cor) camposFaltando.push('cor');
 		if (!this.disciplina) camposFaltando.push('disciplina');
 		if (!this.nome) camposFaltando.push('nome');

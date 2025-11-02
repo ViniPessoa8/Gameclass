@@ -37,7 +37,6 @@ CREATE TABLE estudante (
 
 CREATE TABLE turma (
     "id" BIGSERIAL UNIQUE,
-	"codigo" VARCHAR(12) NOT NULL,
 	"cor" VARCHAR(6) NOT NULL,
 	"disciplina" VARCHAR(100) NOT NULL,
 	"nome" VARCHAR(100) NOT NULL,
@@ -49,7 +48,7 @@ CREATE TABLE turma (
 	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"id_instituicao" BIGINT REFERENCES instituicao(id),
 	"id_professor" BIGINT REFERENCES usuario(id),
-	PRIMARY KEY ("codigo", "id_instituicao")
+	PRIMARY KEY ("nome", "id_instituicao")
 );
 
 CREATE TABLE estudante_turma (

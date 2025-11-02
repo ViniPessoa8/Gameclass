@@ -1,11 +1,11 @@
 import { DB_INFO } from "../../constants";
 import { getPool } from "$config/database.js"
 
-export async function registraTurmaBD(codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId, numero_alunos, cor) {
+export async function registraTurmaBD(disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId, numero_alunos, cor) {
 	const db = getPool()
 	const query = {
-		text: `INSERT INTO ${DB_INFO.tables.turma}(codigo, disciplina, nome, descricao, ano, periodo, local, id_instituicao, id_professor, numero_alunos, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id;`,
-		values: [codigo, disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId, numero_alunos, cor]
+		text: `INSERT INTO ${DB_INFO.tables.turma}(disciplina, nome, descricao, ano, periodo, local, id_instituicao, id_professor, numero_alunos, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;`,
+		values: [disciplina, nome, descricao, ano, periodo, local, instituicaoId, professorId, numero_alunos, cor]
 	}
 
 	try {
@@ -16,33 +16,33 @@ export async function registraTurmaBD(codigo, disciplina, nome, descricao, ano, 
 	}
 }
 
-export async function isTurmaRegisteredDB(codigo, instituicaoId) {
+export async function isTurmaRegisteredDB(nome, instituicaoId) {
 	const db = getPool()
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE codigo = $1 AND id_instituicao = $2;`,
-		values: [codigo, instituicaoId]
+		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE nome = $1 AND id_instituicao = $2;`,
+		values: [nome, instituicaoId]
 	}
 
 	try {
 		const res = await db.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao buscar turma por codigo (${codigo}) e instituicao (${instituicaoId})): ${e}`)
+		throw (`Erro ao buscar turma por nome (${nome}) e instituicao (${instituicaoId})): ${e}`)
 	}
 }
 
-export async function listaTurmaPorCodigoBD(codigo) {
+export async function listaTurmaPorNomeBD(nome) {
 	const db = getPool()
 	const query = {
-		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE codigo = $1;`,
-		values: [codigo]
+		text: `SELECT * FROM ${DB_INFO.tables.turma} WHERE nome = $1;`,
+		values: [nome]
 	}
 
 	try {
 		const res = await db.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao buscar turma por codigo (${codigo}): ${e}`)
+		throw (`Erro ao buscar turma por nome (${nome}): ${e}`)
 	}
 }
 
@@ -129,17 +129,17 @@ export async function listaAlunosPorTurmaIdBD(idTurma) {
 	}
 }
 
-export async function removeTurmaPorCodigoBD(codigo) {
+export async function removeTurmaPorNomeBD(nome, idInstiuicao) {
 	const db = getPool()
 	const query = {
-		text: `DELETE FROM ${DB_INFO.tables.turma} WHERE codigo = $1 RETURNING id;`,
-		values: [codigo]
+		text: `DELETE FROM ${DB_INFO.tables.turma} WHERE nome = $1 AND id_instituicao = $2 RETURNING id;`,
+		values: [nome, idInstiuicao]
 	}
 
 	try {
 		const res = await db.query(query)
 		return res
 	} catch (e) {
-		throw (`Erro ao deletar turma por codigo (${codigo}): ${e}`)
+		throw (`Erro ao deletar turma por nome (${nome}) e instituicao (${idInstiuicao}): ${e}`)
 	}
 }

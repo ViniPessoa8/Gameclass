@@ -8,8 +8,8 @@
 
 	let { data, form = $bindable() } = $props();
 
-	let codigo = $state(),
-		disciplina = $state(),
+	let disciplina = $state(),
+		// codigo = $state(),
 		nome = $state(),
 		descricao = $state(),
 		ano = $state(),
@@ -34,10 +34,10 @@
 	function checkInputs() {
 		let ok = true;
 
-		if (!codigo) {
-			codigoEmpty = true;
-			ok = false;
-		}
+		// if (!codigo) {
+		// 	codigoEmpty = true;
+		// 	ok = false;
+		// }
 		if (!disciplina) {
 			disciplinaEmpty = true;
 			ok = false;
@@ -70,10 +70,10 @@
 		return ok;
 	}
 
-	function codigoInputHandler(e) {
-		if (e.target.value.length > 0) codigoEmpty = false;
-		if (form) form.already_registered = false;
-	}
+	// function codigoInputHandler(e) {
+	// 	if (e.target.value.length > 0) codigoEmpty = false;
+	// 	if (form) form.already_registered = false;
+	// }
 
 	function disciplinaInputHandler(e) {
 		if (e.target.value.length > 0) disciplinaEmpty = false;
@@ -151,23 +151,23 @@
 			};
 		}}
 	>
-		<div class="row">
-			<h2>Código da turma:</h2>
-			<div style="display:flex; flex-direction: column;">
-				<InputText
-					id="inputCodigo"
-					borded
-					name="codigo"
-					bind:value={codigo}
-					inputHandler={codigoInputHandler}
-				/>
-				{#if codigoEmpty}
-					<span class="error" style="visibility: visible;">*Campo obrigatório</span>
-				{:else}
-					<span class="error" style="visibility: hidden;">*Campo obrigatório</span>
-				{/if}
-			</div>
-		</div>
+		<!-- <div class="row"> -->
+		<!-- 	<h2>Código da turma:</h2> -->
+		<!-- 	<div style="display:flex; flex-direction: column;"> -->
+		<!-- 		<InputText -->
+		<!-- 			id="inputCodigo" -->
+		<!-- 			borded -->
+		<!-- 			name="codigo" -->
+		<!-- 			bind:value={codigo} -->
+		<!-- 			inputHandler={codigoInputHandler} -->
+		<!-- 		/> -->
+		<!-- 		{#if codigoEmpty} -->
+		<!-- 			<span class="error" style="visibility: visible;">*Campo obrigatório</span> -->
+		<!-- 		{:else} -->
+		<!-- 			<span class="error" style="visibility: hidden;">*Campo obrigatório</span> -->
+		<!-- 		{/if} -->
+		<!-- 	</div> -->
+		<!-- </div> -->
 		<div class="row">
 			<h2>Disciplina:</h2>
 			<div style="display:flex; flex-direction: column;">

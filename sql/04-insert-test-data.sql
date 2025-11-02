@@ -101,9 +101,9 @@ ALTER SEQUENCE estudante_id_seq RESTART WITH 10;
 
 -- ========= TURMAS DO PROF. ALAN TURING (usuario.id = 1) =========
 
-INSERT INTO turma("codigo", "nome", "disciplina", "ano", "periodo", "cor", "descricao", "numero_alunos", "id_professor", "id_instituicao") VALUES
-('TIN2025BD1', 'Banco de Dados', 'Sistemas de Informação', 2025, 2, '4682B4', 'Turma focada em modelagem, SQL e NoSQL.', 5, 1, 1),
-('TIN2025ES2', 'Engenharia de Software II', 'Engenharia de Software', 2025, 2, '6B8E23', 'Foco em padrões de projeto, arquitetura e testes.', 5, 1, 1);
+INSERT INTO turma("nome", "disciplina", "ano", "periodo", "cor", "descricao", "numero_alunos", "id_professor", "id_instituicao") VALUES
+('Banco de Dados', 'Sistemas de Informação', 2025, 2, '4682B4', 'Turma focada em modelagem, SQL e NoSQL.', 5, 1, 1),
+('Engenharia de Software II', 'Engenharia de Software', 2025, 2, '6B8E23', 'Foco em padrões de projeto, arquitetura e testes.', 5, 1, 1);
 -- ('TIN2025AA1', 'Algoritmos Avançados', 'Ciência da Computação', 2025, 2, 'CD5C5C', 'Análise de complexidade e estruturas de dados complexas.', 5, 1, 1);
 ALTER SEQUENCE turma_id_seq RESTART WITH 4;
 

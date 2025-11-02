@@ -49,7 +49,6 @@ export default class TurmaController {
 		turma.validar();
 
 		const res = await registraTurmaBD(
-			turma.codigo,
 			turma.disciplina,
 			turma.nome,
 			turma.descricao,
