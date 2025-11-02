@@ -152,9 +152,6 @@ export async function load({ params, cookies }) {
 			const somaNotas = itemAtividade.entregas
 				.flatMap((entrega) => entrega.notas)
 				.flatMap((nota) => nota.pontuacao_max)
-			console.debug("somaNotas => ", somaNotas)
-			console.debug("math max => ", Math.max(somaNotas))
-			console.debug("parse math max => ", parseFloat(Math.max(somaNotas)))
 			// .reduce((total, n) => total + (n.pontuacao_max), 0); // inicia em 0
 			data.atividades[indexA].itensAtividade[indexIA].notaMax = somaNotas.length > 0 ? parseFloat(Math.max(...somaNotas)).toFixed(1) : "-"
 
