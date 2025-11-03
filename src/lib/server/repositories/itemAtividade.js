@@ -1,5 +1,6 @@
 import { getPool } from "$config/database.js"
 import { DB_INFO } from "$lib/constants"
+import { debug } from "$lib/utils/logger"
 
 //INSERT
 
@@ -20,17 +21,17 @@ export async function cadastraItemAtividadeBD(titulo, descricao, notaMax, dataEn
 
 // update
 
-export async function alteraItemAtividadeBD(idItemAtividade, titulo, descricao, dataEntregaInicial, dataEntregaFinal) {
+export async function alteraItemAtividadeBD(idItemAtividade, titulo, descricao, dataEntregaInicial, dataEntregaFinal, receberAposPrazo) {
 	const db = getPool()
 	const query = {
 		text: `UPDATE 
 							${DB_INFO.tables.item_atividade} 
 						SET 
-							titulo = $2, descricao = $3, data_entrega_inicial = $4, data_entrega_final = $5
+							titulo = $2, descricao = $3, data_entrega_inicial = $4, data_entrega_final = $5, receber_apos_prazo = $6
 						WHERE
 							id = $1
 `,
-		values: [idItemAtividade, titulo, descricao, dataEntregaInicial, dataEntregaFinal]
+		values: [idItemAtividade, titulo, descricao, dataEntregaInicial, dataEntregaFinal, receberAposPrazo]
 	}
 
 	try {

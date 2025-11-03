@@ -15,6 +15,7 @@
 	import { onMount } from 'svelte';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { FORMACAO_GRUPO } from '$lib/constants';
+	import { debug } from '$lib/utils/logger';
 
 	// export let data;
 	let { data } = $props();
@@ -72,7 +73,8 @@
 				titulo: etapa.titulo,
 				descricao: etapa.descricao,
 				data_entrega_inicial: etapa.data_entrega_inicial,
-				data_entrega_final: etapa.data_entrega_final
+				data_entrega_final: etapa.data_entrega_final,
+				receber_apos_prazo: etapa.receber_apos_prazo
 			};
 			formData.set('etapa', JSON.stringify(etapaObj));
 
@@ -436,9 +438,8 @@
 							<div class="row">
 								<InputCheckbox
 									id="inputReceberAposPrazoEtapa"
-									bind:checked={etapa.receberAposPrazo}
+									bind:checked={etapa.receber_apos_prazo}
 									text="Receber após o prazo"
-									disabled
 								/>
 								<IconeInformacao text="Receber a tarefa mesmo que o prazo final tenha passado." />
 							</div>
@@ -678,7 +679,7 @@
 						</div>
 					</div>
 					<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)"
-						>Próximo</Button
+						>Salvar</Button
 					>
 					<!-- TODO: Botão de voltar -->
 					<!-- <Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-secundaria)" -->

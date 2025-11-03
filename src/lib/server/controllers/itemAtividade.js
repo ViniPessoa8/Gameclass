@@ -107,9 +107,10 @@ export default class ItemAtividadeController {
 			titulo,
 			descricao,
 			data_entrega_inicial,
-			data_entrega_final }
+			data_entrega_final,
+			receber_apos_prazo }
 	) {
-		log(`ItemAtividadeController -> altera(${id}, ${titulo}, ${descricao}, ${data_entrega_inicial}, ${data_entrega_final})`)
+		log(`ItemAtividadeController -> altera(${id}, ${titulo}, ${descricao}, ${data_entrega_inicial}, ${data_entrega_final}, ${receber_apos_prazo})`)
 		const camposFaltando = [];
 
 		if (!id) {
@@ -124,6 +125,9 @@ export default class ItemAtividadeController {
 		if (!data_entrega_final) {
 			camposFaltando.push('dataEntregaFinal');
 		}
+		if (receber_apos_prazo == null || receber_apos_prazo == undefined) {
+			camposFaltando.push('receberAposPrazo');
+		}
 
 		if (camposFaltando.length > 0) {
 			throw `Os seguintes campos obrigatórios não foram preenchidos ou são inválidos: ${camposFaltando.join(', ')}. (Item Atividade)`;
@@ -136,6 +140,7 @@ export default class ItemAtividadeController {
 			descricao,
 			data_entrega_inicial,
 			data_entrega_final,
+			receber_apos_prazo
 		);
 
 		if (res.rowCount > 0) {
