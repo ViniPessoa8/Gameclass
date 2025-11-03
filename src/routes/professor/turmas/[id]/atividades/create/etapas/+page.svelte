@@ -711,16 +711,22 @@
 							<div class="criterios-definidos">
 								<div class="pontuacao">
 									<div class="total-de-pontos">
-										<h2>Total de pontos:&emsp;</h2>
+										<h2>Número de critérios:&emsp;</h2>
 										<h2>
-											{parseFloat(
-												etapasData[$selectedEtapa]?.criterios
-													.map((x) => parseFloat(x.pontuacao_max) || 0)
-													.reduce((a, b) => a + b, 0)
-											).toFixed(1)}
+											{etapasData[$selectedEtapa]?.criterios.length}
 										</h2>
 									</div>
 									{#if etapasData[$selectedEtapa].atribuicaoNotasGroup === 'Média Ponderada'}
+										<div class="total-de-pontos">
+											<h2>Soma de (cada nota × seu peso):&emsp;</h2>
+											<h2>
+												{parseFloat(
+													etapasData[$selectedEtapa]?.criterios
+														.map((x) => x)
+														.reduce((a, b) => a + b.pontuacao_max * b.peso, 0)
+												).toFixed(1)}
+											</h2>
+										</div>
 										<div class="total-de-pesos">
 											<h2>Total de pesos:&emsp;</h2>
 											<h2>
@@ -731,6 +737,60 @@
 												).toFixed(1)}
 											</h2>
 										</div>
+									{:else}
+										<div class="total-de-pontos">
+											<h2>Total de pontos:&emsp;</h2>
+											<h2>
+												{parseFloat(
+													etapasData[$selectedEtapa]?.criterios
+														.map((x) => parseFloat(x.pontuacao_max) || 0)
+														.reduce((a, b) => a + b, 0)
+												).toFixed(1)}
+											</h2>
+										</div>
+									{/if}
+									<br />
+									<div class="total-de-pontos">
+										<h1>Média final: &emsp;</h1>
+										{#if etapasData[$selectedEtapa].atribuicaoNotasGroup === 'Média Ponderada'}
+											<h1>
+												{#if etapasData[$selectedEtapa]?.criterios[0].pontuacao_max == '' || etapasData[$selectedEtapa]?.criterios[0].peso == ''}
+													0.0
+												{:else}
+													{(
+														parseFloat(
+															etapasData[$selectedEtapa]?.criterios
+																.map((x) => x)
+																.reduce((a, b) => a + b.pontuacao_max * b.peso, 0)
+														) /
+														parseFloat(
+															etapasData[$selectedEtapa]?.criterios
+																.map((x) => parseFloat(x.peso) || 0)
+																.reduce((a, b) => a + b, 0)
+														)
+													).toFixed(1)}
+												{/if}
+											</h1>
+										{:else}
+											<h1>
+												{parseFloat(
+													etapasData[$selectedEtapa]?.criterios
+														.map((x) => parseFloat(x.pontuacao_max) || 0)
+														.reduce((a, b) => a + b, 0) /
+														etapasData[$selectedEtapa]?.criterios.length
+												).toFixed(1)}
+											</h1>
+										{/if}
+									</div>
+
+									{#if etapasData[$selectedEtapa].atribuicaoNotasGroup === 'Média Ponderada'}
+										<h3 style="align-self: center;">
+											&emsp;(Soma de (cada nota × seu peso)) / (Total de pesos)
+										</h3>
+									{:else}
+										<h3 style="align-self: center;">
+											&emsp;(Total de pontos / Número de critérios)
+										</h3>
 									{/if}
 								</div>
 							</div>
@@ -785,7 +845,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: left;
-		justify-content: center;
+		justify-content: start;
 		margin-top: 40px;
 		margin-right: 24px;
 	}
