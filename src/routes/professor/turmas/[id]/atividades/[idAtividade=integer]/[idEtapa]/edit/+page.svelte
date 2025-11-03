@@ -564,116 +564,164 @@
 							<!-- </div> -->
 						</div>
 						<div class="criterios-container">
-							<h1>Critérios</h1>
-							<div class="column">
-								<!-- TODO: Limitar input de dados com mascaras  -->
-								<div class="column">
-									<div class="row">
-										<InputText
-											id="inputTituloCriterio"
-											borded
-											name="tituloCriterio"
-											placeholder="Título"
-											backgroundColor="#f0f0f0"
-											bind:value={novoCriterioTitulo}
-											disabled
-										/>
-										<InputNumber
-											id="inputNotaMaxCriterio"
-											borded
-											name="notaMaxCriterio"
-											width="150px"
-											placeholder="Nota max."
-											backgroundColor="#f0f0f0"
-											inputHandler={onChangeCriterioNota}
-											bind:value={novoCriterioNota}
-											disabled
-										/>
-										{#if etapa.atribuicaoNotasGroup == 'Média Ponderada'}
+							<h1 style="align-text: left; width: 100%">Critérios</h1>
+							<div class="column inputs-criterio">
+								<div class="row">
+									<Button disabled type="button" on:click={() => (isModalOpen = true)}>
+										Copiar critérios de outra etapa</Button
+									>
+								</div>
+								{#each etapa?.criterios as criterio, index (index)}
+									<div class="column input-criterio">
+										<div class="row">
 											<InputText
-												id="inputPesoCriterio"
+												id="inputTituloCriterio-{index}"
 												borded
-												name="pesoCriterio"
-												width="150px"
-												placeholder="Peso"
-												backgroundColor="#f0f0f0"
-												inputHandler={onChangeCriterioPeso}
-												bind:value={novoCriterioPeso}
+												name="tituloCriterio"
+												placeholder="Título"
+												bind:value={criterio.titulo}
 												disabled
 											/>
-										{/if}
-									</div>
-									<div class="row">
-										<InputText
-											id="inputDescricaoCriterio"
-											borded
-											name="descricaoCriterio"
-											placeholder="Descrição"
-											backgroundColor="#f0f0f0"
-											bind:value={novoCriterioDescricao}
-											disabled
-										/>
-									</div>
-									<div class="btn-add-criterio">
-										<Button
-											borded
-											color="var(--cor primaria)"
-											type="button"
-											disabled
-											on:click={onAdicionaCriterio}>Adicionar Critério</Button
-										>
-									</div>
-								</div>
-								{#if erroNotaCriterio[0]}
-									<p class="erro-criterio">{erroNotaCriterio[1]}</p>
-								{:else}
-									<p class="erro-criterio" style="visibility: hidden;">{erroNotaCriterio[1]}</p>
-								{/if}
-							</div>
-							<div class="criterios-definidos">
-								<hr />
-								{#each etapa.criterios as criterio}
-									<div class="criterio-container">
-										<div class="titulo-criterio">
-											<h2>{criterio.titulo}</h2>
-											<IconeInformacao text={criterio.descricao} />
-										</div>
-										<h2>{parseFloat(criterio.pontuacao_max).toFixed(1)}</h2>
-										{#if etapa.atribuicaoNotasGroup == 'Média Ponderada'}
-											<h2>{parseFloat(criterio.peso).toFixed(1)}</h2>
-										{/if}
-									</div>
-									<hr />
-								{/each}
-								<div class="pontuacao">
-									<div class="total-de-pontos">
-										<h2>Total de pontos:&emsp;</h2>
-										<h2>
-											{#if etapa.criterios.length === 0}
-												0.0
-											{:else}
-												{parseFloat(
-													etapa.criterios
-														.map((x) => parseFloat(x.pontuacao_max))
-														.reduce((a, b) => a + b)
-												).toFixed(1)}
+											<InputNumber
+												id="inputNotaMaxCriterio-{index}"
+												borded
+												name="notaMaxCriterio"
+												width="150px"
+												placeholder="Nota max."
+												bind:value={criterio.pontuacao_max}
+												on:focus={() => onNotaFocus(criterio.pontuacao_max, index)}
+												on:input={() => onChangeCriterioNota(index)}
+												disabled
+											/>
+											{#if etapa?.atribuicaoNotasGroup == 'Média Ponderada'}
+												<InputNumber
+													id="inputPesoCriterio-{index}"
+													borded
+													name="pesoCriterio"
+													width="150px"
+													placeholder="Peso"
+													bind:value={criterio.peso}
+													on:focus={() => onPesoFocus(criterio.peso, index)}
+													on:input={() => onChangeCriterioPeso(index)}
+													disabled
+												/>
 											{/if}
-										</h2>
+											<!-- {#if index > 0} -->
+											<!-- 	<Button -->
+											<!-- 		color="var(--cor primaria)" -->
+											<!-- 		backgroundColor="var(--cor-secundaria)" -->
+											<!-- 		type="button" -->
+											<!-- 		disabled -->
+											<!-- 		on:click={() => onRemoveCriterio(criterio)}>X</Button -->
+											<!-- 	> -->
+											<!-- {/if} -->
+										</div>
+										<div class="row">
+											<InputText
+												id="inputDescricaoCriterio-{index}"
+												borded
+												name="descricaoCriterio"
+												placeholder="Descrição"
+												bind:value={criterio.descricao}
+												disabled
+											/>
+										</div>
 									</div>
-									{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
-										<div class="total-de-pesos">
-											<h2>Total de pesos:&emsp;</h2>
+									<!-- <hr /> -->
+								{/each}
+								<!-- <div class="btn-add-criterio"> -->
+								<!-- 	<Button -->
+								<!-- 		borded -->
+								<!-- 		color="var(--cor primaria)" -->
+								<!-- 		backgroundColor="var(--cor-secundaria)" -->
+								<!-- 		type="button" -->
+								<!-- 		on:click={onAdicionaCriterio}>Adicionar Critério</Button -->
+								<!-- 	> -->
+								<!-- </div> -->
+								<div class="criterios-definidos">
+									<div class="pontuacao">
+										<div class="total-de-pontos">
+											<h2>Número de critérios:&emsp;</h2>
 											<h2>
-												{#if etapa.criterios.length === 0}
-													0.0
-												{:else}
-													{parseFloat(
-														etapa.criterios.map((x) => parseFloat(x.peso)).reduce((a, b) => a + b)
-													).toFixed(1)}
-												{/if}
+												{etapa.criterios.length}
 											</h2>
 										</div>
-									{/if}
+										{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
+											<div class="total-de-pontos">
+												<h2>Soma de (cada nota × seu peso):&emsp;</h2>
+												<h2>
+													{parseFloat(
+														etapa?.criterios
+															.map((x) => x)
+															.reduce((a, b) => a + b.pontuacao_max * b.peso, 0)
+													).toFixed(1)}
+												</h2>
+											</div>
+											<div class="total-de-pesos">
+												<h2>Total de pesos:&emsp;</h2>
+												<h2>
+													{parseFloat(
+														etapa?.criterios
+															.map((x) => parseFloat(x.peso) || 0)
+															.reduce((a, b) => a + b, 0)
+													).toFixed(1)}
+												</h2>
+											</div>
+										{:else}
+											<div class="total-de-pontos">
+												<h2>Total de pontos:&emsp;</h2>
+												<h2>
+													{parseFloat(
+														etapa?.criterios
+															.map((x) => parseFloat(x.pontuacao_max) || 0)
+															.reduce((a, b) => a + b, 0)
+													).toFixed(1)}
+												</h2>
+											</div>
+										{/if}
+										<br />
+										<div class="total-de-pontos">
+											<h1>Média final: &emsp;</h1>
+											{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
+												<h1>
+													{#if etapa?.criterios[0].pontuacao_max == '' || etapa?.criterios[0].peso == ''}
+														0.0
+													{:else}
+														{(
+															parseFloat(
+																etapa?.criterios
+																	.map((x) => x)
+																	.reduce((a, b) => a + b.pontuacao_max * b.peso, 0)
+															) /
+															parseFloat(
+																etapa?.criterios
+																	.map((x) => parseFloat(x.peso) || 0)
+																	.reduce((a, b) => a + b, 0)
+															)
+														).toFixed(1)}
+													{/if}
+												</h1>
+											{:else}
+												<h1>
+													{parseFloat(
+														etapa?.criterios
+															.map((x) => parseFloat(x.pontuacao_max) || 0)
+															.reduce((a, b) => a + b, 0) / etapa?.criterios.length
+													).toFixed(1)}
+												</h1>
+											{/if}
+										</div>
+
+										{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
+											<h3 style="align-self: center;">
+												&emsp;(Soma de (cada nota × seu peso)) / (Total de pesos)
+											</h3>
+										{:else}
+											<h3 style="align-self: center;">
+												&emsp;(Total de pontos / Número de critérios)
+											</h3>
+										{/if}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -716,7 +764,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+		justify-content: left;
 		gap: 20px;
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -725,23 +773,19 @@
 	.column {
 		display: flex;
 		flex-direction: column;
-		/* align-items: center; */
-		/* justify-content: center; */
-		/* gap: 20px; */
-		/* margin-top: 20px; */
 	}
 
 	.info-container {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+		align-items: left;
+		justify-content: start;
 		margin-top: 40px;
 		margin-right: 24px;
 	}
 
 	.info-container hr {
-		width: 90%;
+		width: 100%;
 		height: 1px;
 		border: 0;
 		border-top: 1px solid darkgrey;
@@ -753,7 +797,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 60px;
+		gap: 20px; /* Reduzido o gap para acomodar melhor os itens */
 		padding-left: 24px;
 		border-left: 1px solid black;
 	}
@@ -794,6 +838,7 @@
 	.pontuacao {
 		display: flex;
 		flex-direction: column;
+		margin-top: 20px; /* Adicionado espaço acima da pontuação */
 	}
 
 	.total-de-pontos,
@@ -819,5 +864,29 @@
 	.btn-add-formacao {
 		display: flex;
 		justify-content: center;
+	}
+
+	.caminho-de-pao-criacao {
+		margin-left: 128px;
+		margin-top: 24px;
+		color: gray;
+		font-size: 24px;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.caminho-de-pao-criacao b {
+		color: var(--cor-primaria);
+	}
+
+	.inputs-criterio {
+		gap: 20px;
+	}
+
+	.input-criterio {
+		padding: 0px 8px;
+		border: 2px solid var(--cor-secundaria);
+		border-radius: 12px;
+		background-color: lightgray;
 	}
 </style>
