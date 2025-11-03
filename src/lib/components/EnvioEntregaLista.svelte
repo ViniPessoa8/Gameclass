@@ -27,9 +27,13 @@
 			{/if}
 
 			{#if dados.entrega.avaliada}
-				<p class="status">Avaliada (<b>{dados.entrega.nota.toFixed(1)}</b>)</p>
+				{#if dados.em_grupos && tipoAvaliacaoNota == AVALIACAO.individual}
+					<p>Avaliada</p>
+				{:else}
+					<p>Avaliada (<b>{dados.entrega.nota.toFixed(1)}</b>)</p>
+				{/if}
 			{:else}
-				<p class="avaliacao-pendente"><b>Avaliação Pendente</b></p>
+				<p class="avaliacao-pendente">Avaliação Pendente</p>
 			{/if}
 
 			<p class="data">{new Entrega(dados.entrega).formataDataEntrega()}</p>
@@ -53,11 +57,11 @@
 
 			{#if dados.em_grupos && dados.inicio > new Date()}
 				<p class="sem-resposta">Grupo Formado</p>
+			{:else if dados.prazo < new Date() && !receberAposPrazo}
+				<p class="sem-resposta"></p>
 			{:else}
 				<p class="sem-resposta">Aguardando Resposta</p>
 			{/if}
-			<p>-</p>
-			<p></p>
 		</div>
 	{:else}
 		<div class="item off">

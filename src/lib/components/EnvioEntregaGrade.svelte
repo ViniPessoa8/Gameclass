@@ -60,6 +60,8 @@
 
 			{#if dados.em_grupos && dados.inicio > new Date()}
 				<p class="data">Grupo Formado</p>
+			{:else if dados.prazo < new Date() && !receberAposPrazo}
+				<p class="sem-resposta"></p>
 			{:else}
 				<p class="sem-resposta">Aguardando Resposta</p>
 			{/if}
