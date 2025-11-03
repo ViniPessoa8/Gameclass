@@ -178,40 +178,37 @@
 		return !isNaN(new Date(dateStr));
 	}
 
-function formatarNota(valor) {
-  let digitsOnly = String(valor).replace(/\D/g, '');
+	function formatarNota(valor) {
+		let digitsOnly = String(valor).replace(/\D/g, '');
 
-  if (!digitsOnly) {
-    return '';
-  }
+		if (!digitsOnly) {
+			return '';
+		}
 
-  let formattedValue;
+		let formattedValue;
 
-  if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
-    formattedValue = '10.0';
-  }
-  else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
-     formattedValue = '10';
-  }
-  else if (digitsOnly.length >= 2) {
-    formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
-  }
-  else {
-    formattedValue = digitsOnly;
-  }
-  
-  return formattedValue;
-}
+		if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
+			formattedValue = '10.0';
+		} else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
+			formattedValue = '10';
+		} else if (digitsOnly.length >= 2) {
+			formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
+		} else {
+			formattedValue = digitsOnly;
+		}
 
-function onChangeCriterioNota() {
-  novoCriterioNota = formatarNota(novoCriterioNota);
+		return formattedValue;
+	}
 
-  if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
-    novoCriterioNota = oldCriterioNota;
-  } else {
-    oldCriterioNota = novoCriterioNota;
-  }
-}
+	function onChangeCriterioNota() {
+		novoCriterioNota = formatarNota(novoCriterioNota);
+
+		if (parseFloat(novoCriterioNota) > 10.0 || novoCriterioNota === '0.0') {
+			novoCriterioNota = oldCriterioNota;
+		} else {
+			oldCriterioNota = novoCriterioNota;
+		}
+	}
 
 	function onChangeCriterioPeso() {
 		novoCriterioPeso = String(novoCriterioPeso)
