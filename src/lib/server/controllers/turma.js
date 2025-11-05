@@ -1,5 +1,6 @@
 import {
-	removeTurmaPorCodigoBD,
+	// removeTurmaPorCodigoBD,
+	// removeTurmaPorNomeBD,
 	buscaTurmasPorIdProfessorBD,
 	listaTurmaPorIdBD,
 	isTurmaRegisteredDB,
@@ -111,12 +112,12 @@ export default class TurmaController {
 		return res.rows;
 	}
 
-	async removePorCodigo(codigo) {
-		log(`TurmaController -> removePorCodigo(${codigo})`)
-		const res = await removeTurmaPorCodigoBD(codigo);
-		if (res.rows.length > 0) {
-			return new Turma(res.rows[0]).toObject();
-		}
-		return null;
-	}
+	// async removePorCodigo(codigo) {
+	// 	log(`TurmaController -> removePorCodigo(${codigo})`)
+	// 	const res = await removeTurmaPorCodigoBD(codigo);
+	// 	if (res.rows.length > 0) {
+	// 		return new Turma(res.rows[0]).toObject();
+	// 	}
+	// 	return null;
+	// }
 }
