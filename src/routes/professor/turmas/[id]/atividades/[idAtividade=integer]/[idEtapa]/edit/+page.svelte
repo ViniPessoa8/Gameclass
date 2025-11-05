@@ -437,6 +437,7 @@
 							</div>
 							<div class="row">
 								<InputCheckbox
+									fontSize="24px"
 									id="inputReceberAposPrazoEtapa"
 									bind:checked={etapa.receber_apos_prazo}
 									text="Receber após o prazo"
