@@ -105,11 +105,11 @@
 		if (
 			!novoCriterioTitulo ||
 			!novoCriterioNota ||
-			(etapa.atribuicaoNotasGroup == 'Média Ponderada' && !novoCriterioPeso)
+			(etapa.tipo_atribuicao_nota == 2 && !novoCriterioPeso)
 		) {
 			console.error('Definir critério: Dados incompletos');
 			const textErro =
-				etapa.atribuicaoNotasGroup == 'Média Ponderada'
+				etapa.tipo_atribuicao_nota == 2
 					? '*Digite o título, a nota e o peso'
 					: '*Digite o título e a nota';
 			erroNotaCriterio = [true, textErro];
@@ -323,7 +323,7 @@
 						dtEntregaMin: dateNowFormated,
 						dtEntregaMax: '', // TODO: Validar campo
 						realizacaoGroup: 'Individual',
-						atribuicaoNotasGroup: 'Média Simples',
+						atribuicaoNotasGroup: getTipoAtribuicao(etapa.tipo_atribuicao_nota),
 						tipoAvaliacaoNotasGroup: 'Individual',
 						formacao: 'Alunos criam seus grupos',
 						receberAposPrazo: true,
@@ -593,7 +593,7 @@
 												on:input={() => onChangeCriterioNota(index)}
 												disabled
 											/>
-											{#if etapa?.atribuicaoNotasGroup == 'Média Ponderada'}
+											{#if etapa?.tipo_atribuicao_nota == 2}
 												<InputNumber
 													id="inputPesoCriterio-{index}"
 													borded
@@ -646,7 +646,7 @@
 												{etapa.criterios.length}
 											</h2>
 										</div>
-										{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
+										{#if etapa.tipo_atribuicao_nota == 2}
 											<div class="total-de-pontos">
 												<h2>Soma de (cada nota × seu peso):&emsp;</h2>
 												<h2>
@@ -682,7 +682,7 @@
 										<br />
 										<div class="total-de-pontos">
 											<h1>Média final: &emsp;</h1>
-											{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
+											{#if etapa.tipo_atribuicao_nota == 2}
 												<h1>
 													{#if etapa?.criterios[0].pontuacao_max == '' || etapa?.criterios[0].peso == ''}
 														0.0
@@ -712,7 +712,7 @@
 											{/if}
 										</div>
 
-										{#if etapa.atribuicaoNotasGroup === 'Média Ponderada'}
+										{#if etapa.tipo_atribuicao_nota == 2}
 											<h3 style="align-self: center;">
 												&emsp;(Soma de (cada nota × seu peso)) / (Total de pesos)
 											</h3>
