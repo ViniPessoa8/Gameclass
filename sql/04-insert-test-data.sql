@@ -285,7 +285,7 @@ VALUES (
     10,
     '2025-09-06T08:00:00.000Z',
     '2025-09-20T23:59:59.000Z',
-    1, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
+    2, 1, false, false, 8 -- Pertence à atividade "Projeto Final" (id=8)
 );
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "peso", "id_item_atividade") VALUES
 (18, 'Correção do Script DDL', 'O script cria todas as tabelas e restrições conforme o modelo.', 5, 2, 9),
