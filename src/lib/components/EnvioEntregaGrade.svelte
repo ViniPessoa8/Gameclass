@@ -16,8 +16,6 @@
 			corCard = 'var(--cor-primaria)';
 		}
 	});
-
-	console.debug('dados.etapa=>', dados.etapa);
 </script>
 
 {#if dados}

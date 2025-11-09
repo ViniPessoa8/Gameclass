@@ -176,14 +176,14 @@ INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_ativ
 -- --- Atividade 3: Em Grupo, Nota Coletiva, Encerrada e Avaliada ---
 INSERT INTO atividade("id", "titulo", "prazo", "id_turma") VALUES (3, 'Padrões de Projeto (GoF)', '2025-11-28T23:59:59.000Z', 2);
 INSERT INTO item_atividade("id", "titulo", "descricao", "nota_max", "data_entrega_inicial", "data_entrega_final", "tipo_atribuicao_nota", "tipo_avaliacao_nota", "em_grupos", "receber_apos_prazo", "id_atividade")
-VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-28T08:00:00.000Z', '2025-11-28T23:59:59.000Z', 0, 2, true, false, 3);
+VALUES (3, 'Apresentação: Padrão Decorator', 'Criar uma apresentação e um exemplo prático do padrão de projeto Decorator.', 10, '2025-10-28T08:00:00.000Z', '2025-11-28T23:59:59.000Z', 1, 2, true, false, 3);
 INSERT INTO criterio("id", "titulo", "descricao", "pontuacao_max", "id_item_atividade", "peso") VALUES 
 (6, 'Clareza Conceitual', 'Apresentação clara da finalidade e estrutura do padrão.', 5, 3, 3), 
 (7, 'Qualidade do Exemplo', 'O código de exemplo é funcional e didático.', 5, 3, 2);
 INSERT INTO formacao_grupo("id", "numero_grupos", "numero_alunos", "id_item_atividade") VALUES (1, 2, 3, 3);
 INSERT INTO grupo_de_alunos("id", "nome", "id_item_atividade") VALUES (1, 'Grupo Design Patterns', 3);
 INSERT INTO integrante_grupo_de_alunos("id_estudante", "id_grupo_de_alunos") VALUES (2, 1), (3, 1);
--- INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (3, 1, 3);
+INSERT INTO entrega("id", "id_grupo_de_alunos", "id_item_atividade") VALUES (3, 1, 3);
 -- INSERT INTO realizar_avaliacao("id", "id_entrega") VALUES (3, 3);
 -- INSERT INTO avaliacao_criterio("id", "id_realizar_avaliacao", "id_criterio", "nota_atribuida") VALUES 
 -- (5, 3, 6, 4.5), (6, 3, 7, 5.0); -- Nota coletiva para o grupo

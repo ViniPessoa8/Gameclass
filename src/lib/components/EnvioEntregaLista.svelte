@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 	import Entrega from '$lib/models/Entrega.js';
+	import { AVALIACAO } from '$lib/constants';
 
-	let { dados, receberAposPrazo, onClick } = $props();
+	let { dados, receberAposPrazo, tipoAvaliacaoNota, onClick } = $props();
 
 	let corCard = $state();
 
