@@ -3,20 +3,16 @@
 	import { derived } from 'svelte/store';
 	import CircularIcon from './CircularIcon.svelte';
 	import { goto } from '$app/navigation';
+	import { debug } from '$lib/utils/logger';
 
 	let { session } = $props();
 
 	// Constrói um array de segmentos da URL atual
-	const segments = derived(page, ($page) => {
+	let segments = derived(page, ($page) => {
 		let parts = $page.url.pathname.split('/').filter(Boolean); // remove vazios
 
-		// Remove o resto da url se não for um número inteiro
-		if (parts.length >= 7 && !Number.isInteger(parts[7])) {
-			parts = parts.slice(0, 6);
-		}
-
-		return parts.map((part, i) => {
-			let label = part;
+		let labels = parts.map((part, i) => {
+			let label = capitalizeFirstLetter(part);
 
 			if (i == 2 && parts[2] && parts[2] != 'create') {
 				label = session.turma.nome;
@@ -26,12 +22,12 @@
 				label = session.estudante.login;
 			}
 
-			if (parts[4] != 'create' && parts[3] == 'atividades' && parts[6] == 'edit') {
+			if (parts[4] != 'create' || parts[6] == 'edit') {
 				if (i == 4) {
 					label = session.atividade.titulo;
 				}
 
-				if (i == 5) {
+				if (i == 5 && parts[5] != 'edit') {
 					label = session.etapa.titulo;
 				}
 
@@ -42,14 +38,36 @@
 				if (i == 7 && Number.isInteger(parts[7])) {
 					label = session.integrante?.nome;
 				}
+
+				if (i == 8) {
+					label = session.integrante?.nome;
+				}
 			}
+
+			if (part == 'create') label = 'Criar atividade';
+			if (part == 'etapas') label = 'Definir etapas e critérios';
+			if (part == 'escolhaIntegrante') label = 'Escolher integrante';
 
 			return {
 				label: label,
 				href: '/' + parts.slice(0, i + 1).join('/')
 			};
 		});
+
+		// Diminui o tamanho do caminho ao passar de 5 elementos
+		if (labels.length > 4) {
+			labels = [{ label: '...', href: '' }, ...labels.slice(-4, labels.length)];
+		}
+
+		return labels;
 	});
+
+	function capitalizeFirstLetter(str) {
+		if (str === null || str === undefined || str.length === 0) {
+			return ''; // Handle empty or invalid input
+		}
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
 
 	function onClickUsuario() {
 		goto('/professor/perfil');

@@ -7,7 +7,7 @@ import EtapaController from "../../lib/server/controllers/itemAtividade";
 import GrupoController from "../../lib/server/controllers/grupo";
 import EstudanteController from "../../lib/server/controllers/estudante";
 import EntregaController from "../../lib/server/controllers/entrega";
-import { info, log } from "$lib/utils/logger"
+import { info, log, debug } from "$lib/utils/logger"
 
 const turmaController = new TurmaController()
 const usuarioController = new UsuarioController()
@@ -76,6 +76,9 @@ export async function load({ url, cookies }) {
 				// Integrante
 				if (parts.length > 7 && Number.isInteger(parts[7])) {
 					data.integrante = await estudanteController.buscaPorId(parts[7])
+				} else if (parts.length >= 8 && parts[8]) {
+					data.integrante = await estudanteController.buscaPorId(parts[8])
+
 				}
 			}
 
