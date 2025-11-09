@@ -13,6 +13,7 @@
 	import Anexo from '$lib/components/Anexo.svelte';
 	import Page from '../atividades/+page.svelte';
 	import selectedTurmaTabBar from '$src/stores/selectedTurmaTabBar.js';
+	import icon_anexo from '$lib/assets/icon_anexo.png';
 
 	let textoPublicacao = $state('');
 	let arquivos = $state([]);
@@ -94,7 +95,9 @@
 				</div>
 
 				<div class="btn anexo-container">
-					<label title="Anexar arquivo" for="inputFiles" class="btn-anexo">+</label>
+					<label title="Anexar arquivo" for="inputFiles" class="btn-anexo"
+						><img src={icon_anexo} /></label
+					>
 					<input
 						id="inputFiles"
 						name="inputFiles"
