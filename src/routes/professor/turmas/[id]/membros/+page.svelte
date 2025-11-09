@@ -53,7 +53,7 @@
 	});
 
 	if (!$selectedTurmaTabBar) {
-		$selectedTurmaTabBar = 3;
+		$selectedTurmaTabBar = 2;
 	}
 
 	function abrePerfilDoUsuario(estudante) {
