@@ -90,14 +90,14 @@
 						{#if mostraAtividades[index] != false}
 							<div class="atividade-content" transition:slide={{ duration: 400 }}>
 								<p>Prazo: <b>{atividade.prazo.toLocaleString('pt-BR', dateOptions)}</b></p>
-								<p>Nota mais alta: <b>{atividade.notaMaxObtida}</b> / {atividade.notaMax}</p>
-								<p>Nota mais baixa: <b>{atividade.notaMinObtida}</b> / {atividade.notaMax}</p>
-								<p>Média de notas: <b>{atividade.mediaNotas}</b></p>
-								<!-- <p>Nota Máxima Obtida: <b>{atividade.notaMaxObtida}</b></p> -->
-								<!-- <p>Nota Mínima Obtida: <b>{atividade.notaMinObtida}</b></p> -->
-								<p>
-									Entregas: <b>{atividade.totalEntregasRealizadas} / {atividade.totalEntregas}</b>
-								</p>
+								{#if atividade.itensAtividade.length > 1}
+									<p>
+										Entregas: <b>{atividade.totalEntregasRealizadas} / {atividade.totalEntregas}</b>
+									</p>
+									<p>Nota mais alta: <b>{atividade.notaMaxObtida}</b> / {atividade.notaMax}</p>
+									<p>Nota mais baixa: <b>{atividade.notaMinObtida}</b> / {atividade.notaMax}</p>
+									<p>Média de notas: <b>{atividade.mediaNotas}</b></p>
+								{/if}
 								{#each atividade.itensAtividade as itemAtividade, indexIA}
 									<h3>{indexIA + 1}) {itemAtividade.titulo}</h3>
 									<div class="item-atividade-content">
@@ -107,19 +107,17 @@
 											>
 										</p>
 										<p>
+											Entregas: <b
+												>{itemAtividade.totalEntregasRealizadas} / {itemAtividade.totalEntregas}</b
+											>
+										</p>
+										<p>
 											Nota mais alta: <b>{itemAtividade.notaMaxObtida}</b> / {itemAtividade.notaMax}
 										</p>
 										<p>
 											Nota mais baixa: <b>{itemAtividade.notaMinObtida}</b> / {itemAtividade.notaMax}
 										</p>
 										<p>Média de notas: <b>{itemAtividade.mediaNotas}</b></p>
-										<!-- <p>Nota Máxima Obtida: <b>{itemAtividade.notaMaxObtida}</b></p> -->
-										<!-- <p>Nota Mínima Obtida: <b>{itemAtividade.notaMinObtida}</b></p> -->
-										<p>
-											Entregas: <b
-												>{itemAtividade.totalEntregasRealizadas} / {itemAtividade.totalEntregas}</b
-											>
-										</p>
 									</div>
 								{/each}
 							</div>
