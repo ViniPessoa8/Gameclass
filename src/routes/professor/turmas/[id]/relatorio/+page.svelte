@@ -126,6 +126,22 @@
 				{/each}
 			</div>
 		</div>
+		<div class="boletim">
+			<h2>Boletim dos alunos</h2>
+			<div class="grid-item-flex" style="flex-direction: column;">
+				<div
+					class="card"
+					style="display: flex; flex-direction: column; justify-content: space-between;"
+				>
+					{#each data.boletimAlunos as aluno}
+						<div class="info card-boletim">
+							<p>{aluno.nome}</p>
+							<h3 class="nota">{aluno.media.toFixed(2)}</h3>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -157,6 +173,13 @@
 	.atividades {
 		grid-column-start: 1;
 		grid-column-end: 3;
+		grid-row: 2;
+	}
+
+	.boletim {
+		grid-column-start: 2;
+		grid-column-end: 2;
+		grid-row: 2;
 	}
 
 	.card {
@@ -223,5 +246,14 @@
 		gap: 8px;
 		padding-left: 12px;
 		margin-bottom: 12px;
+	}
+
+	.card-boletim {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+	}
+
+	.card-boletim > .nota {
+		text-align: right;
 	}
 </style>

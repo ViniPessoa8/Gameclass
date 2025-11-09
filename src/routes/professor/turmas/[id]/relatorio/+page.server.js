@@ -197,5 +197,32 @@ export async function load({ params, cookies }) {
 
 	}
 
+	// Boletim dos alunos
+	const todasEntregas = data.atividades
+		.flatMap(atividade => atividade.itensAtividade)
+		.flatMap(itemAtividade => itemAtividade.entregas);
+
+	data.boletimAlunos = data.estudantes.map(estudante => {
+
+		const entregasDoEstudante = todasEntregas.filter(
+			entrega => entrega.id_estudante == estudante.id_estudante
+		);
+
+		const notasDoEstudante = entregasDoEstudante
+			.flatMap(entrega => entrega.notas)
+			.map(nota => nota.nota_atribuida);
+
+		let media = 0.0;
+		if (notasDoEstudante.length > 0) {
+			const soma = notasDoEstudante.reduce((acc, nota) => acc + nota, 0);
+			media = soma / notasDoEstudante.length;
+		}
+
+		return {
+			nome: estudante.nome,
+			media: media
+		};
+	});
+
 	return data
 }
