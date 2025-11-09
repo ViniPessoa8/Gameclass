@@ -51,7 +51,7 @@
 
 	.header-turmas {
 		display: flex;
-		justify-content: space-between;
+		justify-content: space-around;
 		align-items: center;
 		margin: 0 auto 30px auto;
 		max-width: 1200px;
