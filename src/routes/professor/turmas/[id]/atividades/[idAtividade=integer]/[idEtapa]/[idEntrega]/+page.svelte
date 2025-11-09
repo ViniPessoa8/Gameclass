@@ -209,7 +209,7 @@
 					}}
 				>
 					{#if data.entrega.avaliada}
-						Editar Avaliação
+						Editar avaliação
 					{:else}
 						Avaliar
 					{/if}

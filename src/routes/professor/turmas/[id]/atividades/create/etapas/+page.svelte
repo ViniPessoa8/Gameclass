@@ -19,6 +19,7 @@
 	import { navigationGuard } from '$src/stores/navigationGuard.js';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { FORMACAO_GRUPO } from '$lib/constants';
+	import { formataData } from '$lib/utils/util';
 
 	// export let data;
 	let { data, children, form } = $props();
@@ -506,7 +507,7 @@
 								/>
 							</div>
 							<div class="row">
-								<h2>Data máxima de entrega:</h2>
+								<h2>Data máxima de entrega*:</h2>
 								<InputDatetime
 									id="inputDtFimEtapa"
 									borded
@@ -515,6 +516,11 @@
 									min={etapasData[$selectedEtapa].dtEntregaMin}
 									max={atividade.prazo}
 								/>
+							</div>
+							<div class="row">
+								<p>
+									* Deve ser menor que o prazo da atividade ({formataData(atividade.prazo)})
+								</p>
 							</div>
 							<div class="row">
 								<InputCheckbox
@@ -631,7 +637,7 @@
 											fontSize="20px"
 											fontWeight="500"
 											disabled={etapasData[$selectedEtapa].formacoes.length > 2}
-											on:click={onAdicionaFormacao}>Nova Formação</Button
+											on:click={onAdicionaFormacao}>Adicionar formação</Button
 										>
 									</div>
 								</div>

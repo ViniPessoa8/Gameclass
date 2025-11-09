@@ -544,7 +544,7 @@
 											type="button"
 											fontSize="20px"
 											fontWeight="500"
-											on:click={onAdicionaFormacao}>Nova Formação</Button
+											on:click={onAdicionaFormacao}>Adicionar formação</Button
 										>
 									</div>
 								</div>

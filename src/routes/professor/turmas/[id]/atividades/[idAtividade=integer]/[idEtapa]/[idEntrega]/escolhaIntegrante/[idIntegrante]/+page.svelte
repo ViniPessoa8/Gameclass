@@ -267,7 +267,7 @@
 					aria-hidden="true"
 				></button>
 				<Button id="avaliar" type="submit" backgroundColor="var(--cor-primaria)" color="white"
-					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
+					>Salvar</Button
 				>
 			</div>
 		</div>

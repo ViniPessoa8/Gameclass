@@ -260,9 +260,7 @@
 				<h2>Média final: {pontuacaoFinal.toFixed(1)}</h2>
 			</div>
 			<div class="btn-finalizar">
-				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white"
-					>{data.entrega.notas.length == 0 ? 'Finalizar Avaliação' : 'Editar Avaliação'}</Button
-				>
+				<Button type="submit" backgroundColor="var(--cor-primaria)" color="white">Salvar</Button>
 			</div>
 		</div>
 	</form>
