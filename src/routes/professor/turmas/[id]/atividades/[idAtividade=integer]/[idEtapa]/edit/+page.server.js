@@ -27,6 +27,7 @@ export let actions = {
 
 		await itemAtividadeController.altera(etapa)
 
+		cookies.set("toast", 'etapa_editada', { path: "/" })
 		redirect(300, `/professor/turmas/${params.id}/atividades`)
 
 	}

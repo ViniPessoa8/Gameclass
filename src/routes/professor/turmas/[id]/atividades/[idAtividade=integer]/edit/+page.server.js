@@ -72,6 +72,7 @@ export const actions = {
 			}
 		}
 
+		cookies.set("toast", 'atividade_editada', { path: "/" })
 		redirect(307, request.url.split("/").slice(0, -1).join("/"))
 
 	}

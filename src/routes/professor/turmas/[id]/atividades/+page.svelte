@@ -23,8 +23,17 @@
 		}
 
 		if (data.toast === 'etapas_criadas') {
-			toast.success('Etapa(s) definida(s) com sucesso.');
+			toast.success('Etapa definida com sucesso.');
 		}
+
+		if (data.toast === 'atividade_editada') {
+			toast.success('Atividade editada com sucesso.');
+		}
+
+		if (data.toast === 'etapa_editada') {
+			toast.success('Etapa editada com sucesso.');
+		}
+
 		sessionStorage.removeItem('etapas');
 		sessionStorage.removeItem('grupos');
 	});
