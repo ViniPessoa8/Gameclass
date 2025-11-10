@@ -6,7 +6,7 @@
 	let urlAtual = $derived($page.url.href);
 
 	let { data, children } = $props();
-	const idTurma = data.idTurma;
+	let idTurma = $derived(data.idTurma);
 </script>
 
 <div class="page-layout">
