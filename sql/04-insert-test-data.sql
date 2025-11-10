@@ -1,10 +1,10 @@
 -- -- Usuários
--- INSERT INTO usuario("nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "dt_nasc", "data_criacao", "ultimo_acesso", "cor") 
+-- INSERT INTO usuario("nome", "login", "hash", "salt", "bio", "email", "acumulo_pontos", "nivel", "dt_nasc", "data_criacao", "ultimo_acesso", "cor") 
 -- VALUES
 -- 	-- Usuário de teste (Professor)
 -- 	('Teste Magalhães', 'testalhães', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Nada a declarar', 'teste.magalhaes@uea.edu.br', 0, 0, '1999-12-06', '2024-09-10', '2024-09-10T23:51:53.764Z', 'D7854F'),
 -- 	-- Estudantes
--- 	('nome', 'login', 'hash', 'salt', 'bio', 'email', 'acumulo_xp', 'nivel', 'dt_nasc', 'data_criacao', 'ultimo_acesso', 'cor'),
+-- 	('nome', 'login', 'hash', 'salt', 'bio', 'email', 'acumulo_pontos', 'nivel', 'dt_nasc', 'data_criacao', 'ultimo_acesso', 'cor'),
 -- 	('Teste Magalhães', 'testalhães', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Nada a declarar', 'teste.magalhaes@uea.edu.br', 0, 0, '1999-12-06', '2024-09-10', '2024-09-10T23:51:53.764Z', 'D7854F');
 
 
@@ -69,7 +69,7 @@ INSERT INTO instituicao("id", "nome", "endereco", "email") VALUES
 ALTER SEQUENCE instituicao_id_seq RESTART WITH 2;
 
 -- Inserção de Usuários: 1 Professor e 14 Estudantes
-INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_xp", "nivel", "dt_nasc", "data_criacao", "ultimo_acesso", "cor")
+INSERT INTO usuario("id", "nome", "login", "hash", "salt", "bio", "email", "acumulo_pontos", "nivel", "dt_nasc", "data_criacao", "ultimo_acesso", "cor")
 VALUES
     -- Professor (será referenciado em 'turma' pelo id_usuario = 1)
 		(1, 'Prof. Alan Turing', 'alan.turing', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Pai da computação e apaixonado por decifrar enigmas.', 'alan.turing@uea.edu.br', 1250, 15, '1912-06-23', '2024-08-01', '2025-09-23T08:00:00.000Z', '3D5A80'),
@@ -86,7 +86,7 @@ VALUES
 ALTER SEQUENCE usuario_id_seq RESTART WITH 11;
 
 -- Perfis Estudantes
-INSERT INTO estudante("id", "matricula", "id_usuario", "acumulo_xp", "nivel") VALUES
+INSERT INTO estudante("id", "matricula", "id_usuario", "acumulo_pontos", "nivel") VALUES
 (1, '20240001', 2, 320, 4),
 (2, '20240002', 3, 450, 5),
 (3, '20240003', 4, 210, 3),

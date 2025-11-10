@@ -22,7 +22,7 @@
 				label = session.estudante.login;
 			}
 
-			if (parts[4] != 'create' || parts[6] == 'edit') {
+			if (parts[4] != 'create' && parts[3] != 'membros') {
 				if (i == 4) {
 					label = session.atividade.titulo;
 				}
@@ -31,7 +31,7 @@
 					label = session.etapa.titulo;
 				}
 
-				if (i == 6) {
+				if (i == 6 && parts[6] != 'edit') {
 					label = session.grupo ? session.grupo.nome : session.estudante.nome;
 				}
 

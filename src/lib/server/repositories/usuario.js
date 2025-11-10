@@ -2,11 +2,11 @@ import bcrypt from "bcryptjs"
 import { DB_INFO } from "../../constants";
 import { getPool } from "$config/database.js"
 
-export async function registraUsuarioBD(nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor) {
+export async function registraUsuarioBD(nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_pontos, dataCriacao, ultimoAcesso, cor) {
 	const db = getPool()
 	const query = {
-		text: `INSERT INTO ${DB_INFO.tables.usuario}(nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_XP, data_criacao, ultimo_acesso, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
-		values: [nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_XP, dataCriacao, ultimoAcesso, cor]
+		text: `INSERT INTO ${DB_INFO.tables.usuario}(nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_pontos, data_criacao, ultimo_acesso, cor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
+		values: [nome, login, hash, salt, dt_nasc, bio, email, nivel, acumulo_pontos, dataCriacao, ultimoAcesso, cor]
 	}
 
 	try {

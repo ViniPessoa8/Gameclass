@@ -53,16 +53,16 @@
 			<p>Último acesso: <b>{formatarDataUTC(estudante.ultimo_acesso)}</b></p>
 		</div>
 
-		<div class="barra-xp">
+		<div class="barra-pontos">
 			<ProgressBar
 				currentLevel={estudante.nivel}
-				currentXp={estudante.acumulo_xp}
-				xpForCurrentLevel={Math.trunc(estudante.acumulo_xp / 100) * 100}
-				xpForNextLevel={Math.trunc(estudante.acumulo_xp / 100) * 100 + 100}
+				currentPoints={estudante.acumulo_pontos}
+				pointsForCurrentLevel={Math.trunc(estudante.acumulo_pontos / 100) * 100}
+				pointsForNextLevel={Math.trunc(estudante.acumulo_pontos / 100) * 100 + 100}
 			/>
 
 			<IconeInformacao
-				text="Estudantes adiquirem XP por meio de ações como: realizar comentários, entregar atividades, tirar notas boas, etc."
+				text="Estudantes adiquirem pontos por meio de ações como: realizar comentários, entregar atividades, tirar notas boas, etc. Os pontos adiquiridos em cada atividade são acumulados."
 			/>
 		</div>
 
@@ -115,7 +115,7 @@
 						<div class="conquista-info-container">
 							<p class="conquista-nome">{conquista.nome}</p>
 							<p class="conquista-descricao">{conquista.descricao}</p>
-							<p class="conquista-xp">{conquista.pontos_xp} XP</p>
+							<p class="conquista-pontos">{conquista.pontos}</p>
 						</div>
 					</div>
 				{/each}
@@ -240,7 +240,7 @@
 		border-radius: 64px;
 	}
 
-	.conquista-xp {
+	.conquista-pontos {
 		font-weight: 500;
 		font-size: 18px;
 		margin-top: auto;
@@ -252,7 +252,7 @@
 		font-size: 20px;
 	}
 
-	.barra-xp {
+	.barra-pontos {
 		display: flex;
 		width: 100%;
 		flex-direction: row;

@@ -16,7 +16,7 @@ CREATE TABLE usuario (
     "salt" VARCHAR(255) NOT NULL,
 	"bio" VARCHAR(100),
 	"email" VARCHAR(100) NOT NULL,
-	"acumulo_xp" INT NOT NULL,
+	"acumulo_pontos" INT NOT NULL,
 	"nivel" INT NOT NULL,
 	"matricula_aluno" VARCHAR(12) NOT NULL,-- TODO: Renomear no diagrama
 	"dt_nasc" DATE NOT NULL,-- TODO: Rename dt_nasc -> data_nascimento 
@@ -31,7 +31,7 @@ CREATE TABLE estudante (
 	"id" BIGSERIAL UNIQUE,
 	"matricula" VARCHAR(30) NOT NULL,
 	"data_criacao" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"acumulo_xp" BIGINT NOT NULL DEFAULT 0,
+	"acumulo_pontos" BIGINT NOT NULL DEFAULT 0,
 	"nivel" INT NOT NULL DEFAULT 0,
 	"id_usuario" SERIAL REFERENCES usuario(id) NOT NULL,
 	PRIMARY KEY ("id")

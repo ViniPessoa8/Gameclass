@@ -7,7 +7,7 @@ export class Usuario {
 		salt,
 		bio,
 		email,
-		acumulo_xp,
+		acumulo_pontos,
 		nivel,
 		dt_nasc,
 		data_criacao,
@@ -21,7 +21,7 @@ export class Usuario {
 		this.salt = salt;
 		this.bio = bio;
 		this.email = email;
-		this.acumulo_xp = acumulo_xp;
+		this.acumulo_pontos = acumulo_pontos;
 		this.nivel = nivel;
 		this.data_nascimento = dt_nasc;
 		this.data_criacao = data_criacao;
@@ -42,7 +42,7 @@ export class Usuario {
 			salt: this.salt,
 			bio: this.bio,
 			email: this.email,
-			acumulo_xp: this.acumulo_xp,
+			acumulo_pontos: this.acumulo_pontos,
 			nivel: this.nivel,
 			data_nascimento: this.data_nascimento,
 			data_criacao: this.data_criacao,

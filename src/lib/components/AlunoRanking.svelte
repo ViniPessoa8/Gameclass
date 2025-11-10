@@ -38,7 +38,7 @@
 	<CircularTextIcon backgroundColor={cor}>{posicao}°</CircularTextIcon>
 	<div class="info-container">
 		<p style="font-size: 20px;"><b>{nome}</b></p>
-		<p style="font-size: 18px;">{pontos} pts</p>
+		<p style="font-size: 18px;">{pontos} pontos</p>
 	</div>
 </button>
 
