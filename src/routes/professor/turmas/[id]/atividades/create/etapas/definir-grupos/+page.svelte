@@ -1,11 +1,11 @@
 <script>
-	import { run } from 'svelte/legacy';
-
+	import { toast, Toaster } from 'svelte-sonner';
 	import GroupCard from '$lib/components/GroupCard.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
+	import { debug } from '$lib/utils/logger';
 
-	
 	/**
 	 * @typedef {Object} Props
 	 * @property {import('./$types').PageData} data
@@ -27,7 +27,7 @@
 	}
 
 	// Recalcula sempre que os grupos mudarem
-	run(() => {
+	$effect(() => {
 		calculateUnassigned(grupos);
 	});
 
@@ -69,6 +69,7 @@
 	});
 </script>
 
+<Toaster richColors expand position="top-center" closeButton />
 <div class="page-container">
 	<div class="header">
 		<h1>Definir integrantes dos grupos</h1>
@@ -87,15 +88,22 @@
 	</div>
 
 	<div class="actions">
-		<form method="POST" class="button-definir">
+		<form
+			method="POST"
+			class="button-definir"
+			use:enhance={({ cancel }) => {
+				if (estudantesSemGrupo.length > 0) {
+					toast.error('Existem alunos sem grupo. Por favor, aloque todos os alunos.');
+					cancel();
+					return;
+				}
+
+				sessionStorage.setItem('grupos', JSON.stringify(grupos));
+			}}
+		>
 			<input type="hidden" name="grupos" value={JSON.stringify(grupos)} />
-			<Button
-				type="submit"
-				color="var(--text-1)"
-				backgroundColor="var(--cor-primaria)"
-				on:click={() => {
-					sessionStorage.setItem('grupos', JSON.stringify(grupos));
-				}}>Definir Grupos</Button
+			<Button type="submit" color="var(--text-1)" backgroundColor="var(--cor-primaria)"
+				>Definir Grupos</Button
 			>
 		</form>
 	</div>
