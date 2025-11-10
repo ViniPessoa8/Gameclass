@@ -153,33 +153,27 @@
 		margin-top: 24px;
 		gap: 24px;
 		padding: 24px 128px;
+		box-sizing: border-box;
+		width: 100%;
 	}
 
 	.relatorio-grid {
+		justify-content: center;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
 		width: 100%;
 		gap: 24px;
 	}
 
 	.relatorio-grid > div {
 		padding: 8px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.relatorio-grid > div > h2 {
 		padding-bottom: 12px;
-	}
-
-	.atividades {
-		grid-column-start: 1;
-		grid-column-end: 3;
-		grid-row: 2;
-	}
-
-	.boletim {
-		grid-column-start: 2;
-		grid-column-end: 2;
-		grid-row: 2;
 	}
 
 	.card {
