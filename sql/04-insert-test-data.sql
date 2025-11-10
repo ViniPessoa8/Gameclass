@@ -75,14 +75,14 @@ VALUES
 		(1, 'Prof. Alan Turing', 'alan.turing', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Pai da computação e apaixonado por decifrar enigmas.', 'alan.turing@uea.edu.br', 1250, 15, '1912-06-23', '2024-08-01', '2025-09-23T08:00:00.000Z', '3D5A80'),
     -- Estudantes
     (2, 'Ada Lovelace', 'ada.lovelace', '$2a$10$XyZABCD12345KJHsdUqPObFlh123Ghv67YPLOpWZXQ', '$2a$10$XyZABCD12345KJHsdUqPO', 'Estudante de Sistemas de Informação.', 'ada.lovelace@uea.edu.br', 320, 4, '2003-12-10', '2024-08-15', '2025-09-22T10:00:00.000Z', 'C75B5B'),
-    (3, 'Grace Hopper', 'grace.hopper', '$2a$10$MNOPQRST9876543JHKLZXVBNMP', '$2a$10$MNOPQRST9876543JHKLZX', 'Futura engenheira de software.', 'grace.hopper@uea.edu.br', 450, 5, '2002-09-09', '2024-08-15', '2025-09-21T14:30:00.000Z', '6A4CA3'),
+    (3, 'Grace Hopper', 'grace.hopper', '$2a$10$MNOPQRST9876543JHKLZXVBNMP', '$2a$10$MNOPQRST9876543JHKLZX', 'Futura engenheira de software.', 'grace.hopper@uea.edu.br', 520, 6, '2002-09-09', '2024-08-15', '2025-09-21T14:30:00.000Z', '6A4CA3'),
     (4, 'Margaret Hamilton', 'margaret.hamilton', '$2a$10$UVWXYZ87654321LMNOPQRSTJHKL', '$2a$10$UVWXYZ87654321LMNO', 'Entusiasta por código e missões espaciais.', 'margaret.hamilton@uea.edu.br', 210, 3, '2004-08-17', '2024-08-16', '2025-09-23T11:00:00.000Z', 'D7854F'),
     (5, 'Tim Berners-Lee', 'tim.lee', '$2a$10$ASDFGHJKLQWERTYUIOPZXCVBNM', '$2a$10$ASDFGHJKLQWERTYUIO', 'Interessado em redes e na web.', 'tim.lee@uea.edu.br', 150, 2, '2003-06-08', '2024-08-16', '2025-09-20T18:00:00.000Z', '2E5D89'),
-    (6, 'Linus Torvalds', 'linus.torvalds', '$2a$10$QAZWSXEDCRFV123456TGBYHN', '$2a$10$QAZWSXEDCRFV12345', 'Apenas um pinguim.', 'linus.torvalds@uea.edu.br', 500, 6, '2002-12-28', '2024-08-17', '2025-09-22T20:00:00.000Z', '5B7F34'),
+    (6, 'Linus Torvalds', 'linus.torvalds', '$2a$10$QAZWSXEDCRFV123456TGBYHN', '$2a$10$QAZWSXEDCRFV12345', 'Apenas um pinguim.', 'linus.torvalds@uea.edu.br', 750, 8, '2002-12-28', '2024-08-17', '2025-09-22T20:00:00.000Z', '5B7F34'),
     (7, 'Steve Wozniak', 'steve.woz', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Hardware é o que me move.', 'steve.woz@uea.edu.br', 180, 2, '2003-08-11', '2024-08-17', '2025-09-19T12:00:00.000Z', 'AD4D4D'),
     (8, 'Vint Cerf', 'vint.cerf', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Conectando o mundo.', 'vint.cerf@uea.edu.br', 90, 1, '2004-06-23', '2024-08-18', '2025-09-18T22:00:00.000Z', '7D63C2'),
     (9, 'Radia Perlman', 'radia.perlman', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Mãe da Internet.', 'radia.perlman@uea.edu.br', 250, 3, '2003-01-01', '2024-08-18', '2025-09-23T09:30:00.000Z', 'E09560'),
-    (10, 'John Carmack', 'john.carmack', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Gráficos 3D e foguetes.', 'john.carmack@uea.edu.br', 600, 7, '2002-08-20', '2024-08-19', '2025-09-22T15:00:00.000Z', '789BC0');
+    (10, 'John Carmack', 'john.carmack', '$2a$10$8K.0ETBQRhu41sbIssQFsOhhtugGsb1f8ln5PlJBdbxHp/42OWtb2', '$2a$10$8K.0ETBQRhu41sbIssQFsO', 'Gráficos 3D e foguetes.', 'john.carmack@uea.edu.br', 630, 7, '2002-08-20', '2024-08-19', '2025-09-22T15:00:00.000Z', '789BC0');
 ALTER SEQUENCE usuario_id_seq RESTART WITH 11;
 
 -- Perfis Estudantes
