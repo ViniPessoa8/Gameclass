@@ -147,9 +147,7 @@
 
 	let pontuacaoFinal = $derived.by(() => {
 		if (data.etapa.tipo_atribuicao_nota == ATRIBUICAO.media_simples) {
-			let pontuacaoFinal =
-				notas.reduce((acc, n) => acc + (n.nota ? parseFloat(n.nota) : 0), 0) / notas.length;
-			return pontuacaoFinal;
+			return notas.reduce((acc, n) => acc + (n.nota ? parseFloat(n.nota) : 0), 0) / notas.length;
 		} else {
 			const somaPesos = data.etapa.criterios.reduce((acc, c) => acc + c.peso, 0);
 			let somaNotasObtidas = 0;

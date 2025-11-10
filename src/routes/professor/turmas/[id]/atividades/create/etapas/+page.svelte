@@ -20,8 +20,8 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { FORMACAO_GRUPO } from '$lib/constants';
 	import { formataData } from '$lib/utils/util';
+	import { debug, error } from '$lib/utils/logger';
 
-	// export let data;
 	let { data, children, form } = $props();
 
 	let atividade = data.atividade;
@@ -44,6 +44,7 @@
 	const BACK_SKIP = [`/${data.perfil}/turmas`];
 	let showModalCancelarAtividade = $state(false);
 	let resolvePromise;
+	let oldNotaValues = $state({});
 
 	let toastMessage = $state({ type: null, text: null });
 
@@ -83,7 +84,6 @@
 	}
 
 	function onSubmit(formData) {
-		// Valida o total de pontos antes de submeter
 		const totalPontos = etapasData[$selectedEtapa]?.criterios
 			.map((criterio) => parseFloat(criterio.pontuacao_max) || 0)
 			.reduce((acc, item) => acc + item, 0);
@@ -188,41 +188,84 @@
 		return !isNaN(new Date(dateStr));
 	}
 
-	function formatarNota(valor) {
-		let digitsOnly = String(valor).replace(/\D/g, '');
-
-		if (!digitsOnly) {
-			return '';
-		}
-
-		let formattedValue;
-
-		if (digitsOnly.length >= 3 && digitsOnly.startsWith('100')) {
-			formattedValue = '10.0';
-		} else if (digitsOnly.length >= 2 && digitsOnly.startsWith('10')) {
-			formattedValue = '10';
-		} else if (digitsOnly.length >= 2) {
-			formattedValue = digitsOnly.charAt(0) + '.' + digitsOnly.substring(1, 2);
-		} else {
-			formattedValue = digitsOnly;
-		}
-
-		return formattedValue;
+	function onNotaFocus(currentValue, index) {
+		oldNotaValues[`nota_${index}`] = currentValue || null;
 	}
 
-	function onNotaFocus(value, index) {
-		oldValues[`nota_${index}`] = value;
+	function onChangeNota(index, pontuacaoMax) {
+		let currentValue = etapasData[$selectedEtapa]?.criterios[index].pontuacao_max;
+
+		if (currentValue === null || currentValue === undefined) {
+			currentValue = '';
+		}
+
+		let valorString = String(currentValue).replace(',', '.');
+
+		// Regex que permite:
+		// - Um número inteiro (ex: "9", "10")
+		// - Um número com um ponto (ex: "9.", "10.")
+		// - Um número com um ponto e UMA casa decimal (ex: "9.5", "0.1")
+		// - Apenas um ponto (ex: ".")
+		// - Uma string vazia (permitindo apagar)
+		const validRegex = /^(?:[0-9]+(?:[.][0-9]{0,1})?|[.][0-9]{0,1}|[.]|)$/;
+
+		if (!validRegex.test(valorString)) {
+			etapasData[$selectedEtapa].criterios[index].pontuacao_max = oldNotaValues[`nota_${index}`];
+			return;
+		}
+
+		if (currentValue > 100) {
+			etapasData[$selectedEtapa].criterios[index].pontuacao_max = oldNotaValues[`nota_${index}`];
+			toast.error('Critério não pode ter nota maior que 100.0');
+			return;
+		} else if (currentValue < 0) {
+			etapasData[$selectedEtapa].criterios[index].pontuacao_max = oldNotaValues[`nota_${index}`];
+			toast.error('Critério não pode ter nota maior que 100.0');
+			return;
+		}
+
+		let valorNum = parseFloat(valorString);
+
+		if (!isNaN(valorNum)) {
+			if (valorNum > pontuacaoMax) {
+				etapasData[$selectedEtapa].criterios[index].pontuacao_max = String(pontuacaoMax);
+			} else if (valorNum < 0) {
+				etapasData[$selectedEtapa].criterios[index].pontuacao_max = '0';
+			} else {
+				etapasData[$selectedEtapa].criterios[index].pontuacao_max = valorString;
+			}
+		} else {
+			etapasData[$selectedEtapa].criterios[index].pontuacao_max = valorString;
+		}
+
+		oldNotaValues[`nota_${index}`] = etapasData[$selectedEtapa]?.criterios[index].pontuacao_max;
 	}
 
-	function onChangeCriterioNota(index) {
-		let criterio = etapasData[$selectedEtapa].criterios[index];
-		criterio.pontuacao_max = formatarNota(criterio.pontuacao_max);
-
-		if (parseFloat(criterio.pontuacao_max) > 10.0) {
-			criterio.pontuacao_max = oldValues[`nota_${index}`];
-		} else {
-			oldValues[`nota_${index}`] = criterio.pontuacao_max;
+	function onNotaBlur(index) {
+		const etapaAtual = etapasData[$selectedEtapa];
+		if (!etapaAtual) {
+			error('onNotaBlur: etapaAtual não encontrada.');
+			return;
 		}
+
+		let valorString = String(etapaAtual.criterios[index].pontuacao_max ?? '').replace(',', '.');
+
+		if (valorString.trim() === '' || valorString.trim() === '.') {
+			etapaAtual.criterios[index].pontuacao_max = null;
+			oldNotaValues[`nota_${index}`] = null;
+			return;
+		}
+
+		let valorNum = parseFloat(valorString);
+
+		if (isNaN(valorNum)) {
+			etapaAtual.criterios[index].pontuacao_max = null;
+			oldNotaValues[`nota_${index}`] = null;
+			return;
+		}
+
+		etapaAtual.criterios[index].pontuacao_max = valorNum.toFixed(1);
+		oldNotaValues[`nota_${index}`] = etapaAtual.criterios[index].pontuacao_max;
 	}
 
 	function onPesoFocus(value, index) {
@@ -258,7 +301,6 @@
 
 	function confirmaModalAtribuicaoDeNotas() {
 		etapasData[$selectedEtapa].criterios = [
-			// Mantém um critério em branco ao limpar
 			{ titulo: '', descricao: '', pontuacao_max: '', peso: '' }
 		];
 		showModalAtribuicaoNotas = false;
@@ -280,7 +322,6 @@
 	function handleCriteriosImportados(event) {
 		const novosCriterios = event.detail;
 
-		// Remove o critério inicial em branco se ele ainda estiver vazio
 		if (
 			etapasData[$selectedEtapa].criterios.length === 1 &&
 			!etapasData[$selectedEtapa].criterios[0].titulo &&
@@ -380,7 +421,6 @@
 						tipoAvaliacaoNotasGroup: 'Individual',
 						formacao: 'Alunos criam seus grupos',
 						receberAposPrazo: true,
-						// *** ALTERAÇÃO AQUI: Inicia com um critério em branco ***
 						criterios: [{ titulo: '', descricao: '', pontuacao_max: '', peso: '' }],
 						formacoes: [
 							{
@@ -391,6 +431,7 @@
 					}
 				];
 			}
+
 			carregando = false;
 		});
 
@@ -665,18 +706,31 @@
 												id="inputNotaMaxCriterio-{index}"
 												borded
 												name="notaMaxCriterio"
-												width="150px"
+												width="120px"
 												placeholder="Nota max."
-												bind:value={criterio.pontuacao_max}
-												on:focus={() => onNotaFocus(criterio.pontuacao_max, index)}
-												on:input={() => onChangeCriterioNota(index)}
+												bind:value={etapasData[$selectedEtapa].criterios[index].pontuacao_max}
+												onfocus={() =>
+													onNotaFocus(
+														etapasData[$selectedEtapa].criterios[index].pontuacao_max,
+														index
+													)}
+												oninput={() =>
+													onChangeNota(
+														index,
+														etapasData[$selectedEtapa].criterios[index].pontuacao_max
+													)}
+												onblur={() =>
+													onNotaBlur(
+														index,
+														etapasData[$selectedEtapa].criterios[index].pontuacao_max
+													)}
 											/>
 											{#if etapasData[$selectedEtapa].atribuicaoNotasGroup == 'Média Ponderada'}
 												<InputNumber
 													id="inputPesoCriterio-{index}"
 													borded
 													name="pesoCriterio"
-													width="150px"
+													width="120px"
 													placeholder="Peso"
 													bind:value={criterio.peso}
 													on:focus={() => onPesoFocus(criterio.peso, index)}
