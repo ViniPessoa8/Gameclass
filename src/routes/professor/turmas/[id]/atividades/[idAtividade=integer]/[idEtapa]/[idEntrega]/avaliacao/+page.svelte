@@ -339,6 +339,7 @@
 		border-bottom: 1px solid #eee;
 		display: flex;
 		align-items: center;
+		justify-content: start;
 		text-align: center;
 	}
 
@@ -347,13 +348,16 @@
 		font-weight: 500;
 		padding-left: 8px;
 		min-width: 126px;
-		max-width: 250px;
 		word-break: break-word;
 		white-space: normal;
 	}
 
 	.criterio-titulo-descricao {
 		display: flex;
+		max-width: 320px;
+		gap: 8px;
+		text-align: left;
+		justify-content: space-between;
 	}
 
 	.input-container {
