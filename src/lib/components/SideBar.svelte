@@ -68,7 +68,6 @@
 
 	.buttons {
 		display: flex;
-		width: 100%;
 		margin-bottom: 84px;
 	}
 

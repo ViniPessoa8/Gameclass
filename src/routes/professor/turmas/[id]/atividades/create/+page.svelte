@@ -93,10 +93,6 @@
 			ok = false;
 		}
 
-		if (!descricao) {
-			descricaoEmpty = true;
-			ok = false;
-		}
 
 		if (!prazo) {
 			prazoEmpty = true;
