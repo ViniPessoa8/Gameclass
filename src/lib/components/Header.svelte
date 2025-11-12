@@ -7,7 +7,6 @@
 
 	let { session } = $props();
 
-	// Constrói um array de segmentos da URL atual
 	let segments = derived(page, ($page) => {
 		let parts = $page.url.pathname.split('/').filter(Boolean); // remove vazios
 
@@ -64,15 +63,46 @@
 
 	function capitalizeFirstLetter(str) {
 		if (str === null || str === undefined || str.length === 0) {
-			return ''; // Handle empty or invalid input
+			return '';
 		}
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
-	function onClickUsuario() {
+	let showPopup = $state(false);
+	let userButtonElement;
+	let popupElement = $state();
+
+	function togglePopup() {
+		showPopup = !showPopup;
+	}
+
+	function verPerfil() {
+		showPopup = false;
 		goto('/professor/perfil');
 	}
+
+	async function logout() {
+		showPopup = false;
+		await fetch('/logout', {
+			method: 'POST'
+		});
+		window.location.href = '/login';
+	}
+
+	function handleClickOutside(event) {
+		if (
+			showPopup &&
+			userButtonElement &&
+			!userButtonElement.contains(event.target) &&
+			popupElement &&
+			!popupElement.contains(event.target)
+		) {
+			showPopup = false;
+		}
+	}
 </script>
+
+<svelte:window on:click={handleClickOutside} />
 
 <div class="header">
 	<nav aria-label="breadcrumb" class="caminho-de-pao">
@@ -87,17 +117,29 @@
 			{/if}
 		{/each}
 	</nav>
-	<button class="logged-user" onclick={onClickUsuario}>
-		<div class="info">
-			<h4 class="logged-user-name">{session.login}</h4>
-			<p class="logged-user-role">{session.perfil}</p>
-		</div>
-		<CircularIcon
-			type="text"
-			backgroundColor={'#' + session.cor}
-			text={session.login[0].toUpperCase()}
-		/>
-	</button>
+
+	<div class="logged-user-container">
+		<button class="logged-user" onclick={togglePopup} bind:this={userButtonElement}>
+			<div class="info">
+				<h4 class="logged-user-name">{session.login}</h4>
+				<p class="logged-user-role">{session.perfil}</p>
+			</div>
+			<CircularIcon
+				type="text"
+				backgroundColor={'#' + session.cor}
+				text={session.login[0].toUpperCase()}
+			/>
+		</button>
+
+		{#if showPopup}
+			<div class="user-popup" bind:this={popupElement}>
+				<ul>
+					<li><button onclick={verPerfil}>Ver perfil</button></li>
+					<li><button onclick={logout}>Sair</button></li>
+				</ul>
+			</div>
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -150,5 +192,45 @@
 
 	.caminho-de-pao-link:hover {
 		color: var(--cor-secundaria);
+	}
+
+	.logged-user-container {
+		position: relative;
+	}
+
+	.user-popup {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		background-color: white;
+		color: black;
+		border-radius: 8px;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+		z-index: 1001;
+		min-width: 160px;
+		margin-top: 8px;
+		overflow: hidden;
+	}
+
+	.user-popup ul {
+		list-style: none;
+		padding: 4px 0;
+		margin: 0;
+	}
+
+	.user-popup li button {
+		display: block;
+		width: 100%;
+		padding: 10px 16px;
+		background: none;
+		border: none;
+		color: #333;
+		text-align: left;
+		cursor: pointer;
+		font-size: 16px;
+	}
+
+	.user-popup li button:hover {
+		background-color: #f5f5f5; /* Cor de hover */
 	}
 </style>

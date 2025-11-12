@@ -1,5 +1,4 @@
 <script>
-
 	/**
 	 * @typedef {Object} Props
 	 * @property {string} [img]
@@ -13,8 +12,8 @@
 		img = '',
 		type = '',
 		onClick = (x) => {
-		// console.log(x);
-	},
+			// console.log(x);
+		},
 		children
 	} = $props();
 </script>
@@ -28,10 +27,11 @@
 
 <style>
 	button {
-		width: 162px;
+		width: 100%;
 		display: flex;
 		align-items: center;
-		justify-content: space-evenly;
+		justify-content: center;
+		gap: 24px;
 		color: white;
 		background-color: var(--cor-primaria);
 		padding: 10px 0px;

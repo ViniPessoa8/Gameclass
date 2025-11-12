@@ -24,7 +24,6 @@
 				goto(`/${perfil}/turmas`);
 			}}>Home</SideBarButton
 		>
-		<SideBarButton onClick={logout} img={'logout'}>Logout</SideBarButton>
 	</div>
 
 	<div class="turmas">
@@ -69,6 +68,7 @@
 
 	.buttons {
 		display: flex;
+		width: 100%;
 		margin-bottom: 84px;
 	}
 
