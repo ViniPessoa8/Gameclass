@@ -233,8 +233,11 @@
 	<div class="caminho-de-pao-criacao">
 		<p><b><u>Criar Atividade</u></b> > Definir Etapa / Critérios</p>
 	</div>
-	<h1>{data.nomeTurma}</h1>
-	<h2>Criação de Atividade</h2>
+	<h1>Criar atividade em {data.nomeTurma}</h1>
+	<h3 class="descricao-atividade">
+		Atividade é um grupo de etapas, tendo no mínimo 1 etapa e no máximo 5.<br /> A etapa será definida
+		na próxima tela.
+	</h3>
 	<!-- Titulo da Atividade -->
 	<div class="column">
 		<div class="row">
@@ -246,6 +249,7 @@
 				bind:value={titulo}
 				inputHandler={tituloInputHandler}
 				on:blur={validarTituloNoServidor}
+				placeholder="Ex: Atividade parcial 1"
 			/>
 		</div>
 		{#if tituloEmpty}
@@ -267,6 +271,7 @@
 				backgroundColor="var(--cor-primaria)"
 				width="600px"
 				height="200px"
+				placeholder="Descrição da atividade..."
 			/>
 		</div>
 		{#if descricaoEmpty}
@@ -340,5 +345,9 @@
 
 	.caminho-de-pao-criacao b {
 		color: var(--cor-primaria);
+	}
+
+	.descricao-atividade {
+		margin-bottom: 24px;
 	}
 </style>
