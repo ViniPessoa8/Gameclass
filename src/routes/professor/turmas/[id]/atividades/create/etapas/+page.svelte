@@ -489,8 +489,8 @@
 	</div>
 	<div class="page-container">
 		<div class="content-container">
-			<h1>{atividade.titulo}</h1>
-			<h2>Definição das etapas da atividade</h2>
+			<h1>Definição da etapa da atividade "{atividade.titulo}"</h1>
+			<h3 class="descricao-etapa">Etapas são avaliadas usando critérios pré-definidos.</h3>
 			<div class="form-container">
 				<form
 					class="cria-etapa-form"
@@ -560,7 +560,7 @@
 							</div>
 							<div class="row">
 								<p>
-									* Deve ser menor que o prazo da atividade ({formataData(atividade.prazo)})
+									* Deve ser menor ou igual ao o prazo da atividade ({formataData(atividade.prazo)})
 								</p>
 							</div>
 							<div class="row">
@@ -1014,5 +1014,9 @@
 		border: 2px solid var(--cor-secundaria);
 		border-radius: 12px;
 		background-color: lightgray;
+	}
+
+	.descricao-etapa {
+		margin-top: 12px;
 	}
 </style>
