@@ -125,6 +125,7 @@
 		window.location.reload();
 		showModal = false;
 	}
+	console.debug('atividade.descricao => ', atividade.descricao);
 </script>
 
 <Modal
@@ -163,6 +164,13 @@
 			<CircularIcon src={icon_atividade_turma} alt="Ícone de atividades da turma" />
 			<div class="column">
 				<h2 class="titulo">{atividade.titulo}</h2>
+				{#if toggled}
+					{#if atividade.descricao != null}
+						<h4 class="descricao">{atividade.descricao}</h4>
+					{:else}
+						<h4 class="descricao">(Sem descrição)</h4>
+					{/if}
+				{/if}
 			</div>
 			<div class="column right">
 				<span>Prazo: {prazoFinalStr}</span>
@@ -278,6 +286,11 @@
 
 	.titulo {
 		max-width: 500px;
+	}
+
+	.descricao {
+		max-width: 500px;
+		margin-top: 8px;
 	}
 
 	.column {
